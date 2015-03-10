@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		303FCDED1AAE349900A59347 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303FCDEC1AAE349900A59347 /* Circle.swift */; };
+		303FCDEF1AAE34A400A59347 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303FCDEE1AAE34A400A59347 /* Ball.swift */; };
 		30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30500B2E1AAE3010009F4C26 /* AppDelegate.swift */; };
 		30500B331AAE3010009F4C26 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30500B321AAE3010009F4C26 /* GameScene.swift */; };
 		30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30500B341AAE3010009F4C26 /* GameViewController.swift */; };
@@ -27,6 +29,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		303FCDEC1AAE349900A59347 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
+		303FCDEE1AAE34A400A59347 /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		30500B291AAE3010009F4C26 /* Arculars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arculars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30500B2D1AAE3010009F4C26 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30500B2E1AAE3010009F4C26 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +62,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		303FCDEB1AAE348D00A59347 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				303FCDEC1AAE349900A59347 /* Circle.swift */,
+				303FCDEE1AAE34A400A59347 /* Ball.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		30500B201AAE3010009F4C26 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +92,7 @@
 		30500B2B1AAE3010009F4C26 /* Arculars */ = {
 			isa = PBXGroup;
 			children = (
+				303FCDEB1AAE348D00A59347 /* Models */,
 				30500B2E1AAE3010009F4C26 /* AppDelegate.swift */,
 				30500B321AAE3010009F4C26 /* GameScene.swift */,
 				30500B341AAE3010009F4C26 /* GameViewController.swift */,
@@ -217,6 +231,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				30500B331AAE3010009F4C26 /* GameScene.swift in Sources */,
+				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
+				303FCDEF1AAE34A400A59347 /* Ball.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
 			);
