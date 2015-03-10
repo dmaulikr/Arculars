@@ -17,6 +17,8 @@ struct PhysicsCategory {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let gameLayer = SKNode()
+    let circleLayer = SKNode()
+    let ballLayer = SKNode()
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -34,60 +36,75 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bgColor = SKColor(red: 247.0/255.0, green: 247.0/255.0, blue: 250.0/255.0, alpha: 1.0)
         self.backgroundColor = bgColor
         
-        // Add GameLayer
+        // Add Layers
         addChild(gameLayer)
         
+        circleLayer.position = CGPointMake(0, size.height / 4)
+        addChild(circleLayer)
+        
+        ballLayer.position = CGPointMake(0, -(size.height / 4))
+        addChild(ballLayer)
+        
         // Test: Create circles
-        var circle1 = SKShapeNode(circleOfRadius: 100)
-        circle1.position = CGPointMake(0, size.height / 4)
-        circle1.strokeColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 0.2)
-        circle1.lineWidth = 40
-        circle1.physicsBody = SKPhysicsBody(circleOfRadius: 100)
-        circle1.physicsBody?.dynamic = false //set to false so it doesn't fall off scene.
-        gameLayer.addChild(circle1)
         
-        let arc1path = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: 100, startAngle: 0.0, endAngle: CGFloat(M_PI / 2.0), clockwise: true)
-        var arc1 = SKShapeNode(path: arc1path.CGPath)
-        arc1.position = CGPointMake(0, size.height / 4)
-        arc1.lineCap = kCGLineCapRound
-        arc1.strokeColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
-        arc1.lineWidth = 40
-        arc1.physicsBody = SKPhysicsBody(polygonFromPath: arc1path.CGPath)
-        arc1.physicsBody?.categoryBitMask = PhysicsCategory.Arc
-        arc1.physicsBody?.contactTestBitMask = PhysicsCategory.None
-        arc1.physicsBody?.collisionBitMask = 0
-        arc1.physicsBody?.usesPreciseCollisionDetection = true
-        arc1.physicsBody?.dynamic = true
-        
-        let angle : CGFloat = CGFloat(2 * M_PI)
-        let rotate = SKAction.rotateByAngle(angle, duration: 1)
-        let repeatAction = SKAction.repeatActionForever(rotate)
-        arc1.runAction(repeatAction)
-        
-        gameLayer.addChild(arc1)
-        
-        var ball1 = SKShapeNode(circleOfRadius: 20)
-        ball1.antialiased = true
-        ball1.position = CGPointMake(0, -(size.height / 4))
-        ball1.fillColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
-        ball1.strokeColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
-        ball1.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-        ball1.physicsBody?.categoryBitMask = PhysicsCategory.Ball
-        ball1.physicsBody?.contactTestBitMask = PhysicsCategory.Arc
-        ball1.physicsBody?.collisionBitMask = 0
-        ball1.physicsBody?.usesPreciseCollisionDetection = true
-        ball1.physicsBody?.dynamic = true
+        var ball = SKShapeNode(circleOfRadius: 20)
+        ball.antialiased = true
+        ball.position = CGPointMake(0, 0)
+        ball.fillColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
+        ball.strokeColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        ball.physicsBody?.categoryBitMask = PhysicsCategory.Ball
+        ball.physicsBody?.contactTestBitMask = PhysicsCategory.Arc
+        ball.physicsBody?.collisionBitMask = 0
+        ball.physicsBody?.usesPreciseCollisionDetection = true
+        ball.physicsBody?.dynamic = true
         
         let move = SKAction.moveTo(CGPointMake(0, size.height / 4), duration: 2)
         let moveBack = SKAction.moveTo(CGPointMake(0, -(size.height / 4)), duration: 2)
         let sequence = SKAction.sequence([move, moveBack])
         let repeatAction2 = SKAction.repeatActionForever(sequence)
-        ball1.runAction(repeatAction2)
+        ball.runAction(repeatAction2)
         
-        gameLayer.addChild(ball1)
+        ballLayer.addChild(ball)
         
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0, 0)
+    }
+    
+    func createCircles(circles: [Circle]) {
+        
+        for circle in circles {
+            var shape = SKShapeNode(circleOfRadius: circle.radius)
+            shape.position = CGPointMake(0, 0)
+            shape.strokeColor = circle.color.colorWithAlphaComponent(0.2)
+            shape.lineWidth = circle.thickness
+            shape.physicsBody = SKPhysicsBody(circleOfRadius: circle.radius)
+            shape.physicsBody?.dynamic = false
+            
+            circleLayer.addChild(shape)
+            
+            let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: circle.radius, startAngle: 0.0, endAngle: CGFloat(M_PI / 2.0), clockwise: true)
+            var arc = SKShapeNode(path: arcpath.CGPath)
+            arc.position = CGPointMake(0, 0)
+            arc.lineCap = kCGLineCapRound
+            arc.strokeColor = circle.color
+            
+            arc.lineWidth = circle.thickness
+            arc.physicsBody = SKPhysicsBody(polygonFromPath: arcpath.CGPath)
+            arc.physicsBody?.categoryBitMask = PhysicsCategory.Arc
+            arc.physicsBody?.contactTestBitMask = PhysicsCategory.None
+            arc.physicsBody?.collisionBitMask = 0
+            arc.physicsBody?.usesPreciseCollisionDetection = true
+            arc.physicsBody?.dynamic = true
+            
+            let angle : CGFloat = CGFloat(2 * M_PI)
+            let rotate = SKAction.rotateByAngle(angle, duration: 1)
+            let repeatAction = SKAction.repeatActionForever(rotate)
+            arc.runAction(repeatAction)
+            
+            circleLayer.addChild(arc)
+        }
+        
     }
     
     func didBeginContact(contact: SKPhysicsContact) {

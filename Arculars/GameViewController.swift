@@ -13,10 +13,6 @@ class GameViewController: UIViewController {
     
     var scene: GameScene!
     
-    override func prefersStatusBarHidden() -> Bool {
-        return false
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,5 +28,25 @@ class GameViewController: UIViewController {
         
         // Present the scene.
         skView.presentScene(scene)
+        
+        beginGame()
+    }
+    
+    func beginGame() {
+        var circles : [Circle] =
+            [
+                Circle(color: Colors.Blue, radius: 100.0, thickness: 40.0),
+                Circle(color: Colors.Orange, radius: 50.0, thickness: 25.0),
+                Circle(color: Colors.Red, radius: 20.0, thickness: 15.0)
+            ]
+        scene.createCircles(circles)
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return false
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return false
     }
 }
