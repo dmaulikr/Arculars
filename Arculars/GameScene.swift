@@ -20,6 +20,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let circleLayer = SKNode()
     let ballLayer = SKNode()
     
+    var balls = [SKShapeNode]()
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,8 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         // Setup background color
-        let bgColor = SKColor(red: 247.0/255.0, green: 247.0/255.0, blue: 250.0/255.0, alpha: 1.0)
-        self.backgroundColor = bgColor
+        self.backgroundColor = Colors.LightBackground
         
         // Add Layers
         addChild(gameLayer)
@@ -44,28 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         ballLayer.position = CGPointMake(0, -(size.height / 4))
         addChild(ballLayer)
-        
-        // Test: Create circles
-        
-        var ball = SKShapeNode(circleOfRadius: 20)
-        ball.antialiased = true
-        ball.position = CGPointMake(0, 0)
-        ball.fillColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
-        ball.strokeColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-        ball.physicsBody?.categoryBitMask = PhysicsCategory.Ball
-        ball.physicsBody?.contactTestBitMask = PhysicsCategory.Arc
-        ball.physicsBody?.collisionBitMask = 0
-        ball.physicsBody?.usesPreciseCollisionDetection = true
-        ball.physicsBody?.dynamic = true
-        
-        let move = SKAction.moveTo(CGPointMake(0, size.height / 4), duration: 2)
-        let moveBack = SKAction.moveTo(CGPointMake(0, -(size.height / 4)), duration: 2)
-        let sequence = SKAction.sequence([move, moveBack])
-        let repeatAction2 = SKAction.repeatActionForever(sequence)
-        ball.runAction(repeatAction2)
-        
-        ballLayer.addChild(ball)
+        createBall()
         
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0, 0)
@@ -105,6 +85,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             circleLayer.addChild(arc)
         }
         
+    }
+    
+    func fireBall() {
+        
+        let move = SKAction.moveTo(CGPointMake(0, size.height), duration: 2)
+        var ball = balls[0]
+        balls.removeAtIndex(0)
+        ball.runAction(move)
+        
+    }
+    
+    func createBall() {
+        
+        var ball = SKShapeNode(circleOfRadius: 20)
+        ball.antialiased = true
+        ball.position = CGPointMake(0, 0)
+        ball.fillColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
+        ball.strokeColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        ball.physicsBody?.categoryBitMask = PhysicsCategory.Ball
+        ball.physicsBody?.contactTestBitMask = PhysicsCategory.Arc
+        ball.physicsBody?.collisionBitMask = 0
+        ball.physicsBody?.usesPreciseCollisionDetection = true
+        ball.physicsBody?.dynamic = true
+        
+        balls.append(ball)
+        ballLayer.addChild(ball)
+    }
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        // Convert the touch location to a point relative to the cookiesLayer.
+        let touch = touches.anyObject() as UITouch
+        
+        fireBall()
+        createBall()
     }
     
     func didBeginContact(contact: SKPhysicsContact) {

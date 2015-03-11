@@ -33,11 +33,14 @@ class GameViewController: UIViewController {
     }
     
     func beginGame() {
+        
+        
+        
         var circles : [Circle] =
             [
-                Circle(color: Colors.Blue, radius: 100.0, thickness: 40.0),
-                Circle(color: Colors.Orange, radius: 50.0, thickness: 25.0),
-                Circle(color: Colors.Red, radius: 20.0, thickness: 15.0)
+                Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0),
+                Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0),
+                Circle(color: Colors.LightRed, radius: 20.0, thickness: 12.0)
             ]
         scene.createCircles(circles)
     }
