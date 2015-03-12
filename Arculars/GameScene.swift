@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 RMNBLM. All rights reserved.
 //
 
+import UIKit
 import SpriteKit
 
 struct PhysicsCategory {
@@ -69,19 +70,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             arc.lineCap = kCGLineCapRound
             arc.strokeColor = circle.color
             
+            var bodyparts = 10;
+            var bodypath = CGPathCreateMutable();
+            for var index = 0; index < bodyparts; ++index {
+                CGPathAddArc(bodypath, nil, 0, circle.radius, CGFloat(circle.thickness / 2), 0, CGFloat(2 * M_PI), true)
+            }
+            
             arc.lineWidth = circle.thickness
-            arc.physicsBody = SKPhysicsBody(polygonFromPath: arcpath.CGPath)
+            arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
             arc.physicsBody?.categoryBitMask = PhysicsCategory.Arc
             arc.physicsBody?.contactTestBitMask = PhysicsCategory.None
             arc.physicsBody?.collisionBitMask = 0
             arc.physicsBody?.usesPreciseCollisionDetection = true
             arc.physicsBody?.dynamic = true
             
-            let angle : CGFloat = CGFloat(2 * M_PI)
-            let rotate = SKAction.rotateByAngle(angle, duration: 1)
+            var angle : CGFloat
+            if circle.clockwise {
+                angle = CGFloat(2 * M_PI)
+            }
+            else {
+                angle = -CGFloat(2 * M_PI)
+            }
+            let rotate = SKAction.rotateByAngle(angle, duration: 1.5)
             let repeatAction = SKAction.repeatActionForever(rotate)
             arc.runAction(repeatAction)
-            
+
             circleLayer.addChild(arc)
         }
         
@@ -89,7 +102,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fireBall() {
         
-        let move = SKAction.moveTo(CGPointMake(0, size.height), duration: 2)
+        let move = SKAction.moveTo(CGPointMake(0, size.height), duration: 1.8)
+        // move.timingMode = SKActionTimingMode.EaseIn
         var ball = balls[0]
         balls.removeAtIndex(0)
         ball.runAction(move)
@@ -137,11 +151,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if ((firstBody.categoryBitMask & PhysicsCategory.Ball != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Arc != 0)) {
-                ballDidCollideWithArc(firstBody.node as SKShapeNode, arc: secondBody.node as SKShapeNode)
+                var ballNode = firstBody.node as? SKShapeNode
+                var arcNode = secondBody.node as? SKShapeNode
+                if ballNode != nil && arcNode != nil {
+                    ballDidCollideWithArc(ballNode!, arc: arcNode!)
+                }
         }
     }
     
     func ballDidCollideWithArc(ball: SKShapeNode, arc: SKShapeNode) {
         println("Hit")
+        if (ball.fillColor == arc.strokeColor) {
+            ball.removeFromParent();
+        }
+        else {
+            
+        }
     }
 }
