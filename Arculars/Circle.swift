@@ -13,10 +13,12 @@ class Circle {
     let color : SKColor
     let radius : CGFloat
     let thickness : CGFloat
+    let clockwise : Bool
     
-    init(color: SKColor, radius: CGFloat, thickness: CGFloat) {
+    init(color: SKColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool) {
         self.color = color;
         self.radius = radius;
         self.thickness = thickness;
+        self.clockwise = clockwise;
     }
 }
