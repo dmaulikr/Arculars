@@ -70,10 +70,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             arc.lineCap = kCGLineCapRound
             arc.strokeColor = circle.color
             
+            var currentpoint = CGPointMake(circle.radius, 0)
             var bodyparts = 10;
-            var bodypath = CGPathCreateMutable();
-            for var index = 0; index < bodyparts; ++index {
-                CGPathAddArc(bodypath, nil, 0, circle.radius, CGFloat(circle.thickness / 2), 0, CGFloat(2 * M_PI), true)
+            var bodypath : CGMutablePath = CGPathCreateMutable();
+            var offsetangle = CGFloat(CGFloat(M_PI / 2) / CGFloat(bodyparts))
+            
+            for var index = 0; index < bodyparts + 1; index++ {
+                CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(circle.thickness / 2), CGFloat(2 * M_PI), 0, true)
+                currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
             }
             
             arc.lineWidth = circle.thickness
@@ -84,14 +88,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             arc.physicsBody?.usesPreciseCollisionDetection = true
             arc.physicsBody?.dynamic = true
             
-            var angle : CGFloat
+            var rotationangle : CGFloat
             if circle.clockwise {
-                angle = CGFloat(2 * M_PI)
+                rotationangle = CGFloat(2 * M_PI)
             }
             else {
-                angle = -CGFloat(2 * M_PI)
+                rotationangle = -CGFloat(2 * M_PI)
             }
-            let rotate = SKAction.rotateByAngle(angle, duration: 1.5)
+            let rotate = SKAction.rotateByAngle(rotationangle, duration: 1.5)
             let repeatAction = SKAction.repeatActionForever(rotate)
             arc.runAction(repeatAction)
 
