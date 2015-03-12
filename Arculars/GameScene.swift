@@ -116,12 +116,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createBall() {
         
-        var ball = SKShapeNode(circleOfRadius: 20)
+        var ball = SKShapeNode(circleOfRadius: 12)
         ball.antialiased = true
         ball.position = CGPointMake(0, 0)
         ball.fillColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
         ball.strokeColor = SKColor(red: 74.0/255.0, green: 144.0/255.0, blue: 226.0/255.0, alpha: 1.0)
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: 12)
         ball.physicsBody?.categoryBitMask = PhysicsCategory.Ball
         ball.physicsBody?.contactTestBitMask = PhysicsCategory.Arc
         ball.physicsBody?.collisionBitMask = 0
