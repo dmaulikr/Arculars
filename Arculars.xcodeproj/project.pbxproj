@@ -64,30 +64,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		303FCDEB1AAE348D00A59347 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				303FCDEC1AAE349900A59347 /* Circle.swift */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		30456F4E1AAF8E99008F070C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */,
-			);
-			name = Extensions;
-			sourceTree = "<group>";
-		};
-		30456F511AAF8FD1008F070C /* Infrastructure */ = {
-			isa = PBXGroup;
-			children = (
-				3098F5241AAF8AB800829428 /* Colors.swift */,
-			);
-			name = Infrastructure;
-			sourceTree = "<group>";
-		};
 		30500B201AAE3010009F4C26 = {
 			isa = PBXGroup;
 			children = (
@@ -109,9 +85,9 @@
 		30500B2B1AAE3010009F4C26 /* Arculars */ = {
 			isa = PBXGroup;
 			children = (
-				30456F511AAF8FD1008F070C /* Infrastructure */,
-				30456F4E1AAF8E99008F070C /* Extensions */,
-				303FCDEB1AAE348D00A59347 /* Models */,
+				3098F5241AAF8AB800829428 /* Colors.swift */,
+				303FCDEC1AAE349900A59347 /* Circle.swift */,
+				30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */,
 				30500B2E1AAE3010009F4C26 /* AppDelegate.swift */,
 				30500B321AAE3010009F4C26 /* GameScene.swift */,
 				30500B341AAE3010009F4C26 /* GameViewController.swift */,
@@ -380,10 +356,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Arculars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -392,10 +370,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Arculars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
