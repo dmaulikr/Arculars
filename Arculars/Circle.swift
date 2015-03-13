@@ -17,6 +17,7 @@ class Circle : SKShapeNode {
     let clockwise: Bool
     let secondsPerRound: NSTimeInterval
     
+    let nameOfArc = "arc" // to find it in the child nodes
     let sizeOfArc = CGFloat(M_PI / 2) // in radians
     
     required init?(coder aDecoder: NSCoder) {
@@ -41,31 +42,37 @@ class Circle : SKShapeNode {
         
         // Init Arc
         let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
-        var arc = SKShapeNode(path: arcpath.CGPath)
-        arc.position = CGPointMake(0, 0)
-        arc.lineCap = kCGLineCapRound
-        arc.strokeColor = color
+        var arcShape = SKShapeNode(path: arcpath.CGPath)
+        arcShape.name = nameOfArc
+        arcShape.position = CGPointMake(0, 0)
+        arcShape.lineCap = kCGLineCapRound
+        arcShape.strokeColor = color
         
         // Add physicsbody of arc
         var currentpoint = CGPointMake(radius, 0)
-        var bodyparts = 10;
+        var physicsparts = 10;
         var bodypath : CGMutablePath = CGPathCreateMutable();
-        var offsetangle = CGFloat(sizeOfArc / CGFloat(bodyparts))
+        var offsetangle = CGFloat(sizeOfArc / CGFloat(physicsparts))
         
-        for var index = 0; index < bodyparts + 1; index++ {
+        for var index = 0; index < physicsparts + 1; index++ {
             CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(thickness / 2), CGFloat(2 * M_PI), 0, true)
             currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
         }
         
-        arc.lineWidth = thickness
-        arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
-        arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
-        arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
-        arc.physicsBody?.collisionBitMask = 0
-        arc.physicsBody?.usesPreciseCollisionDetection = true
-        arc.physicsBody?.dynamic = true
+        arcShape.lineWidth = thickness
+        arcShape.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
+        arcShape.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
+        arcShape.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
+        arcShape.physicsBody?.collisionBitMask = 0
+        arcShape.physicsBody?.usesPreciseCollisionDetection = true
+        arcShape.physicsBody?.dynamic = true
         
-        // Add animation
+        self.addChild(arcShape)
+        
+        startAnimation()
+    }
+    
+    func startAnimation() {
         var rotationangle : CGFloat
         if clockwise {
             rotationangle = CGFloat(2 * M_PI)
@@ -73,11 +80,14 @@ class Circle : SKShapeNode {
         else {
             rotationangle = -CGFloat(2 * M_PI)
         }
-        let rotate = SKAction.rotateByAngle(rotationangle, duration: secondsPerRound)
-        let repeatAction = SKAction.repeatActionForever(rotate)
-        arc.runAction(repeatAction)
-        
-        self.addChild(arc)
+        var rotate = SKAction.rotateByAngle(rotationangle, duration: secondsPerRound)
+        var repeatAction = SKAction.repeatActionForever(rotate)
+        var arcShape = self.childNodeWithName(nameOfArc)
+        arcShape?.runAction(repeatAction)
     }
     
+    func stopAnimation() {
+        var arcShape = self.childNodeWithName(nameOfArc)
+        arcShape?.removeAllActions()
+    }
 }
