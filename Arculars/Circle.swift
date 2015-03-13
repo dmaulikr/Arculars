@@ -12,16 +12,23 @@ import SpriteKit
 class Circle : SKShapeNode {
     
     let color : SKColor
+    let radius : CGFloat
+    let thickness: CGFloat
+    let clockwise: Bool
+    let secondsPerRound: NSTimeInterval
     
-    var sizeOfArc = CGFloat(M_PI / 2.0) // in radians
-    var speedOfArc = 1.5 // in seconds per round
+    let sizeOfArc = CGFloat(M_PI / 2) // in radians
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(color: SKColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool) {
+    init(color: SKColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval) {
         self.color = color
+        self.radius = radius
+        self.thickness = thickness
+        self.clockwise = clockwise
+        self.secondsPerRound = secondsPerRound
         super.init()
         
         // Init Circle (self)
@@ -66,7 +73,7 @@ class Circle : SKShapeNode {
         else {
             rotationangle = -CGFloat(2 * M_PI)
         }
-        let rotate = SKAction.rotateByAngle(rotationangle, duration: 1.5)
+        let rotate = SKAction.rotateByAngle(rotationangle, duration: secondsPerRound)
         let repeatAction = SKAction.repeatActionForever(rotate)
         arc.runAction(repeatAction)
         

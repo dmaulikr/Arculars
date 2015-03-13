@@ -53,9 +53,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createCircles() {
         circles = [
-            Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true),
-            Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false),
-            Circle(color: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true)
+            Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
+            Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
+            Circle(color: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4)
         ]
         
         for circle in circles {
