@@ -14,8 +14,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let circleLayer = SKNode()
     let ballLayer = SKNode()
     
-    var circles = [SKShapeNode]()
-    var balls = [SKShapeNode]()
+    var circles = [Circle]()
+    var balls = [Ball]()
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -23,7 +23,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override init(size: CGSize) {
         super.init(size: size)
-        
     }
     
     override func didMoveToView(view: SKView) {
@@ -53,7 +52,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createCircles() {
-        
         circles = [
             Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true),
             Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false),
@@ -66,31 +64,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func fireBall() {
-        
         let move = SKAction.moveTo(CGPointMake(0, size.height), duration: 1.8)
         var ball = balls[0]
         balls.removeAtIndex(0)
         ball.runAction(move)
-        
     }
     
     func createBall() {
-        
         var ball = Ball(color: Colors.LightBlue, radius: 12)
         balls.append(ball)
         ballLayer.addChild(ball)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        // Convert the touch location to a point relative to the cookiesLayer.
-        let touch = touches.anyObject() as UITouch
-        
         fireBall()
         createBall()
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch (contactMask) {
             case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
@@ -119,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
                 ballNode?.removeFromParent()
-                break;
+                break
             default:
                 return
         }
