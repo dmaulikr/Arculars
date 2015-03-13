@@ -9,7 +9,8 @@
 import Foundation
 
 enum PhysicsCategory : UInt32 {
-    case none = 1
-    case ball = 2
-    case arc  = 4
+    case none       = 1
+    case border     = 2
+    case ball       = 4
+    case arc        = 8
 }

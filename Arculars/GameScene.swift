@@ -11,7 +11,6 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    let gameLayer = SKNode()
     let circleLayer = SKNode()
     let ballLayer = SKNode()
     
@@ -33,20 +32,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Setup background color
         self.backgroundColor = Colors.LightBackground
         
-        // Add Layers
-        addChild(gameLayer)
-        
+        // Setup Layers
         circleLayer.position = CGPointMake(0, size.height / 4)
         addChild(circleLayer)
+        createCircles()
         
         ballLayer.position = CGPointMake(0, -(size.height / 4))
         addChild(ballLayer)
         createBall()
         
+        // Setup Physics for this Scene
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0, 0)
         
-        createCircles()
+        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRectMake(-(self.size.width / 2), -(self.size.height / 2), self.size.width, self.size.height))
+        self.physicsBody?.categoryBitMask = PhysicsCategory.border.rawValue
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
+        self.physicsBody?.collisionBitMask = 0
+        self.physicsBody?.dynamic = true
     }
     
     func createCircles() {
@@ -87,8 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        println("Contact")
-        
+
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch (contactMask) {
             case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
@@ -107,15 +109,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     ballDidCollideWithArc(ballNode!, circle: circleNode!)
                 }
                 break
+            case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
+                var ballNode : Ball?
+                
+                if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                    ballNode = contact.bodyA.node as? Ball
+                } else{
+                    ballNode = contact.bodyB.node as? Ball
+                }
+                
+                ballNode?.removeFromParent()
+                break;
             default:
                 return
         }
     }
     
     func ballDidCollideWithArc(ball: Ball, circle: Circle) {
-        println("Hit")
         if (ball.color == circle.color) {
             ball.removeFromParent();
+        } else {
+            
         }
     }
 }
