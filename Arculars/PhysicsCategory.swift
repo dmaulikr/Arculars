@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct PhysicsCategory {
-    static let None      : UInt32 = 0
-    static let Ball      : UInt32 = 0b1
-    static let Arc       : UInt32 = 0b10
+enum PhysicsCategory : UInt32 {
+    case none = 1
+    case ball = 2
+    case arc  = 4
 }

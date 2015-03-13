@@ -11,6 +11,8 @@ import SpriteKit
 
 class Circle : SKShapeNode {
     
+    let color : SKColor
+    
     var sizeOfArc = CGFloat(M_PI / 2.0) // in radians
     var speedOfArc = 1.5 // in seconds per round
     
@@ -19,6 +21,7 @@ class Circle : SKShapeNode {
     }
     
     init(color: SKColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool) {
+        self.color = color
         super.init()
         
         // Init Circle (self)
@@ -31,7 +34,7 @@ class Circle : SKShapeNode {
         
         // Init Arc
         let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
-        let arc = SKShapeNode(path: arcpath.CGPath)
+        var arc = SKShapeNode(path: arcpath.CGPath)
         arc.position = CGPointMake(0, 0)
         arc.lineCap = kCGLineCapRound
         arc.strokeColor = color
@@ -49,8 +52,8 @@ class Circle : SKShapeNode {
         
         arc.lineWidth = thickness
         arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
-        arc.physicsBody?.categoryBitMask = PhysicsCategory.Arc
-        arc.physicsBody?.contactTestBitMask = PhysicsCategory.None
+        arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
+        arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
         arc.physicsBody?.collisionBitMask = 0
         arc.physicsBody?.usesPreciseCollisionDetection = true
         arc.physicsBody?.dynamic = true
@@ -69,4 +72,5 @@ class Circle : SKShapeNode {
         
         self.addChild(arc)
     }
+    
 }
