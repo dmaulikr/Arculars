@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302197721AB306B400769D2F /* PhysicsCategory.swift */; };
 		303FCDED1AAE349900A59347 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303FCDEC1AAE349900A59347 /* Circle.swift */; };
 		30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */; };
 		30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30500B2E1AAE3010009F4C26 /* AppDelegate.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		302197721AB306B400769D2F /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		303FCDEC1AAE349900A59347 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		30500B291AAE3010009F4C26 /* Arculars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arculars.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 		30500B2B1AAE3010009F4C26 /* Arculars */ = {
 			isa = PBXGroup;
 			children = (
+				302197721AB306B400769D2F /* PhysicsCategory.swift */,
 				3098F5241AAF8AB800829428 /* Colors.swift */,
 				303FCDEC1AAE349900A59347 /* Circle.swift */,
 				30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */,
@@ -231,6 +234,7 @@
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
 				30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */,
+				302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

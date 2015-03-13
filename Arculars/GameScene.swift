@@ -9,18 +9,13 @@
 import UIKit
 import SpriteKit
 
-struct PhysicsCategory {
-    static let None      : UInt32 = 0
-    static let Ball      : UInt32 = 0b1
-    static let Arc       : UInt32 = 0b10
-}
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let gameLayer = SKNode()
     let circleLayer = SKNode()
     let ballLayer = SKNode()
     
+    var circles = [SKShapeNode]()
     var balls = [SKShapeNode]()
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,6 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override init(size: CGSize) {
         super.init(size: size)
         
+        createCircles()
     }
     
     override func didMoveToView(view: SKView) {
@@ -52,62 +48,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVectorMake(0, 0)
     }
     
-    func createCircles(circles: [Circle]) {
+    func createCircles() {
+        
+        circles = [
+            Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true),
+            Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false),
+            Circle(color: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true)
+        ]
         
         for circle in circles {
-            var shape = SKShapeNode(circleOfRadius: circle.radius)
-            shape.position = CGPointMake(0, 0)
-            shape.strokeColor = circle.color.colorWithAlphaComponent(0.2)
-            shape.lineWidth = circle.thickness
-            shape.physicsBody = SKPhysicsBody(circleOfRadius: circle.radius)
-            shape.physicsBody?.dynamic = false
-            
-            circleLayer.addChild(shape)
-            
-            let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: circle.radius, startAngle: 0.0, endAngle: CGFloat(M_PI / 2.0), clockwise: true)
-            var arc = SKShapeNode(path: arcpath.CGPath)
-            arc.position = CGPointMake(0, 0)
-            arc.lineCap = kCGLineCapRound
-            arc.strokeColor = circle.color
-            
-            var currentpoint = CGPointMake(circle.radius, 0)
-            var bodyparts = 10;
-            var bodypath : CGMutablePath = CGPathCreateMutable();
-            var offsetangle = CGFloat(CGFloat(M_PI / 2) / CGFloat(bodyparts))
-            
-            for var index = 0; index < bodyparts + 1; index++ {
-                CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(circle.thickness / 2), CGFloat(2 * M_PI), 0, true)
-                currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
-            }
-            
-            arc.lineWidth = circle.thickness
-            arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
-            arc.physicsBody?.categoryBitMask = PhysicsCategory.Arc
-            arc.physicsBody?.contactTestBitMask = PhysicsCategory.None
-            arc.physicsBody?.collisionBitMask = 0
-            arc.physicsBody?.usesPreciseCollisionDetection = true
-            arc.physicsBody?.dynamic = true
-            
-            var rotationangle : CGFloat
-            if circle.clockwise {
-                rotationangle = CGFloat(2 * M_PI)
-            }
-            else {
-                rotationangle = -CGFloat(2 * M_PI)
-            }
-            let rotate = SKAction.rotateByAngle(rotationangle, duration: 1.5)
-            let repeatAction = SKAction.repeatActionForever(rotate)
-            arc.runAction(repeatAction)
-
-            circleLayer.addChild(arc)
+            circleLayer.addChild(circle)
         }
-        
     }
     
     func fireBall() {
         
         let move = SKAction.moveTo(CGPointMake(0, size.height), duration: 1.8)
-        // move.timingMode = SKActionTimingMode.EaseIn
         var ball = balls[0]
         balls.removeAtIndex(0)
         ball.runAction(move)
