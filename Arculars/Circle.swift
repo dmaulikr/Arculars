@@ -31,20 +31,23 @@ class Circle {
     }
     
     func addTo(parentNode: SKSpriteNode) -> Circle {
+        // Setup Circle Node
         circle = SKShapeNode(circleOfRadius: radius)
         circle.strokeColor = color.colorWithAlphaComponent(0.2)
         circle.lineWidth = thickness
         circle.position = CGPointMake(0, parentNode.size.height / 4)
         
+        // Setup Arc Node
         let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
         arc = SKShapeNode(path: arcpath.CGPath)
         arc.position = CGPointMake(0, 0)
         arc.lineCap = kCGLineCapRound
         arc.strokeColor = color
+        arc.lineWidth = thickness
         
         circle.addChild(arc)
         
-        // Add physicsbody of Arc
+        // Setup PhysicsBody of Arc
         var currentpoint = CGPointMake(radius, 0)
         var physicsparts = 10;
         var bodypath : CGMutablePath = CGPathCreateMutable();
@@ -55,7 +58,6 @@ class Circle {
             currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
         }
         
-        arc.lineWidth = thickness
         arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
         arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
         arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue

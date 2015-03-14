@@ -21,11 +21,14 @@ class Ball {
     }
     
     func addTo(parentNode: SKSpriteNode) -> Ball {
+        // Setup Node
         ball = SKShapeNode(circleOfRadius: radius)
         ball.fillColor = color
         ball.strokeColor = color
         ball.lineWidth = 0
         ball.position = CGPoint(x: 0, y: -(parentNode.size.height / 4))
+        
+        // Setup Physics
         ball.physicsBody = SKPhysicsBody(circleOfRadius: radius)
         ball.physicsBody?.categoryBitMask = PhysicsCategory.ball.rawValue
         ball.physicsBody?.contactTestBitMask = PhysicsCategory.arc.rawValue

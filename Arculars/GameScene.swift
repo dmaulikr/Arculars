@@ -34,7 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         // Setup Scene
-        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = Colors.LightBackground
         
         screenNode = SKSpriteNode(color: UIColor.clearColor(), size: self.size)
@@ -114,7 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (ball.fillColor == circle.strokeColor) {
             ball.removeFromParent();
         } else {
-            
+            // Game over
         }
     }
 }
