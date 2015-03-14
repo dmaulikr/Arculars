@@ -11,11 +11,13 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    let ballSize = CGFloat(12.0)
+    
     let circleLayer = SKNode()
     let ballLayer = SKNode()
     
     var circles = [Circle]()
-    var balls = [Ball]()
+    var ballQueue = [Ball]()
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -34,11 +36,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Setup Layers
         circleLayer.position = CGPointMake(0, size.height / 4)
         addChild(circleLayer)
-        createCircles()
+        initCircles()
         
         ballLayer.position = CGPointMake(0, -(size.height / 4))
         addChild(ballLayer)
-        createBall()
+        addBallToQueue()
         
         // Setup Physics for this Scene
         self.physicsWorld.contactDelegate = self
@@ -51,7 +53,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.dynamic = true
     }
     
-    func createCircles() {
+    func initCircles() {
         circles = [
             Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
             Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
@@ -65,20 +67,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fireBall() {
         let move = SKAction.moveTo(CGPointMake(0, size.height), duration: 1.8)
-        var ball = balls[0]
-        balls.removeAtIndex(0)
+        var ball = ballQueue[0]
+        ballQueue.removeAtIndex(0)
         ball.runAction(move)
     }
     
-    func createBall() {
-        var ball = Ball(color: Colors.LightBlue, radius: 12)
-        balls.append(ball)
+    func addBallToQueue() {
+        var ball = Ball(color: Colors.randomLightBall(), radius: ballSize)
+        ballQueue.append(ball)
         ballLayer.addChild(ball)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         fireBall()
-        createBall()
+        addBallToQueue()
     }
     
     func didBeginContact(contact: SKPhysicsContact) {

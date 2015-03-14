@@ -14,20 +14,13 @@ struct Colors {
     static var LightOrange : UIColor = UIColor(rgba: "#F5A623")
     static var LightRed : UIColor = UIColor(rgba: "#FF5460")
     
-    static func getAll() -> [UIColor] {
+    static func randomLightBall() -> UIColor {
         let colors = [
-            LightBackground,
             LightBlue,
             LightOrange,
             LightRed
         ]
-        
-        return colors
-    }
-    
-    static func random() -> UIColor {
-        var colors = getAll()
-        var random = Int(arc4random_uniform(UInt32(colors.count))) + 1;
+        var random = Int(arc4random_uniform(UInt32(colors.count)));
         return colors[random]
     }
 }

@@ -19,7 +19,6 @@ class GameViewController: UIViewController {
         // Configure the view.
         let skView = view as SKView
         skView.multipleTouchEnabled = false
-        skView.showsPhysics = true
         
         // Create and configure the scene.
         scene = GameScene(size: skView.bounds.size)
