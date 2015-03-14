@@ -10,7 +10,7 @@ import UIKit
 
 struct Colors {
     static var LightFontColor : UIColor = UIColor(rgba: "#9B9B9B")
-    static var LightBackground : UIColor = UIColor(rgba: "#F8F8F8")
+    static var LightBackground : UIColor = UIColor(rgba: "#F3F3F3")
     static var LightBlue : UIColor = UIColor(rgba: "#4A90E2")
     static var LightOrange : UIColor = UIColor(rgba: "#F5A623")
     static var LightRed : UIColor = UIColor(rgba: "#FF5460")
