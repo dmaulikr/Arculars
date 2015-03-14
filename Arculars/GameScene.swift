@@ -13,10 +13,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ballSize = CGFloat(12.0)
     
-    let circleLayer = SKNode()
-    let ballLayer = SKNode()
+    var circles : [Circle] = [
+        Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
+        Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
+        Circle(color: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4)
+    ]
     
-    var circles = [Circle]()
     var ballQueue = [Ball]()
     
     var screenNode : SKSpriteNode!
@@ -40,9 +42,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         score = Score().addTo(screenNode)
         
-        // Setup Layers
-        initCircles()
-        initBalls()
+        for circle in circles {
+            circle.addTo(screenNode).startAnimation()
+        }
+        
+        addBallToQueue()
         
         // Setup Physics
         self.physicsWorld.contactDelegate = self
@@ -55,38 +59,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.dynamic = true
     }
     
-    func initCircles() {
-        circleLayer.position = CGPointMake(0, size.height / 4)
-        addChild(circleLayer)
-        
-        circles = [
-            Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
-            Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
-            Circle(color: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4)
-        ]
-        
-        for circle in circles {
-            circleLayer.addChild(circle)
-        }
-    }
-    
-    func initBalls() {
-        ballLayer.position = CGPointMake(0, -(size.height / 4))
-        addChild(ballLayer)
-        addBallToQueue()
-    }
-    
     func fireBall() {
-        let move = SKAction.moveTo(CGPointMake(0, size.height), duration: 1.8)
         var ball = ballQueue[0]
         ballQueue.removeAtIndex(0)
-        ball.runAction(move)
+        ball.moveTo(CGPointMake(0, size.height))
     }
     
     func addBallToQueue() {
         var ball = Ball(color: Colors.randomLightBall(), radius: ballSize)
         ballQueue.append(ball)
-        ballLayer.addChild(ball)
+        ball.addTo(screenNode)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -98,39 +80,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch (contactMask) {
             case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
-                
-                var ballNode : Ball?
-                var circleNode : Circle?
+                var ballNode : SKShapeNode!
+                var circleNode : SKShapeNode!
                 
                 if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                    ballNode = contact.bodyA.node as? Ball
-                    circleNode = contact.bodyB.node?.parent as? Circle
+                    ballNode = contact.bodyA.node as? SKShapeNode
+                    circleNode = contact.bodyB.node as? SKShapeNode
                 } else{
-                    ballNode = contact.bodyB.node as? Ball
-                    circleNode = contact.bodyA.node?.parent as? Circle
+                    ballNode = contact.bodyB.node as? SKShapeNode
+                    circleNode = contact.bodyA.node as? SKShapeNode
                 }
                 if ballNode != nil && circleNode != nil {
-                    ballDidCollideWithArc(ballNode!, circle: circleNode!)
+                    ballDidCollideWithArc(ballNode, circle: circleNode)
                 }
                 break
             case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
-                var ballNode : Ball?
+                var ballNode : SKShapeNode!
                 
                 if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                    ballNode = contact.bodyA.node as? Ball
+                    ballNode = contact.bodyA.node as SKShapeNode
                 } else{
-                    ballNode = contact.bodyB.node as? Ball
+                    ballNode = contact.bodyB.node as SKShapeNode
                 }
                 
-                ballNode?.removeFromParent()
+                ballNode.removeFromParent()
                 break
             default:
                 return
         }
     }
     
-    func ballDidCollideWithArc(ball: Ball, circle: Circle) {
-        if (ball.color == circle.color) {
+    func ballDidCollideWithArc(ball: SKShapeNode, circle: SKShapeNode) {
+        if (ball.fillColor == circle.strokeColor) {
             ball.removeFromParent();
         } else {
             

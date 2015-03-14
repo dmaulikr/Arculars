@@ -9,20 +9,18 @@
 import UIKit
 import SpriteKit
 
-class Circle : SKShapeNode {
+class Circle {
     
-    let color : SKColor
-    let radius : CGFloat
-    let thickness : CGFloat
-    let clockwise : Bool
-    let secondsPerRound : NSTimeInterval
+    private var color : SKColor!
+    private var radius : CGFloat!
+    private var thickness : CGFloat!
+    private var clockwise : Bool
+    private var secondsPerRound : NSTimeInterval!
     
-    let nameOfArc = "arc" // to find it in the child nodes
+    private var circle : SKShapeNode!
+    private var arc : SKShapeNode!
+    
     let sizeOfArc = CGFloat(M_PI / 2) // in radians
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     init(color: SKColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval) {
         self.color = color
@@ -30,25 +28,23 @@ class Circle : SKShapeNode {
         self.thickness = thickness
         self.clockwise = clockwise
         self.secondsPerRound = secondsPerRound
-        super.init()
+    }
+    
+    func addTo(parentNode: SKSpriteNode) -> Circle {
+        circle = SKShapeNode(circleOfRadius: radius)
+        circle.strokeColor = color.colorWithAlphaComponent(0.2)
+        circle.lineWidth = thickness
+        circle.position = CGPointMake(0, parentNode.size.height / 4)
         
-        // Init Circle (self)
-        var circle = CGPathCreateMutable()
-        CGPathAddArc(circle, nil, 0, 0, radius, CGFloat(2 * M_PI), 0, true)
-        self.path = circle
-        self.strokeColor = color.colorWithAlphaComponent(0.2)
-        self.lineWidth = thickness
-        self.position = CGPointMake(0, 0)
-        
-        // Init Arc
         let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
-        var arcShape = SKShapeNode(path: arcpath.CGPath)
-        arcShape.name = nameOfArc
-        arcShape.position = CGPointMake(0, 0)
-        arcShape.lineCap = kCGLineCapRound
-        arcShape.strokeColor = color
+        arc = SKShapeNode(path: arcpath.CGPath)
+        arc.position = CGPointMake(0, 0)
+        arc.lineCap = kCGLineCapRound
+        arc.strokeColor = color
         
-        // Add physicsbody of arc
+        circle.addChild(arc)
+        
+        // Add physicsbody of Arc
         var currentpoint = CGPointMake(radius, 0)
         var physicsparts = 10;
         var bodypath : CGMutablePath = CGPathCreateMutable();
@@ -59,17 +55,16 @@ class Circle : SKShapeNode {
             currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
         }
         
-        arcShape.lineWidth = thickness
-        arcShape.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
-        arcShape.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
-        arcShape.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
-        arcShape.physicsBody?.collisionBitMask = 0
-        arcShape.physicsBody?.usesPreciseCollisionDetection = true
-        arcShape.physicsBody?.dynamic = true
+        arc.lineWidth = thickness
+        arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
+        arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
+        arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
+        arc.physicsBody?.collisionBitMask = 0
+        arc.physicsBody?.usesPreciseCollisionDetection = true
+        arc.physicsBody?.dynamic = true
         
-        self.addChild(arcShape)
-        
-        startAnimation()
+        parentNode.addChild(circle)
+        return self
     }
     
     func startAnimation() {
@@ -82,12 +77,10 @@ class Circle : SKShapeNode {
         }
         var rotate = SKAction.rotateByAngle(rotationangle, duration: secondsPerRound)
         var repeatAction = SKAction.repeatActionForever(rotate)
-        var arcShape = self.childNodeWithName(nameOfArc)
-        arcShape?.runAction(repeatAction)
+        arc.runAction(repeatAction)
     }
     
     func stopAnimation() {
-        var arcShape = self.childNodeWithName(nameOfArc)
-        arcShape?.removeAllActions()
+        arc.removeAllActions()
     }
 }

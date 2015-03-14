@@ -9,32 +9,36 @@
 import UIKit
 import SpriteKit
 
-class Ball : SKShapeNode {
+class Ball {
     
-    let color : SKColor
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var ball : SKShapeNode!
+    private var color : SKColor!
+    private var radius : CGFloat!
     
     init(color: SKColor, radius: CGFloat) {
         self.color = color
-        super.init()
-        
-        // Init Ball (self)
-        var circle = CGPathCreateMutable()
-        CGPathAddArc(circle, nil, 0, 0, radius, CGFloat(2 * M_PI), 0, true)
-        self.path = circle
-        self.fillColor = color
-        self.strokeColor = color
-        self.lineWidth = 0
-        self.position = CGPointMake(0, 0)
-        self.physicsBody = SKPhysicsBody(circleOfRadius: radius)
-        self.physicsBody?.categoryBitMask = PhysicsCategory.ball.rawValue
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.arc.rawValue
-        self.physicsBody?.collisionBitMask = 0
-        self.physicsBody?.usesPreciseCollisionDetection = true
-        self.physicsBody?.dynamic = true
+        self.radius = radius
     }
     
+    func addTo(parentNode: SKSpriteNode) -> Ball {
+        ball = SKShapeNode(circleOfRadius: radius)
+        ball.fillColor = color
+        ball.strokeColor = color
+        ball.lineWidth = 0
+        ball.position = CGPoint(x: 0, y: -(parentNode.size.height / 4))
+        ball.physicsBody = SKPhysicsBody(circleOfRadius: radius)
+        ball.physicsBody?.categoryBitMask = PhysicsCategory.ball.rawValue
+        ball.physicsBody?.contactTestBitMask = PhysicsCategory.arc.rawValue
+        ball.physicsBody?.collisionBitMask = 0
+        ball.physicsBody?.usesPreciseCollisionDetection = true
+        ball.physicsBody?.dynamic = true
+        
+        parentNode.addChild(ball)
+        return self
+    }
+    
+    func moveTo(location: CGPoint) {
+        let move = SKAction.moveTo(location, duration: 1.8)
+        ball.runAction(move)
+    }
 }
