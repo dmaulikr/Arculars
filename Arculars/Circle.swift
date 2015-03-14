@@ -13,9 +13,9 @@ class Circle : SKShapeNode {
     
     let color : SKColor
     let radius : CGFloat
-    let thickness: CGFloat
-    let clockwise: Bool
-    let secondsPerRound: NSTimeInterval
+    let thickness : CGFloat
+    let clockwise : Bool
+    let secondsPerRound : NSTimeInterval
     
     let nameOfArc = "arc" // to find it in the child nodes
     let sizeOfArc = CGFloat(M_PI / 2) // in radians

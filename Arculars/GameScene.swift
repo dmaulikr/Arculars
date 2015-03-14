@@ -13,12 +13,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ballSize = CGFloat(12.0)
     
-    let labelLayer = SKNode()
     let circleLayer = SKNode()
     let ballLayer = SKNode()
     
     var circles = [Circle]()
     var ballQueue = [Ball]()
+    
+    var screenNode : SKSpriteNode!
+    var score : Score!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -33,8 +35,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = Colors.LightBackground
         
+        screenNode = SKSpriteNode(color: UIColor.clearColor(), size: self.size)
+        addChild(screenNode)
+        
+        score = Score().addTo(screenNode)
+        
         // Setup Layers
-        initLabels()
         initCircles()
         initBalls()
         
@@ -47,18 +53,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.dynamic = true
-    }
-    
-    func initLabels() {
-        labelLayer.position = CGPointMake(0, -(size.height / 2) + 32)
-        addChild(labelLayer)
-        
-        var scoreLabel = SKLabelNode(fontNamed: "Helvetica Neue UltraLight")
-        scoreLabel.text = "Score"
-        scoreLabel.fontSize = 36
-        scoreLabel.fontColor = Colors.LightFontColor
-        
-        labelLayer.addChild(scoreLabel)
     }
     
     func initCircles() {
