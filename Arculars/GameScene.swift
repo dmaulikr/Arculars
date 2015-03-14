@@ -13,6 +13,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ballSize = CGFloat(12.0)
     
+    let labelLayer = SKNode()
     let circleLayer = SKNode()
     let ballLayer = SKNode()
     
@@ -28,21 +29,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMoveToView(view: SKView) {
+        // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        
-        // Setup background color
         self.backgroundColor = Colors.LightBackground
         
         // Setup Layers
-        circleLayer.position = CGPointMake(0, size.height / 4)
-        addChild(circleLayer)
+        initLabels()
         initCircles()
+        initBalls()
         
-        ballLayer.position = CGPointMake(0, -(size.height / 4))
-        addChild(ballLayer)
-        addBallToQueue()
-        
-        // Setup Physics for this Scene
+        // Setup Physics
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0, 0)
         
@@ -53,7 +49,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.dynamic = true
     }
     
+    func initLabels() {
+        labelLayer.position = CGPointMake(0, -(size.height / 2) + 32)
+        addChild(labelLayer)
+        
+        var scoreLabel = SKLabelNode(fontNamed: "Helvetica Neue UltraLight")
+        scoreLabel.text = "Score"
+        scoreLabel.fontSize = 36
+        scoreLabel.fontColor = Colors.LightFontColor
+        
+        labelLayer.addChild(scoreLabel)
+    }
+    
     func initCircles() {
+        circleLayer.position = CGPointMake(0, size.height / 4)
+        addChild(circleLayer)
+        
         circles = [
             Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
             Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
@@ -63,6 +74,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for circle in circles {
             circleLayer.addChild(circle)
         }
+    }
+    
+    func initBalls() {
+        ballLayer.position = CGPointMake(0, -(size.height / 4))
+        addChild(ballLayer)
+        addBallToQueue()
     }
     
     func fireBall() {

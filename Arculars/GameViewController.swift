@@ -20,6 +20,11 @@ class GameViewController: UIViewController {
         let skView = view as SKView
         skView.multipleTouchEnabled = false
         
+        #if DEBUG
+            skView.showsDrawCount = true
+            skView.showsFPS = true
+        #endif
+        
         // Create and configure the scene.
         scene = GameScene(size: skView.bounds.size)
         scene.scaleMode = .AspectFill
