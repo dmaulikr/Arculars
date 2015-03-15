@@ -9,6 +9,7 @@
 import SpriteKit
 
 class Score {
+    
     private var score: SKLabelNode!
     private var currentScore = 0
     
