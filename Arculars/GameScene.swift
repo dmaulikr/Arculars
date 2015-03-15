@@ -12,11 +12,12 @@ import SpriteKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ballSize = CGFloat(12.0)
+    let ballSpeed = NSTimeInterval(1.8)
     
     var circles : [Circle] = [
-        Circle(color: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
-        Circle(color: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
-        Circle(color: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4)
+        Circle(arcColor: Colors.Blue, circleColor: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
+        Circle(arcColor: Colors.Orange, circleColor: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
+        Circle(arcColor: Colors.Red, circleColor: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4)
     ]
     
     var ballQueue = [Ball]()
@@ -35,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Colors.LightBackground
+        self.backgroundColor = Colors.Background
         
         screenNode = SKSpriteNode(color: UIColor.clearColor(), size: self.size)
         addChild(screenNode)
@@ -62,11 +63,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func fireBall() {
         var ball = ballQueue[0]
         ballQueue.removeAtIndex(0)
-        ball.moveTo(CGPointMake(0, size.height))
+        ball.moveTo(CGPointMake(0, size.height), speed: ballSpeed)
     }
     
     func addBallToQueue() {
-        var ball = Ball(color: Colors.randomLightBall(), radius: ballSize)
+        var ball = Ball(color: Colors.randomBallColor(), radius: ballSize)
         ballQueue.append(ball)
         ball.addTo(screenNode)
     }

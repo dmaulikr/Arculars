@@ -17,7 +17,7 @@ class Score {
     func addTo(parentNode: SKSpriteNode) -> Score {
         score = SKLabelNode(text: "Score \(currentScore)")
         score.fontName = "Helvetica Neue UltraLight"
-        score.fontColor = Colors.LightFontColor
+        score.fontColor = Colors.FontColor
         score.fontSize = 30
         score.position = CGPoint(x: 0, y: -(parentNode.size.height / 2) + 32)
         parentNode.addChild(score)
