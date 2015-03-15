@@ -39,7 +39,6 @@ class Circle {
         circle = SKShapeNode(circleOfRadius: radius)
         circle.strokeColor = circleColor
         circle.lineWidth = thickness
-        circle.antialiased = true
         circle.position = CGPointMake(0, parentNode.size.height / 4)
         
         var circleOffset = SKShapeNode(circleOfRadius: radius)
@@ -47,7 +46,6 @@ class Circle {
         circleOffset.lineWidth = thickness
         circleOffset.position = CGPoint(x: 0, y: -3)
         circleOffset.zPosition = -1
-        circleOffset.antialiased = true
         circle.addChild(circleOffset)
         
         // Setup Arc Node

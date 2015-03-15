@@ -25,16 +25,14 @@ class Ball {
         ball = SKShapeNode(circleOfRadius: radius)
         ball.fillColor = color
         ball.strokeColor = color
-        ball.lineWidth = 0
-        ball.antialiased = true
+        ball.lineWidth = 1
         ball.position = CGPoint(x: 0, y: -(parentNode.size.height / 4))
         
         var ballOffset = SKShapeNode(circleOfRadius: radius)
         ballOffset.fillColor = color.darkerColor(0.1)
         ballOffset.strokeColor = color.darkerColor(0.1)
-        ballOffset.lineWidth = 0
+        ballOffset.lineWidth = 1
         ballOffset.zPosition = -1
-        ballOffset.antialiased = true
         ballOffset.position = CGPoint(x: 0, y: -3)
         
         ball.addChild(ballOffset)
