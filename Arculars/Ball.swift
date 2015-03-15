@@ -49,7 +49,7 @@ class Ball {
         return self
     }
     
-    func moveTo(location: CGPoint, speed: NSTimeInterval) {
+    func shootTo(location: CGPoint, speed: NSTimeInterval) {
         let move = SKAction.moveTo(location, duration: speed)
         ball.runAction(move)
     }

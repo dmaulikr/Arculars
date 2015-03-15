@@ -29,4 +29,9 @@ class Score {
         currentScore += 1
         score.text = "Score \(currentScore)"
     }
+    
+    func reset() {
+        currentScore = 0
+        score.text = "Score \(currentScore)"
+    }
 }

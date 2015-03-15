@@ -63,7 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func fireBall() {
         var ball = ballQueue[0]
         ballQueue.removeAtIndex(0)
-        ball.moveTo(CGPointMake(0, size.height), speed: ballSpeed)
+        ball.shootTo(CGPointMake(0, size.height), speed: ballSpeed)
     }
     
     func addBallToQueue() {
@@ -114,12 +114,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func ballDidCollideWithArc(ball: SKShapeNode, circle: SKShapeNode) {
         if (ball.fillColor == circle.strokeColor) {
             score.increase()
-            ball.removeFromParent();
         } else {
-            // Game over
-            for circle in circles {
-                circle.stopAnimation()
-            }
+            score.reset()
         }
+        
+        ball.removeFromParent();
     }
 }
