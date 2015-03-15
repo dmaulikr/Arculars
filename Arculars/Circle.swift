@@ -11,7 +11,9 @@ import SpriteKit
 
 class Circle {
     
-    private var color : SKColor!
+    private var arcColor : UIColor!
+    private var circleColor : UIColor!
+    
     private var radius : CGFloat!
     private var thickness : CGFloat!
     private var clockwise : Bool
@@ -22,8 +24,10 @@ class Circle {
     
     let sizeOfArc = CGFloat(M_PI / 2) // in radians
     
-    init(color: SKColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval) {
-        self.color = color
+    init(arcColor: UIColor, circleColor: UIColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval) {
+        self.arcColor = arcColor
+        self.circleColor = circleColor
+        
         self.radius = radius
         self.thickness = thickness
         self.clockwise = clockwise
@@ -33,16 +37,26 @@ class Circle {
     func addTo(parentNode: SKSpriteNode) -> Circle {
         // Setup Circle Node
         circle = SKShapeNode(circleOfRadius: radius)
-        circle.strokeColor = color.colorWithAlphaComponent(0.2)
+        circle.strokeColor = circleColor
         circle.lineWidth = thickness
+        circle.antialiased = true
         circle.position = CGPointMake(0, parentNode.size.height / 4)
+        
+        var circleOffset = SKShapeNode(circleOfRadius: radius)
+        circleOffset.strokeColor = circleColor.darkerColor(0.1)
+        circleOffset.lineWidth = thickness
+        circleOffset.position = CGPoint(x: 0, y: -3)
+        circleOffset.zPosition = -1
+        circleOffset.antialiased = true
+        circle.addChild(circleOffset)
         
         // Setup Arc Node
         let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
         arc = SKShapeNode(path: arcpath.CGPath)
         arc.position = CGPointMake(0, 0)
         arc.lineCap = kCGLineCapRound
-        arc.strokeColor = color
+        arc.strokeColor = arcColor
+        arc.antialiased = true
         arc.lineWidth = thickness
         
         circle.addChild(arc)

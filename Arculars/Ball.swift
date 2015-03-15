@@ -26,7 +26,18 @@ class Ball {
         ball.fillColor = color
         ball.strokeColor = color
         ball.lineWidth = 0
+        ball.antialiased = true
         ball.position = CGPoint(x: 0, y: -(parentNode.size.height / 4))
+        
+        var ballOffset = SKShapeNode(circleOfRadius: radius)
+        ballOffset.fillColor = color.darkerColor(0.1)
+        ballOffset.strokeColor = color.darkerColor(0.1)
+        ballOffset.lineWidth = 0
+        ballOffset.zPosition = -1
+        ballOffset.antialiased = true
+        ballOffset.position = CGPoint(x: 0, y: -3)
+        
+        ball.addChild(ballOffset)
         
         // Setup Physics
         ball.physicsBody = SKPhysicsBody(circleOfRadius: radius)
@@ -40,8 +51,8 @@ class Ball {
         return self
     }
     
-    func moveTo(location: CGPoint) {
-        let move = SKAction.moveTo(location, duration: 1.8)
+    func moveTo(location: CGPoint, speed: NSTimeInterval) {
+        let move = SKAction.moveTo(location, duration: speed)
         ball.runAction(move)
     }
 }
