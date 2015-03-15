@@ -26,6 +26,6 @@ class Score {
     
     func increase() {
         currentScore += 1
-        score.text = "\(currentScore)"
+        score.text = "Score \(currentScore)"
     }
 }
