@@ -11,7 +11,7 @@ import SpriteKit
 class Score {
     
     private var score: SKLabelNode!
-    private var currentScore = 0
+    private var currentScore : UInt32 = 0
     
     init(){}
     
@@ -28,6 +28,10 @@ class Score {
     func increase() {
         currentScore += 1
         score.text = "Score \(currentScore)"
+    }
+    
+    func getScore() -> UInt32 {
+        return currentScore
     }
     
     func reset() {

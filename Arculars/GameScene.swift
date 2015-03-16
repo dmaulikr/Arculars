@@ -13,15 +13,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let ballSize = CGFloat(12.0)
     let ballSpeed = NSTimeInterval(1.8)
+    var circlePosition : CGPoint!
     
-    private var circles : [Circle] = [
-        Circle(arcColor: Colors.Blue, circleColor: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
-        Circle(arcColor: Colors.Orange, circleColor: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
-        Circle(arcColor: Colors.Red, circleColor: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4)
-    ]
+    var isGameOver = false
+    private var gameoverNode : SKSpriteNode!
+    private var gameoverScoreLabel : SKLabelNode!
     
+    private var circles = [Circle]()
     private var ballQueue = [Ball]()
-    
     private var screenNode : SKSpriteNode!
     private var score : Score!
     
@@ -41,12 +40,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         screenNode = SKSpriteNode(color: UIColor.clearColor(), size: self.size)
         addChild(screenNode)
         
+        gameoverNode = SKSpriteNode(color: UIColor.clearColor(), size: self.size)
+        gameoverNode.alpha = 0.0
+        addChild(gameoverNode)
+        
         score = Score().addTo(screenNode)
         
-        for circle in circles {
-            circle.addTo(screenNode).startAnimation()
-        }
-        
+        initCircles()
+        initGameOver()
         addBallToQueue()
         
         // Setup Physics
@@ -60,7 +61,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.dynamic = true
     }
     
-    private func fireBall() {
+    func initCircles() {
+        circlePosition = CGPoint(x: 0, y: self.size.height / 4)
+        
+        circles.append(
+            Circle(position: circlePosition, arcColor: Colors.Blue, circleColor: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2))
+        circles.append(
+            Circle(position: circlePosition, arcColor: Colors.Orange, circleColor: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8))
+        circles.append(
+            Circle(position: circlePosition, arcColor: Colors.Red, circleColor: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4))
+        
+        for circle in circles {
+            circle.addTo(screenNode).startAnimation()
+        }
+    }
+    
+    func initGameOver() {
+        
+        var content = SKNode()
+        var image = SKSpriteNode(imageNamed: "highscore")
+        image.position = CGPoint(x: 0, y: 30)
+        content.addChild(image)
+        
+        gameoverScoreLabel = SKLabelNode()
+        gameoverScoreLabel.position = CGPoint(x: 0, y: -30)
+        content.addChild(gameoverScoreLabel)
+        
+        var scoreContent = Button(name: "scoreContent", position: CGPoint(x: 0, y: 80), color: Colors.Red, content: content, radius: 100)
+        scoreContent.addTo(gameoverNode)
+        
+        var replayButton = Button(name: "replaybutton", position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "replay"), radius: 30)
+        replayButton.addTo(gameoverNode)
+    }
+    
+    private func shootBall() {
         var ball = ballQueue[0]
         ballQueue.removeAtIndex(0)
         ball.shootTo(CGPointMake(0, size.height), speed: ballSpeed)
@@ -73,8 +107,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        fireBall()
-        addBallToQueue()
+        if isGameOver {
+            for touch: AnyObject in touches {
+                let location = touch.locationInNode(gameoverNode)
+                var nodeAtLocation = self.nodeAtPoint(location)
+                
+                if (nodeAtLocation.name == "replaybutton") {
+                    replay()
+                }
+            }
+        } else {
+            shootBall()
+            addBallToQueue()
+        }
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -115,9 +160,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (ball.fillColor == circle.strokeColor) {
             score.increase()
         } else {
-            score.reset()
+            gameover()
         }
         
         ball.removeFromParent();
+    }
+    
+    func gameover() {
+        isGameOver = true
+        gameoverScoreLabel.text = "Score \(self.score.getScore())"
+        
+        screenNode.alpha = 0.1
+        gameoverNode.alpha = 1.0
+    }
+    
+    func replay() {
+        screenNode.alpha = 1.0
+        gameoverNode.alpha = 0.0
+        score.reset()
+        isGameOver = false
     }
 }

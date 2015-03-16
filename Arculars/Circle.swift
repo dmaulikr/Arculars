@@ -14,6 +14,7 @@ class Circle {
     private var arcColor : UIColor!
     private var circleColor : UIColor!
     
+    private var position : CGPoint!
     private var radius : CGFloat!
     private var thickness : CGFloat!
     private var clockwise : Bool
@@ -24,7 +25,8 @@ class Circle {
     
     let sizeOfArc = CGFloat(M_PI / 2) // in radians
     
-    init(arcColor: UIColor, circleColor: UIColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval) {
+    init(position: CGPoint, arcColor: UIColor, circleColor: UIColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval) {
+        self.position = position
         self.arcColor = arcColor
         self.circleColor = circleColor
         
@@ -39,7 +41,7 @@ class Circle {
         circle = SKShapeNode(circleOfRadius: radius)
         circle.strokeColor = circleColor
         circle.lineWidth = thickness
-        circle.position = CGPointMake(0, parentNode.size.height / 4)
+        circle.position = position
         
         var circleOffset = SKShapeNode(circleOfRadius: radius)
         circleOffset.strokeColor = circleColor.darkerColor(0.1)
@@ -51,7 +53,7 @@ class Circle {
         // Setup Arc Node
         let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
         arc = SKShapeNode(path: arcpath.CGPath)
-        arc.position = CGPointMake(0, 0)
+        arc.position = CGPoint(x: 0, y: 0)
         arc.lineCap = kCGLineCapRound
         arc.strokeColor = arcColor
         arc.antialiased = true
@@ -77,7 +79,13 @@ class Circle {
         arc.physicsBody?.usesPreciseCollisionDetection = true
         arc.physicsBody?.dynamic = true
         
+        circle.xScale = 0.0
+        circle.yScale = 0.0
+        
         parentNode.addChild(circle)
+        
+        circle.runAction(SKAction.scaleTo(1.0, duration: 0.25))
+        
         return self
     }
     
