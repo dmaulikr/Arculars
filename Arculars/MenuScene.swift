@@ -37,7 +37,7 @@ class MenuScene: SKScene {
         initMenu()
     }
     
-    func initMenu() {
+    private func initMenu() {
         playButton = Button(position: CGPoint(x: 0, y: 90), color: Colors.Blue, image: "play", radius: 30)
         playButton.addTo(screenNode)
         

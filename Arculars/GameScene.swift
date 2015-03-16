@@ -14,16 +14,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let ballSize = CGFloat(12.0)
     let ballSpeed = NSTimeInterval(1.8)
     
-    var circles : [Circle] = [
+    private var circles : [Circle] = [
         Circle(arcColor: Colors.Blue, circleColor: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2),
         Circle(arcColor: Colors.Orange, circleColor: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8),
         Circle(arcColor: Colors.Red, circleColor: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4)
     ]
     
-    var ballQueue = [Ball]()
+    private var ballQueue = [Ball]()
     
-    var screenNode : SKSpriteNode!
-    var score : Score!
+    private var screenNode : SKSpriteNode!
+    private var score : Score!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -60,13 +60,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.dynamic = true
     }
     
-    func fireBall() {
+    private func fireBall() {
         var ball = ballQueue[0]
         ballQueue.removeAtIndex(0)
         ball.shootTo(CGPointMake(0, size.height), speed: ballSpeed)
     }
     
-    func addBallToQueue() {
+    private func addBallToQueue() {
         var ball = Ball(color: Colors.randomBallColor(), radius: ballSize)
         ballQueue.append(ball)
         ball.addTo(screenNode)
@@ -111,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func ballDidCollideWithArc(ball: SKShapeNode, circle: SKShapeNode) {
+    private func ballDidCollideWithArc(ball: SKShapeNode, circle: SKShapeNode) {
         if (ball.fillColor == circle.strokeColor) {
             score.increase()
         } else {
