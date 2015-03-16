@@ -53,38 +53,36 @@ class Circle {
         // Setup Arc Node
         let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
         arc = SKShapeNode(path: arcpath.CGPath)
-        arc.position = CGPoint(x: 0, y: 0)
         arc.lineCap = kCGLineCapRound
         arc.strokeColor = arcColor
         arc.antialiased = true
         arc.lineWidth = thickness
-        
         circle.addChild(arc)
-        
-        // Setup PhysicsBody of Arc
-        var currentpoint = CGPointMake(radius, 0)
-        var physicsparts = 10;
-        var bodypath : CGMutablePath = CGPathCreateMutable();
-        var offsetangle = CGFloat(sizeOfArc / CGFloat(physicsparts))
-        
-        for var index = 0; index < physicsparts + 1; index++ {
-            CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(thickness / 2), CGFloat(2 * M_PI), 0, true)
-            currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
-        }
-        
-        arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
-        arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
-        arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
-        arc.physicsBody?.collisionBitMask = 0
-        arc.physicsBody?.usesPreciseCollisionDetection = true
-        arc.physicsBody?.dynamic = true
-        
+
         circle.xScale = 0.0
         circle.yScale = 0.0
-        
+
         parentNode.addChild(circle)
         
-        circle.runAction(SKAction.scaleTo(1.0, duration: 0.25))
+        circle.runAction(SKAction.scaleTo(1.0, duration: 0.25), completion: {()
+            // Setup PhysicsBody of Arc
+            var currentpoint = CGPointMake(self.radius, 0)
+            var physicsparts = 10;
+            var bodypath : CGMutablePath = CGPathCreateMutable();
+            var offsetangle = CGFloat(self.sizeOfArc / CGFloat(physicsparts))
+            
+            for var index = 0; index < physicsparts + 1; index++ {
+                CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(self.thickness / 2), CGFloat(2 * M_PI), 0, true)
+                currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
+            }
+            
+            self.arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
+            self.arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
+            self.arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
+            self.arc.physicsBody?.collisionBitMask = 0
+            self.arc.physicsBody?.usesPreciseCollisionDetection = true
+            self.arc.physicsBody?.dynamic = true
+        })
         
         return self
     }
@@ -102,7 +100,4 @@ class Circle {
         arc.runAction(repeatAction)
     }
     
-    func stopAnimation() {
-        arc.removeAllActions()
-    }
 }
