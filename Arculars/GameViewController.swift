@@ -21,7 +21,7 @@ class GameViewController: UIViewController {
         #if DEBUG
             skView.showsDrawCount = true
             skView.showsFPS = true
-            // skView.showsPhysics = true
+            skView.showsPhysics = true
         #endif
         
         // Create and configure the scene.
