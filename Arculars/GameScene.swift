@@ -158,6 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func ballDidCollideWithArc(ball: SKShapeNode, circle: SKShapeNode) {
         if (ball.fillColor == circle.strokeColor) {
+            
             score.increase()
         } else {
             gameover()

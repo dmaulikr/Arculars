@@ -42,7 +42,6 @@ class Ball {
         ball.physicsBody?.categoryBitMask = PhysicsCategory.ball.rawValue
         ball.physicsBody?.contactTestBitMask = PhysicsCategory.arc.rawValue
         ball.physicsBody?.collisionBitMask = 0
-        ball.physicsBody?.usesPreciseCollisionDetection = true
         ball.physicsBody?.dynamic = true
         
         parentNode.addChild(ball)

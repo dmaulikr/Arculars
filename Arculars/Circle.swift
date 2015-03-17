@@ -80,7 +80,6 @@ class Circle {
             self.arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
             self.arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
             self.arc.physicsBody?.collisionBitMask = 0
-            self.arc.physicsBody?.usesPreciseCollisionDetection = true
             self.arc.physicsBody?.dynamic = true
         })
         
