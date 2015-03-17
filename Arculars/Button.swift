@@ -45,12 +45,10 @@ class Button : SKShapeNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addTo(parentNode: SKSpriteNode) -> Button {
+    func fadeIn() -> Button {
         
         self.xScale = 0.0
         self.yScale = 0.0
-        
-        parentNode.addChild(self)
         
         self.runAction(
             SKAction.sequence([
@@ -60,6 +58,11 @@ class Button : SKShapeNode {
                 ])
         )
         
+        return self
+    }
+    
+    func fadeOut() -> Button {
+        self.runAction(SKAction.scaleTo(0.0, duration: 0.3))
         return self
     }
 }
