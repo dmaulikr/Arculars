@@ -31,13 +31,35 @@ class Score : SKLabelNode {
     }
     
     func increase() {
-        currentScore += 1
-        updateText()
+        self.increaseBy(1)
     }
     
     func increaseBy(newScore: UInt32) {
-        currentScore += newScore
-        updateText()
+        self.currentScore += newScore
+        self.updateText()
+        
+    }
+    
+    func increaseByWithColor(newScore: UInt32, color: UIColor) {
+        var label = SKLabelNode(text: "+\(newScore)")
+        
+        // Calculate position
+        var x = (self.frame.width / 2) + (label.frame.width / 2) + 8 
+        
+        label.position = CGPoint(x: x, y: 0)
+        label.fontColor = color
+        label.xScale = 0.0
+        label.yScale = 0.0
+        self.addChild(label)
+        
+        var fadeIn = SKAction.scaleTo(1.0, duration: 0.1)
+        var wait = SKAction.waitForDuration(0.2)
+        var fadeOut = SKAction.group([SKAction.moveTo(CGPoint(x: (self.frame.width / 2), y: 0), duration: 0.2), SKAction.fadeAlphaTo(0.0, duration: 0.2)])
+        var sequence = SKAction.sequence([fadeIn, wait, fadeOut])
+        
+        label.runAction(sequence, completion: {()
+            self.increaseBy(newScore)
+        })
     }
     
     func getScore() -> UInt32 {
