@@ -46,7 +46,6 @@ class Button : SKShapeNode {
     }
     
     func fadeIn() -> Button {
-        
         self.xScale = 0.0
         self.yScale = 0.0
         

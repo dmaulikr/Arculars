@@ -12,7 +12,8 @@ import SpriteKit
 class Circle : SKShapeNode {
     
     var arc : SKShapeNode!
-    var nodeColor : UIColor!
+    let nodeColor : UIColor!
+    
     var pointsPerHit = 0
     let sizeOfArc = CGFloat(M_PI / 2) // in radians
     
@@ -78,6 +79,21 @@ class Circle : SKShapeNode {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func fadeIn() -> Circle {
+        self.xScale = 0.0
+        self.yScale = 0.0
+        
+        self.runAction(
+            SKAction.sequence([
+                SKAction.scaleTo(1.05, duration: 0.15),
+                SKAction.scaleTo(0.95, duration: 0.1),
+                SKAction.scaleTo(1.0, duration: 0.1)
+                ])
+        )
+        
+        return self
     }
     
     func modifySpeedBy(factor: CGFloat) {
