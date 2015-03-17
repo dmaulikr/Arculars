@@ -61,9 +61,9 @@ class MenuScene: SKScene {
                 
                 var scaleDown = SKAction.scaleTo(0.0, duration: 0.25)
                 var block = SKAction.runBlock({
-                    self.playButton.button.runAction(scaleDown)
-                    self.statsButton.button.runAction(scaleDown)
-                    self.settingsButton.button.runAction(scaleDown)
+                    self.playButton.runAction(scaleDown)
+                    self.statsButton.runAction(scaleDown)
+                    self.settingsButton.runAction(scaleDown)
                 })
                 
                 self.runAction(SKAction.sequence([

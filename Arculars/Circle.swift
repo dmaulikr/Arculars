@@ -9,84 +9,57 @@
 import UIKit
 import SpriteKit
 
-class Circle {
+class Circle : SKShapeNode {
     
-    private var arcColor : UIColor!
-    private var circleColor : UIColor!
-    
-    private var position : CGPoint!
-    private var radius : CGFloat!
-    private var thickness : CGFloat!
-    private var clockwise : Bool
-    private var secondsPerRound : NSTimeInterval!
-    
-    private var circle : SKShapeNode!
-    private var arc : SKShapeNode!
-    
+    var arc : SKShapeNode!
+    var nodeColor : UIColor!
+    var pointsPerHit = 0
     let sizeOfArc = CGFloat(M_PI / 2) // in radians
     
-    init(position: CGPoint, arcColor: UIColor, circleColor: UIColor, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval) {
-        self.position = position
-        self.arcColor = arcColor
-        self.circleColor = circleColor
+    init(circleColor: UIColor, arcColor: UIColor, position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval, pointsPerHit: Int) {
+        super.init()
         
-        self.radius = radius
-        self.thickness = thickness
-        self.clockwise = clockwise
-        self.secondsPerRound = secondsPerRound
-    }
-    
-    func addTo(parentNode: SKSpriteNode) -> Circle {
-        // Setup Circle Node
-        circle = SKShapeNode(circleOfRadius: radius)
-        circle.strokeColor = circleColor
-        circle.lineWidth = thickness
-        circle.position = position
+        var circlepath = CGPathCreateMutable()
+        CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)
+        self.path = circlepath
+        self.lineWidth = thickness
+        self.zPosition = 0
+        self.strokeColor = circleColor
+        self.position = position
         
         var circleOffset = SKShapeNode(circleOfRadius: radius)
         circleOffset.strokeColor = circleColor.darkerColor(0.1)
         circleOffset.lineWidth = thickness
         circleOffset.position = CGPoint(x: 0, y: -3)
         circleOffset.zPosition = -1
-        circle.addChild(circleOffset)
+        self.addChild(circleOffset)
         
-        // Setup Arc Node
-        let arcpath = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
+        let arcpath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
         arc = SKShapeNode(path: arcpath.CGPath)
         arc.lineCap = kCGLineCapRound
         arc.strokeColor = arcColor
         arc.antialiased = true
-        arc.lineWidth = thickness
-        circle.addChild(arc)
-
-        circle.xScale = 0.0
-        circle.yScale = 0.0
-
-        parentNode.addChild(circle)
+        arc.zPosition = 1
+        arc.lineWidth = thickness + 0.5 // one pixel more because of the linewidth of the circle itself
         
-        circle.runAction(SKAction.scaleTo(1.0, duration: 0.25), completion: {()
-            // Setup PhysicsBody of Arc
-            var currentpoint = CGPointMake(self.radius, 0)
-            var physicsparts = 10;
-            var bodypath : CGMutablePath = CGPathCreateMutable();
-            var offsetangle = CGFloat(self.sizeOfArc / CGFloat(physicsparts))
-            
-            for var index = 0; index < physicsparts + 1; index++ {
-                CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(self.thickness / 2), CGFloat(2 * M_PI), 0, true)
-                currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
-            }
-            
-            self.arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
-            self.arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
-            self.arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
-            self.arc.physicsBody?.collisionBitMask = 0
-            self.arc.physicsBody?.dynamic = true
-        })
+        // Setup PhysicsBody of Arc
+        var currentpoint = CGPointMake(radius, 0)
+        var physicsparts = 10;
+        var bodypath : CGMutablePath = CGPathCreateMutable();
+        var offsetangle = CGFloat(self.sizeOfArc / CGFloat(physicsparts))
         
-        return self
-    }
-    
-    func startAnimation() {
+        for var index = 0; index < physicsparts + 1; index++ {
+            CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(thickness / 2), CGFloat(2 * M_PI), 0, true)
+            currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
+        }
+        
+        arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
+        arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
+        arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
+        arc.physicsBody?.collisionBitMask = 0
+        arc.physicsBody?.dynamic = true
+        
+        // Setup animation
         var rotationangle : CGFloat
         if clockwise {
             rotationangle = CGFloat(2 * M_PI)
@@ -94,9 +67,22 @@ class Circle {
         else {
             rotationangle = -CGFloat(2 * M_PI)
         }
-        var rotate = SKAction.rotateByAngle(rotationangle, duration: secondsPerRound)
-        var repeatAction = SKAction.repeatActionForever(rotate)
-        arc.runAction(repeatAction)
+        var rotating = SKAction.repeatActionForever(SKAction.rotateByAngle(rotationangle, duration: secondsPerRound))
+        arc.runAction(rotating, withKey: "arcRotationAnimation")
+        
+        self.nodeColor = arcColor
+        self.pointsPerHit = pointsPerHit
+        
+        self.addChild(arc)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func modifySpeedBy(factor: CGFloat) {
+        var action = arc.actionForKey("arcRotationAnimation")?
+        action?.speed *= factor
     }
     
 }

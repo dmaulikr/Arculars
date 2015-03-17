@@ -44,8 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameoverNode.alpha = 0.0
         addChild(gameoverNode)
         
-        score = Score().addTo(screenNode)
-        
+        initScore()
         initCircles()
         initGameOver()
         addBallToQueue()
@@ -61,18 +60,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.dynamic = true
     }
     
+    func initScore() {
+        score = Score(position: CGPoint(x: 0, y: -(self.size.height / 2) + 32))
+        screenNode.addChild(score)
+    }
+    
     func initCircles() {
         circlePosition = CGPoint(x: 0, y: self.size.height / 4)
         
-        circles.append(
-            Circle(position: circlePosition, arcColor: Colors.Blue, circleColor: Colors.LightBlue, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2))
-        circles.append(
-            Circle(position: circlePosition, arcColor: Colors.Orange, circleColor: Colors.LightOrange, radius: 50.0, thickness: 25.0, clockwise: false, secondsPerRound: 1.8))
-        circles.append(
-            Circle(position: circlePosition, arcColor: Colors.Red, circleColor: Colors.LightRed, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4))
+        circles.append(Circle(circleColor: Colors.LightBlue, arcColor: Colors.Blue, position: circlePosition, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2, pointsPerHit: 1))
+        circles.append(Circle(circleColor: Colors.LightOrange, arcColor: Colors.Orange, position: circlePosition, radius: 50, thickness: 25.0, clockwise: false, secondsPerRound: 1.8, pointsPerHit: 2))
+        circles.append(Circle(circleColor: Colors.LightRed, arcColor: Colors.Red, position: circlePosition, radius: 20.0, thickness: 12.0, clockwise: true, secondsPerRound: 2.4, pointsPerHit: 3))
         
         for circle in circles {
-            circle.addTo(screenNode).startAnimation()
+            screenNode.addChild(circle)
         }
     }
     
@@ -101,9 +102,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func addBallToQueue() {
-        var ball = Ball(color: Colors.randomBallColor(), radius: ballSize)
+        var ball = Ball(color: Colors.randomBallColor(), radius: ballSize, position: CGPoint(x: 0, y: -(size.height / 4)))
         ballQueue.append(ball)
-        ball.addTo(screenNode)
+        screenNode.addChild(ball)
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -126,18 +127,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch (contactMask) {
             case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
-                var ballNode : SKShapeNode!
-                var circleNode : SKShapeNode!
+                var ball : Ball!
+                var circle : Circle!
                 
                 if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                    ballNode = contact.bodyA.node as? SKShapeNode
-                    circleNode = contact.bodyB.node as? SKShapeNode
-                } else{
-                    ballNode = contact.bodyB.node as? SKShapeNode
-                    circleNode = contact.bodyA.node as? SKShapeNode
+                    ball = contact.bodyA.node? as? Ball
+                    circle = contact.bodyB.node?.parent as? Circle // parent because the arc's parent
+                } else {
+                    ball = contact.bodyB.node? as? Ball
+                    circle = contact.bodyA.node?.parent as? Circle // parent because the arc's parent
                 }
-                if ballNode != nil && circleNode != nil {
-                    ballDidCollideWithArc(ballNode, circle: circleNode)
+                if ball != nil && circle != nil {
+                    println("Handling collision between ball and circle")
+                    ballDidCollideWithArc(ball, circle: circle)
                 }
                 break
             case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
@@ -156,8 +158,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func ballDidCollideWithArc(ball: SKShapeNode, circle: SKShapeNode) {
-        if (ball.fillColor == circle.strokeColor) {
+    private func ballDidCollideWithArc(ball: Ball, circle: Circle) {
+        if (ball.nodeColor == circle.nodeColor) {
+            
+            for circle in circles {
+                // circle.modifySpeedBy(1.05)
+            }
             
             score.increase()
         } else {

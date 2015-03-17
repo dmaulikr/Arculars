@@ -8,26 +8,26 @@
 
 import SpriteKit
 
-class Score {
+class Score : SKLabelNode {
     
-    private var score: SKLabelNode!
     private var currentScore : UInt32 = 0
     
-    init(){}
-    
-    func addTo(parentNode: SKSpriteNode) -> Score {
-        score = SKLabelNode()
-        score.fontName = "Helvetica Neue UltraLight"
-        score.fontColor = Colors.FontColor
-        score.fontSize = 30
-        score.position = CGPoint(x: 0, y: -(parentNode.size.height / 2) + 32)
+    init(position: CGPoint) {
+        super.init()
+        
+        self.fontName = "Helvetica Neue UltraLight"
+        self.fontColor = Colors.FontColor
+        self.fontSize = 30
+        self.position = position
         updateText()
-        parentNode.addChild(score)
-        return self
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func updateText() {
-        score.text = "Score \(currentScore)"
+        self.text = "Score \(currentScore)"
     }
     
     func increase() {
@@ -46,6 +46,6 @@ class Score {
     
     func reset() {
         currentScore = 0
-        score.text = "Score \(currentScore)"
+        self.text = "Score \(currentScore)"
     }
 }

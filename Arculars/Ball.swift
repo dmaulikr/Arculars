@@ -9,24 +9,26 @@
 import UIKit
 import SpriteKit
 
-class Ball {
+class Ball : SKShapeNode {
     
-    private var ball : SKShapeNode!
-    private var color : SKColor!
-    private var radius : CGFloat!
+    var nodeColor : UIColor!
     
-    init(color: SKColor, radius: CGFloat) {
-        self.color = color
-        self.radius = radius
-    }
-    
-    func addTo(parentNode: SKSpriteNode) -> Ball {
-        // Setup Node
-        ball = SKShapeNode(circleOfRadius: radius)
-        ball.fillColor = color
-        ball.strokeColor = color
-        ball.lineWidth = 1
-        ball.position = CGPoint(x: 0, y: -(parentNode.size.height / 4))
+    init(color: SKColor, radius: CGFloat, position: CGPoint) {
+        super.init()
+        
+        var circlepath = CGPathCreateMutable()
+        CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)
+        self.path = circlepath
+        self.fillColor = color
+        self.strokeColor = color
+        self.lineWidth = 1
+        self.position = position
+        
+        self.physicsBody = SKPhysicsBody(circleOfRadius: radius)
+        self.physicsBody?.categoryBitMask = PhysicsCategory.ball.rawValue
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.arc.rawValue
+        self.physicsBody?.collisionBitMask = 0
+        self.physicsBody?.dynamic = true
         
         var ballOffset = SKShapeNode(circleOfRadius: radius)
         ballOffset.fillColor = color.darkerColor(0.1)
@@ -34,22 +36,17 @@ class Ball {
         ballOffset.lineWidth = 1
         ballOffset.zPosition = -1
         ballOffset.position = CGPoint(x: 0, y: -3)
+        self.addChild(ballOffset)
         
-        ball.addChild(ballOffset)
-        
-        // Setup Physics
-        ball.physicsBody = SKPhysicsBody(circleOfRadius: radius)
-        ball.physicsBody?.categoryBitMask = PhysicsCategory.ball.rawValue
-        ball.physicsBody?.contactTestBitMask = PhysicsCategory.arc.rawValue
-        ball.physicsBody?.collisionBitMask = 0
-        ball.physicsBody?.dynamic = true
-        
-        parentNode.addChild(ball)
-        return self
+        self.nodeColor = color
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func shootTo(location: CGPoint, speed: NSTimeInterval) {
         let move = SKAction.moveTo(location, duration: speed)
-        ball.runAction(move)
+        self.runAction(move)
     }
 }
