@@ -11,50 +11,35 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
-    var screenNode : SKSpriteNode!
+    // Node and all it's descendants
+    private var rootNode = SKNode()
     
-    var playButton : Button!
-    var statsButton : Button!
-    var settingsButton : Button!
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override init(size: CGSize) {
-        super.init(size: size)
-    }
+    private var playButton : Button!
+    private var statsButton : Button!
+    private var settingsButton : Button!
     
     override func didMoveToView(view: SKView) {
-        
-        screenNode = SKSpriteNode(color: UIColor.clearColor(), size: self.size)
-        addChild(screenNode)
-        
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = Colors.Background
         
-        initMenu()
-    }
-    
-    deinit {
-        println("deinit menuscene")
-    }
-    
-    private func initMenu() {
+        // Init Top Level Nodes
+        self.addChild(rootNode)
+        
+        // Init Menu
         playButton = Button(name: "playbutton", position: CGPoint(x: 0, y: 90), color: Colors.Blue, content: SKSpriteNode(imageNamed: "play"), radius: 30)
-        screenNode.addChild(playButton.fadeIn())
+        rootNode.addChild(playButton.fadeIn())
         
         statsButton = Button(name: "statsbutton", position: CGPoint(x: 0, y: 0), color: Colors.Orange, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
-        screenNode.addChild(statsButton.fadeIn())
+        rootNode.addChild(statsButton.fadeIn())
         
         settingsButton = Button(name: "settingsbutton", position: CGPoint(x: 0, y: -90), color: Colors.Red, content: SKSpriteNode(imageNamed: "settings"), radius: 30)
-        screenNode.addChild(settingsButton.fadeIn())
+        rootNode.addChild(settingsButton.fadeIn())
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
-            let location = touch.locationInNode(screenNode)
+            let location = touch.locationInNode(rootNode)
             var nodeAtLocation = self.nodeAtPoint(location)
             
             if (nodeAtLocation.name == "playbutton") {
