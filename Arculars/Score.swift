@@ -16,18 +16,28 @@ class Score {
     init(){}
     
     func addTo(parentNode: SKSpriteNode) -> Score {
-        score = SKLabelNode(text: "Score \(currentScore)")
+        score = SKLabelNode()
         score.fontName = "Helvetica Neue UltraLight"
         score.fontColor = Colors.FontColor
         score.fontSize = 30
         score.position = CGPoint(x: 0, y: -(parentNode.size.height / 2) + 32)
+        updateText()
         parentNode.addChild(score)
         return self
     }
     
+    private func updateText() {
+        score.text = "Score \(currentScore)"
+    }
+    
     func increase() {
         currentScore += 1
-        score.text = "Score \(currentScore)"
+        updateText()
+    }
+    
+    func increaseBy(newScore: UInt32) {
+        currentScore += newScore
+        updateText()
     }
     
     func getScore() -> UInt32 {
