@@ -40,16 +40,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.dynamic = true
         
-        // Init Top Layer Node
+        initializeStartGameLayer()
+        initializeGameOverLayer()
+    }
+    
+    private func initializeStartGameLayer() {
         self.addChild(rootNode)
-        self.addChild(gameoverNode)
         
-        // Init Score
         var scorePosition = CGPoint(x: 0, y: -(self.size.height / 2) + 32)
         score = Score(position: scorePosition)
         rootNode.addChild(score)
         
-        // Init Circles
         var circlePosition = CGPoint(x: 0, y: self.size.height / 4)
         outerCircle = Circle(circleColor: Colors.LightBlue, arcColor: Colors.Blue, position: circlePosition, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2, pointsPerHit: 1)
         rootNode.addChild(outerCircle.fadeIn())
@@ -58,10 +59,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         innerCircle = Circle(circleColor: Colors.LightRed, arcColor: Colors.Red, position: circlePosition, radius: 20.0, thickness: 18.0, clockwise: true, secondsPerRound: 2.4, pointsPerHit: 3)
         rootNode.addChild(innerCircle.fadeIn())
         
-        // Init Ball
         addBall()
+    }
+    
+    private func initializeGameOverLayer() {
+        self.addChild(gameoverNode)
         
-        // Init Gameover Overlay
         gameoverNode.zPosition = 1
         gameoverNode.hidden = true
         
@@ -109,49 +112,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    override func update(currentTime: NSTimeInterval) {
+        
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        
+    }
+    
     func didEndContact(contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch (contactMask) {
-        case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
-            var ball : Ball!
-            var circle : Circle!
+            case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
+                var ball : Ball
+                var circle : Circle
             
-            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                ball = contact.bodyA.node? as? Ball
-                circle = contact.bodyB.node?.parent as? Circle // parent because the arc's parent
-            } else {
-                ball = contact.bodyB.node? as? Ball
-                circle = contact.bodyA.node?.parent as? Circle // parent because the arc's parent
-            }
-            if ball != nil && circle != nil {
-                
-                ball.removeFromParent()
-                if (ball.nodeColor == circle.nodeColor) {
-                    self.score.increaseByWithColor(UInt32(circle.pointsPerHit), color: ball.nodeColor)
+                if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                    ball = contact.bodyA.node as Ball
+                    circle = contact.bodyB.node?.parent as Circle // parent because the arc's parent
                 } else {
-                    gameOver()
+                    ball = contact.bodyB.node as Ball
+                    circle = contact.bodyA.node?.parent as Circle // parent because the arc's parent
                 }
-            }
-            break
-        case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
-            var ball : Ball!
-            
-            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                ball = contact.bodyA.node as Ball
-            } else{
-                ball = contact.bodyB.node as Ball
-            }
-            
-            if ball != nil {
-                ball.removeFromParent()
-            }
-            break
-        default:
-            return
+                ballDidCollideWithCircle(ball, circle: circle)
+                
+                break
+            case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
+                var ball : Ball
+                
+                if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                    ball = contact.bodyA.node as Ball
+                } else{
+                    ball = contact.bodyB.node as Ball
+                }
+                
+                ballDidCollideWithBorder(ball)
+                break
+            default:
+                return
         }
     }
     
-    func gameOver() {
+    private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
+        ball.hidden = true
+        ball.runAction(SKAction.removeFromParent())
+        
+        if (ball.nodeColor == circle.nodeColor) {
+            self.score.increaseByWithColor(UInt32(circle.pointsPerHit), color: ball.nodeColor)
+        } else {
+            gameOver()
+        }
+    }
+    
+    private func ballDidCollideWithBorder(ball: Ball) {
+        ball.runAction(SKAction.removeFromParent())
+    }
+    
+    private func gameOver() {
         isGameOver = true
         rootNode.alpha = 0.1
         gameoverNode.hidden = false
@@ -160,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         replayButton.fadeIn()
     }
     
-    func reset() {
+    private func reset() {
         isGameOver = false
         rootNode.alpha = 1.0
         
