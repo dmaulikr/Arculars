@@ -11,7 +11,8 @@ import SpriteKit
 
 class Circle : SKShapeNode {
     
-    var arc : SKShapeNode!
+    private var action : SKAction!
+    private var arc : SKShapeNode!
     let nodeColor : UIColor!
     
     var pointsPerHit = 0
@@ -73,8 +74,8 @@ class Circle : SKShapeNode {
         else {
             rotationangle = -CGFloat(2 * M_PI)
         }
-        var rotating = SKAction.repeatActionForever(SKAction.rotateByAngle(rotationangle, duration: secondsPerRound))
-        arc.runAction(rotating, withKey: "arcRotationAnimation")
+        action = SKAction.repeatActionForever(SKAction.rotateByAngle(rotationangle, duration: secondsPerRound))
+        arc.runAction(action)
         
         self.nodeColor = arcColor
         self.pointsPerHit = pointsPerHit
@@ -87,6 +88,8 @@ class Circle : SKShapeNode {
     }
     
     func fadeIn() -> Circle {
+        arc.removeAllActions()
+        
         self.xScale = 0.0
         self.yScale = 0.0
         
@@ -96,14 +99,15 @@ class Circle : SKShapeNode {
                 SKAction.scaleTo(0.95, duration: 0.1),
                 SKAction.scaleTo(1.0, duration: 0.1)
                 ])
-        )
+            , completion: {()
+                self.arc.runAction(self.action)
+        })
         
         return self
     }
     
     func modifySpeedBy(factor: CGFloat) {
-        var action = arc.actionForKey("arcRotationAnimation")?
-        action?.speed *= factor
+        action!.speed *= factor
     }
     
 }

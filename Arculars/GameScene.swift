@@ -8,8 +8,11 @@
 
 import UIKit
 import SpriteKit
+import GameKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    var sceneDelegate : SceneDelegate?
     
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
@@ -22,10 +25,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Node and all it's descendants when game over
     private var gameoverNode = SKNode()
     private var isGameOver = false
+    private var menuButton : Button!
     private var replayButton : Button!
+    private var statsButton : Button!
     private var gameoverScoreLabel : SKLabelNode!
     
-    override func didMoveToView(view: SKView) {
+    override init(size: CGSize) {
+        super.init(size: size)
+        
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = Colors.Background
@@ -43,6 +50,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         initializeStartGameLayer()
         initializeGameOverLayer()
     }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func didMoveToView(view: SKView) {
+        outerCircle.fadeIn()
+        middleCircle.fadeIn()
+        innerCircle.fadeIn()
+        
+        reset()
+    }
     
     private func initializeStartGameLayer() {
         self.addChild(rootNode)
@@ -53,13 +72,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var circlePosition = CGPoint(x: 0, y: self.size.height / 4)
         outerCircle = Circle(circleColor: Colors.LightBlue, arcColor: Colors.Blue, position: circlePosition, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2, pointsPerHit: 1)
-        rootNode.addChild(outerCircle.fadeIn())
+        rootNode.addChild(outerCircle)
         middleCircle = Circle(circleColor: Colors.LightOrange, arcColor: Colors.Orange, position: circlePosition, radius: 50, thickness: 25.0, clockwise: false, secondsPerRound: 1.8, pointsPerHit: 2)
-        rootNode.addChild(middleCircle.fadeIn())
+        rootNode.addChild(middleCircle)
         innerCircle = Circle(circleColor: Colors.LightRed, arcColor: Colors.Red, position: circlePosition, radius: 20.0, thickness: 18.0, clockwise: true, secondsPerRound: 2.4, pointsPerHit: 3)
-        rootNode.addChild(innerCircle.fadeIn())
-        
-        addBall()
+        rootNode.addChild(innerCircle)
     }
     
     private func initializeGameOverLayer() {
@@ -80,18 +97,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Colors.Red, content: content, radius: 100)
         gameoverNode.addChild(scoreContent.fadeIn())
         
+        menuButton = Button(position: CGPoint(x: -90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "home"), radius: 30)
+        gameoverNode.addChild(menuButton)
+        
         replayButton = Button(position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "replay"), radius: 30)
-        gameoverNode.addChild(replayButton.fadeIn())
+        gameoverNode.addChild(replayButton)
+        
+        statsButton = Button(position: CGPoint(x: 90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
+        gameoverNode.addChild(statsButton)
     }
     
     private func addBall() {
         var ballPosition = CGPoint(x: 0, y: -(size.height / 4))
         nextBall = Ball(color: Colors.randomBallColor(), position: ballPosition).fadeIn()
         rootNode.addChild(nextBall)
-    }
-    
-    private func removeBall(ball: Ball) {
-        
     }
     
     private func shootBall() {
@@ -103,8 +122,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let touch = touches.anyObject() as UITouch
             let location = touch.locationInNode(gameoverNode)
             
-            if (replayButton.containsPoint(location)) {
+            if (menuButton.containsPoint(location)) {
+                sceneDelegate?.showMenuScene()
+            } else if (replayButton.containsPoint(location)) {
                 reset()
+            } else if (statsButton.containsPoint(location)) {
+                sceneDelegate?.showGameCenter()
             }
         } else {
             println("*** SHOOT ***")
@@ -167,7 +190,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (ball.nodeColor == circle.nodeColor) {
             println("=== score \(circle.pointsPerHit)")
-            self.score.increaseByWithColor(UInt32(circle.pointsPerHit), color: ball.nodeColor)
+            self.score.increaseByWithColor(Int64(circle.pointsPerHit), color: ball.nodeColor)
         } else {
             println("=== game is over")
             gameOver()
@@ -185,7 +208,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameoverNode.hidden = false
         
         gameoverScoreLabel.text = "Score \(self.score.getScore())"
+        addLeaderboardScore(self.score.getScore())
+        
+        menuButton.fadeIn()
         replayButton.fadeIn()
+        statsButton.fadeIn()
     }
     
     private func reset() {
@@ -194,5 +221,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         gameoverNode.hidden = true
         score.reset()
+        
+        nextBall?.removeFromParent()
+        addBall()
+    }
+    
+    func addLeaderboardScore(score: Int64) {
+        var newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
+        newGCScore.value = score
+        GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
+            if error != nil {
+                println("Score not submitted")
+                // Continue
+                // self.gameOver = false
+            } else {
+                // Notify the delegate to show the game center leaderboard
+                // self.sceneDelegate!.showGameCenter()
+            }
+        })
+        
     }
 }

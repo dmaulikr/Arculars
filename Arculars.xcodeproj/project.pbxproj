@@ -10,6 +10,8 @@
 		301C00871AB4576D00A635FC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301C00861AB4576D00A635FC /* Score.swift */; };
 		302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302197721AB306B400769D2F /* PhysicsCategory.swift */; };
 		303648251AB61A7B002E57DD /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303648241AB61A7B002E57DD /* Button.swift */; };
+		3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3038F8071ABA0BA100741BEE /* GameKit.framework */; };
+		3038F80E1ABA1F0600741BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */; };
 		303FCDED1AAE349900A59347 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303FCDEC1AAE349900A59347 /* Circle.swift */; };
 		30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */; };
 		30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30500B2E1AAE3010009F4C26 /* AppDelegate.swift */; };
@@ -38,6 +40,8 @@
 		301C00861AB4576D00A635FC /* Score.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		302197721AB306B400769D2F /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		303648241AB61A7B002E57DD /* Button.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		3038F8071ABA0BA100741BEE /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		303FCDEC1AAE349900A59347 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		30500B291AAE3010009F4C26 /* Arculars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arculars.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 		30500B201AAE3010009F4C26 = {
 			isa = PBXGroup;
 			children = (
+				3038F8071ABA0BA100741BEE /* GameKit.framework */,
 				30500B2B1AAE3010009F4C26 /* Arculars */,
 				30500B451AAE3010009F4C26 /* ArcularsTests */,
 				30500B2A1AAE3010009F4C26 /* Products */,
@@ -143,6 +149,7 @@
 			children = (
 				30500B321AAE3010009F4C26 /* GameScene.swift */,
 				309ED2E61AB4939D007D7EC4 /* MenuScene.swift */,
+				3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -197,6 +204,11 @@
 					30500B281AAE3010009F4C26 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = LX2LWMTL8R;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 					30500B411AAE3010009F4C26 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -255,6 +267,7 @@
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
 				30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */,
+				3038F80E1ABA1F0600741BEE /* SceneDelegate.swift in Sources */,
 				309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */,
 				301C00871AB4576D00A635FC /* Score.swift in Sources */,
 				302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */,

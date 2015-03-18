@@ -11,6 +11,8 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
+    var sceneDelegate : SceneDelegate?
+    
     // Node and all it's descendants
     private var rootNode = SKNode()
     
@@ -18,7 +20,9 @@ class MenuScene: SKScene {
     private var statsButton : Button!
     private var settingsButton : Button!
     
-    override func didMoveToView(view: SKView) {
+    override init(size: CGSize) {
+        super.init(size: size)
+        
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = Colors.Background
@@ -28,13 +32,23 @@ class MenuScene: SKScene {
         
         // Init Menu
         playButton = Button(position: CGPoint(x: 0, y: 90), color: Colors.Blue, content: SKSpriteNode(imageNamed: "play"), radius: 30)
-        rootNode.addChild(playButton.fadeIn())
+        rootNode.addChild(playButton)
         
         statsButton = Button(position: CGPoint(x: 0, y: 0), color: Colors.Orange, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
-        rootNode.addChild(statsButton.fadeIn())
+        rootNode.addChild(statsButton)
         
         settingsButton = Button(position: CGPoint(x: 0, y: -90), color: Colors.Red, content: SKSpriteNode(imageNamed: "settings"), radius: 30)
-        rootNode.addChild(settingsButton.fadeIn())
+        rootNode.addChild(settingsButton)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func didMoveToView(view: SKView) {
+        playButton.fadeIn()
+        statsButton.fadeIn()
+        settingsButton.fadeIn()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -54,8 +68,10 @@ class MenuScene: SKScene {
                     block,
                     SKAction.waitForDuration(0.75)
                 ]), completion: { ()
-                    self.view?.presentScene(GameScene(size: self.size))
+                    self.sceneDelegate?.showGameScene()
                 })
+            } else if (statsButton.containsPoint(location)) {
+                sceneDelegate?.showGameCenter()
             }
         }
     }

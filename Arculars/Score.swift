@@ -10,7 +10,7 @@ import SpriteKit
 
 class Score : SKLabelNode {
     
-    private var currentScore : UInt32 = 0
+    private var currentScore : Int64 = 0
     
     init(position: CGPoint) {
         super.init()
@@ -34,13 +34,13 @@ class Score : SKLabelNode {
         self.increaseBy(1)
     }
     
-    func increaseBy(newScore: UInt32) {
+    func increaseBy(newScore: Int64) {
         self.currentScore += newScore
         self.updateText()
         
     }
     
-    func increaseByWithColor(newScore: UInt32, color: UIColor) {
+    func increaseByWithColor(newScore: Int64, color: UIColor) {
         var label = SKLabelNode(text: "+\(newScore)")
         
         // Calculate position
@@ -62,7 +62,7 @@ class Score : SKLabelNode {
         })
     }
     
-    func getScore() -> UInt32 {
+    func getScore() -> Int64 {
         return currentScore
     }
     
