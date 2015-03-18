@@ -12,7 +12,7 @@ import SpriteKit
 class Ball : SKShapeNode {
     
     let ballRadius = CGFloat(9.0)
-    let ballSpeed = NSTimeInterval(1.8)
+    let ballSpeed = NSTimeInterval(1.5)
     
     let nodeColor : UIColor!
     
@@ -35,6 +35,7 @@ class Ball : SKShapeNode {
         self.physicsBody?.categoryBitMask = PhysicsCategory.ball.rawValue
         self.physicsBody?.contactTestBitMask = PhysicsCategory.arc.rawValue
         self.physicsBody?.collisionBitMask = 0
+        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.dynamic = true
         
         var ballOffset = SKShapeNode(circleOfRadius: ballRadius)
