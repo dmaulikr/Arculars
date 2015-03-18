@@ -28,3 +28,5 @@ for var index = 0; index < physicsparts + 1; index++ {
     arc2.addArcWithCenter(currentpoint, radius: 10, startAngle: CGFloat(2 * M_PI), endAngle: 0, clockwise: true)
     currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
 }
+
+var arc3 = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: 100.0, startAngle: CGFloat(M_PI), endAngle: CGFloat(M_PI / 2), clockwise: true)

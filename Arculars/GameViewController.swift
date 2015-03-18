@@ -17,12 +17,13 @@ class GameViewController: UIViewController {
         // Configure the view.
         let skView = view as SKView
         skView.multipleTouchEnabled = false
-        skView.ignoresSiblingOrder = true
         
         #if DEBUG
+            
             skView.showsDrawCount = true
             skView.showsFPS = true
-            // skView.showsPhysics = true
+            skView.showsPhysics = true
+
         #endif
         
         // Create and configure the scene.

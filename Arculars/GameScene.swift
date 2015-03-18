@@ -107,6 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 reset()
             }
         } else {
+            println("*** SHOOT ***")
             shootBall()
             addBall()
         }
@@ -117,12 +118,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        
+        println("did begin contact")
     }
     
     func didEndContact(contact: SKPhysicsContact) {
+        println("did end contact")
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        println("contact")
+        println("contact mask \(contactMask)")
         switch (contactMask) {
             case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
                 var ball : Ball
@@ -155,22 +157,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
+        println("ball did collide with circle")
         // because of the complex shape of the arc's physicsbody
         // there are multiple contacts when a ball collides with an arc
         // so this is a fix to avoid multiple points being counted to the score
-        ball.physicsBody?.categoryBitMask = PhysicsCategory.none.rawValue
+        ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
         ball.hidden = true
         ball.runAction(SKAction.removeFromParent())
         
         if (ball.nodeColor == circle.nodeColor) {
-            println("score \(circle.pointsPerHit)")
+            println("=== score \(circle.pointsPerHit)")
             self.score.increaseByWithColor(UInt32(circle.pointsPerHit), color: ball.nodeColor)
         } else {
+            println("=== game is over")
             gameOver()
         }
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
+        println("ball did collide with border")
         ball.runAction(SKAction.removeFromParent())
     }
     

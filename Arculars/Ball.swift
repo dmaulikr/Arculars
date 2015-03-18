@@ -12,7 +12,7 @@ import SpriteKit
 class Ball : SKShapeNode {
     
     let ballRadius = CGFloat(9.0)
-    let ballSpeed = NSTimeInterval(1.5)
+    let ballSpeed = NSTimeInterval(2.4)
     
     let nodeColor : UIColor!
     

@@ -44,22 +44,26 @@ class Circle : SKShapeNode {
         arc.lineWidth = thickness + 0.5 // one pixel more because of the linewidth of the circle itself
         
         // Setup PhysicsBody of Arc
-        var currentpoint = CGPointMake(radius, 0)
-        var physicsparts = 10;
+        var physicsparts = 9;
         var bodypath : CGMutablePath = CGPathCreateMutable();
         var offsetangle = CGFloat(self.sizeOfArc / CGFloat(physicsparts))
+        var currentpoint = CGPointApplyAffineTransform(CGPoint(x: radius, y: 0), CGAffineTransformMakeRotation(-offsetangle))
         
-        for var index = 0; index < physicsparts + 1; index++ {
+        var middlePoint = CGPointApplyAffineTransform(CGPoint(x: radius, y: 0), CGAffineTransformMakeRotation(self.sizeOfArc / 2))
+        CGPathMoveToPoint(bodypath, nil, middlePoint.x, middlePoint.y)
+        for var index = 0; index < physicsparts + 3; index++ {
             CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(thickness / 2), CGFloat(2 * M_PI), 0, true)
             currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
         }
+        CGPathMoveToPoint(bodypath, nil, middlePoint.x, middlePoint.y)
+        CGPathCloseSubpath(bodypath)
         
         arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
         arc.physicsBody!.categoryBitMask = PhysicsCategory.arc.rawValue
         arc.physicsBody!.contactTestBitMask = PhysicsCategory.ball.rawValue
         arc.physicsBody!.collisionBitMask = 0
         arc.physicsBody!.usesPreciseCollisionDetection = true
-        arc.physicsBody!.dynamic = true
+        arc.physicsBody!.dynamic = false
         
         // Setup animation
         var rotationangle : CGFloat
