@@ -33,7 +33,7 @@ class Ball : SKShapeNode {
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
         self.physicsBody!.categoryBitMask = PhysicsCategory.ball.rawValue
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.arc.rawValue | PhysicsCategory.border.rawValue
+        self.physicsBody!.contactTestBitMask = PhysicsCategory.arc.rawValue
         self.physicsBody!.collisionBitMask = 0
         self.physicsBody!.usesPreciseCollisionDetection = true
         self.physicsBody!.dynamic = true
