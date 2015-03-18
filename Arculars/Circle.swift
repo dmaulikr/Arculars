@@ -55,11 +55,11 @@ class Circle : SKShapeNode {
         }
         
         arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
-        arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
-        arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
-        arc.physicsBody?.collisionBitMask = 0
-        arc.physicsBody?.usesPreciseCollisionDetection = true
-        arc.physicsBody?.dynamic = true
+        arc.physicsBody!.categoryBitMask = PhysicsCategory.arc.rawValue
+        arc.physicsBody!.contactTestBitMask = PhysicsCategory.ball.rawValue
+        arc.physicsBody!.collisionBitMask = 0
+        arc.physicsBody!.usesPreciseCollisionDetection = true
+        arc.physicsBody!.dynamic = true
         
         // Setup animation
         var rotationangle : CGFloat
