@@ -20,8 +20,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var score : Score!
     
     // Node and all it's descendants when game over
-    private var gameoverNode : SKNode!
+    private var gameoverNode = SKNode()
     private var isGameOver = false
+    private var replayButton : Button!
+    private var gameoverScoreLabel : SKLabelNode!
     
     override func didMoveToView(view: SKView) {
         // Setup Scene
@@ -40,6 +42,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Init Top Layer Node
         self.addChild(rootNode)
+        self.addChild(gameoverNode)
         
         // Init Score
         var scorePosition = CGPoint(x: 0, y: -(self.size.height / 2) + 32)
@@ -57,6 +60,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Init Ball
         addBall()
+        
+        // Init Gameover Overlay
+        gameoverNode.zPosition = 1
+        gameoverNode.hidden = true
+        
+        var content = SKNode()
+        var image = SKSpriteNode(imageNamed: "highscore")
+        image.position = CGPoint(x: 0, y: 30)
+        content.addChild(image)
+        
+        gameoverScoreLabel = SKLabelNode()
+        gameoverScoreLabel.position = CGPoint(x: 0, y: -30)
+        content.addChild(gameoverScoreLabel)
+        
+        var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Colors.Red, content: content, radius: 100)
+        gameoverNode.addChild(scoreContent.fadeIn())
+        
+        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "replay"), radius: 30)
+        gameoverNode.addChild(replayButton.fadeIn())
     }
     
     private func addBall() {
@@ -77,9 +99,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if isGameOver {
             let touch = touches.anyObject() as UITouch
             let location = touch.locationInNode(gameoverNode)
-            var nodeAtLocation = self.nodeAtPoint(location)
             
-            if (nodeAtLocation.name == "replaybutton") {
+            if (replayButton.containsPoint(location)) {
                 reset()
             }
         } else {
@@ -88,13 +109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func didBeginContact(contact: SKPhysicsContact) {
-        
-    }
-    
     func didEndContact(contact: SKPhysicsContact) {
-        if isGameOver { return }
-        
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch (contactMask) {
         case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
@@ -109,12 +124,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 circle = contact.bodyA.node?.parent as? Circle // parent because the arc's parent
             }
             if ball != nil && circle != nil {
+                
+                ball.removeFromParent()
                 if (ball.nodeColor == circle.nodeColor) {
                     self.score.increaseByWithColor(UInt32(circle.pointsPerHit), color: ball.nodeColor)
                 } else {
                     gameOver()
                 }
-                ball.removeFromParent()
             }
             break
         case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
@@ -138,33 +154,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         isGameOver = true
         rootNode.alpha = 0.1
+        gameoverNode.hidden = false
         
-        gameoverNode = SKNode()
-        gameoverNode.zPosition = 2
-        self.addChild(gameoverNode)
-        
-        var content = SKNode()
-        var image = SKSpriteNode(imageNamed: "highscore")
-        image.position = CGPoint(x: 0, y: 30)
-        content.addChild(image)
-        
-        var label = SKLabelNode()
-        label.position = CGPoint(x: 0, y: -30)
-        label.text = "Score \(self.score.getScore())"
-        content.addChild(label)
-        
-        var scoreContent = Button(name: "scoreContent", position: CGPoint(x: 0, y: 80), color: Colors.Red, content: content, radius: 100)
-        gameoverNode.addChild(scoreContent.fadeIn())
-        
-        var replayButton = Button(name: "replaybutton", position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "replay"), radius: 30)
-        gameoverNode.addChild(replayButton.fadeIn())
+        gameoverScoreLabel.text = "Score \(self.score.getScore())"
+        replayButton.fadeIn()
     }
     
     func reset() {
         isGameOver = false
         rootNode.alpha = 1.0
         
-        gameoverNode?.removeFromParent()
+        gameoverNode.hidden = true
         score.reset()
     }
 }

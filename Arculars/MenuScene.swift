@@ -27,22 +27,21 @@ class MenuScene: SKScene {
         self.addChild(rootNode)
         
         // Init Menu
-        playButton = Button(name: "playbutton", position: CGPoint(x: 0, y: 90), color: Colors.Blue, content: SKSpriteNode(imageNamed: "play"), radius: 30)
+        playButton = Button(position: CGPoint(x: 0, y: 90), color: Colors.Blue, content: SKSpriteNode(imageNamed: "play"), radius: 30)
         rootNode.addChild(playButton.fadeIn())
         
-        statsButton = Button(name: "statsbutton", position: CGPoint(x: 0, y: 0), color: Colors.Orange, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
+        statsButton = Button(position: CGPoint(x: 0, y: 0), color: Colors.Orange, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
         rootNode.addChild(statsButton.fadeIn())
         
-        settingsButton = Button(name: "settingsbutton", position: CGPoint(x: 0, y: -90), color: Colors.Red, content: SKSpriteNode(imageNamed: "settings"), radius: 30)
+        settingsButton = Button(position: CGPoint(x: 0, y: -90), color: Colors.Red, content: SKSpriteNode(imageNamed: "settings"), radius: 30)
         rootNode.addChild(settingsButton.fadeIn())
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
-            var nodeAtLocation = self.nodeAtPoint(location)
             
-            if (nodeAtLocation.name == "playbutton") {
+            if (playButton.containsPoint(location)) {
                 
                 var scaleDown = SKAction.scaleTo(0.0, duration: 0.25)
                 var block = SKAction.runBlock({
