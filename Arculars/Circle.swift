@@ -58,6 +58,7 @@ class Circle : SKShapeNode {
         arc.physicsBody?.categoryBitMask = PhysicsCategory.arc.rawValue
         arc.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
         arc.physicsBody?.collisionBitMask = 0
+        arc.physicsBody?.usesPreciseCollisionDetection = true
         arc.physicsBody?.dynamic = true
         
         // Setup animation
