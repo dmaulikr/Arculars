@@ -11,7 +11,7 @@ import SpriteKit
 
 class Button : SKShapeNode {
     
-    init(name: String, position: CGPoint, color: UIColor, content: SKNode, radius: CGFloat) {
+    init(position: CGPoint, color: UIColor, content: SKNode, radius: CGFloat) {
         super.init()
         
         var circlepath = CGPathCreateMutable()
@@ -33,12 +33,6 @@ class Button : SKShapeNode {
         
         content.zPosition = 1
         self.addChild(content)
-        
-        var touchNode = SKShapeNode(circleOfRadius: radius)
-        touchNode.zPosition = 10
-        touchNode.lineWidth = 0
-        touchNode.name = name
-        self.addChild(touchNode)
     }
 
     required init?(coder aDecoder: NSCoder) {
