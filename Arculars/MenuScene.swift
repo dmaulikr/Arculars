@@ -57,19 +57,12 @@ class MenuScene: SKScene {
             
             if (playButton.containsPoint(location)) {
                 
-                var scaleDown = SKAction.scaleTo(0.0, duration: 0.25)
-                var block = SKAction.runBlock({
-                    self.playButton.runAction(scaleDown)
-                    self.statsButton.runAction(scaleDown)
-                    self.settingsButton.runAction(scaleDown)
+                self.playButton.runAction(
+                    SKAction.scaleTo(0.0, duration: 0.2)
+                    , completion: {()
+                        self.sceneDelegate?.showGameScene()
                 })
                 
-                self.runAction(SKAction.sequence([
-                    block,
-                    SKAction.waitForDuration(0.75)
-                ]), completion: { ()
-                    self.sceneDelegate?.showGameScene()
-                })
             } else if (statsButton.containsPoint(location)) {
                 sceneDelegate?.showGameCenter()
             }

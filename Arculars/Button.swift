@@ -53,9 +53,4 @@ class Button : SKShapeNode {
         
         return self
     }
-    
-    func fadeOut() -> Button {
-        self.runAction(SKAction.scaleTo(0.0, duration: 0.3))
-        return self
-    }
 }

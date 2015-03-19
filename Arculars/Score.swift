@@ -15,6 +15,7 @@ class Score : SKLabelNode {
     init(position: CGPoint) {
         super.init()
         
+        self.zPosition = 2
         self.fontName = "Helvetica Neue UltraLight"
         self.fontColor = Colors.FontColor
         self.fontSize = 30
@@ -50,6 +51,7 @@ class Score : SKLabelNode {
         label.fontColor = color
         label.xScale = 0.0
         label.yScale = 0.0
+        label.zPosition = 1
         self.addChild(label)
         
         var fadeIn = SKAction.scaleTo(1.0, duration: 0.1)

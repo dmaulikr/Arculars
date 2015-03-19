@@ -11,34 +11,34 @@ import SpriteKit
 
 class Ball : SKShapeNode {
     
-    let ballRadius = CGFloat(9.0)
-    let ballSpeed = NSTimeInterval(2.4)
-    
+    private let ballSpeed : NSTimeInterval!
     let nodeColor : UIColor!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(color: SKColor, position: CGPoint) {
+    init(color: SKColor, position: CGPoint, radius: CGFloat, speed: NSTimeInterval) {
         super.init()
         
+        ballSpeed = speed
+        
         var circlepath = CGPathCreateMutable()
-        CGPathAddArc(circlepath, nil, 0, 0, ballRadius, CGFloat(M_PI * 2), 0, true)
+        CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)
         self.path = circlepath
         self.fillColor = color
         self.strokeColor = color
         self.lineWidth = 1
         self.position = position
         
-        self.physicsBody = SKPhysicsBody(circleOfRadius: ballRadius)
+        self.physicsBody = SKPhysicsBody(circleOfRadius: radius)
         self.physicsBody!.categoryBitMask = PhysicsCategory.ball.rawValue
         self.physicsBody!.contactTestBitMask = PhysicsCategory.arc.rawValue
         self.physicsBody!.collisionBitMask = 0
         self.physicsBody!.usesPreciseCollisionDetection = true
         self.physicsBody!.dynamic = true
         
-        var ballOffset = SKShapeNode(circleOfRadius: ballRadius)
+        var ballOffset = SKShapeNode(circleOfRadius: radius)
         ballOffset.fillColor = color.darkerColor(0.1)
         ballOffset.strokeColor = color.darkerColor(0.1)
         ballOffset.lineWidth = 1
@@ -60,7 +60,7 @@ class Ball : SKShapeNode {
         
         self.runAction(
             SKAction.sequence([
-                SKAction.scaleTo(1.05, duration: 0.15),
+                SKAction.scaleTo(1.05, duration: 0.1),
                 SKAction.scaleTo(0.95, duration: 0.1),
                 SKAction.scaleTo(1.0, duration: 0.1)
                 ]), completion: {()
@@ -76,7 +76,8 @@ class Ball : SKShapeNode {
     }
     
     func shoot() {
+        var range = 5000.0
         // shoot the ball wide enough to get it off scree
-        self.runAction(SKAction.moveTo(CGPoint(x: 0, y: 1000), duration: ballSpeed))
+        self.runAction(SKAction.moveTo(CGPoint(x: 0, y: range), duration: ballSpeed))
     }
 }
