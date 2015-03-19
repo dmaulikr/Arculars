@@ -24,6 +24,7 @@
 		30525A031AB3800F001D6C91 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30525A021AB3800F001D6C91 /* Ball.swift */; };
 		3098F5251AAF8AB800829428 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098F5241AAF8AB800829428 /* Colors.swift */; };
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
+		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		30525A021AB3800F001D6C91 /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		3098F5241AAF8AB800829428 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 				302197721AB306B400769D2F /* PhysicsCategory.swift */,
 				301C00861AB4576D00A635FC /* Score.swift */,
 				30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */,
+				30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */,
 				30500B361AAE3010009F4C26 /* Main.storyboard */,
 				30500B3B1AAE3010009F4C26 /* LaunchScreen.xib */,
 				30500B391AAE3010009F4C26 /* Images.xcassets */,
@@ -261,6 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30525A031AB3800F001D6C91 /* Ball.swift in Sources */,
+				30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */,
 				30500B331AAE3010009F4C26 /* GameScene.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,

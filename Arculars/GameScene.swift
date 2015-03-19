@@ -12,6 +12,10 @@ import GameKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    private let circlePosition : CGPoint!
+    private let ballPosition : CGPoint!
+    private let scorePosition : CGPoint!
+    
     var sceneDelegate : SceneDelegate?
     
     // Node and all it's descendants while playing
@@ -36,6 +40,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override init(size: CGSize) {
         super.init(size: size)
+        
+        // Init positions
+        var offset : CGFloat = 64.0
+        scorePosition = CGPoint(x: 0, y: (self.size.height / 2) - offset)
+        circlePosition = CGPoint(x: 0, y: self.size.height / 4 - offset)
+        ballPosition = CGPoint(x: 0, y: -(size.height / 2) + offset)
         
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -70,11 +80,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func initializeStartGameLayer() {
         self.addChild(rootNode)
         
-        var scorePosition = CGPoint(x: 0, y: -(self.size.height / 2) + 32)
         score = Score(position: scorePosition)
         rootNode.addChild(score)
         
-        var circlePosition = CGPoint(x: 0, y: self.size.height / 4)
         outerCircle = Circle(circleColor: Colors.LightBlue, arcColor: Colors.Blue, position: circlePosition, radius: 100.0, thickness: 40.0, clockwise: true, secondsPerRound: 1.2, pointsPerHit: 1)
         rootNode.addChild(outerCircle)
         middleCircle = Circle(circleColor: Colors.LightOrange, arcColor: Colors.Orange, position: circlePosition, radius: 50, thickness: 25.0, clockwise: false, secondsPerRound: 1.8, pointsPerHit: 2)
@@ -118,7 +126,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func addBall() {
-        var ballPosition = CGPoint(x: 0, y: -(size.height / 4))
         nextBall = Ball(color: Colors.randomBallColor(), position: ballPosition).fadeIn()
         rootNode.addChild(nextBall)
     }
