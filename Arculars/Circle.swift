@@ -65,7 +65,7 @@ class Circle : SKShapeNode {
         arc.physicsBody!.collisionBitMask = 0
         arc.physicsBody!.usesPreciseCollisionDetection = true
         arc.physicsBody!.dynamic = false
-        
+
         // Setup animation
         var rotationangle : CGFloat
         if clockwise {
@@ -88,7 +88,10 @@ class Circle : SKShapeNode {
     }
     
     func fadeIn() -> Circle {
-        arc.removeAllActions()
+        
+        // disable the physicsbody because otherwise this will fail
+        let temp = arc.physicsBody
+        arc.physicsBody = nil
         
         self.xScale = 0.0
         self.yScale = 0.0
@@ -98,9 +101,8 @@ class Circle : SKShapeNode {
                 SKAction.scaleTo(1.05, duration: 0.15),
                 SKAction.scaleTo(0.95, duration: 0.1),
                 SKAction.scaleTo(1.0, duration: 0.1)
-                ])
-            , completion: {()
-                self.arc.runAction(self.action)
+                ]), completion: {()
+            self.arc.physicsBody = temp
         })
         
         return self

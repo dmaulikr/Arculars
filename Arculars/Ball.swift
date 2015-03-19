@@ -50,6 +50,11 @@ class Ball : SKShapeNode {
     }
     
     func fadeIn() -> Ball {
+        
+        // disable the physicsbody because otherwise this will fail
+        let temp = self.physicsBody
+        self.physicsBody = nil
+        
         self.xScale = 0.0
         self.yScale = 0.0
         
@@ -58,8 +63,9 @@ class Ball : SKShapeNode {
                 SKAction.scaleTo(1.05, duration: 0.15),
                 SKAction.scaleTo(0.95, duration: 0.1),
                 SKAction.scaleTo(1.0, duration: 0.1)
-                ])
-        )
+                ]), completion: {()
+                    self.physicsBody = temp
+        })
         
         return self
     }
