@@ -55,10 +55,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.init(size: size)
         
         // Init positions
-        var offset : CGFloat = self.size.height / 12
+        var offset : CGFloat = self.size.height / 8
         scorePosition = CGPoint(x: 0, y: (self.size.height / 2) - offset)
         circlePosition = CGPoint(x: 0, y: self.size.height / 4 - offset)
-        ballPosition = CGPoint(x: 0, y: -(size.height / 2) + offset)
+        ballPosition = CGPoint(x: 0, y: -(size.height / 2) + (offset / 2))
         
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -97,13 +97,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         outerCircleRadius = (self.size.height / 4) - (self.size.height / 10)
         outerCircleThickness = (outerCircleRadius / 2.5)
         
-        middleCircleRadius = outerCircleRadius / 2
-        middleCircleThickness = middleCircleRadius / 2
+        middleCircleRadius = outerCircleRadius / 1.75
+        middleCircleThickness = middleCircleRadius / 2.0
         
-        innerCircleRadius = middleCircleRadius / 2.5
+        innerCircleRadius = middleCircleRadius / 2.2
         innerCircleThickness = innerCircleRadius / 1.5
         
-        ballRadius = innerCircleThickness / 2
+        ballRadius = innerCircleThickness / 2.0
         ballSpeed = 9.0
         
         score = Score(position: scorePosition)
