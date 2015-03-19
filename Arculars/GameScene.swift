@@ -55,7 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.init(size: size)
         
         // Init positions
-        var offset : CGFloat = 64.0
+        var offset : CGFloat = self.size.height / 12
         scorePosition = CGPoint(x: 0, y: (self.size.height / 2) - offset)
         circlePosition = CGPoint(x: 0, y: self.size.height / 4 - offset)
         ballPosition = CGPoint(x: 0, y: -(size.height / 2) + offset)
@@ -180,6 +180,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
+        
+        if isGameOver { return }
+        
         println("did begin contact")
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         println("contact mask \(contactMask)")
