@@ -19,6 +19,9 @@ struct Colors {
     static var LightRed : UIColor = UIColor(rgba: "#FFD9DC")
     static var Red : UIColor = UIColor(rgba: "#FF5460")
     
+    static var FacebookBlue : UIColor = UIColor(rgba: "#6274A5")
+    static var TwitterBlue : UIColor = UIColor(rgba: "#6EC7E3")
+    
     static func randomBallColor() -> UIColor {
         let colors = [
             Blue,

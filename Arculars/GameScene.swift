@@ -25,9 +25,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Node and all it's descendants when game over
     private var gameoverNode = SKNode()
     private var isGameOver = false
+    
     private var menuButton : Button!
     private var replayButton : Button!
     private var statsButton : Button!
+    private var facebookButton : Button!
+    private var twitterButton : Button!
+    
     private var gameoverScoreLabel : SKLabelNode!
     
     override init(size: CGSize) {
@@ -100,11 +104,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         menuButton = Button(position: CGPoint(x: -90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "home"), radius: 30)
         gameoverNode.addChild(menuButton)
         
-        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "replay"), radius: 30)
+        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "play"), radius: 30)
         gameoverNode.addChild(replayButton)
         
         statsButton = Button(position: CGPoint(x: 90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
         gameoverNode.addChild(statsButton)
+        
+        facebookButton = Button(position: CGPoint(x: 40, y: -150), color: Colors.FacebookBlue, content: SKSpriteNode(imageNamed: "facebook"), radius: 30)
+        gameoverNode.addChild(facebookButton)
+        
+        twitterButton = Button(position: CGPoint(x: -40, y: -150), color: Colors.TwitterBlue, content: SKSpriteNode(imageNamed: "twitter"), radius: 30)
+        gameoverNode.addChild(twitterButton)
     }
     
     private func addBall() {
@@ -189,10 +199,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.runAction(SKAction.removeFromParent())
         
         if (ball.nodeColor == circle.nodeColor) {
-            println("=== score \(circle.pointsPerHit)")
+            println("=== score +\(circle.pointsPerHit)")
             self.score.increaseByWithColor(Int64(circle.pointsPerHit), color: ball.nodeColor)
         } else {
-            println("=== game is over")
+            println("=== ball and circle color don't match -> game is over")
             gameOver()
         }
     }
@@ -213,6 +223,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         menuButton.fadeIn()
         replayButton.fadeIn()
         statsButton.fadeIn()
+        facebookButton.fadeIn()
+        twitterButton.fadeIn()
     }
     
     private func reset() {
