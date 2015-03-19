@@ -50,6 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var twitterButton : Button!
     
     private var gameoverScoreLabel : SKLabelNode!
+    private var gameoverHighscoreLabel : SKLabelNode!
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -129,8 +130,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         content.addChild(image)
         
         gameoverScoreLabel = SKLabelNode()
+        gameoverScoreLabel.fontName = "Helvetica Neue UltraLight"
+        gameoverScoreLabel.fontSize = 32
         gameoverScoreLabel.position = CGPoint(x: 0, y: -30)
         content.addChild(gameoverScoreLabel)
+        
+        gameoverHighscoreLabel = SKLabelNode()
+        gameoverHighscoreLabel.fontName = "Helvetica Neue UltraLight"
+        gameoverHighscoreLabel.fontSize = 18
+        gameoverHighscoreLabel.position = CGPoint(x: 0, y: -60)
+        content.addChild(gameoverHighscoreLabel)
         
         var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Colors.Red, content: content, radius: 100)
         gameoverNode.addChild(scoreContent.fadeIn())
@@ -232,7 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (ball.nodeColor == circle.nodeColor) {
             println("=== score +\(circle.pointsPerHit)")
-            self.score.increaseByWithColor(Int64(circle.pointsPerHit), color: ball.nodeColor)
+            self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
         } else {
             println("=== ball and circle color don't match -> game is over")
             gameOver()
@@ -245,13 +254,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func gameOver() {
+        // First, set the current gamescene state to GameOver
         isGameOver = true
         rootNode.alpha = 0.1
         gameoverNode.hidden = false
         
-        gameoverScoreLabel.text = "Score \(self.score.getScore())"
+        // Then, save to local storage and to Game Center (if logged in)
+        addLocalScore(self.score.getScore())
         addLeaderboardScore(self.score.getScore())
         
+        // Now show the score to the user
+        gameoverScoreLabel.text = "Score \(self.score.getScore())"
+        gameoverHighscoreLabel.text = "Highscore \(self.getLocalScore())"
+        
+        // Fade in all buttons
         menuButton.fadeIn()
         replayButton.fadeIn()
         statsButton.fadeIn()
@@ -270,19 +286,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addBall()
     }
     
-    func addLeaderboardScore(score: Int64) {
+    private func getLocalScore() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+    }
+    
+    private func addLocalScore(score: Int) -> Bool {
+        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+        if score > highscore {
+            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "highscore")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            return true
+        }
+        return false
+    }
+    
+    func addLeaderboardScore(score: Int) -> Bool {
+        var success = false
         var newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
-        newGCScore.value = score
+        newGCScore.value = Int64(score)
         GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
             if error != nil {
                 println("Score not submitted")
                 // Continue
                 // self.gameOver = false
+                success = false
             } else {
                 // Notify the delegate to show the game center leaderboard
                 // self.sceneDelegate!.showGameCenter()
+                success = true
             }
         })
-        
+        return success
     }
 }
