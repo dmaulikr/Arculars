@@ -45,18 +45,17 @@ class Circle : SKShapeNode {
         arc.lineWidth = thickness + 0.5 // one pixel more because of the linewidth of the circle itself
         
         // Setup PhysicsBody of Arc
-        var physicsparts = 9;
         var bodypath : CGMutablePath = CGPathCreateMutable();
-        var offsetangle = CGFloat(self.sizeOfArc / CGFloat(physicsparts))
-        var currentpoint = CGPointApplyAffineTransform(CGPoint(x: radius, y: 0), CGAffineTransformMakeRotation(-offsetangle))
+        var offsetangle = CGFloat(self.sizeOfArc / 9)
         
-        var middlePoint = CGPointApplyAffineTransform(CGPoint(x: radius, y: 0), CGAffineTransformMakeRotation(self.sizeOfArc / 2))
-        CGPathMoveToPoint(bodypath, nil, middlePoint.x, middlePoint.y)
-        for var index = 0; index < physicsparts + 3; index++ {
-            CGPathAddArc(bodypath, nil, currentpoint.x, currentpoint.y, CGFloat(thickness / 2), CGFloat(2 * M_PI), 0, true)
-            currentpoint = CGPointApplyAffineTransform(currentpoint, CGAffineTransformMakeRotation(offsetangle));
-        }
-        CGPathMoveToPoint(bodypath, nil, middlePoint.x, middlePoint.y)
+        var p1 = CGPointApplyAffineTransform(CGPoint(x: 0, y: CGFloat(radius - (thickness / 2))), CGAffineTransformMakeRotation(offsetangle))
+        CGPathMoveToPoint(bodypath, nil, p1.x, p1.y)
+        var p2 = CGPointApplyAffineTransform(CGPoint(x: 0, y: CGFloat(radius + (thickness / 2))), CGAffineTransformMakeRotation(offsetangle))
+        CGPathAddLineToPoint(bodypath, nil, p2.x, p2.y)
+        CGPathAddArc(bodypath, nil, 0, 0, CGFloat(radius + (thickness / 2)), CGFloat(sizeOfArc + offsetangle), -CGFloat(offsetangle), true)
+        var p3 = CGPointApplyAffineTransform(CGPoint(x: CGFloat(radius - (thickness / 2)), y: 0), CGAffineTransformMakeRotation(-offsetangle))
+        CGPathAddLineToPoint(bodypath, nil, p3.x, p3.y)
+        CGPathAddArc(bodypath, nil, 0, 0, CGFloat(radius - (thickness / 2)), -CGFloat(offsetangle), CGFloat(sizeOfArc + offsetangle), false)
         CGPathCloseSubpath(bodypath)
         
         arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
