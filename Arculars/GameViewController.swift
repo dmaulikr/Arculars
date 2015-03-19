@@ -25,11 +25,11 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         skView.multipleTouchEnabled = false
         
         #if DEBUG
-            /*
+            
             skView.showsDrawCount = true
             skView.showsFPS = true
             skView.showsPhysics = true
-            */
+
         #endif
         
         // Create and configure the menu scene.

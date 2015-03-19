@@ -58,7 +58,7 @@ class MenuScene: SKScene {
             if (playButton.containsPoint(location)) {
                 
                 self.playButton.runAction(
-                    SKAction.scaleTo(0.0, duration: 0.2)
+                    SKAction.scaleTo(0.5, duration: 0.1)
                     , completion: {()
                         self.sceneDelegate?.showGameScene()
                 })

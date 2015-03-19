@@ -181,41 +181,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBeginContact(contact: SKPhysicsContact) {
         println("did begin contact")
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        println("contact mask \(contactMask)")
+        switch (contactMask) {
+        case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
+            var ball : Ball
+            var circle : Circle
+            
+            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                ball = contact.bodyA.node as Ball
+                circle = contact.bodyB.node?.parent as Circle // parent because the arc's parent
+            } else {
+                ball = contact.bodyB.node as Ball
+                circle = contact.bodyA.node?.parent as Circle // parent because the arc's parent
+            }
+            ballDidCollideWithCircle(ball, circle: circle)
+            
+            break
+        case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
+            var ball : Ball
+            
+            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                ball = contact.bodyA.node as Ball
+            } else{
+                ball = contact.bodyB.node as Ball
+            }
+            
+            ballDidCollideWithBorder(ball)
+            break
+        default:
+            return
+        }
     }
     
     func didEndContact(contact: SKPhysicsContact) {
         println("did end contact")
-        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        println("contact mask \(contactMask)")
-        switch (contactMask) {
-            case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
-                var ball : Ball
-                var circle : Circle
-            
-                if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                    ball = contact.bodyA.node as Ball
-                    circle = contact.bodyB.node?.parent as Circle // parent because the arc's parent
-                } else {
-                    ball = contact.bodyB.node as Ball
-                    circle = contact.bodyA.node?.parent as Circle // parent because the arc's parent
-                }
-                ballDidCollideWithCircle(ball, circle: circle)
-                
-                break
-            case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
-                var ball : Ball
-                
-                if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                    ball = contact.bodyA.node as Ball
-                } else{
-                    ball = contact.bodyB.node as Ball
-                }
-                
-                ballDidCollideWithBorder(ball)
-                break
-            default:
-                return
-        }
     }
     
     private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
@@ -225,7 +225,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // so this is a fix to avoid multiple points being counted to the score
         ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
         ball.hidden = true
-        ball.runAction(SKAction.removeFromParent())
+        ball.removeFromParent()
         
         if (ball.nodeColor == circle.nodeColor) {
             println("=== score +\(circle.pointsPerHit)")

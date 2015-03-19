@@ -97,7 +97,7 @@ class Circle : SKShapeNode {
         
         self.runAction(
             SKAction.sequence([
-                SKAction.scaleTo(1.05, duration: 0.15),
+                SKAction.scaleTo(1.05, duration: 0.1),
                 SKAction.scaleTo(0.95, duration: 0.1),
                 SKAction.scaleTo(1.0, duration: 0.1)
                 ]), completion: {()
