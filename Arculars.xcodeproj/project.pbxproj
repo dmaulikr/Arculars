@@ -25,6 +25,8 @@
 		3098F5251AAF8AB800829428 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098F5241AAF8AB800829428 /* Colors.swift */; };
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
 		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
+		30DDDBE31ABB086200BB11EE /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DDDBE21ABB086200BB11EE /* Positions.swift */; };
+		30DDDBE51ABB086D00BB11EE /* Sizes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DDDBE41ABB086D00BB11EE /* Sizes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		3098F5241AAF8AB800829428 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		30DDDBE21ABB086200BB11EE /* Positions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Positions.swift; sourceTree = "<group>"; };
+		30DDDBE41ABB086D00BB11EE /* Sizes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sizes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,17 +107,12 @@
 		30500B2B1AAE3010009F4C26 /* Arculars */ = {
 			isa = PBXGroup;
 			children = (
+				30DDDBEA1ABB08AD00BB11EE /* Extensions */,
+				30DDDBE61ABB087400BB11EE /* Infrastructure */,
+				30DDDBE91ABB089000BB11EE /* Nodes */,
 				309ED2E51AB492DB007D7EC4 /* Scenes */,
 				30500B2E1AAE3010009F4C26 /* AppDelegate.swift */,
-				30525A021AB3800F001D6C91 /* Ball.swift */,
-				303648241AB61A7B002E57DD /* Button.swift */,
-				303FCDEC1AAE349900A59347 /* Circle.swift */,
-				3098F5241AAF8AB800829428 /* Colors.swift */,
 				30500B341AAE3010009F4C26 /* GameViewController.swift */,
-				302197721AB306B400769D2F /* PhysicsCategory.swift */,
-				301C00861AB4576D00A635FC /* Score.swift */,
-				30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */,
-				30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */,
 				30500B361AAE3010009F4C26 /* Main.storyboard */,
 				30500B3B1AAE3010009F4C26 /* LaunchScreen.xib */,
 				30500B391AAE3010009F4C26 /* Images.xcassets */,
@@ -155,6 +154,37 @@
 				3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		30DDDBE61ABB087400BB11EE /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3098F5241AAF8AB800829428 /* Colors.swift */,
+				302197721AB306B400769D2F /* PhysicsCategory.swift */,
+				30DDDBE21ABB086200BB11EE /* Positions.swift */,
+				30DDDBE41ABB086D00BB11EE /* Sizes.swift */,
+			);
+			name = Infrastructure;
+			sourceTree = "<group>";
+		};
+		30DDDBE91ABB089000BB11EE /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				30525A021AB3800F001D6C91 /* Ball.swift */,
+				303648241AB61A7B002E57DD /* Button.swift */,
+				303FCDEC1AAE349900A59347 /* Circle.swift */,
+				301C00861AB4576D00A635FC /* Score.swift */,
+			);
+			name = Nodes;
+			sourceTree = "<group>";
+		};
+		30DDDBEA1ABB08AD00BB11EE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */,
+				30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,8 +299,10 @@
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
+				30DDDBE51ABB086D00BB11EE /* Sizes.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
 				30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */,
+				30DDDBE31ABB086200BB11EE /* Positions.swift in Sources */,
 				3038F80E1ABA1F0600741BEE /* SceneDelegate.swift in Sources */,
 				309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */,
 				301C00871AB4576D00A635FC /* Score.swift in Sources */,
