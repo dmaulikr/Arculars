@@ -96,13 +96,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Calculate radius and thickness of all circles
         outerCircleRadius = (self.size.height / 4) - (self.size.height / 10)
-        outerCircleThickness = (outerCircleRadius / 2.5)
+        outerCircleThickness = (self.size.height / 16)
         
-        middleCircleRadius = outerCircleRadius / 1.75
-        middleCircleThickness = middleCircleRadius / 2.0
+        middleCircleThickness = outerCircleThickness / 2
+        middleCircleRadius = outerCircleRadius - (outerCircleThickness / 2) - (middleCircleThickness / 2)
         
-        innerCircleRadius = middleCircleRadius / 2.2
-        innerCircleThickness = innerCircleRadius / 1.5
+        innerCircleThickness = middleCircleThickness
+        innerCircleRadius = middleCircleRadius - (middleCircleThickness / 2) - (innerCircleThickness / 2)
         
         ballRadius = innerCircleThickness / 2.0
         ballSpeed = 9.0
@@ -141,16 +141,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameoverHighscoreLabel.position = CGPoint(x: 0, y: -60)
         content.addChild(gameoverHighscoreLabel)
         
-        var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Colors.Red, content: content, radius: 100)
+        var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Colors.LightRed, content: content, radius: 100)
         gameoverNode.addChild(scoreContent.fadeIn())
         
-        menuButton = Button(position: CGPoint(x: -90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "home"), radius: 30)
+        menuButton = Button(position: CGPoint(x: -90, y: -80), color: Colors.LightRed, content: SKSpriteNode(imageNamed: "home"), radius: 30)
         gameoverNode.addChild(menuButton)
         
-        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "play"), radius: 30)
+        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Colors.LightRed, content: SKSpriteNode(imageNamed: "play"), radius: 30)
         gameoverNode.addChild(replayButton)
         
-        statsButton = Button(position: CGPoint(x: 90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
+        statsButton = Button(position: CGPoint(x: 90, y: -80), color: Colors.LightRed, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
         gameoverNode.addChild(statsButton)
         
         facebookButton = Button(position: CGPoint(x: 40, y: -150), color: Colors.FacebookBlue, content: SKSpriteNode(imageNamed: "facebook"), radius: 30)
