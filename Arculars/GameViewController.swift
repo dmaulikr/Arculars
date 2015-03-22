@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameKit
+import Social
 
 class GameViewController: UIViewController, SceneDelegate, GKGameCenterControllerDelegate {
     
@@ -93,7 +94,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         // scene!.gameOver = false
     }
 
-    func showGameCenter() {
+    func presentGameCenter() {
         var gcViewController = GKGameCenterViewController()
         gcViewController.gameCenterDelegate = self
         gcViewController.viewState = GKGameCenterViewControllerState.Leaderboards
@@ -101,6 +102,43 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         
         // Show leaderboard
         self.presentViewController(gcViewController, animated: true, completion: nil)
+    }
+    
+    func presentTwitterSharing() {
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
+            var twitterSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
+            twitterSheet.setInitialText("Share on Twitter")
+            self.presentViewController(twitterSheet, animated: true, completion: nil)
+        } else {
+            var alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func presentFacebookSharing() {
+        if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
+            var facebookSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+            facebookSheet.setInitialText("Share on Facebook")
+            self.presentViewController(facebookSheet, animated: true, completion: nil)
+        } else {
+            var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func presentWhatsAppSharing() {
+        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+        var whatsappURL : NSURL? = NSURL(string: "whatsapp://send?text=My%20Highscore%20in%20Arculars%20is%20\(highscore)!%20Can%20you%20beat%20it?")
+        if (UIApplication.sharedApplication().canOpenURL(whatsappURL!)) {
+            UIApplication.sharedApplication().openURL(whatsappURL!)
+        }
+    }
+    
+    func presentOtherSharing() {
+        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: ["Test"], applicationActivities: nil)
+        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
     func showMenuScene() {

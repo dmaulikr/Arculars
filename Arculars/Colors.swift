@@ -15,6 +15,9 @@ struct Colors {
     static let ArcularsColor2 = UIColor(rgba: "#E022BF")
     static let ArcularsColor3 = UIColor(rgba: "#39E0BA")
     static let ArcularsColor4 = UIColor(rgba: "#2DFB7D")
+    
+    static let WhatsAppGreen = UIColor(rgba: "#71BA5B")
     static let FacebookBlue = UIColor(rgba: "#6274A5")
     static let TwitterBlue = UIColor(rgba: "#6EC7E3")
+    static let SharingGray = UIColor(rgba: "#6B838B")
 }

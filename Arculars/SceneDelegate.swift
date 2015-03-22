@@ -10,5 +10,11 @@ protocol SceneDelegate {
     func showMenuScene()
     func showGameScene()
     func showGameoverScene()
-    func showGameCenter()
+    
+    func presentGameCenter()
+    
+    func presentOtherSharing()
+    func presentTwitterSharing()
+    func presentFacebookSharing()
+    func presentWhatsAppSharing()
 }

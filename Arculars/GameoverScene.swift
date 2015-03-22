@@ -19,8 +19,11 @@ class GameoverScene: SKScene {
     private var rootNode = SKNode()
     
     private var replay : SKShapeNode!
+    
     private var facebook : SKShapeNode!
     private var twitter : SKShapeNode!
+    private var whatsapp : SKShapeNode!
+    private var shareother : SKShapeNode!
     
     private var tomenuLabel : SKLabelNode!
     private var scoreLabel : SKLabelNode!
@@ -41,6 +44,7 @@ class GameoverScene: SKScene {
     
     private func initScene() {
         var radius = self.size.height / 16
+        var offset = CGFloat(8)
         
         var ttpLabel = SKLabelNode(text: "TAB TO PLAY")
         ttpLabel.fontName = "Avenir"
@@ -72,7 +76,8 @@ class GameoverScene: SKScene {
         facebook.strokeColor = Colors.FacebookBlue
         facebook.antialiased = true
         facebook.lineWidth = 1
-        facebook.position = CGPoint(x: -(facebook.frame.width * 0.8), y: -(self.size.height / 4))
+        facebook.zPosition = 3
+        facebook.position = CGPoint(x: -radius + offset, y: -(self.size.height / 4))
         facebook.addChild(SKSpriteNode(imageNamed: "facebook"))
         rootNode.addChild(facebook)
         
@@ -81,9 +86,30 @@ class GameoverScene: SKScene {
         twitter.strokeColor = Colors.TwitterBlue
         twitter.antialiased = true
         twitter.lineWidth = 1
-        twitter.position = CGPoint(x: (twitter.frame.width * 0.8), y: -(self.size.height / 4))
+        twitter.zPosition = 4
+        twitter.position = CGPoint(x: facebook.position.x - (2 * radius) + offset, y: -(self.size.height / 4))
         twitter.addChild(SKSpriteNode(imageNamed: "twitter"))
         rootNode.addChild(twitter)
+        
+        whatsapp = SKShapeNode(circleOfRadius: radius)
+        whatsapp.fillColor = Colors.WhatsAppGreen
+        whatsapp.strokeColor = Colors.WhatsAppGreen
+        whatsapp.antialiased = true
+        whatsapp.lineWidth = 1
+        whatsapp.zPosition = 2
+        whatsapp.position = CGPoint(x: radius - offset, y: -(self.size.height / 4))
+        whatsapp.addChild(SKSpriteNode(imageNamed: "whatsapp"))
+        rootNode.addChild(whatsapp)
+        
+        shareother = SKShapeNode(circleOfRadius: radius)
+        shareother.fillColor = Colors.SharingGray
+        shareother.strokeColor = Colors.SharingGray
+        shareother.antialiased = true
+        shareother.lineWidth = 1
+        shareother.zPosition = 1
+        shareother.position = CGPoint(x: whatsapp.position.x + (2 * radius) - offset, y: -(self.size.height / 4))
+        shareother.addChild(SKSpriteNode(imageNamed: "sharing"))
+        rootNode.addChild(shareother)
         
         tomenuLabel = SKLabelNode(text: "TO MENU")
         tomenuLabel.fontName = "Avenir"
@@ -100,7 +126,7 @@ class GameoverScene: SKScene {
         scoreLabel.text = "Score \(lastscore)"
         hscoreLabel.text = "Highscore \(highscore)"
         
-        self.runAction(SKAction.fadeInWithDuration(0.3))
+        self.runAction(SKAction.fadeInWithDuration(0.15))
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -116,23 +142,18 @@ class GameoverScene: SKScene {
                     self.sceneDelegate!.showMenuScene()
                 })
             } else if (twitter.containsPoint(location)) {
-                shareOnTwitter()
-            }
-            else if (facebook.containsPoint(location)) {
-                shareOnFacebook()
+                self.sceneDelegate!.presentTwitterSharing()
+            } else if (facebook.containsPoint(location)) {
+                self.sceneDelegate!.presentFacebookSharing()
+            } else if (whatsapp.containsPoint(location)) {
+                self.sceneDelegate!.presentWhatsAppSharing()
+            } else if (shareother.containsPoint(location)) {
+                self.sceneDelegate!.presentOtherSharing()
             } else {
-                self.runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
+                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: { ()
                     self.sceneDelegate!.showGameScene()
                 })
             }
         }
-    }
-    
-    private func shareOnTwitter() {
-        
-    }
-    
-    private func shareOnFacebook() {
-        
     }
 }
