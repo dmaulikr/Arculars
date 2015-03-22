@@ -13,40 +13,40 @@ class Circle : SKShapeNode {
     
     private var action : SKAction!
     private var arc : SKShapeNode!
+    
+    let thickness : CGFloat!
+    let radius : CGFloat!
     let nodeColor : UIColor!
+    let pointsPerHit : Int!
     
-    var pointsPerHit = 0
-    let sizeOfArc = CGFloat(M_PI / 2) // in radians
-    
-    init(circleColor: UIColor, arcColor: UIColor, position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval, pointsPerHit: Int) {
+    init(color: UIColor, position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval, pointsPerHit: Int) {
         super.init()
+        
+        self.nodeColor = color
+        self.pointsPerHit = pointsPerHit
+        self.radius = radius
+        self.thickness = thickness
         
         var circlepath = CGPathCreateMutable()
         CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)
         self.path = circlepath
         self.lineWidth = thickness
         self.zPosition = 0
-        self.strokeColor = circleColor
+        self.strokeColor = color.colorWithAlphaComponent(0.2)
         self.position = position
         
-        var circleOffset = SKShapeNode(circleOfRadius: radius)
-        circleOffset.strokeColor = circleColor.darkerColor(0.1)
-        circleOffset.lineWidth = thickness
-        circleOffset.position = CGPoint(x: 0, y: -3)
-        circleOffset.zPosition = -1
-        self.addChild(circleOffset)
-        
+        let sizeOfArc = CGFloat(M_PI / 2)
         let arcpath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
         arc = SKShapeNode(path: arcpath.CGPath)
         arc.lineCap = kCGLineCapRound
-        arc.strokeColor = arcColor
+        arc.strokeColor = color
         arc.antialiased = true
         arc.zPosition = 1
-        arc.lineWidth = thickness + 0.5 // one pixel more because of the linewidth of the circle itself
+        arc.lineWidth = thickness
         
         // Setup PhysicsBody of Arc
         var bodypath : CGMutablePath = CGPathCreateMutable();
-        var offsetangle = CGFloat(self.sizeOfArc / 9)
+        var offsetangle = CGFloat(sizeOfArc / 9)
         
         var p1 = CGPointApplyAffineTransform(CGPoint(x: 0, y: CGFloat(radius - (thickness / 2))), CGAffineTransformMakeRotation(offsetangle))
         CGPathMoveToPoint(bodypath, nil, p1.x, p1.y)
@@ -75,9 +75,6 @@ class Circle : SKShapeNode {
         }
         action = SKAction.repeatActionForever(SKAction.rotateByAngle(rotationangle, duration: secondsPerRound))
         arc.runAction(action)
-        
-        self.nodeColor = arcColor
-        self.pointsPerHit = pointsPerHit
         
         self.addChild(arc)
     }

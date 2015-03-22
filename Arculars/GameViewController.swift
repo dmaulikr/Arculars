@@ -54,6 +54,10 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         return false
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     func initGameCenter() {
         // Check if user is already authenticated in game center
         if GKLocalPlayer.localPlayer().authenticated == false {

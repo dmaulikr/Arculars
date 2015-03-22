@@ -20,19 +20,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
+    
+    private var circles = [Circle]()
+    private var colors = [UIColor]()
+    
     private var nextBall : Ball!
-    
-    private var innerCircle : Circle!
-    private var innerCircleRadius : CGFloat!
-    private var innerCircleThickness : CGFloat!
-    
-    private var middleCircle : Circle!
-    private var middleCircleRadius : CGFloat!
-    private var middleCircleThickness : CGFloat!
-    
-    private var outerCircle : Circle!
-    private var outerCircleRadius : CGFloat!
-    private var outerCircleThickness : CGFloat!
     
     private var ballRadius : CGFloat!
     private var ballSpeed : NSTimeInterval!
@@ -63,7 +55,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Colors.Background
+        self.backgroundColor = Globals.Background
         
         // Setup Scene Physics
         self.physicsWorld.contactDelegate = self
@@ -84,9 +76,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMoveToView(view: SKView) {
-        outerCircle.fadeIn()
-        middleCircle.fadeIn()
-        innerCircle.fadeIn()
+        for circle in circles {
+            circle.fadeIn()
+        }
         
         reset()
     }
@@ -94,28 +86,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func initializeStartGameLayer() {
         self.addChild(rootNode)
         
-        // Calculate radius and thickness of all circles
-        outerCircleRadius = (self.size.height / 4) - (self.size.height / 10)
-        outerCircleThickness = (self.size.height / 16)
-        
-        middleCircleThickness = outerCircleThickness / 2
-        middleCircleRadius = outerCircleRadius - (outerCircleThickness / 2) - (middleCircleThickness / 2)
-        
-        innerCircleThickness = middleCircleThickness
-        innerCircleRadius = middleCircleRadius - (middleCircleThickness / 2) - (innerCircleThickness / 2)
-        
-        ballRadius = innerCircleThickness / 2.0
+        ballRadius = self.size.height / 64
         ballSpeed = 9.0
         
         score = Score(position: scorePosition)
         rootNode.addChild(score)
         
-        outerCircle = Circle(circleColor: Colors.LightBlue, arcColor: Colors.Blue, position: circlePosition, radius: outerCircleRadius, thickness: outerCircleThickness, clockwise: true, secondsPerRound: 1.2, pointsPerHit: 1)
-        rootNode.addChild(outerCircle)
-        middleCircle = Circle(circleColor: Colors.LightOrange, arcColor: Colors.Orange, position: circlePosition, radius: middleCircleRadius, thickness: middleCircleThickness, clockwise: false, secondsPerRound: 1.8, pointsPerHit: 2)
-        rootNode.addChild(middleCircle)
-        innerCircle = Circle(circleColor: Colors.LightRed, arcColor: Colors.Red, position: circlePosition, radius: innerCircleRadius, thickness: innerCircleThickness, clockwise: true, secondsPerRound: 2.4, pointsPerHit: 3)
-        rootNode.addChild(innerCircle)
+        addCircle(Globals.ArcularsColor1, clockwise: false, speed: 3.2, points: 4)
+        addCircle(Globals.ArcularsColor2, clockwise: true, speed: 2.6, points: 3)
+        addCircle(Globals.ArcularsColor3, clockwise: false, speed: 2.0, points: 2)
+        addCircle(Globals.ArcularsColor4, clockwise: true, speed: 1.5, points: 1)
+    }
+    
+    private func addCircle(color: UIColor, clockwise: Bool, speed: NSTimeInterval, points: Int) {
+        var radius : CGFloat!
+        var thickness : CGFloat!
+        
+        if circles.count == 0 {
+            radius = self.size.height / 16
+            thickness = self.size.height / 32
+        }
+        else {
+            var lastradius = circles.last!.radius
+            var lastthickness = circles.last!.thickness
+            
+            radius = lastradius + lastthickness
+            thickness = lastthickness
+        }
+        var c = Circle(color: color, position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, secondsPerRound: speed, pointsPerHit: points)
+        circles.append(c)
+        colors.append(color)
+        rootNode.addChild(c)
     }
     
     private func initializeGameOverLayer() {
@@ -130,38 +131,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         content.addChild(image)
         
         gameoverScoreLabel = SKLabelNode()
-        gameoverScoreLabel.fontName = "Helvetica Neue UltraLight"
+        gameoverScoreLabel.fontName = Globals.FontName
         gameoverScoreLabel.fontSize = 32
         gameoverScoreLabel.position = CGPoint(x: 0, y: -30)
         content.addChild(gameoverScoreLabel)
         
         gameoverHighscoreLabel = SKLabelNode()
-        gameoverHighscoreLabel.fontName = "Helvetica Neue UltraLight"
+        gameoverHighscoreLabel.fontName = Globals.FontName
         gameoverHighscoreLabel.fontSize = 18
         gameoverHighscoreLabel.position = CGPoint(x: 0, y: -60)
         content.addChild(gameoverHighscoreLabel)
         
-        var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Colors.Red, content: content, radius: 100)
+        var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Globals.ArcularsColor2, content: content, radius: 100)
         gameoverNode.addChild(scoreContent.fadeIn())
         
-        menuButton = Button(position: CGPoint(x: -90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "home"), radius: 30)
+        menuButton = Button(position: CGPoint(x: -90, y: -80), color: Globals.ArcularsColor2, content: SKSpriteNode(imageNamed: "home"), radius: 30)
         gameoverNode.addChild(menuButton)
         
-        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "play"), radius: 30)
+        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Globals.ArcularsColor2, content: SKSpriteNode(imageNamed: "play"), radius: 30)
         gameoverNode.addChild(replayButton)
         
-        statsButton = Button(position: CGPoint(x: 90, y: -80), color: Colors.Red, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
+        statsButton = Button(position: CGPoint(x: 90, y: -80), color: Globals.ArcularsColor2, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
         gameoverNode.addChild(statsButton)
         
-        facebookButton = Button(position: CGPoint(x: 40, y: -150), color: Colors.FacebookBlue, content: SKSpriteNode(imageNamed: "facebook"), radius: 30)
+        facebookButton = Button(position: CGPoint(x: 40, y: -150), color: Globals.FacebookBlue, content: SKSpriteNode(imageNamed: "facebook"), radius: 30)
         gameoverNode.addChild(facebookButton)
         
-        twitterButton = Button(position: CGPoint(x: -40, y: -150), color: Colors.TwitterBlue, content: SKSpriteNode(imageNamed: "twitter"), radius: 30)
+        twitterButton = Button(position: CGPoint(x: -40, y: -150), color: Globals.TwitterBlue, content: SKSpriteNode(imageNamed: "twitter"), radius: 30)
         gameoverNode.addChild(twitterButton)
     }
     
     private func addBall() {
-        nextBall = Ball(color: Colors.randomBallColor(), position: ballPosition, radius: ballRadius, speed: ballSpeed)
+        var random = Int(arc4random_uniform(UInt32(colors.count)));
+        var color = colors[random]
+        nextBall = Ball(color: color, position: ballPosition, radius: ballRadius, speed: ballSpeed)
         rootNode.addChild(nextBall.fadeIn())
     }
     
@@ -224,10 +227,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             return
         }
-    }
-    
-    func didEndContact(contact: SKPhysicsContact) {
-        println("did end contact")
     }
     
     private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {

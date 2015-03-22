@@ -16,8 +16,8 @@ class Score : SKLabelNode {
         super.init()
         
         self.zPosition = 2
-        self.fontName = "Helvetica Neue UltraLight"
-        self.fontColor = Colors.FontColor
+        self.fontName = Globals.FontName
+        self.fontColor = Globals.FontColor
         self.fontSize = 30
         self.position = position
         updateText()

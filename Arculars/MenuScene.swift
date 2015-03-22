@@ -25,19 +25,19 @@ class MenuScene: SKScene {
         
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Colors.Background
+        self.backgroundColor = Globals.Background
         
         // Init Top Level Nodes
         self.addChild(rootNode)
         
         // Init Menu
-        playButton = Button(position: CGPoint(x: 0, y: 90), color: Colors.Blue, content: SKSpriteNode(imageNamed: "play"), radius: 30)
+        playButton = Button(position: CGPoint(x: 0, y: 90), color: Globals.ArcularsColor1, content: SKSpriteNode(imageNamed: "play"), radius: 30)
         rootNode.addChild(playButton)
         
-        statsButton = Button(position: CGPoint(x: 0, y: 0), color: Colors.Orange, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
+        statsButton = Button(position: CGPoint(x: 0, y: 0), color: Globals.ArcularsColor2, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
         rootNode.addChild(statsButton)
         
-        settingsButton = Button(position: CGPoint(x: 0, y: -90), color: Colors.Red, content: SKSpriteNode(imageNamed: "settings"), radius: 30)
+        settingsButton = Button(position: CGPoint(x: 0, y: -90), color: Globals.ArcularsColor3, content: SKSpriteNode(imageNamed: "settings"), radius: 30)
         rootNode.addChild(settingsButton)
     }
 
