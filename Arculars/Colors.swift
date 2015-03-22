@@ -8,12 +8,8 @@
 
 import UIKit
 
-struct Globals {
-    // Font
-    static let FontName = "Helvetica Neue UltraLight"
+struct Colors {
     static let FontColor = UIColor(rgba: "#F0F0F0")
-    
-    // Colors
     static let Background = UIColor(rgba: "#121F21")
     static let ArcularsColor1 = UIColor(rgba: "#6D21CD")
     static let ArcularsColor2 = UIColor(rgba: "#E022BF")

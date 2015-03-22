@@ -14,6 +14,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     
     var menuScene : MenuScene!
     var gameScene : GameScene!
+    var gameoverScene : GameoverScene!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,11 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         gameScene = GameScene(size: skView.bounds.size)
         gameScene.scaleMode = .AspectFill
         gameScene.sceneDelegate = self
+        
+        // Create and configure the gameover scene.
+        gameoverScene = GameoverScene(size: skView.bounds.size)
+        gameoverScene.scaleMode = .AspectFill
+        gameoverScene.sceneDelegate = self
         
         // Present the initial scene.
         showMenuScene()
@@ -103,5 +109,9 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     
     func showGameScene() {
         (self.view as SKView).presentScene(gameScene)
+    }
+    
+    func showGameoverScene() {
+        (self.view as SKView).presentScene(gameoverScene)
     }
 }

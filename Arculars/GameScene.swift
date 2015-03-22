@@ -25,24 +25,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var colors = [UIColor]()
     
     private var nextBall : Ball!
-    
     private var ballRadius : CGFloat!
     private var ballSpeed : NSTimeInterval!
-    
     private var score : Score!
     
-    // Node and all it's descendants when game over
-    private var gameoverNode = SKNode()
     private var isGameOver = false
-    
-    private var menuButton : Button!
-    private var replayButton : Button!
-    private var statsButton : Button!
-    private var facebookButton : Button!
-    private var twitterButton : Button!
-    
-    private var gameoverScoreLabel : SKLabelNode!
-    private var gameoverHighscoreLabel : SKLabelNode!
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -55,7 +42,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Globals.Background
+        self.backgroundColor = Colors.Background
+        
+        // Add Root Node
+        self.addChild(rootNode)
         
         // Setup Scene Physics
         self.physicsWorld.contactDelegate = self
@@ -67,8 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.dynamic = true
         
-        initializeStartGameLayer()
-        initializeGameOverLayer()
+        initGameLayer()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -83,19 +72,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         reset()
     }
     
-    private func initializeStartGameLayer() {
-        self.addChild(rootNode)
-        
+    private func initGameLayer() {
         ballRadius = self.size.height / 64
         ballSpeed = 9.0
         
         score = Score(position: scorePosition)
         rootNode.addChild(score)
         
-        addCircle(Globals.ArcularsColor1, clockwise: false, speed: 3.2, points: 4)
-        addCircle(Globals.ArcularsColor2, clockwise: true, speed: 2.6, points: 3)
-        addCircle(Globals.ArcularsColor3, clockwise: false, speed: 2.0, points: 2)
-        addCircle(Globals.ArcularsColor4, clockwise: true, speed: 1.5, points: 1)
+        addCircle(Colors.ArcularsColor1, clockwise: false, speed: 3.2, points: 4)
+        addCircle(Colors.ArcularsColor2, clockwise: true, speed: 2.6, points: 3)
+        addCircle(Colors.ArcularsColor3, clockwise: false, speed: 2.0, points: 2)
+        addCircle(Colors.ArcularsColor4, clockwise: true, speed: 1.5, points: 1)
     }
     
     private func addCircle(color: UIColor, clockwise: Bool, speed: NSTimeInterval, points: Int) {
@@ -119,48 +106,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rootNode.addChild(c)
     }
     
-    private func initializeGameOverLayer() {
-        self.addChild(gameoverNode)
-        
-        gameoverNode.zPosition = 1
-        gameoverNode.hidden = true
-        
-        var content = SKNode()
-        var image = SKSpriteNode(imageNamed: "highscore")
-        image.position = CGPoint(x: 0, y: 30)
-        content.addChild(image)
-        
-        gameoverScoreLabel = SKLabelNode()
-        gameoverScoreLabel.fontName = Globals.FontName
-        gameoverScoreLabel.fontSize = 32
-        gameoverScoreLabel.position = CGPoint(x: 0, y: -30)
-        content.addChild(gameoverScoreLabel)
-        
-        gameoverHighscoreLabel = SKLabelNode()
-        gameoverHighscoreLabel.fontName = Globals.FontName
-        gameoverHighscoreLabel.fontSize = 18
-        gameoverHighscoreLabel.position = CGPoint(x: 0, y: -60)
-        content.addChild(gameoverHighscoreLabel)
-        
-        var scoreContent = Button(position: CGPoint(x: 0, y: 80), color: Globals.ArcularsColor2, content: content, radius: 100)
-        gameoverNode.addChild(scoreContent.fadeIn())
-        
-        menuButton = Button(position: CGPoint(x: -90, y: -80), color: Globals.ArcularsColor2, content: SKSpriteNode(imageNamed: "home"), radius: 30)
-        gameoverNode.addChild(menuButton)
-        
-        replayButton = Button(position: CGPoint(x: 0, y: -80), color: Globals.ArcularsColor2, content: SKSpriteNode(imageNamed: "play"), radius: 30)
-        gameoverNode.addChild(replayButton)
-        
-        statsButton = Button(position: CGPoint(x: 90, y: -80), color: Globals.ArcularsColor2, content: SKSpriteNode(imageNamed: "stats"), radius: 30)
-        gameoverNode.addChild(statsButton)
-        
-        facebookButton = Button(position: CGPoint(x: 40, y: -150), color: Globals.FacebookBlue, content: SKSpriteNode(imageNamed: "facebook"), radius: 30)
-        gameoverNode.addChild(facebookButton)
-        
-        twitterButton = Button(position: CGPoint(x: -40, y: -150), color: Globals.TwitterBlue, content: SKSpriteNode(imageNamed: "twitter"), radius: 30)
-        gameoverNode.addChild(twitterButton)
-    }
-    
     private func addBall() {
         var random = Int(arc4random_uniform(UInt32(colors.count)));
         var color = colors[random]
@@ -173,18 +118,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        if isGameOver {
-            let touch = touches.anyObject() as UITouch
-            let location = touch.locationInNode(gameoverNode)
-            
-            if (menuButton.containsPoint(location)) {
-                sceneDelegate?.showMenuScene()
-            } else if (replayButton.containsPoint(location)) {
-                reset()
-            } else if (statsButton.containsPoint(location)) {
-                sceneDelegate?.showGameCenter()
-            }
-        } else {
+        if !isGameOver {
             println("*** SHOOT ***")
             shootBall()
             addBall()
@@ -244,7 +178,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
         } else {
             println("=== ball and circle color don't match -> game is over")
-            gameOver()
+            gameover()
         }
     }
     
@@ -253,44 +187,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.runAction(SKAction.removeFromParent())
     }
     
-    private func gameOver() {
-        // First, set the current gamescene state to GameOver
+    private func gameover() {
         isGameOver = true
-        rootNode.alpha = 0.1
-        gameoverNode.hidden = false
         
         // Then, save to local storage and to Game Center (if logged in)
         addLocalScore(self.score.getScore())
         addLeaderboardScore(self.score.getScore())
         
-        // Now show the score to the user
-        gameoverScoreLabel.text = "Score \(self.score.getScore())"
-        gameoverHighscoreLabel.text = "Highscore \(self.getLocalScore())"
-        
-        // Fade in all buttons
-        menuButton.fadeIn()
-        replayButton.fadeIn()
-        statsButton.fadeIn()
-        facebookButton.fadeIn()
-        twitterButton.fadeIn()
+        self.sceneDelegate!.showGameoverScene()
     }
     
     private func reset() {
         isGameOver = false
-        rootNode.alpha = 1.0
-        
-        gameoverNode.hidden = true
         score.reset()
-        
         nextBall?.removeFromParent()
         addBall()
     }
     
-    private func getLocalScore() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey("highscore")
-    }
-    
     private func addLocalScore(score: Int) -> Bool {
+        NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "lastscore")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
         var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
         if score > highscore {
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "highscore")
