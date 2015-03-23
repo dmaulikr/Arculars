@@ -19,13 +19,13 @@ class GameoverScene: SKScene {
     private var rootNode = SKNode()
     
     private var replay : SKShapeNode!
+    private var tomenu : SKShapeNode!
     
     private var facebook : SKShapeNode!
     private var twitter : SKShapeNode!
     private var whatsapp : SKShapeNode!
     private var shareother : SKShapeNode!
     
-    private var tomenuLabel : SKLabelNode!
     private var scoreLabel : SKLabelNode!
     private var hscoreLabel : SKLabelNode!
     
@@ -46,7 +46,7 @@ class GameoverScene: SKScene {
         var radius = self.size.height / 16
         var offset = CGFloat(8)
         
-        var ttpLabel = SKLabelNode(text: "TAB TO PLAY")
+        var ttpLabel = SKLabelNode(text: "TAP TO PLAY")
         ttpLabel.fontName = "Avenir"
         ttpLabel.fontSize = self.size.height / 32
         ttpLabel.position = CGPoint(x: 0, y: self.size.height / 4)
@@ -111,12 +111,17 @@ class GameoverScene: SKScene {
         shareother.addChild(SKSpriteNode(imageNamed: "sharing"))
         rootNode.addChild(shareother)
         
-        tomenuLabel = SKLabelNode(text: "TO MENU")
+        var tomenuLabel = SKLabelNode(text: "TO MENU")
         tomenuLabel.fontName = "Avenir"
         tomenuLabel.fontColor = Colors.FontColor
         tomenuLabel.fontSize = self.size.height / 32
-        tomenuLabel.position = CGPoint(x: 0, y: -(self.size.height / 2) + (self.size.height / 16))
-        rootNode.addChild(tomenuLabel)
+        tomenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tomenuLabel.frame.height * 4))
+        tomenu.lineWidth = 0
+        tomenu.fillColor = UIColor.clearColor()
+        tomenu.strokeColor = UIColor.clearColor()
+        tomenuLabel.position = CGPoint(x: 0, y: -(self.size.height / 2) + (tomenuLabel.frame.height * 1.5))
+        tomenu.addChild(tomenuLabel)
+        rootNode.addChild(tomenu)
     }
     
     override func didMoveToView(view: SKView) {
@@ -126,9 +131,14 @@ class GameoverScene: SKScene {
         scoreLabel.text = "Score \(lastscore)"
         hscoreLabel.text = "Highscore \(highscore)"
         
+        self.view?.paused = false
         self.runAction(SKAction.fadeInWithDuration(0.15))
     }
 
+    deinit {
+        self.view?.paused = true
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -137,7 +147,7 @@ class GameoverScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
             
-            if (tomenuLabel.containsPoint(location)) {
+            if (tomenu.containsPoint(location)) {
                 self.runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
                     self.sceneDelegate!.showMenuScene()
                 })
