@@ -34,7 +34,7 @@ class SettingsScene: SKScene {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func initScene() {
+    private func initScene() {
         var tomenuLabel = SKLabelNode(text: "TO MENU")
         tomenuLabel.fontName = "Avenir"
         tomenuLabel.fontColor = Colors.FontColor

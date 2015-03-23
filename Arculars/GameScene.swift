@@ -22,7 +22,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var rootNode = SKNode()
     
     private var circles = [Circle]()
-    private var colors = [UIColor]()
     
     private var nextBall : Ball!
     private var ballRadius : CGFloat!
@@ -102,14 +101,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         var c = Circle(color: color, position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, secondsPerRound: speed, pointsPerHit: points)
         circles.append(c)
-        colors.append(color)
         rootNode.addChild(c)
     }
     
     private func addBall() {
-        var random = Int(arc4random_uniform(UInt32(colors.count)));
-        var color = colors[random]
-        nextBall = Ball(color: color, position: ballPosition, radius: ballRadius, speed: ballSpeed)
+        nextBall = Ball(color: Colors.getRandomBallColor(), position: ballPosition, radius: ballRadius, speed: ballSpeed)
         rootNode.addChild(nextBall.fadeIn())
     }
     
@@ -190,9 +186,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func gameover() {
         isGameOver = true
         
-        // Then, save to local storage and to Game Center (if logged in)
-        addLocalScore(self.score.getScore())
         addLeaderboardScore(self.score.getScore())
+        addLocalScore(self.score.getScore())
         
         self.sceneDelegate!.showGameoverScene()
     }
@@ -224,12 +219,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
             if error != nil {
                 println("Score not submitted")
-                // Continue
-                // self.gameOver = false
                 success = false
             } else {
-                // Notify the delegate to show the game center leaderboard
-                // self.sceneDelegate!.showGameCenter()
+                println("Score submitted")
                 success = true
             }
         })

@@ -202,9 +202,35 @@ class MenuScene: SKScene {
             })
         })
         
+        gc_action = SKAction.runBlock({
+            var settings_path = CGPathCreateMutable()
+            CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
+            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnSettings.position), CGFloat(M_PI), 0, true)
+            var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var settings_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnSettings.zPosition = -2
+            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            
+            var play_path = CGPathCreateMutable()
+            CGPathMoveToPoint(play_path, nil, self.btnPlay.position.x, self.btnPlay.position.y)
+            CGPathAddArc(play_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlay.position), CGFloat(M_PI / 2), 0, true)
+            var play_move = SKAction.followPath(play_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var play_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
+            
+            var gc_wait = SKAction.waitForDuration(0.3)
+            var gc_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            gc_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            self.btnGC.runAction(SKAction.sequence([gc_wait, gc_move]), completion: {()
+                self.sceneDelegate!.presentGameCenter()
+                self.reset()
+            })
+        })
+        
         self.userData?.setObject(go_action_normal, forKey: "go_action")
         self.userData?.setObject(play_action, forKey: "play_action")
         self.userData?.setObject(settings_action, forKey: "settings_action")
+        self.userData?.setObject(gc_action, forKey: "gc_action")
     }
     
     private func distanceFrom(point1: CGPoint, point2: CGPoint) -> CGFloat {
@@ -242,6 +268,22 @@ class MenuScene: SKScene {
             } else if (btnSettings.containsPoint(location)) {
                 var action = self.userData?.valueForKey("settings_action") as SKAction
                 self.runAction(action)
+            } else if (btnGC.containsPoint(location)) {
+                var action = self.userData?.valueForKey("gc_action") as SKAction
+                self.runAction(action)
+            } else {
+                
+                // Just a little 'easteregg' ;)
+                var ball = SKShapeNode(circleOfRadius: self.frame.height / 32)
+                ball.fillColor = Colors.getRandomBallColor()
+                ball.lineWidth = 1
+                ball.strokeColor = ball.fillColor
+                ball.position = location
+                ball.zPosition = -10
+                rootNode.addChild(ball)
+                ball.runAction(SKAction.scaleTo(0.0, duration: 0.5), completion: {()
+                    ball.removeFromParent()
+                })
             }
         }
     }

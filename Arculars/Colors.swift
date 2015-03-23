@@ -20,4 +20,17 @@ struct Colors {
     static let FacebookBlue = UIColor(rgba: "#6274A5")
     static let TwitterBlue = UIColor(rgba: "#6EC7E3")
     static let SharingGray = UIColor(rgba: "#6B838B")
+    
+    private static let ballColors = [
+        ArcularsColor1,
+        ArcularsColor2,
+        ArcularsColor3,
+        ArcularsColor4
+    ]
+    
+    static func getRandomBallColor() -> UIColor {
+        var random = Int(arc4random_uniform(UInt32(ballColors.count)));
+        var color = ballColors[random]
+        return color
+    }
 }
