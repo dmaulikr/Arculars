@@ -13,6 +13,7 @@ protocol SceneDelegate {
     
     func showMenuScene()
     func showStatsScene()
+    func showSettingsScene()
     func showGameoverScene()
     
     func presentGameCenter()

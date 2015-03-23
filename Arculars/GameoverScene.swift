@@ -138,7 +138,7 @@ class GameoverScene: SKScene {
         scoreLabel.text = "Score \(lastscore)"
         hscoreLabel.text = "HIGHSCORE \(highscore)"
         
-        if (lastscore == highscore) {
+        if (highscore != 0 && lastscore == highscore) {
             hscoreLabel.text = "NEW HIGHSCORE \(highscore)"
             hscoreBadge.position = CGPoint(x: hscoreLabel.position.x - hscoreLabel.frame.width / 2 - (hscoreBadge.frame.width * 1.5), y: hscoreLabel.frame.height / 2)
             hscoreLabel.position = CGPoint(x: hscoreLabel.position.x + (hscoreBadge.frame.width / 2), y: hscoreLabel.position.y)
