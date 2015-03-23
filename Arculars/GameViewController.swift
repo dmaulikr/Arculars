@@ -57,8 +57,6 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
             self.authenticateLocalPlayer()
         }
         
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "highscore")
-        
         // Present the initial scene.
         showMenuScene()
     }
@@ -78,20 +76,34 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     func authenticateLocalPlayer() {
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
         
-        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-            if((ViewController) != nil) {
-                // 1 Show login if player is not logged in
-                self.presentViewController(ViewController, animated: true, completion: nil)
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            if viewController != nil {
+                // self.scene!.gamePaused = true
+                self.presentViewController(viewController, animated: true, completion: nil)
+                
+                // Add an observer which calls 'gameCenterStateChanged' to handle a changed game center state
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.addObserver(self, selector:"gameCenterStateChanged", name: "GKPlayerAuthenticationDidChangeNotificationName", object: nil)
             } else if (localPlayer.authenticated) {
-                // 2 Player is already euthenticated & logged in, load game center
-                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "useGC")
-            } else {
-                // 3 Game center is not enabled on the users device
-                NSUserDefaults.standardUserDefaults().setBool(false, forKey: "useGC")
-                println("Local player could not be authenticated, disabling game center")
-                println(error)
+                self.gameCenterStateChanged()
+            }
+            else {
+                var alert = UIAlertController(title: "Authentication Failed", message: "Please login to Game Center and come back.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    // Continue the Game, if GameCenter Authentication state
+    // has been changed (login dialog is closed)
+    func gameCenterStateChanged() {
+        var gcViewController = GKGameCenterViewController()
+        gcViewController.gameCenterDelegate = self
+        gcViewController.viewState = GKGameCenterViewControllerState.Leaderboards
+        
+        // Show leaderboard
+        self.presentViewController(gcViewController, animated: true, completion: nil)
     }
     
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {

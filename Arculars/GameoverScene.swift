@@ -76,7 +76,6 @@ class GameoverScene: SKScene {
         hscoreBadge.fillColor = Colors.ArcularsColor3
         hscoreBadge.strokeColor = Colors.ArcularsColor3
         hscoreBadge.lineWidth = 1
-        hscoreLabel.addChild(hscoreBadge)
         
         facebook = SKShapeNode(circleOfRadius: radius)
         facebook.fillColor = Colors.FacebookBlue
@@ -135,16 +134,15 @@ class GameoverScene: SKScene {
         var lastscore = NSUserDefaults.standardUserDefaults().integerForKey("lastscore")
         var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
         
+        hscoreBadge.removeFromParent()
         scoreLabel.text = "Score \(lastscore)"
         hscoreLabel.text = "HIGHSCORE \(highscore)"
         
         if (lastscore == highscore) {
-            hscoreBadge.hidden = false
             hscoreLabel.text = "NEW HIGHSCORE \(highscore)"
             hscoreBadge.position = CGPoint(x: hscoreLabel.position.x - hscoreLabel.frame.width / 2 - (hscoreBadge.frame.width * 1.5), y: hscoreLabel.frame.height / 2)
             hscoreLabel.position = CGPoint(x: hscoreLabel.position.x + (hscoreBadge.frame.width / 2), y: hscoreLabel.position.y)
-        } else {
-            hscoreBadge.hidden = true
+            hscoreLabel.addChild(hscoreBadge)
         }
         
         self.view?.paused = false
