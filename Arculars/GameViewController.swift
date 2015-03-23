@@ -72,19 +72,15 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     }
     
     func initGameCenter() {
-        // Check if user is already authenticated in game center
-        if GKLocalPlayer.localPlayer().authenticated == false {
-            
-            // Show the Login Prompt for Game Center
-            GKLocalPlayer.localPlayer().authenticateHandler = {(viewController, error) -> Void in
-                if viewController != nil {
-                    // self.scene!.gamePaused = true
-                    self.presentViewController(viewController, animated: true, completion: nil)
-                    
-                    // Add an observer which calls 'gameCenterStateChanged' to handle a changed game center state
-                    let notificationCenter = NSNotificationCenter.defaultCenter()
-                    notificationCenter.addObserver(self, selector:"gameCenterStateChanged", name: "GKPlayerAuthenticationDidChangeNotificationName", object: nil)
-                }
+        // Show the Login Prompt for Game Center
+        GKLocalPlayer.localPlayer().authenticateHandler = {(viewController, error) -> Void in
+            if viewController != nil {
+                // self.scene!.gamePaused = true
+                self.presentViewController(viewController, animated: true, completion: nil)
+                
+                // Add an observer which calls 'gameCenterStateChanged' to handle a changed game center state
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.addObserver(self, selector:"gameCenterStateChanged", name: "GKPlayerAuthenticationDidChangeNotificationName", object: nil)
             }
         }
     }
@@ -92,7 +88,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     // Continue the Game, if GameCenter Authentication state
     // has been changed (login dialog is closed)
     func gameCenterStateChanged() {
-        // self.scene!.gamePaused = false
+        
     }
     
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
@@ -104,7 +100,6 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         var gcViewController = GKGameCenterViewController()
         gcViewController.gameCenterDelegate = self
         gcViewController.viewState = GKGameCenterViewControllerState.Leaderboards
-        gcViewController.leaderboardIdentifier = "io.rmnblm.arculars.endless"
         
         // Show leaderboard
         self.presentViewController(gcViewController, animated: true, completion: nil)
