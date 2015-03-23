@@ -130,15 +130,23 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     
     func presentWhatsAppSharing() {
         var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
-        var whatsappURL : NSURL? = NSURL(string: "whatsapp://send?text=My%20Highscore%20in%20Arculars%20is%20\(highscore)!%20Can%20you%20beat%20it?")
+        var text = "My highscore in Arculars is \(highscore)! Can you beat it? Download in AppStore: http://arculars.rmnblm.io/appstore"
+        var escapedString = "whatsapp://send?text=" + text.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+        var whatsappURL : NSURL? = NSURL(string: escapedString)
         if (UIApplication.sharedApplication().canOpenURL(whatsappURL!)) {
             UIApplication.sharedApplication().openURL(whatsappURL!)
         }
     }
     
     func presentOtherSharing() {
-        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: ["Test"], applicationActivities: nil)
-        self.presentViewController(activityViewController, animated: true, completion: nil)
+        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+        let textToShare = "Arculars is awesome! My highscore is \(highscore)! Can you beat it?"
+        if let myWebsite = NSURL(string: "http://arculars.rmnblm.io/appstore") {
+            let objectsToShare = [textToShare, myWebsite]
+            let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            activityViewController.excludedActivityTypes = [UIActivityTypeAirDrop, UIActivityTypeAddToReadingList]
+            self.presentViewController(activityViewController, animated: true, completion: nil)
+        }
     }
     
     func showMenuScene() {
