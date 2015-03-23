@@ -28,6 +28,7 @@ class GameoverScene: SKScene {
     
     private var scoreLabel : SKLabelNode!
     private var hscoreLabel : SKLabelNode!
+    private var hscoreBadge : SKShapeNode!
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -66,10 +67,16 @@ class GameoverScene: SKScene {
         
         hscoreLabel = SKLabelNode(text: "Highscore")
         hscoreLabel.fontName = "Avenir-Light"
-        hscoreLabel.fontSize = self.size.height / 32
+        hscoreLabel.fontSize = self.size.height / 36
         hscoreLabel.fontColor = Colors.FontColor
         hscoreLabel.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height)
         rootNode.addChild(hscoreLabel)
+        
+        hscoreBadge = SKShapeNode(circleOfRadius: hscoreLabel.frame.height / 4)
+        hscoreBadge.fillColor = Colors.ArcularsColor3
+        hscoreBadge.strokeColor = Colors.ArcularsColor3
+        hscoreBadge.lineWidth = 1
+        hscoreLabel.addChild(hscoreBadge)
         
         facebook = SKShapeNode(circleOfRadius: radius)
         facebook.fillColor = Colors.FacebookBlue
@@ -111,7 +118,7 @@ class GameoverScene: SKScene {
         shareother.addChild(SKSpriteNode(imageNamed: "sharing"))
         rootNode.addChild(shareother)
         
-        var tomenuLabel = SKLabelNode(text: "TO MENU")
+        var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
         tomenuLabel.fontName = "Avenir"
         tomenuLabel.fontColor = Colors.FontColor
         tomenuLabel.fontSize = self.size.height / 32
@@ -129,7 +136,16 @@ class GameoverScene: SKScene {
         var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
         
         scoreLabel.text = "Score \(lastscore)"
-        hscoreLabel.text = "Highscore \(highscore)"
+        hscoreLabel.text = "HIGHSCORE \(highscore)"
+        
+        if (lastscore == highscore) {
+            hscoreBadge.hidden = false
+            hscoreLabel.text = "NEW HIGHSCORE \(highscore)"
+            hscoreBadge.position = CGPoint(x: hscoreLabel.position.x - hscoreLabel.frame.width / 2 - (hscoreBadge.frame.width * 1.5), y: hscoreLabel.frame.height / 2)
+            hscoreLabel.position = CGPoint(x: hscoreLabel.position.x + (hscoreBadge.frame.width / 2), y: hscoreLabel.position.y)
+        } else {
+            hscoreBadge.hidden = true
+        }
         
         self.view?.paused = false
         self.runAction(SKAction.fadeInWithDuration(0.15))
@@ -152,13 +168,13 @@ class GameoverScene: SKScene {
                     self.sceneDelegate!.showMenuScene()
                 })
             } else if (twitter.containsPoint(location)) {
-                self.sceneDelegate!.presentTwitterSharing()
+                self.sceneDelegate!.shareOnTwitter()
             } else if (facebook.containsPoint(location)) {
-                self.sceneDelegate!.presentFacebookSharing()
+                self.sceneDelegate!.shareOnFacebook()
             } else if (whatsapp.containsPoint(location)) {
-                self.sceneDelegate!.presentWhatsAppSharing()
+                self.sceneDelegate!.shareOnWhatsApp()
             } else if (shareother.containsPoint(location)) {
-                self.sceneDelegate!.presentOtherSharing()
+                self.sceneDelegate!.shareOnOther()
             } else {
                 self.runAction(SKAction.fadeOutWithDuration(0.15), completion: { ()
                     self.sceneDelegate!.showGameScene()

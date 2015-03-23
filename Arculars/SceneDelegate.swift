@@ -14,8 +14,8 @@ protocol SceneDelegate {
     
     func presentGameCenter()
     
-    func presentOtherSharing()
-    func presentTwitterSharing()
-    func presentFacebookSharing()
-    func presentWhatsAppSharing()
+    func shareOnOther()
+    func shareOnTwitter()
+    func shareOnFacebook()
+    func shareOnWhatsApp()
 }

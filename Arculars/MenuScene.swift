@@ -58,6 +58,7 @@ class MenuScene: SKScene {
         btnGo.addChild(content)
         var label = SKLabelNode(text: "GO")
         label.fontName = "Avenir-Black"
+        label.fontSize = self.frame.size.height / 18
         label.position = CGPoint(x: 0, y: -label.frame.height / 2)
         content.addChild(label)
         rootNode.addChild(btnGo)

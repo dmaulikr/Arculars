@@ -186,8 +186,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func gameover() {
         isGameOver = true
         
-        addLeaderboardScore(self.score.getScore())
         addLocalScore(self.score.getScore())
+        addLeaderboardScore(self.score.getScore())
         
         self.sceneDelegate!.showGameoverScene()
     }
@@ -212,19 +212,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return false
     }
     
-    func addLeaderboardScore(score: Int) -> Bool {
-        var success = false
+    func addLeaderboardScore(score: Int) {
         var newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
         newGCScore.value = Int64(score)
         GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
             if error != nil {
                 println("Score not submitted")
-                success = false
             } else {
                 println("Score submitted")
-                success = true
             }
         })
-        return success
     }
 }

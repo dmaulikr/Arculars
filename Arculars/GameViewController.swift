@@ -21,8 +21,6 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.initGameCenter()
-        
         // Configure the view.
         let skView = view as SKView
         skView.multipleTouchEnabled = false
@@ -55,6 +53,12 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         gameoverScene.scaleMode = .AspectFill
         gameoverScene.sceneDelegate = self
         
+        if (NSUserDefaults.standardUserDefaults().objectForKey("useGC") == nil) {
+            self.authenticateLocalPlayer()
+        }
+        
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: "highscore")
+        
         // Present the initial scene.
         showMenuScene()
     }
@@ -71,41 +75,43 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         return UIStatusBarStyle.LightContent
     }
     
-    func initGameCenter() {
-        // Show the Login Prompt for Game Center
-        GKLocalPlayer.localPlayer().authenticateHandler = {(viewController, error) -> Void in
-            if viewController != nil {
-                // self.scene!.gamePaused = true
-                self.presentViewController(viewController, animated: true, completion: nil)
-                
-                // Add an observer which calls 'gameCenterStateChanged' to handle a changed game center state
-                let notificationCenter = NSNotificationCenter.defaultCenter()
-                notificationCenter.addObserver(self, selector:"gameCenterStateChanged", name: "GKPlayerAuthenticationDidChangeNotificationName", object: nil)
+    func authenticateLocalPlayer() {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                // 1 Show login if player is not logged in
+                self.presentViewController(ViewController, animated: true, completion: nil)
+            } else if (localPlayer.authenticated) {
+                // 2 Player is already euthenticated & logged in, load game center
+                NSUserDefaults.standardUserDefaults().setBool(true, forKey: "useGC")
+            } else {
+                // 3 Game center is not enabled on the users device
+                NSUserDefaults.standardUserDefaults().setBool(false, forKey: "useGC")
+                println("Local player could not be authenticated, disabling game center")
+                println(error)
             }
         }
     }
     
-    // Continue the Game, if GameCenter Authentication state
-    // has been changed (login dialog is closed)
-    func gameCenterStateChanged() {
-        
-    }
-    
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController!) {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
-        // scene!.gameOver = false
     }
 
     func presentGameCenter() {
-        var gcViewController = GKGameCenterViewController()
-        gcViewController.gameCenterDelegate = self
-        gcViewController.viewState = GKGameCenterViewControllerState.Leaderboards
-        
-        // Show leaderboard
-        self.presentViewController(gcViewController, animated: true, completion: nil)
+        if GKLocalPlayer.localPlayer().authenticated {
+            var gcViewController = GKGameCenterViewController()
+            gcViewController.gameCenterDelegate = self
+            gcViewController.viewState = GKGameCenterViewControllerState.Leaderboards
+                
+            // Show leaderboard
+            self.presentViewController(gcViewController, animated: true, completion: nil)
+        } else {
+            authenticateLocalPlayer()
+        }
     }
     
-    func presentTwitterSharing() {
+    func shareOnTwitter() {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
             var twitterSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             twitterSheet.setInitialText("Share on Twitter")
@@ -117,7 +123,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         }
     }
     
-    func presentFacebookSharing() {
+    func shareOnFacebook() {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
             var facebookSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             facebookSheet.setInitialText("Share on Facebook")
@@ -129,7 +135,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         }
     }
     
-    func presentWhatsAppSharing() {
+    func shareOnWhatsApp() {
         var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
         var text = "My highscore in Arculars is \(highscore)! Can you beat it? Download in AppStore: http://arculars.rmnblm.io/appstore"
         var escapedString = "whatsapp://send?text=" + text.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
@@ -139,7 +145,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         }
     }
     
-    func presentOtherSharing() {
+    func shareOnOther() {
         var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
         let textToShare = "Arculars is awesome! My highscore is \(highscore)! Can you beat it?"
         if let myWebsite = NSURL(string: "http://arculars.rmnblm.io/appstore") {

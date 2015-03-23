@@ -35,7 +35,7 @@ class SettingsScene: SKScene {
     }
     
     private func initScene() {
-        var tomenuLabel = SKLabelNode(text: "TO MENU")
+        var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
         tomenuLabel.fontName = "Avenir"
         tomenuLabel.fontColor = Colors.FontColor
         tomenuLabel.fontSize = self.size.height / 32
