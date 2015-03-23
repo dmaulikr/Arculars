@@ -57,7 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.dynamic = true
         
-        initGameLayer()
+        initScene()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -72,7 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         reset()
     }
     
-    private func initGameLayer() {
+    private func initScene() {
         ballRadius = self.size.height / 64
         ballSpeed = 9.0
         

@@ -35,6 +35,11 @@ class MenuScene: SKScene {
         self.userData = NSMutableDictionary()
     }
     
+    private func initScene() {
+        initButtons()
+        initActions()
+    }
+    
     private func initButtons() {
         var radius = self.size.height / 16
         
@@ -173,8 +178,33 @@ class MenuScene: SKScene {
             })
         })
         
+        settings_action = SKAction.runBlock({
+            var gc_path = CGPathCreateMutable()
+            CGPathMoveToPoint(gc_path, nil, self.btnGC.position.x, self.btnGC.position.y)
+            CGPathAddArc(gc_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnGC.position), 0, CGFloat(M_PI), false)
+            var gc_move = SKAction.followPath(gc_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var gc_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnGC.zPosition = -2
+            self.btnGC.runAction(SKAction.group([gc_move, gc_scale]))
+            
+            var play_path = CGPathCreateMutable()
+            CGPathMoveToPoint(play_path, nil, self.btnPlay.position.x, self.btnPlay.position.y)
+            CGPathAddArc(play_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlay.position), CGFloat(M_PI / 2), CGFloat(M_PI), false)
+            var play_move = SKAction.followPath(play_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var play_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
+            
+            var settings_wait = SKAction.waitForDuration(0.3)
+            var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            settings_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            self.btnSettings.runAction(SKAction.sequence([settings_wait, settings_move]), completion: {()
+                self.sceneDelegate!.showSettingsScene()
+            })
+        })
+        
         self.userData?.setObject(go_action_normal, forKey: "go_action")
         self.userData?.setObject(play_action, forKey: "play_action")
+        self.userData?.setObject(settings_action, forKey: "settings_action")
     }
     
     private func distanceFrom(point1: CGPoint, point2: CGPoint) -> CGFloat {
@@ -187,8 +217,7 @@ class MenuScene: SKScene {
         rootNode.removeAllChildren()
         rootNode.removeAllActions()
         
-        initButtons()
-        initActions()
+        initScene()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -209,6 +238,9 @@ class MenuScene: SKScene {
             }
             else if (btnPlay.containsPoint(location)) {
                 var action = self.userData?.valueForKey("play_action") as SKAction
+                self.runAction(action)
+            } else if (btnSettings.containsPoint(location)) {
+                var action = self.userData?.valueForKey("settings_action") as SKAction
                 self.runAction(action)
             }
         }
