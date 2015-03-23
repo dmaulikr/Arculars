@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 RMNBLM. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import SpriteKit
 
@@ -19,7 +20,9 @@ class MenuScene: SKScene {
     private var btnGo : SKShapeNode!
     private var btnPlay : SKShapeNode!
     private var btnSettings: SKShapeNode!
-    private var btnGC : SKShapeNode!
+    private var btnStats : SKShapeNode!
+    
+    private var hscoreLabel : SKLabelNode!
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -36,8 +39,18 @@ class MenuScene: SKScene {
     }
     
     private func initScene() {
+        rootNode.removeAllChildren()
+        rootNode.removeAllActions()
+        
         initButtons()
         initActions()
+        
+        hscoreLabel = SKLabelNode(text: "Highscore")
+        hscoreLabel.fontName = "Avenir-Light"
+        hscoreLabel.fontSize = self.size.height / 24
+        hscoreLabel.fontColor = Colors.FontColor
+        hscoreLabel.position = CGPoint(x: 0, y: -self.size.height / 4)
+        rootNode.addChild(hscoreLabel)
     }
     
     private func initButtons() {
@@ -75,17 +88,17 @@ class MenuScene: SKScene {
         btnPlay.addChild(SKSpriteNode(imageNamed: "play"))
         btnGo.addChild(self.btnPlay)
         
-        btnGC = SKShapeNode(circleOfRadius: radius)
-        btnGC.fillColor = Colors.ArcularsColor3
-        btnGC.strokeColor = Colors.ArcularsColor3
-        btnGC.lineWidth = 1
-        btnGC.antialiased = true
-        btnGC.position = CGPoint(x: 0, y: 0)
-        btnGC.xScale = 0.0
-        btnGC.yScale = 0.0
-        btnGC.zPosition = -1
-        btnGC.addChild(SKSpriteNode(imageNamed: "stats"))
-        btnGo.addChild(self.btnGC)
+        btnStats = SKShapeNode(circleOfRadius: radius)
+        btnStats.fillColor = Colors.ArcularsColor3
+        btnStats.strokeColor = Colors.ArcularsColor3
+        btnStats.lineWidth = 1
+        btnStats.antialiased = true
+        btnStats.position = CGPoint(x: 0, y: 0)
+        btnStats.xScale = 0.0
+        btnStats.yScale = 0.0
+        btnStats.zPosition = -1
+        btnStats.addChild(SKSpriteNode(imageNamed: "stats"))
+        btnGo.addChild(self.btnStats)
         
         btnSettings = SKShapeNode(circleOfRadius: radius)
         btnSettings.fillColor = Colors.ArcularsColor3
@@ -105,7 +118,7 @@ class MenuScene: SKScene {
         var go_action_reversed : SKAction!
         var play_action : SKAction!
         var settings_action : SKAction!
-        var gc_action : SKAction!
+        var stats_action : SKAction!
         
         go_action_normal = SKAction.runBlock({
             var play_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + (self.btnGo.frame.height + (self.btnGo.frame.height / 4))), duration: 0.2)
@@ -113,10 +126,10 @@ class MenuScene: SKScene {
             var play_scale = SKAction.scaleTo(1.0, duration: 0.2)
             self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
             
-            var gc_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x + (self.btnGo.frame.width + (self.btnGo.frame.width / 4)), y: self.btnGo.position.y), duration: 0.2)
-            gc_move.timingMode = SKActionTimingMode.EaseIn
-            var gc_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnGC.runAction(SKAction.group([gc_move, gc_scale]))
+            var stats_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x + (self.btnGo.frame.width + (self.btnGo.frame.width / 4)), y: self.btnGo.position.y), duration: 0.2)
+            stats_move.timingMode = SKActionTimingMode.EaseIn
+            var stats_scale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
             
             var settings_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x - (self.btnGo.frame.width + (self.btnGo.frame.width / 4)), y: self.btnGo.position.y), duration: 0.2)
             settings_move.timingMode = SKActionTimingMode.EaseIn
@@ -137,10 +150,10 @@ class MenuScene: SKScene {
             var play_scale = SKAction.scaleTo(0.0, duration: 0.2)
             self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
             
-            var gc_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            gc_move.timingMode = SKActionTimingMode.EaseIn
-            var gc_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnGC.runAction(SKAction.group([gc_move, gc_scale]))
+            var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            stats_move.timingMode = SKActionTimingMode.EaseIn
+            var stats_scale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
             
             var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             settings_move.timingMode = SKActionTimingMode.EaseIn
@@ -156,13 +169,13 @@ class MenuScene: SKScene {
         })
         
         play_action = SKAction.runBlock({
-            var gc_path = CGPathCreateMutable()
-            CGPathMoveToPoint(gc_path, nil, self.btnGC.position.x, self.btnGC.position.y)
-            CGPathAddArc(gc_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnGC.position), 0, CGFloat(M_PI / 2), false)
-            var gc_move = SKAction.followPath(gc_path, asOffset: false, orientToPath: false, duration: 0.15)
-            var gc_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnGC.zPosition = -2
-            self.btnGC.runAction(SKAction.group([gc_move, gc_scale]))
+            var stats_path = CGPathCreateMutable()
+            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), 0, CGFloat(M_PI / 2), false)
+            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var stats_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnStats.zPosition = -2
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
             
             var settings_path = CGPathCreateMutable()
             CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
@@ -180,13 +193,13 @@ class MenuScene: SKScene {
         })
         
         settings_action = SKAction.runBlock({
-            var gc_path = CGPathCreateMutable()
-            CGPathMoveToPoint(gc_path, nil, self.btnGC.position.x, self.btnGC.position.y)
-            CGPathAddArc(gc_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnGC.position), 0, CGFloat(M_PI), false)
-            var gc_move = SKAction.followPath(gc_path, asOffset: false, orientToPath: false, duration: 0.15)
-            var gc_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnGC.zPosition = -2
-            self.btnGC.runAction(SKAction.group([gc_move, gc_scale]))
+            var stats_path = CGPathCreateMutable()
+            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), 0, CGFloat(M_PI), false)
+            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var stats_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnStats.zPosition = -2
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
             
             var play_path = CGPathCreateMutable()
             CGPathMoveToPoint(play_path, nil, self.btnPlay.position.x, self.btnPlay.position.y)
@@ -203,7 +216,7 @@ class MenuScene: SKScene {
             })
         })
         
-        gc_action = SKAction.runBlock({
+        stats_action = SKAction.runBlock({
             var settings_path = CGPathCreateMutable()
             CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
             CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnSettings.position), CGFloat(M_PI), 0, true)
@@ -219,19 +232,18 @@ class MenuScene: SKScene {
             var play_scale = SKAction.scaleTo(0.0, duration: 0.15)
             self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
             
-            var gc_wait = SKAction.waitForDuration(0.3)
-            var gc_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            gc_move.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnGC.runAction(SKAction.sequence([gc_wait, gc_move]), completion: {()
-                self.sceneDelegate!.presentGameCenter()
-                self.reset()
+            var stats_wait = SKAction.waitForDuration(0.3)
+            var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            stats_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            self.btnStats.runAction(SKAction.sequence([stats_wait, stats_move]), completion: {()
+                self.sceneDelegate!.showStatsScene()
             })
         })
         
         self.userData?.setObject(go_action_normal, forKey: "go_action")
         self.userData?.setObject(play_action, forKey: "play_action")
         self.userData?.setObject(settings_action, forKey: "settings_action")
-        self.userData?.setObject(gc_action, forKey: "gc_action")
+        self.userData?.setObject(stats_action, forKey: "stats_action")
     }
     
     private func distanceFrom(point1: CGPoint, point2: CGPoint) -> CGFloat {
@@ -240,19 +252,15 @@ class MenuScene: SKScene {
         return sqrt((xDist * xDist) + (yDist * yDist));
     }
     
-    private func reset() {
-        rootNode.removeAllChildren()
-        rootNode.removeAllActions()
-        
-        initScene()
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func didMoveToView(view: SKView) {
-        reset()
+        initScene()
+        
+        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("game_highscore")
+        hscoreLabel.text = "HIGHSCORE \(highscore)"
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -269,8 +277,8 @@ class MenuScene: SKScene {
             } else if (btnSettings.containsPoint(location)) {
                 var action = self.userData?.valueForKey("settings_action") as SKAction
                 self.runAction(action)
-            } else if (btnGC.containsPoint(location)) {
-                var action = self.userData?.valueForKey("gc_action") as SKAction
+            } else if (btnStats.containsPoint(location)) {
+                var action = self.userData?.valueForKey("stats_action") as SKAction
                 self.runAction(action)
             } else {
                 

@@ -17,6 +17,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     var settingsScene : SettingsScene!
     var gameScene : GameScene!
     var gameoverScene : GameoverScene!
+    var statsScene : StatsScene!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +43,11 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         settingsScene = SettingsScene(size: skView.bounds.size)
         settingsScene.scaleMode = .AspectFill
         settingsScene.sceneDelegate = self
+        
+        // Create and configure the stats scene.
+        statsScene = StatsScene(size: skView.bounds.size)
+        statsScene.scaleMode = .AspectFill
+        statsScene.sceneDelegate = self
         
         // Create and configure the game scene.
         gameScene = GameScene(size: skView.bounds.size)
@@ -174,6 +180,10 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     
     func showSettingsScene() {
         (self.view as SKView).presentScene(settingsScene)
+    }
+    
+    func showStatsScene() {
+        (self.view as SKView).presentScene(statsScene)
     }
     
     func showGameScene() {

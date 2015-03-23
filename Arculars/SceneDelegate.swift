@@ -9,6 +9,7 @@
 protocol SceneDelegate {
     func showMenuScene()
     func showGameScene()
+    func showStatsScene()
     func showSettingsScene()
     func showGameoverScene()
     

@@ -131,8 +131,8 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        var lastscore = NSUserDefaults.standardUserDefaults().integerForKey("lastscore")
-        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+        var lastscore = NSUserDefaults.standardUserDefaults().integerForKey("game_lastscore")
+        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("game_highscore")
         
         hscoreBadge.removeFromParent()
         scoreLabel.text = "Score \(lastscore)"

@@ -200,12 +200,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func addLocalScore(score: Int) -> Bool {
-        NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "lastscore")
+        NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "game_lastscore")
         NSUserDefaults.standardUserDefaults().synchronize()
         
-        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("highscore")
+        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("game_highscore")
         if score > highscore {
-            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "highscore")
+            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "game_highscore")
             NSUserDefaults.standardUserDefaults().synchronize()
             return true
         }
