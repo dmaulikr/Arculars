@@ -18,9 +18,9 @@ class MenuScene: SKScene {
     private var rootNode = SKNode()
     
     private var btnGo : SKShapeNode!
-    private var btnPlay : SKShapeNode!
-    private var btnSettings: SKShapeNode!
     private var btnStats : SKShapeNode!
+    private var btnPlayEndless: SKShapeNode!
+    private var btnPlayTimed : SKShapeNode!
     
     private var hscoreLabel : SKLabelNode!
     
@@ -76,18 +76,6 @@ class MenuScene: SKScene {
         content.addChild(label)
         rootNode.addChild(btnGo)
         
-        btnPlay = SKShapeNode(circleOfRadius: radius)
-        btnPlay.fillColor = Colors.ArcularsColor3
-        btnPlay.strokeColor = Colors.ArcularsColor3
-        btnPlay.lineWidth = 1
-        btnPlay.antialiased = true
-        btnPlay.position = CGPoint(x: 0, y: 0)
-        btnPlay.xScale = 0.0
-        btnPlay.yScale = 0.0
-        btnPlay.zPosition = -1
-        btnPlay.addChild(SKSpriteNode(imageNamed: "play"))
-        btnGo.addChild(self.btnPlay)
-        
         btnStats = SKShapeNode(circleOfRadius: radius)
         btnStats.fillColor = Colors.ArcularsColor3
         btnStats.strokeColor = Colors.ArcularsColor3
@@ -100,41 +88,53 @@ class MenuScene: SKScene {
         btnStats.addChild(SKSpriteNode(imageNamed: "stats"))
         btnGo.addChild(self.btnStats)
         
-        btnSettings = SKShapeNode(circleOfRadius: radius)
-        btnSettings.fillColor = Colors.ArcularsColor3
-        btnSettings.strokeColor = Colors.ArcularsColor3
-        btnSettings.lineWidth = 1
-        btnSettings.antialiased = true
-        btnSettings.position = CGPoint(x: 0, y: 0)
-        btnSettings.xScale = 0.0
-        btnSettings.yScale = 0.0
-        btnSettings.zPosition = -1
-        btnSettings.addChild(SKSpriteNode(imageNamed: "settings"))
-        btnGo.addChild(self.btnSettings)
+        btnPlayTimed = SKShapeNode(circleOfRadius: radius)
+        btnPlayTimed.fillColor = Colors.ArcularsColor3
+        btnPlayTimed.strokeColor = Colors.ArcularsColor3
+        btnPlayTimed.lineWidth = 1
+        btnPlayTimed.antialiased = true
+        btnPlayTimed.position = CGPoint(x: 0, y: 0)
+        btnPlayTimed.xScale = 0.0
+        btnPlayTimed.yScale = 0.0
+        btnPlayTimed.zPosition = -1
+        btnPlayTimed.addChild(SKSpriteNode(imageNamed: "play"))
+        btnGo.addChild(self.btnPlayTimed)
+        
+        btnPlayEndless = SKShapeNode(circleOfRadius: radius)
+        btnPlayEndless.fillColor = Colors.ArcularsColor3
+        btnPlayEndless.strokeColor = Colors.ArcularsColor3
+        btnPlayEndless.lineWidth = 1
+        btnPlayEndless.antialiased = true
+        btnPlayEndless.position = CGPoint(x: 0, y: 0)
+        btnPlayEndless.xScale = 0.0
+        btnPlayEndless.yScale = 0.0
+        btnPlayEndless.zPosition = -1
+        btnPlayEndless.addChild(SKSpriteNode(imageNamed: "play"))
+        btnGo.addChild(self.btnPlayEndless)
     }
     
     private func initActions() {
         var go_action_normal : SKAction!
         var go_action_reversed : SKAction!
-        var play_action : SKAction!
-        var settings_action : SKAction!
         var stats_action : SKAction!
+        var playe_action : SKAction!
+        var playt_action : SKAction!
         
         go_action_normal = SKAction.runBlock({
-            var play_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + (self.btnGo.frame.height + (self.btnGo.frame.height / 4))), duration: 0.2)
-            play_move.timingMode = SKActionTimingMode.EaseIn
-            var play_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
+            var north_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + (self.btnGo.frame.height + (self.btnGo.frame.height / 4))), duration: 0.2)
+            north_move.timingMode = SKActionTimingMode.EaseIn
+            var north_scale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnStats.runAction(SKAction.group([north_move, north_scale]))
             
-            var stats_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x + (self.btnGo.frame.width + (self.btnGo.frame.width / 4)), y: self.btnGo.position.y), duration: 0.2)
-            stats_move.timingMode = SKActionTimingMode.EaseIn
-            var stats_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            var east_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x + (self.btnGo.frame.width + (self.btnGo.frame.width / 4)), y: self.btnGo.position.y), duration: 0.2)
+            east_move.timingMode = SKActionTimingMode.EaseIn
+            var east_scale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnPlayTimed.runAction(SKAction.group([east_move, east_scale]))
             
-            var settings_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x - (self.btnGo.frame.width + (self.btnGo.frame.width / 4)), y: self.btnGo.position.y), duration: 0.2)
-            settings_move.timingMode = SKActionTimingMode.EaseIn
-            var settings_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            var west_move = SKAction.moveTo(CGPoint(x: self.btnGo.position.x - (self.btnGo.frame.width + (self.btnGo.frame.width / 4)), y: self.btnGo.position.y), duration: 0.2)
+            west_move.timingMode = SKActionTimingMode.EaseIn
+            var west_scale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnPlayEndless.runAction(SKAction.group([west_move, west_scale]))
             
             var content = self.btnGo.childNodeWithName("content") as SKShapeNode
             var content_scale = SKAction.scaleTo(0.0, duration: 0.2)
@@ -145,20 +145,20 @@ class MenuScene: SKScene {
         })
         
         go_action_reversed = SKAction.runBlock({
-            var play_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            play_move.timingMode = SKActionTimingMode.EaseIn
-            var play_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
+            var north_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            north_move.timingMode = SKActionTimingMode.EaseIn
+            var north_scale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnStats.runAction(SKAction.group([north_move, north_scale]))
             
-            var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            stats_move.timingMode = SKActionTimingMode.EaseIn
-            var stats_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            var east_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            east_move.timingMode = SKActionTimingMode.EaseIn
+            var east_scale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnPlayTimed.runAction(SKAction.group([east_move, east_scale]))
             
-            var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            settings_move.timingMode = SKActionTimingMode.EaseIn
-            var settings_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            var west_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            west_move.timingMode = SKActionTimingMode.EaseIn
+            var west_scale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnPlayEndless.runAction(SKAction.group([west_move, west_scale]))
             
             var content = self.btnGo.childNodeWithName("content") as SKShapeNode
             var content_scale = SKAction.scaleTo(1.0, duration: 0.2)
@@ -168,82 +168,82 @@ class MenuScene: SKScene {
             self.userData?.setObject(go_action_normal, forKey: "go_action")
         })
         
-        play_action = SKAction.runBlock({
+        stats_action = SKAction.runBlock({
             var stats_path = CGPathCreateMutable()
-            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), 0, CGFloat(M_PI / 2), false)
+            CGPathMoveToPoint(stats_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayTimed.position), 0, CGFloat(M_PI / 2), false)
             var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: 0.15)
             var stats_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnStats.zPosition = -2
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            self.btnPlayTimed.zPosition = -2
+            self.btnPlayTimed.runAction(SKAction.group([stats_move, stats_scale]))
             
             var settings_path = CGPathCreateMutable()
-            CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnSettings.position), CGFloat(M_PI), CGFloat(M_PI / 2), true)
+            CGPathMoveToPoint(settings_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
+            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayEndless.position), CGFloat(M_PI), CGFloat(M_PI / 2), true)
             var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: 0.15)
             var settings_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            self.btnPlayEndless.runAction(SKAction.group([settings_move, settings_scale]))
             
             var play_wait = SKAction.waitForDuration(0.3)
             var play_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             play_move.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnPlay.runAction(SKAction.sequence([play_wait, play_move]), completion: {()
-                self.sceneDelegate!.showGameScene()
-            })
-        })
-        
-        settings_action = SKAction.runBlock({
-            var stats_path = CGPathCreateMutable()
-            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), 0, CGFloat(M_PI), false)
-            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: 0.15)
-            var stats_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnStats.zPosition = -2
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
-            
-            var play_path = CGPathCreateMutable()
-            CGPathMoveToPoint(play_path, nil, self.btnPlay.position.x, self.btnPlay.position.y)
-            CGPathAddArc(play_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlay.position), CGFloat(M_PI / 2), CGFloat(M_PI), false)
-            var play_move = SKAction.followPath(play_path, asOffset: false, orientToPath: false, duration: 0.15)
-            var play_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
-            
-            var settings_wait = SKAction.waitForDuration(0.3)
-            var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            settings_move.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnSettings.runAction(SKAction.sequence([settings_wait, settings_move]), completion: {()
-                self.sceneDelegate!.showSettingsScene()
-            })
-        })
-        
-        stats_action = SKAction.runBlock({
-            var settings_path = CGPathCreateMutable()
-            CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnSettings.position), CGFloat(M_PI), 0, true)
-            var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: 0.15)
-            var settings_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnSettings.zPosition = -2
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
-            
-            var play_path = CGPathCreateMutable()
-            CGPathMoveToPoint(play_path, nil, self.btnPlay.position.x, self.btnPlay.position.y)
-            CGPathAddArc(play_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlay.position), CGFloat(M_PI / 2), 0, true)
-            var play_move = SKAction.followPath(play_path, asOffset: false, orientToPath: false, duration: 0.15)
-            var play_scale = SKAction.scaleTo(0.0, duration: 0.15)
-            self.btnPlay.runAction(SKAction.group([play_move, play_scale]))
-            
-            var stats_wait = SKAction.waitForDuration(0.3)
-            var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            stats_move.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnStats.runAction(SKAction.sequence([stats_wait, stats_move]), completion: {()
+            self.btnStats.runAction(SKAction.sequence([play_wait, play_move]), completion: {()
                 self.sceneDelegate!.showStatsScene()
             })
         })
         
+        playe_action = SKAction.runBlock({
+            var playt_path = CGPathCreateMutable()
+            CGPathMoveToPoint(playt_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
+            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayTimed.position), 0, CGFloat(M_PI), false)
+            var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var playt_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnPlayTimed.zPosition = -2
+            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]))
+            
+            var stats_path = CGPathCreateMutable()
+            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), CGFloat(M_PI / 2), CGFloat(M_PI), false)
+            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var stats_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            
+            var playe_wait = SKAction.waitForDuration(0.3)
+            var playe_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            playe_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            self.btnPlayEndless.runAction(SKAction.sequence([playe_wait, playe_move]), completion: {()
+                self.sceneDelegate!.startEndlessGame()
+            })
+        })
+        
+        playt_action = SKAction.runBlock({
+            var playe_path = CGPathCreateMutable()
+            CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
+            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayEndless.position), CGFloat(M_PI), 0, true)
+            var playe_move = SKAction.followPath(playe_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var playe_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnPlayEndless.zPosition = -2
+            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]))
+            
+            var stats_path = CGPathCreateMutable()
+            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), CGFloat(M_PI / 2), 0, true)
+            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: 0.15)
+            var stats_scale = SKAction.scaleTo(0.0, duration: 0.15)
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            
+            var playt_wait = SKAction.waitForDuration(0.3)
+            var playt_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move]), completion: {()
+                self.sceneDelegate!.startTimedGame()
+            })
+        })
+        
         self.userData?.setObject(go_action_normal, forKey: "go_action")
-        self.userData?.setObject(play_action, forKey: "play_action")
-        self.userData?.setObject(settings_action, forKey: "settings_action")
         self.userData?.setObject(stats_action, forKey: "stats_action")
+        self.userData?.setObject(playe_action, forKey: "playe_action")
+        self.userData?.setObject(playt_action, forKey: "playt_action")
     }
     
     private func distanceFrom(point1: CGPoint, point2: CGPoint) -> CGFloat {
@@ -271,14 +271,14 @@ class MenuScene: SKScene {
                 var action = self.userData?.valueForKey("go_action") as SKAction
                 self.runAction(action)
             }
-            else if (btnPlay.containsPoint(location)) {
-                var action = self.userData?.valueForKey("play_action") as SKAction
-                self.runAction(action)
-            } else if (btnSettings.containsPoint(location)) {
-                var action = self.userData?.valueForKey("settings_action") as SKAction
-                self.runAction(action)
-            } else if (btnStats.containsPoint(location)) {
+            else if (btnStats.containsPoint(location)) {
                 var action = self.userData?.valueForKey("stats_action") as SKAction
+                self.runAction(action)
+            } else if (btnPlayEndless.containsPoint(location)) {
+                var action = self.userData?.valueForKey("playe_action") as SKAction
+                self.runAction(action)
+            } else if (btnPlayTimed.containsPoint(location)) {
+                var action = self.userData?.valueForKey("playt_action") as SKAction
                 self.runAction(action)
             } else {
                 

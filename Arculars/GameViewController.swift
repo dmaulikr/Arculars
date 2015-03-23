@@ -14,7 +14,6 @@ import Social
 class GameViewController: UIViewController, SceneDelegate, GKGameCenterControllerDelegate {
     
     var menuScene : MenuScene!
-    var settingsScene : SettingsScene!
     var gameScene : GameScene!
     var gameoverScene : GameoverScene!
     var statsScene : StatsScene!
@@ -38,11 +37,6 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         menuScene = MenuScene(size: skView.bounds.size)
         menuScene.scaleMode = .AspectFill
         menuScene.sceneDelegate = self
-        
-        // Create and configure the settings scene.
-        settingsScene = SettingsScene(size: skView.bounds.size)
-        settingsScene.scaleMode = .AspectFill
-        settingsScene.sceneDelegate = self
         
         // Create and configure the stats scene.
         statsScene = StatsScene(size: skView.bounds.size)
@@ -178,18 +172,17 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         (self.view as SKView).presentScene(menuScene)
     }
     
-    func showSettingsScene() {
-        (self.view as SKView).presentScene(settingsScene)
+    func startEndlessGame() {
+        (self.view as SKView).presentScene(gameScene)
+    }
+    
+    func startTimedGame() {
+        (self.view as SKView).presentScene(gameScene)
     }
     
     func showStatsScene() {
         (self.view as SKView).presentScene(statsScene)
     }
-    
-    func showGameScene() {
-        (self.view as SKView).presentScene(gameScene)
-    }
-    
     func showGameoverScene() {
         (self.view as SKView).presentScene(gameoverScene)
     }

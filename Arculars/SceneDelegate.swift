@@ -7,10 +7,12 @@
 //
 
 protocol SceneDelegate {
+    
+    func startEndlessGame()
+    func startTimedGame()
+    
     func showMenuScene()
-    func showGameScene()
     func showStatsScene()
-    func showSettingsScene()
     func showGameoverScene()
     
     func presentGameCenter()

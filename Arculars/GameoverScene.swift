@@ -175,7 +175,7 @@ class GameoverScene: SKScene {
                 self.sceneDelegate!.shareOnOther()
             } else {
                 self.runAction(SKAction.fadeOutWithDuration(0.15), completion: { ()
-                    self.sceneDelegate!.showGameScene()
+                    self.sceneDelegate!.startEndlessGame()
                 })
             }
         }

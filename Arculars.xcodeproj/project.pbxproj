@@ -25,7 +25,6 @@
 		3098F5251AAF8AB800829428 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098F5241AAF8AB800829428 /* Colors.swift */; };
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
 		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
-		30DDDBEC1ABB66EE00BB11EE /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30DDDBEB1ABB66EE00BB11EE /* SettingsScene.swift */; };
 		30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F02AC01ABF570300A0CF68 /* GameoverScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +61,6 @@
 		3098F5241AAF8AB800829428 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
-		30DDDBEB1ABB66EE00BB11EE /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		30F02AC01ABF570300A0CF68 /* GameoverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameoverScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,7 +151,6 @@
 				30F02AC01ABF570300A0CF68 /* GameoverScene.swift */,
 				309ED2E61AB4939D007D7EC4 /* MenuScene.swift */,
 				3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */,
-				30DDDBEB1ABB66EE00BB11EE /* SettingsScene.swift */,
 				305414B91AC04BFE00636047 /* StatsScene.swift */,
 			);
 			name = Scenes;
@@ -294,7 +291,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				30525A031AB3800F001D6C91 /* Ball.swift in Sources */,
-				30DDDBEC1ABB66EE00BB11EE /* SettingsScene.swift in Sources */,
 				30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */,
 				30500B331AAE3010009F4C26 /* GameScene.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
