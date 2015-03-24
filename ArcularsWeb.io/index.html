@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Arculars</title>
+	<meta name="author" content="Arculars" />
+	<meta name="description" content="Days is a beautiful countdown to all the events that matter to you" />
+	<meta name="keywords"  content="arculars,game,addictive,board,circle,kids,Game Center,iOS,iPhone,app,mobile,beautiful" />
+	<meta name="Resource-type" content="Document" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="canonical" href="index.html"/>
+	<link rel="apple-touch-icon" href="img/touch-icon-iphone.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="img/touch-icon-ipad.png" />
+	<link rel="apple-touch-icon" sizes="120x120" href="img/touch-icon-iphone-retina.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="img/touch-icon-ipad-retina.png" />
+	<link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+ 	<link href='css/animate.css' rel='stylesheet' type='text/css'>
+	<!--[if IE]>
+		<script type="text/javascript">
+			 var console = { log: function() {} };
+		</script>
+	<![endif]-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jquery.slimscroll.min.js"></script>
+	<script type="text/javascript" src="js/jquery.fullPage.js"></script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-46317849-2', 'auto');
+	  ga('send', 'pageview');
+
+	</script>
+</head>
+<body>
+<div id="fullpage">
+<div class="section" id="section0">
+<div class="section0 hidden">
+<div class="logo"></div>
+<h1>Arculars</h1>
+<h2>An addictive and engaging game about circles and arcs.</h2>
+<div class="app-store-btn"><a class="app-store-link" href="" target="_blank"></a></div>
+</div>
+</div>
+<div class="section" id="section1">
+<div class="section1">
+<div class="text">
+<h3>Lorem ipsum dolor sit amet.</h3>
+<p>Lorem ipsum dolor sit amet.</p>
+</div>
+<video autoplay loop muted id="video" class="video">
+<source src="video/video1.mp4" type="video/mp4">
+<source src="http://daysapp.co/video/movie1.ogv" type="video/ogv">
+<source src="http://daysapp.co/video/movie1.webm" type="video/webm">
+</video>
+<div class="iphone">
+<div class="iphone-photo"></div>
+</div>
+</div>
+</div>
+<div class="section" id="section2">
+<div class="section2">
+<div class="text2">
+<h3>Lorem ipsum dolor sit amet.</h3>
+<p>Lorem ipsum dolor sit amet.</p>
+</div>
+<video autoplay loop muted id="video" class="video">
+<source src="video/video2.mp4" type="video/mp4">
+<source src="http://daysapp.co/video/movie2.ogv" type="video/ogv">
+<source src="http://daysapp.co/video/movie2.webm" type="video/webm">
+</video>
+<div class="iphone2">
+<div class="iphone-photo2"></div>
+</div>
+</div>
+</div>
+<div class="section" id="section3">
+<div class="section3">
+<div class="text3">
+<h3>Lorem ipsum dolor sit amet.</h3>
+<p>Lorem ipsum dolor sit amet.</p>
+</div>
+<video autoplay loop muted id="video" class="video">
+<source src="video/video3.mp4" type="video/mp4">
+<source src="http://daysapp.co/video/movie3.ogv" type="video/ogv">
+<source src="http://daysapp.co/video/movie3.webm" type="video/webm">
+</video>
+<div class="iphone3">
+<div class="iphone-photo3"></div>
+</div>
+</div>
+</div>
+<div class="section" id="section4">
+<div class="section4">
+<div class="app-icon"></div>
+<h3>Lorem ipsum dolor sit amet.</h3>
+<p>Available for iPhone and iPad (iOS 8 and higher).</p>
+<div class="app-store-btn"><a class="app-store-link" href="" target="_blank"></a></div>
+<div class="social">
+<div class="facebook"><a id="facebook-link" href="" target="_blank">Facebook</a></div>
+<div class="twitter"><a id="twitter-link" href="" target="_blank">Twitter</a></div>
+</div>
+<div class="copyrigth">Made with love in Switzerland</a>.
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Scripts Start -->
+<script src="js/fadein.js"></script>
+<!-- Scripts End -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#fullpage').fullpage({
+			navigation: true,
+			navigationPosition: 'right',
+			responsive: 900,
+			keyboardScrolling: true,
+
+			afterRender: function(){
+
+			//playing the video
+			$('video').trigger('play');
+			}
+		});
+	});
+</script>
+</body>
+</html>
