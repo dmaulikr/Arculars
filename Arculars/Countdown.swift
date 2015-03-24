@@ -14,7 +14,7 @@ class Countdown : SKLabelNode {
     var countdownDelegate : CountdownDelegate!
 
     private var remaining : Int
-    private var timer : NSTimer!
+    private var timer = NSTimer()
     private let seconds : Int
     
     init(position: CGPoint, seconds: Int) {
