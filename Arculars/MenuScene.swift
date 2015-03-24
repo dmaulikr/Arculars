@@ -72,20 +72,21 @@ class MenuScene: SKScene {
         dashedCircle.yScale = 0.0
         self.btnGo.addChild(dashedCircle)
         
-        var content = SKShapeNode(circleOfRadius: radius)
-        content.fillColor = Colors.ArcularsColor3
-        content.strokeColor = Colors.ArcularsColor3
-        content.lineWidth = 1
-        content.antialiased = true
-        content.name = "content"
-        btnGo.addChild(content)
-        var label = SKLabelNode(text: "GO")
-        label.fontName = "Avenir-Black"
-        label.fontSize = self.frame.size.height / 24
-        label.position = CGPoint(x: 0, y: -label.frame.height / 2)
-        content.addChild(label)
+        var goContent = SKShapeNode(circleOfRadius: radius)
+        goContent.fillColor = Colors.ArcularsColor3
+        goContent.strokeColor = Colors.ArcularsColor3
+        goContent.lineWidth = 1
+        goContent.antialiased = true
+        goContent.name = "content"
+        btnGo.addChild(goContent)
+        var goLabel = SKLabelNode(text: "GO")
+        goLabel.fontName = "Avenir-Black"
+        goLabel.fontSize = self.size.height / 24
+        goLabel.position = CGPoint(x: 0, y: -goLabel.frame.height / 2)
+        goContent.addChild(goLabel)
         rootNode.addChild(btnGo)
         
+        // INIT STATS BUTTON
         btnStats = SKShapeNode(circleOfRadius: radius)
         btnStats.fillColor = Colors.ArcularsColor3
         btnStats.strokeColor = Colors.ArcularsColor3
@@ -98,6 +99,15 @@ class MenuScene: SKScene {
         btnStats.addChild(SKSpriteNode(imageNamed: "stats"))
         btnGo.addChild(self.btnStats)
         
+        var statsLabel = SKLabelNode(text: "Stats")
+        statsLabel.name = "label"
+        statsLabel.fontName = "Avenir-Light"
+        statsLabel.fontSize = self.size.height / 40
+        statsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
+        statsLabel.alpha = 0.0
+        btnStats.addChild(statsLabel)
+        
+        // INIT SETTINGS BUTTON
         btnSettings = SKShapeNode(circleOfRadius: radius)
         btnSettings.fillColor = Colors.ArcularsColor3
         btnSettings.strokeColor = Colors.ArcularsColor3
@@ -110,6 +120,15 @@ class MenuScene: SKScene {
         btnSettings.addChild(SKSpriteNode(imageNamed: "settings"))
         btnGo.addChild(self.btnSettings)
         
+        var settingsLabel = SKLabelNode(text: "Settings")
+        settingsLabel.name = "label"
+        settingsLabel.fontName = "Avenir-Light"
+        settingsLabel.fontSize = self.size.height / 40
+        settingsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
+        settingsLabel.alpha = 0.0
+        btnSettings.addChild(settingsLabel)
+        
+        // INIT TIMED GAME BUTTON
         btnPlayTimed = SKShapeNode(circleOfRadius: radius)
         btnPlayTimed.fillColor = Colors.ArcularsColor3
         btnPlayTimed.strokeColor = Colors.ArcularsColor3
@@ -122,6 +141,15 @@ class MenuScene: SKScene {
         btnPlayTimed.addChild(SKSpriteNode(imageNamed: "play"))
         btnGo.addChild(self.btnPlayTimed)
         
+        var playtLabel = SKLabelNode(text: "Timed")
+        playtLabel.name = "label"
+        playtLabel.fontName = "Avenir-Light"
+        playtLabel.fontSize = self.size.height / 40
+        playtLabel.position = CGPoint(x: 0, y: (1.25 * radius))
+        playtLabel.alpha = 0.0
+        btnPlayTimed.addChild(playtLabel)
+        
+        // INIT ENDLESS GAME BUTTON
         btnPlayEndless = SKShapeNode(circleOfRadius: radius)
         btnPlayEndless.fillColor = Colors.ArcularsColor3
         btnPlayEndless.strokeColor = Colors.ArcularsColor3
@@ -133,6 +161,14 @@ class MenuScene: SKScene {
         btnPlayEndless.zPosition = -1
         btnPlayEndless.addChild(SKSpriteNode(imageNamed: "home"))
         btnGo.addChild(self.btnPlayEndless)
+        
+        var playeLabel = SKLabelNode(text: "Endless")
+        playeLabel.name = "label"
+        playeLabel.fontName = "Avenir-Light"
+        playeLabel.fontSize = self.size.height / 40
+        playeLabel.position = CGPoint(x: 0, y: (1.25 * radius))
+        playeLabel.alpha = 0.0
+        btnPlayEndless.addChild(playeLabel)
     }
     
     private func initActions() {
@@ -148,25 +184,37 @@ class MenuScene: SKScene {
             var stats_move = SKAction.moveTo(stats_endpoint, duration: 0.2)
             stats_move.timingMode = SKActionTimingMode.EaseIn
             var stats_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]), completion: {()
+                var label = self.btnStats.childNodeWithName("label") as SKLabelNode
+                label.runAction(SKAction.fadeInWithDuration(0.1))
+            })
             
             var settings_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance), CGAffineTransformMakeRotation(CGFloat(M_PI_4)))
             var settings_move = SKAction.moveTo(settings_endpoint, duration: 0.2)
             settings_move.timingMode = SKActionTimingMode.EaseIn
             var settings_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]), completion: {()
+                var label = self.btnSettings.childNodeWithName("label") as SKLabelNode
+                label.runAction(SKAction.fadeInWithDuration(0.1))
+            })
             
             var playt_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + self.distance), CGAffineTransformMakeRotation(-CGFloat(M_PI_4)))
             var playt_move = SKAction.moveTo(playt_endpoint, duration: 0.2)
             playt_move.timingMode = SKActionTimingMode.EaseIn
             var playt_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
+                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
+                label.runAction(SKAction.fadeInWithDuration(0.1))
+            })
             
             var playe_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + self.distance), CGAffineTransformMakeRotation(CGFloat(M_PI_4)))
             var playe_move = SKAction.moveTo(playe_endpoint, duration: 0.2)
             playe_move.timingMode = SKActionTimingMode.EaseIn
             var playe_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]))
+            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]), completion: {()
+                var label = self.btnPlayEndless.childNodeWithName("label") as SKLabelNode
+                label.runAction(SKAction.fadeInWithDuration(0.1))
+            })
             
             var dashedcircle_scale = SKAction.scaleTo(1.0, duration: 0.2)
             var dashedcircle_rotate = SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(2 * M_PI), duration: 10.0))
@@ -184,22 +232,34 @@ class MenuScene: SKScene {
             var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             stats_move.timingMode = SKActionTimingMode.EaseIn
             var stats_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]), completion: {()
+                var label = self.btnStats.childNodeWithName("label") as SKLabelNode
+                label.alpha = 0.0
+            })
             
             var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             settings_move.timingMode = SKActionTimingMode.EaseIn
             var settings_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]), completion: {()
+                var label = self.btnSettings.childNodeWithName("label") as SKLabelNode
+                label.alpha = 0.0
+            })
             
             var playt_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             playt_move.timingMode = SKActionTimingMode.EaseIn
             var playt_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
+                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
+                label.alpha = 0.0
+            })
             
             var playe_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             playe_move.timingMode = SKActionTimingMode.EaseIn
             var playe_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]))
+            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]), completion: {()
+                var label = self.btnPlayEndless.childNodeWithName("label") as SKLabelNode
+                label.alpha = 0.0
+            })
             
             var dashedcircle_scale = SKAction.scaleTo(0.0, duration: 0.2)
             self.dashedCircle.runAction(dashedcircle_scale, completion: { ()
