@@ -19,6 +19,7 @@ class MenuScene: SKScene {
     
     private var distance : CGFloat!
     
+    private var btnAbout : SKShapeNode!
     private var btnGo : SKShapeNode!
     private var btnStats : SKShapeNode!
     private var btnSettings: SKShapeNode!
@@ -46,11 +47,34 @@ class MenuScene: SKScene {
         
         initButtons()
         initActions()
+        
+        var title = SKLabelNode(text: "ARCULARS")
+        title.fontName = "Avenir-Black"
+        title.fontSize = self.size.height / 16
+        title.fontColor = Colors.FontColor
+        title.position = CGPoint(x: 0, y: (self.size.height / 6) * 2)
+        rootNode.addChild(title)
     }
     
     private func initButtons() {
         var radius = self.size.height / 20
         
+        // INIT ABOUT BUTTON
+        btnAbout = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 3, height: self.size.height / 12))
+        btnAbout.position = CGPoint(x: 0, y: -(self.size.height / 2) + (btnAbout.frame.height / 2))
+        btnAbout.lineWidth = 0
+        btnAbout.strokeColor = UIColor.clearColor()
+        btnAbout.fillColor = UIColor.clearColor()
+        var aboutLabel = SKLabelNode(text: "ABOUT")
+        aboutLabel.fontSize = self.size.height / 32
+        aboutLabel.fontName = "Avenir-Black"
+        aboutLabel.fontColor = UIColor.grayColor()
+        aboutLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        aboutLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnAbout.addChild(aboutLabel)
+        rootNode.addChild(btnAbout)
+        
+        // INIT GO BUTTON
         btnGo = SKShapeNode(circleOfRadius: radius)
         btnGo.strokeColor = Colors.ArcularsColor3
         btnGo.lineWidth = 2
@@ -58,19 +82,6 @@ class MenuScene: SKScene {
         btnGo.position = CGPoint(x: 0, y: 0)
         
         distance = (self.btnGo.frame.height + (self.btnGo.frame.height / 2))
-        
-        var bezierpath = UIBezierPath()
-        bezierpath.addArcWithCenter(self.btnGo.position, radius: distance, startAngle: 0, endAngle: CGFloat(2 * M_PI), clockwise: false)
-        var dashed = CGPathCreateCopyByDashingPath(bezierpath.CGPath, nil, 0, [10.0,10.0], 2)
-        dashedCircle = SKShapeNode(path: dashed)
-        dashedCircle.position = self.btnGo.position
-        dashedCircle.fillColor = UIColor.clearColor()
-        dashedCircle.lineWidth = 1
-        dashedCircle.strokeColor = Colors.FontColor
-        dashedCircle.zPosition = -10
-        dashedCircle.xScale = 0.0
-        dashedCircle.yScale = 0.0
-        self.btnGo.addChild(dashedCircle)
         
         var goContent = SKShapeNode(circleOfRadius: radius)
         goContent.fillColor = Colors.ArcularsColor3
@@ -85,6 +96,19 @@ class MenuScene: SKScene {
         goLabel.position = CGPoint(x: 0, y: -goLabel.frame.height / 2)
         goContent.addChild(goLabel)
         rootNode.addChild(btnGo)
+        
+        var bezierpath = UIBezierPath()
+        bezierpath.addArcWithCenter(self.btnGo.position, radius: distance, startAngle: 0, endAngle: CGFloat(2 * M_PI), clockwise: false)
+        var dashed = CGPathCreateCopyByDashingPath(bezierpath.CGPath, nil, 0, [10.0,10.0], 2)
+        dashedCircle = SKShapeNode(path: dashed)
+        dashedCircle.position = self.btnGo.position
+        dashedCircle.fillColor = UIColor.clearColor()
+        dashedCircle.lineWidth = 1
+        dashedCircle.strokeColor = Colors.FontColor
+        dashedCircle.zPosition = -10
+        dashedCircle.xScale = 0.0
+        dashedCircle.yScale = 0.0
+        self.btnGo.addChild(dashedCircle)
         
         // INIT STATS BUTTON
         btnStats = SKShapeNode(circleOfRadius: radius)
@@ -454,6 +478,8 @@ class MenuScene: SKScene {
             } else if (btnPlayTimed.containsPoint(location)) {
                 var action = self.userData?.valueForKey("playt_action") as SKAction
                 self.runAction(action)
+            } else if (btnAbout.containsPoint(location)) {
+                
             }  else {
                 
                 // Just a little 'easteregg' ;)
