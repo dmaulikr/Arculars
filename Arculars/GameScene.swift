@@ -211,6 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     
     private func gameover() {
         isGameOver = true
+        
         countdown.stop()
         
         addLocalScore(self.score.getScore())
@@ -230,6 +231,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     }
     
     private func addLocalScore(score: Int) {
+        ScoreHandler.setLastscore(score, gameType: Globals.currentGameType)
         var highscore = ScoreHandler.getHighscore(Globals.currentGameType)
         if score > highscore {
             ScoreHandler.setHighscore(score, gameType: Globals.currentGameType)
