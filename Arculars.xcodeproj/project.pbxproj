@@ -25,6 +25,11 @@
 		305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414BB1AC0A05000636047 /* SettingsScene.swift */; };
 		3098F5251AAF8AB800829428 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098F5241AAF8AB800829428 /* Colors.swift */; };
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
+		30A5F3F41AC142B7004D7364 /* Countdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3F31AC142B7004D7364 /* Countdown.swift */; };
+		30A5F3F61AC14405004D7364 /* CountdownDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3F51AC14405004D7364 /* CountdownDelegate.swift */; };
+		30A5F3FA1AC15415004D7364 /* ScoreHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3F91AC15415004D7364 /* ScoreHandler.swift */; };
+		30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */; };
+		30A5F3FE1AC15593004D7364 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3FD1AC15593004D7364 /* Globals.swift */; };
 		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
 		30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F02AC01ABF570300A0CF68 /* GameoverScene.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +67,11 @@
 		305414BB1AC0A05000636047 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		3098F5241AAF8AB800829428 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		30A5F3F31AC142B7004D7364 /* Countdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Countdown.swift; sourceTree = "<group>"; };
+		30A5F3F51AC14405004D7364 /* CountdownDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownDelegate.swift; sourceTree = "<group>"; };
+		30A5F3F91AC15415004D7364 /* ScoreHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoreHandler.swift; sourceTree = "<group>"; };
+		30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsHandler.swift; sourceTree = "<group>"; };
+		30A5F3FD1AC15593004D7364 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		30F02AC01ABF570300A0CF68 /* GameoverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameoverScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -163,7 +173,10 @@
 			isa = PBXGroup;
 			children = (
 				3098F5241AAF8AB800829428 /* Colors.swift */,
+				30A5F3FD1AC15593004D7364 /* Globals.swift */,
 				302197721AB306B400769D2F /* PhysicsCategory.swift */,
+				30A5F3F91AC15415004D7364 /* ScoreHandler.swift */,
+				30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */,
 			);
 			name = Infrastructure;
 			sourceTree = "<group>";
@@ -174,6 +187,8 @@
 				30525A021AB3800F001D6C91 /* Ball.swift */,
 				303FCDEC1AAE349900A59347 /* Circle.swift */,
 				301C00861AB4576D00A635FC /* Score.swift */,
+				30A5F3F31AC142B7004D7364 /* Countdown.swift */,
+				30A5F3F51AC14405004D7364 /* CountdownDelegate.swift */,
 			);
 			name = Nodes;
 			sourceTree = "<group>";
@@ -299,7 +314,12 @@
 				305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,
+				30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */,
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
+				30A5F3FE1AC15593004D7364 /* Globals.swift in Sources */,
+				30A5F3FA1AC15415004D7364 /* ScoreHandler.swift in Sources */,
+				30A5F3F41AC142B7004D7364 /* Countdown.swift in Sources */,
+				30A5F3F61AC14405004D7364 /* CountdownDelegate.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
 				305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */,
 				30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */,

@@ -178,11 +178,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         (self.view as SKView).presentScene(menuScene)
     }
     
-    func startEndlessGame() {
-        (self.view as SKView).presentScene(gameScene)
-    }
-    
-    func startTimedGame() {
+    func startGame() {
         (self.view as SKView).presentScene(gameScene)
     }
     

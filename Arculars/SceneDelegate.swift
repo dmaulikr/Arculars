@@ -8,8 +8,7 @@
 
 protocol SceneDelegate {
     
-    func startEndlessGame()
-    func startTimedGame()
+    func startGame()
     
     func showMenuScene()
     func showStatsScene()

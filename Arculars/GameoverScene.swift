@@ -26,6 +26,7 @@ class GameoverScene: SKScene {
     private var whatsapp : SKShapeNode!
     private var shareother : SKShapeNode!
     
+    private var ttpLabel : SKLabelNode!
     private var scoreLabel : SKLabelNode!
     private var hscoreLabel : SKLabelNode!
     private var hscoreBadge : SKShapeNode!
@@ -47,15 +48,11 @@ class GameoverScene: SKScene {
         var radius = self.size.height / 16
         var offset = CGFloat(8)
         
-        var ttpLabel = SKLabelNode(text: "TAP TO PLAY")
+        ttpLabel = SKLabelNode(text: "TAP TO PLAY")
         ttpLabel.fontName = "Avenir"
         ttpLabel.fontSize = self.size.height / 32
         ttpLabel.position = CGPoint(x: 0, y: self.size.height / 4)
-        ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
-            SKAction.fadeAlphaTo(0.0, duration: 0.2),
-            SKAction.fadeAlphaTo(1.0, duration: 0.2),
-            SKAction.waitForDuration(1.5)
-        ])))
+        
         rootNode.addChild(ttpLabel)
         
         scoreLabel = SKLabelNode(text: "Score")
@@ -131,8 +128,14 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        var lastscore = NSUserDefaults.standardUserDefaults().integerForKey("game_lastscore")
-        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("game_highscore")
+        var lastscore = ScoreHandler.getLastscore(Globals.currentGameType)
+        var highscore = ScoreHandler.getHighscore(Globals.currentGameType)
+        
+        ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
+            SKAction.fadeAlphaTo(0.0, duration: 0.2),
+            SKAction.fadeAlphaTo(1.0, duration: 0.2),
+            SKAction.waitForDuration(1.5)
+        ])))
         
         hscoreBadge.removeFromParent()
         scoreLabel.text = "Score \(lastscore)"
@@ -145,12 +148,7 @@ class GameoverScene: SKScene {
             hscoreLabel.addChild(hscoreBadge)
         }
         
-        self.view?.paused = false
         self.runAction(SKAction.fadeInWithDuration(0.15))
-    }
-
-    deinit {
-        self.view?.paused = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -175,7 +173,7 @@ class GameoverScene: SKScene {
                 self.sceneDelegate!.shareOnOther()
             } else {
                 self.runAction(SKAction.fadeOutWithDuration(0.15), completion: { ()
-                    self.sceneDelegate!.startEndlessGame()
+                    self.sceneDelegate!.startGame()
                 })
             }
         }

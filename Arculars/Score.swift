@@ -18,7 +18,7 @@ class Score : SKLabelNode {
         self.zPosition = 2
         self.fontName = "Avenir"
         self.fontColor = Colors.FontColor
-        self.fontSize = 30
+        self.fontSize = 26
         self.position = position
         updateText()
     }

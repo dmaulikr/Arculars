@@ -10,7 +10,12 @@ import UIKit
 import SpriteKit
 import GameKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+enum GameType {
+    case Endless
+    case Timed
+}
+
+class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     
     private let circlePosition : CGPoint!
     private let ballPosition : CGPoint!
@@ -20,14 +25,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
-    
     private var circles = [Circle]()
-    
     private var nextBall : Ball!
     private var ballRadius : CGFloat!
     private var ballSpeed : NSTimeInterval!
     private var score : Score!
-    
+    private var countdown : Countdown!
     private var isGameOver = false
     
     override init(size: CGSize) {
@@ -36,7 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Init positions
         var offset : CGFloat = self.size.height / 8
         scorePosition = CGPoint(x: 0, y: (self.size.height / 2) - offset)
-        circlePosition = CGPoint(x: 0, y: self.size.height / 4 - offset)
+        circlePosition = CGPoint(x: 0, y: (self.size.height / 4) - offset)
         ballPosition = CGPoint(x: 0, y: -(size.height / 2) + (offset / 2))
         
         // Setup Scene
@@ -69,6 +72,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         reset()
+        
+        if Globals.currentGameType == GameType.Timed {
+            countdown.hidden = false
+            countdown.start()
+        } else if Globals.currentGameType == GameType.Endless {
+            countdown.hidden = true
+        }
     }
     
     private func initScene() {
@@ -77,6 +87,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         score = Score(position: scorePosition)
         rootNode.addChild(score)
+        
+        countdown = Countdown(position: CGPoint(x: scorePosition.x, y: scorePosition.y - score.frame.height), seconds: 60)
+        countdown.countdownDelegate = self
+        rootNode.addChild(countdown)
         
         addCircle(Colors.ArcularsColor1, clockwise: false, speed: 3.2, points: 4)
         addCircle(Colors.ArcularsColor2, clockwise: true, speed: 2.6, points: 3)
@@ -197,6 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func gameover() {
         isGameOver = true
+        countdown.stop()
         
         addLocalScore(self.score.getScore())
         addLeaderboardScore(self.score.getScore())
@@ -206,26 +221,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func reset() {
         isGameOver = false
+        
         score.reset()
+        countdown.reset()
+        
         nextBall?.removeFromParent()
         addBall()
     }
     
-    private func addLocalScore(score: Int) -> Bool {
-        NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "game_lastscore")
-        NSUserDefaults.standardUserDefaults().synchronize()
-        
-        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("game_highscore")
+    private func addLocalScore(score: Int) {
+        var highscore = ScoreHandler.getHighscore(Globals.currentGameType)
         if score > highscore {
-            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: "game_highscore")
-            NSUserDefaults.standardUserDefaults().synchronize()
-            return true
+            ScoreHandler.setHighscore(score, gameType: Globals.currentGameType)
         }
-        return false
     }
     
     func addLeaderboardScore(score: Int) {
-        var newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
+        var newGCScore : GKScore!
+        switch Globals.currentGameType {
+            case .Endless:
+                newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
+                break
+            case .Timed:
+                newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.timed")
+                break
+            default:
+                return
+        }
         newGCScore.value = Int64(score)
         GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
             if error != nil {
@@ -238,5 +260,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 #endif
             }
         })
+    }
+    
+    func countdownFinished() {
+        #if DEBUG
+            println("timer finished")
+        #endif
+        gameover()
     }
 }

@@ -26,9 +26,6 @@ class MenuScene: SKScene {
     private var btnPlayTimed : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
-    private var hscoreLabel : SKLabelNode!
-    
-    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -49,13 +46,6 @@ class MenuScene: SKScene {
         
         initButtons()
         initActions()
-        
-        hscoreLabel = SKLabelNode(text: "Highscore")
-        hscoreLabel.fontName = "Avenir-Light"
-        hscoreLabel.fontSize = self.size.height / 24
-        hscoreLabel.fontColor = Colors.FontColor
-        hscoreLabel.position = CGPoint(x: 0, y: -self.size.height / 4)
-        rootNode.addChild(hscoreLabel)
     }
     
     private func initButtons() {
@@ -229,7 +219,7 @@ class MenuScene: SKScene {
             
             var playt_path = CGPathCreateMutable()
             CGPathMoveToPoint(playt_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
-            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayTimed.position), CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), false)
+            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), false)
             var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayTimed.zPosition = -2
@@ -237,7 +227,7 @@ class MenuScene: SKScene {
             
             var playe_path = CGPathCreateMutable()
             CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
-            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayEndless.position), CGFloat(M_PI * 0.75)  , -CGFloat(M_PI * 0.75), false)
+            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75)  , -CGFloat(M_PI * 0.75), false)
             var playe_move = SKAction.followPath(playe_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playe_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayEndless.zPosition = -2
@@ -245,7 +235,7 @@ class MenuScene: SKScene {
             
             var settings_path = CGPathCreateMutable()
             CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnSettings.position), -CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), true)
+            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), true)
             var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: single_duration)
             var settings_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnSettings.zPosition = -2
@@ -265,7 +255,7 @@ class MenuScene: SKScene {
             
             var playt_path = CGPathCreateMutable()
             CGPathMoveToPoint(playt_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
-            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayTimed.position), CGFloat(M_PI / 4), -CGFloat(M_PI / 4), true)
+            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI / 4), true)
             var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayTimed.zPosition = -2
@@ -273,7 +263,7 @@ class MenuScene: SKScene {
             
             var playe_path = CGPathCreateMutable()
             CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
-            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayEndless.position), CGFloat(M_PI * 0.75)  , -CGFloat(M_PI / 4), true)
+            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75)  , -CGFloat(M_PI / 4), true)
             var playe_move = SKAction.followPath(playe_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playe_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayEndless.zPosition = -2
@@ -281,7 +271,7 @@ class MenuScene: SKScene {
             
             var stats_path = CGPathCreateMutable()
             CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), -CGFloat(M_PI * 0.75), -CGFloat(M_PI / 4), false)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), -CGFloat(M_PI / 4), false)
             var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: single_duration)
             var stats_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnStats.zPosition = -2
@@ -301,7 +291,7 @@ class MenuScene: SKScene {
             
             var playt_path = CGPathCreateMutable()
             CGPathMoveToPoint(playt_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
-            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayTimed.position), CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), false)
+            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), false)
             var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayTimed.zPosition = -2
@@ -309,7 +299,7 @@ class MenuScene: SKScene {
             
             var settings_path = CGPathCreateMutable()
             CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnSettings.position), -CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), true)
+            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), true)
             var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: single_duration)
             var settings_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnSettings.zPosition = -2
@@ -317,7 +307,7 @@ class MenuScene: SKScene {
             
             var stats_path = CGPathCreateMutable()
             CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), -CGFloat(M_PI * 0.75), CGFloat(M_PI * 0.75), true)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), CGFloat(M_PI * 0.75), true)
             var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: single_duration)
             var stats_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnStats.zPosition = -2
@@ -328,7 +318,8 @@ class MenuScene: SKScene {
             playe_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayEndless.zPosition = 0
             self.btnPlayEndless.runAction(SKAction.sequence([playe_wait, playe_move]), completion: {()
-                self.sceneDelegate!.startEndlessGame()
+                Globals.currentGameType = GameType.Endless
+                self.sceneDelegate!.startGame()
             })
         })
         
@@ -337,7 +328,7 @@ class MenuScene: SKScene {
             
             var playe_path = CGPathCreateMutable()
             CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
-            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnPlayEndless.position), CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), true)
+            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), true)
             var playe_move = SKAction.followPath(playe_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playe_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayEndless.zPosition = -2
@@ -345,7 +336,7 @@ class MenuScene: SKScene {
             
             var settings_path = CGPathCreateMutable()
             CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnSettings.position), -CGFloat(M_PI / 4), CGFloat(M_PI / 4), false)
+            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI / 4), false)
             var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: single_duration)
             var settings_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnSettings.zPosition = -2
@@ -353,7 +344,7 @@ class MenuScene: SKScene {
             
             var stats_path = CGPathCreateMutable()
             CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distanceFrom(self.btnGo.position, point2: self.btnStats.position), -CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), false)
+            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), false)
             var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: single_duration)
             var stats_scale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnStats.zPosition = -2
@@ -364,7 +355,8 @@ class MenuScene: SKScene {
             playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayTimed.zPosition = 0
             self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move]), completion: {()
-                self.sceneDelegate!.startTimedGame()
+                Globals.currentGameType = GameType.Timed
+                self.sceneDelegate!.startGame()
             })
         })
         
@@ -375,21 +367,12 @@ class MenuScene: SKScene {
         self.userData?.setObject(playt_action, forKey: "playt_action")
     }
     
-    private func distanceFrom(point1: CGPoint, point2: CGPoint) -> CGFloat {
-        var xDist = (point2.x - point1.x);
-        var yDist = (point2.y - point1.y);
-        return sqrt((xDist * xDist) + (yDist * yDist));
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func didMoveToView(view: SKView) {
         initScene()
-        
-        var highscore = NSUserDefaults.standardUserDefaults().integerForKey("game_highscore")
-        hscoreLabel.text = "HIGHSCORE \(highscore)"
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
