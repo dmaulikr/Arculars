@@ -115,19 +115,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         if !isGameOver {
-            println("*** SHOOT ***")
+            #if DEBUG
+                println("*** SHOOT ***")
+            #endif
             shootBall()
             addBall()
         }
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        println("did begin contact")
-        
+        #if DEBUG
+            println("did begin contact")
+        #endif
         if isGameOver { return }
         
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        println("contact mask \(contactMask)")
+        #if DEBUG
+            println("contact mask \(contactMask)")
+        #endif
         switch (contactMask) {
         case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
             var ball : Ball
@@ -160,8 +165,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
-        println("ball did collide with circle")
-        
+        #if DEBUG
+            println("ball did collide with circle")
+        #endif
         // because of the complex shape of the arc's physicsbody
         // there are multiple contacts when a ball collides with an arc
         // so this is a fix to avoid multiple points being counted to the score
@@ -170,16 +176,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ball.runAction(SKAction.removeFromParent())
         
         if (ball.nodeColor == circle.nodeColor) {
-            println("=== score +\(circle.pointsPerHit)")
+            #if DEBUG
+                println("=== score +\(circle.pointsPerHit)")
+            #endif
             self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
         } else {
-            println("=== ball and circle color don't match -> game is over")
+            #if DEBUG
+                println("=== ball and circle color don't match -> game is over")
+            #endif
             gameover()
         }
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
-        println("ball did collide with border")
+        #if DEBUG
+            println("ball did collide with border")
+        #endif
         ball.runAction(SKAction.removeFromParent())
     }
     
@@ -217,9 +229,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newGCScore.value = Int64(score)
         GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
             if error != nil {
-                println("Score not submitted")
+                #if DEBUG
+                    println("Score not submitted")
+                #endif
             } else {
-                println("Score submitted")
+                #if DEBUG
+                    println("Score submitted")
+                #endif
             }
         })
     }
