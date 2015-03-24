@@ -57,26 +57,11 @@ body {
 	max-width: 350px;
 	margin: 0px auto;
 }
-.section0 .scroll-down {
-	background: url(../img/scroll.png) no-repeat center center;
-	width:100%;
-	height:100px;
-	position:absolute;
-	bottom:0;
-	left:0;
-	background-size: 24px 45px;
-}
-
-
 
 @media only screen and (min--moz-device-pixel-ratio: 2),
 only screen and (-o-min-device-pixel-ratio: 2/1),
 only screen and (-webkit-min-device-pixel-ratio: 2),
 only screen and (min-device-pixel-ratio: 2) {
-	.section0 .scroll-down {
-		background: url(../img/scroll@2x.png) no-repeat center center;
-		background-size: 25px 45px;
-	}
 	.section0 .logo {
 		background: url(../img/logo@2x.png) no-repeat center center;
 		background-size: 160px 160px;
