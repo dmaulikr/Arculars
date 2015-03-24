@@ -76,7 +76,7 @@ class MenuScene: SKScene {
         
         // INIT GO BUTTON
         btnGo = SKShapeNode(circleOfRadius: radius)
-        btnGo.strokeColor = Colors.ArcularsColor3
+        btnGo.strokeColor = Colors.AppColorThree
         btnGo.lineWidth = 2
         btnGo.antialiased = true
         btnGo.position = CGPoint(x: 0, y: 0)
@@ -84,8 +84,8 @@ class MenuScene: SKScene {
         distance = (self.btnGo.frame.height + (self.btnGo.frame.height / 2))
         
         var goContent = SKShapeNode(circleOfRadius: radius)
-        goContent.fillColor = Colors.ArcularsColor3
-        goContent.strokeColor = Colors.ArcularsColor3
+        goContent.fillColor = Colors.AppColorThree
+        goContent.strokeColor = Colors.AppColorThree
         goContent.lineWidth = 1
         goContent.antialiased = true
         goContent.name = "content"
@@ -112,8 +112,8 @@ class MenuScene: SKScene {
         
         // INIT STATS BUTTON
         btnStats = SKShapeNode(circleOfRadius: radius)
-        btnStats.fillColor = Colors.ArcularsColor3
-        btnStats.strokeColor = Colors.ArcularsColor3
+        btnStats.fillColor = Colors.AppColorThree
+        btnStats.strokeColor = Colors.AppColorThree
         btnStats.lineWidth = 1
         btnStats.antialiased = true
         btnStats.position = CGPoint(x: 0, y: 0)
@@ -133,8 +133,8 @@ class MenuScene: SKScene {
         
         // INIT SETTINGS BUTTON
         btnSettings = SKShapeNode(circleOfRadius: radius)
-        btnSettings.fillColor = Colors.ArcularsColor3
-        btnSettings.strokeColor = Colors.ArcularsColor3
+        btnSettings.fillColor = Colors.AppColorThree
+        btnSettings.strokeColor = Colors.AppColorThree
         btnSettings.lineWidth = 1
         btnSettings.antialiased = true
         btnSettings.position = CGPoint(x: 0, y: 0)
@@ -154,8 +154,8 @@ class MenuScene: SKScene {
         
         // INIT TIMED GAME BUTTON
         btnPlayTimed = SKShapeNode(circleOfRadius: radius)
-        btnPlayTimed.fillColor = Colors.ArcularsColor3
-        btnPlayTimed.strokeColor = Colors.ArcularsColor3
+        btnPlayTimed.fillColor = Colors.AppColorThree
+        btnPlayTimed.strokeColor = Colors.AppColorThree
         btnPlayTimed.lineWidth = 1
         btnPlayTimed.antialiased = true
         btnPlayTimed.position = CGPoint(x: 0, y: 0)
@@ -175,8 +175,8 @@ class MenuScene: SKScene {
         
         // INIT ENDLESS GAME BUTTON
         btnPlayEndless = SKShapeNode(circleOfRadius: radius)
-        btnPlayEndless.fillColor = Colors.ArcularsColor3
-        btnPlayEndless.strokeColor = Colors.ArcularsColor3
+        btnPlayEndless.fillColor = Colors.AppColorThree
+        btnPlayEndless.strokeColor = Colors.AppColorThree
         btnPlayEndless.lineWidth = 1
         btnPlayEndless.antialiased = true
         btnPlayEndless.position = CGPoint(x: 0, y: 0)

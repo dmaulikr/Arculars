@@ -11,10 +11,10 @@ import UIKit
 struct Colors {
     static let FontColor = UIColor(rgba: "#F0F0F0")
     static let Background = UIColor(rgba: "#121F21")
-    static let ArcularsColor1 = UIColor(rgba: "#6D21CD")
-    static let ArcularsColor2 = UIColor(rgba: "#E022BF")
-    static let ArcularsColor3 = UIColor(rgba: "#39E0BA")
-    static let ArcularsColor4 = UIColor(rgba: "#2DFB7D")
+    static let AppColorOne = UIColor(rgba: "#6D21CD")
+    static let AppColorTwo = UIColor(rgba: "#E022BF")
+    static let AppColorThree = UIColor(rgba: "#39E0BA")
+    static let AppColorFour = UIColor(rgba: "#2DFB7D")
     
     static let WhatsAppGreen = UIColor(rgba: "#71BA5B")
     static let FacebookBlue = UIColor(rgba: "#6274A5")
@@ -22,10 +22,10 @@ struct Colors {
     static let SharingGray = UIColor(rgba: "#6B838B")
     
     private static let ballColors = [
-        ArcularsColor1,
-        ArcularsColor2,
-        ArcularsColor3,
-        ArcularsColor4
+        AppColorOne,
+        AppColorTwo,
+        AppColorThree,
+        AppColorFour
     ]
     
     static func getRandomBallColor() -> UIColor {

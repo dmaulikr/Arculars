@@ -33,6 +33,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     private var countdown : Countdown!
     private var isGameOver = false
     
+    // Variables for Stats
+    private var stats_hits = [UIColor]()
+    private var stats_fail : UIColor!
+    private var stats_starttime : NSDate!
+    private var stats_moves = 0
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -72,13 +78,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         }
         
         reset()
-        
-        if Globals.currentGameType == GameType.Timed {
-            countdown.hidden = false
-            countdown.start()
-        } else if Globals.currentGameType == GameType.Endless {
-            countdown.hidden = true
-        }
     }
     
     private func initScene() {
@@ -92,10 +91,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         countdown.countdownDelegate = self
         rootNode.addChild(countdown)
         
-        addCircle(Colors.ArcularsColor1, clockwise: false, speed: 3.2, points: 4)
-        addCircle(Colors.ArcularsColor2, clockwise: true, speed: 2.6, points: 3)
-        addCircle(Colors.ArcularsColor3, clockwise: false, speed: 2.0, points: 2)
-        addCircle(Colors.ArcularsColor4, clockwise: true, speed: 1.5, points: 1)
+        addCircle(Colors.AppColorOne, clockwise: false, speed: 3.2, points: 4)
+        addCircle(Colors.AppColorTwo, clockwise: true, speed: 2.6, points: 3)
+        addCircle(Colors.AppColorThree, clockwise: false, speed: 2.0, points: 2)
+        addCircle(Colors.AppColorFour, clockwise: true, speed: 1.5, points: 1)
     }
     
     private func addCircle(color: UIColor, clockwise: Bool, speed: NSTimeInterval, points: Int) {
@@ -132,6 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
             #if DEBUG
                 println("*** SHOOT ***")
             #endif
+            stats_moves++
             shootBall()
             addBall()
         }
@@ -193,11 +193,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
             #if DEBUG
                 println("=== score +\(circle.pointsPerHit)")
             #endif
+            stats_hits.append(circle.nodeColor)
             self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
         } else {
             #if DEBUG
                 println("=== ball and circle color don't match -> game is over")
             #endif
+            stats_fail = circle.nodeColor
             gameover()
         }
     }
@@ -214,7 +216,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         
         countdown.stop()
         
-        addLocalScore(self.score.getScore())
+        // Update Stats
+        StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
+        StatsHandler.updateFiredBallsBy(stats_moves)
+        StatsHandler.updateFailBy(stats_fail)
+        StatsHandler.updateHitsBy(stats_hits)
+        StatsHandler.updateOverallPointsBy(self.score.getScore())
+        StatsHandler.updateLastscore(self.score.getScore(), gameType: Globals.currentGameType)
+        StatsHandler.updateHighscore(self.score.getScore(), gameType: Globals.currentGameType)
+        
+        // Add Score to Gamecenter
         addLeaderboardScore(self.score.getScore())
         
         self.sceneDelegate!.showGameoverScene()
@@ -223,19 +234,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     private func reset() {
         isGameOver = false
         
+        if Globals.currentGameType == GameType.Timed {
+            countdown.hidden = false
+            countdown.start()
+        } else if Globals.currentGameType == GameType.Endless {
+            countdown.hidden = true
+        }
+        
         score.reset()
         countdown.reset()
         
+        stats_hits.removeAll(keepCapacity: false)
+        stats_fail = nil
+        stats_moves = 0
+        stats_starttime = NSDate()
+        
         nextBall?.removeFromParent()
         addBall()
-    }
-    
-    private func addLocalScore(score: Int) {
-        ScoreHandler.setLastscore(score, gameType: Globals.currentGameType)
-        var highscore = ScoreHandler.getHighscore(Globals.currentGameType)
-        if score > highscore {
-            ScoreHandler.setHighscore(score, gameType: Globals.currentGameType)
-        }
     }
     
     func addLeaderboardScore(score: Int) {

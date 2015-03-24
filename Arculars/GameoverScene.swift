@@ -70,8 +70,8 @@ class GameoverScene: SKScene {
         rootNode.addChild(hscoreLabel)
         
         hscoreBadge = SKShapeNode(circleOfRadius: hscoreLabel.frame.height / 4)
-        hscoreBadge.fillColor = Colors.ArcularsColor3
-        hscoreBadge.strokeColor = Colors.ArcularsColor3
+        hscoreBadge.fillColor = Colors.AppColorThree
+        hscoreBadge.strokeColor = Colors.AppColorThree
         hscoreBadge.lineWidth = 1
         
         facebook = SKShapeNode(circleOfRadius: radius)
@@ -128,8 +128,8 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        var lastscore = ScoreHandler.getLastscore(Globals.currentGameType)
-        var highscore = ScoreHandler.getHighscore(Globals.currentGameType)
+        var lastscore = StatsHandler.getLastscore(Globals.currentGameType)
+        var highscore = StatsHandler.getHighscore(Globals.currentGameType)
         
         ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.fadeAlphaTo(0.0, duration: 0.2),

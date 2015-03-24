@@ -14,8 +14,7 @@ class SettingsScene : SKScene {
     var sceneDelegate : SceneDelegate?
     
     private var rootNode = SKNode()
-    
-    private var tomenu : SKShapeNode!
+    private var btnToMenu : SKShapeNode!
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -35,17 +34,33 @@ class SettingsScene : SKScene {
     }
     
     private func initScene() {
-        var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
-        tomenuLabel.fontName = "Avenir"
-        tomenuLabel.fontColor = Colors.FontColor
-        tomenuLabel.fontSize = self.size.height / 32
-        tomenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tomenuLabel.frame.height * 4))
-        tomenu.lineWidth = 0
-        tomenu.fillColor = UIColor.clearColor()
-        tomenu.strokeColor = UIColor.clearColor()
-        tomenuLabel.position = CGPoint(x: 0, y: -(self.size.height / 2) + (tomenuLabel.frame.height * 1.5))
-        tomenu.addChild(tomenuLabel)
-        rootNode.addChild(tomenu)
+        // INIT TITLE
+        var title = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 3, height: self.size.height / 12))
+        title.position = CGPoint(x: 0, y: (self.size.height / 2) - (self.size.height / 12))
+        title.lineWidth = 0
+        title.strokeColor = UIColor.clearColor()
+        title.fillColor = UIColor.clearColor()
+        var titleLabel = SKLabelNode(text: "SETTINGS")
+        titleLabel.fontSize = self.size.height / 32
+        titleLabel.fontName = "Avenir-Black"
+        titleLabel.fontColor = Colors.FontColor
+        titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        title.addChild(titleLabel)
+        rootNode.addChild(title)
+        
+        // INIT TO MENU BUTTON
+        var tml = SKLabelNode(text: "BACK TO MENU")
+        tml.position = CGPoint(x: 0, y: -(self.size.height / 2) + (self.size.height / 24))
+        tml.fontName = "Avenir"
+        tml.fontColor = Colors.FontColor
+        tml.fontSize = self.size.height / 32
+        btnToMenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tml.frame.height * 4))
+        btnToMenu.lineWidth = 0
+        btnToMenu.fillColor = UIColor.clearColor()
+        btnToMenu.strokeColor = UIColor.clearColor()
+        btnToMenu.addChild(tml)
+        rootNode.addChild(btnToMenu)
     }
     
     override func didMoveToView(view: SKView) {
@@ -56,7 +71,7 @@ class SettingsScene : SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
             
-            if (tomenu.containsPoint(location)) {
+            if (btnToMenu.containsPoint(location)) {
                 self.runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
                     self.sceneDelegate!.showMenuScene()
                 })
