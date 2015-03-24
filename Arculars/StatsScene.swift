@@ -280,11 +280,11 @@ class StatsScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        self.updateStats()
+        self.getStats()
         self.runAction(SKAction.fadeInWithDuration(0.3))
     }
     
-    private func updateStats() {
+    private func getStats() {
         label_playedtime.text = stringFromSeconds(StatsHandler.getPlayedTime())
         label_overallpoints.text = "\(StatsHandler.getOverallPoints())"
         label_highscore_endless.text = "\(StatsHandler.getHighscore(GameType.Endless))"
@@ -307,7 +307,7 @@ class StatsScene: SKScene {
                 
                 refreshAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
                     StatsHandler.reset()
-                    self.updateStats()
+                    self.getStats()
                 }))
                 refreshAlert.addAction(UIAlertAction(title: "No", style: .Default, handler: nil))
                 
