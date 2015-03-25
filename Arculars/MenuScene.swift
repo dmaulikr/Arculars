@@ -14,6 +14,13 @@ class MenuScene: SKScene {
     
     var sceneDelegate : SceneDelegate?
     
+    var aboutTextsIndex = 0
+    let aboutTexts = [
+        "❤️ Made with love in Switzerland.",
+        "✉️ Contact me@rmnblm.io",
+        "🌐 Visit arculars.rmnblm.io"
+    ]
+    
     // Node and all it's descendants
     private var rootNode = SKNode()
     
@@ -60,12 +67,13 @@ class MenuScene: SKScene {
         var radius = self.size.height / 18
         
         // INIT ABOUT BUTTON
-        btnAbout = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 3, height: self.size.height / 12))
+        btnAbout = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: self.size.height / 12))
         btnAbout.position = CGPoint(x: 0, y: -(self.size.height / 2) + (btnAbout.frame.height / 2))
         btnAbout.lineWidth = 0
         btnAbout.strokeColor = UIColor.clearColor()
         btnAbout.fillColor = UIColor.clearColor()
         var aboutLabel = SKLabelNode(text: "ABOUT")
+        aboutLabel.name = "label"
         aboutLabel.fontSize = self.size.height / 32
         aboutLabel.fontName = "Avenir-Black"
         aboutLabel.fontColor = UIColor.grayColor()
@@ -464,6 +472,7 @@ class MenuScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         initScene()
+        (btnAbout.childNodeWithName("label") as SKLabelNode).text = "ABOUT"
         self.runAction(SKAction.fadeInWithDuration(0.3))
     }
     
@@ -487,7 +496,7 @@ class MenuScene: SKScene {
                 var action = self.userData?.valueForKey("playt_action") as SKAction
                 self.runAction(action)
             } else if (btnAbout.containsPoint(location)) {
-                
+                self.updateAboutText()
             }  else {
                 
                 // Just a little 'easteregg' ;)
@@ -503,5 +512,11 @@ class MenuScene: SKScene {
                 })
             }
         }
+    }
+    
+    private func updateAboutText() {
+        var label = self.btnAbout.childNodeWithName("label") as SKLabelNode
+        label.text = aboutTexts[aboutTextsIndex++]
+        if (aboutTextsIndex >= aboutTexts.count) { aboutTextsIndex = 0 }
     }
 }
