@@ -81,7 +81,7 @@ class MenuScene: SKScene {
         btnGo.antialiased = true
         btnGo.position = CGPoint(x: 0, y: 0)
         
-        distance = (self.btnGo.frame.height + (self.btnGo.frame.height / 2))
+        distance = (radius * 3)
         
         var goContent = SKShapeNode(circleOfRadius: radius)
         goContent.fillColor = Colors.AppColorThree
@@ -120,7 +120,9 @@ class MenuScene: SKScene {
         btnStats.xScale = 0.0
         btnStats.yScale = 0.0
         btnStats.zPosition = -1
-        btnStats.addChild(SKSpriteNode(imageNamed: "stats"))
+        var statsIcon = SKSpriteNode(imageNamed: "icon-statistics")
+        statsIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnStats.addChild(statsIcon)
         btnGo.addChild(self.btnStats)
         
         var statsLabel = SKLabelNode(text: "Stats")
@@ -141,7 +143,9 @@ class MenuScene: SKScene {
         btnSettings.xScale = 0.0
         btnSettings.yScale = 0.0
         btnSettings.zPosition = -1
-        btnSettings.addChild(SKSpriteNode(imageNamed: "settings"))
+        var settingsIcon = SKSpriteNode(imageNamed: "icon-settings")
+        settingsIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnSettings.addChild(settingsIcon)
         btnGo.addChild(self.btnSettings)
         
         var settingsLabel = SKLabelNode(text: "Settings")
@@ -162,7 +166,9 @@ class MenuScene: SKScene {
         btnPlayTimed.xScale = 0.0
         btnPlayTimed.yScale = 0.0
         btnPlayTimed.zPosition = -1
-        btnPlayTimed.addChild(SKSpriteNode(imageNamed: "play"))
+        var clockIcon = SKSpriteNode(imageNamed: "icon-clock")
+        clockIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnPlayTimed.addChild(clockIcon)
         btnGo.addChild(self.btnPlayTimed)
         
         var playtLabel = SKLabelNode(text: "Timed")
@@ -183,7 +189,9 @@ class MenuScene: SKScene {
         btnPlayEndless.xScale = 0.0
         btnPlayEndless.yScale = 0.0
         btnPlayEndless.zPosition = -1
-        btnPlayEndless.addChild(SKSpriteNode(imageNamed: "home"))
+        var iconInfinity = SKSpriteNode(imageNamed: "icon-infinity")
+        iconInfinity.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnPlayEndless.addChild(iconInfinity)
         btnGo.addChild(self.btnPlayEndless)
         
         var playeLabel = SKLabelNode(text: "Endless")
@@ -495,13 +503,5 @@ class MenuScene: SKScene {
                 })
             }
         }
-    }
-    
-    private func toggleVibration() {
-        NSUserDefaults.standardUserDefaults().setBool(!NSUserDefaults.standardUserDefaults().boolForKey("settings_vibration"), forKey: "settings_vibration")
-    }
-    
-    private func toggleSound() {
-        NSUserDefaults.standardUserDefaults().setBool(!NSUserDefaults.standardUserDefaults().boolForKey("settings_sound"), forKey: "settings_sound")
     }
 }

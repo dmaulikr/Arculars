@@ -81,7 +81,7 @@ class GameoverScene: SKScene {
         facebook.lineWidth = 1
         facebook.zPosition = 3
         facebook.position = CGPoint(x: -radius + offset, y: -(self.size.height / 4))
-        facebook.addChild(SKSpriteNode(imageNamed: "facebook"))
+        facebook.addChild(SKSpriteNode(imageNamed: "icon-facebook"))
         rootNode.addChild(facebook)
         
         twitter = SKShapeNode(circleOfRadius: radius)
@@ -91,7 +91,7 @@ class GameoverScene: SKScene {
         twitter.lineWidth = 1
         twitter.zPosition = 4
         twitter.position = CGPoint(x: facebook.position.x - (2 * radius) + offset, y: -(self.size.height / 4))
-        twitter.addChild(SKSpriteNode(imageNamed: "twitter"))
+        twitter.addChild(SKSpriteNode(imageNamed: "icon-twitter"))
         rootNode.addChild(twitter)
         
         whatsapp = SKShapeNode(circleOfRadius: radius)
@@ -101,7 +101,7 @@ class GameoverScene: SKScene {
         whatsapp.lineWidth = 1
         whatsapp.zPosition = 2
         whatsapp.position = CGPoint(x: radius - offset, y: -(self.size.height / 4))
-        whatsapp.addChild(SKSpriteNode(imageNamed: "whatsapp"))
+        whatsapp.addChild(SKSpriteNode(imageNamed: "icon-whatsapp"))
         rootNode.addChild(whatsapp)
         
         shareother = SKShapeNode(circleOfRadius: radius)
@@ -111,7 +111,7 @@ class GameoverScene: SKScene {
         shareother.lineWidth = 1
         shareother.zPosition = 1
         shareother.position = CGPoint(x: whatsapp.position.x + (2 * radius) - offset, y: -(self.size.height / 4))
-        shareother.addChild(SKSpriteNode(imageNamed: "sharing"))
+        shareother.addChild(SKSpriteNode(imageNamed: "icon-share"))
         rootNode.addChild(shareother)
         
         var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
