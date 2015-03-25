@@ -188,6 +188,7 @@ class StatsHandler {
         
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDTIME)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_OVERALLPOINTS)
         
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_HITS_APPCOLORONE)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_HITS_APPCOLORTWO)
