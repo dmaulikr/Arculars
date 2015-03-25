@@ -34,6 +34,7 @@
 		30A5F3FE1AC15593004D7364 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3FD1AC15593004D7364 /* Globals.swift */; };
 		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
 		30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F02AC01ABF570300A0CF68 /* GameoverScene.swift */; };
+		30F7B08A1AC36E3000764D6B /* bip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 30F7B0881AC36E3000764D6B /* bip.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		30A5F3FD1AC15593004D7364 /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		30F02AC01ABF570300A0CF68 /* GameoverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameoverScene.swift; sourceTree = "<group>"; };
+		30F7B0881AC36E3000764D6B /* bip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bip.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 		30500B2B1AAE3010009F4C26 /* Arculars */ = {
 			isa = PBXGroup;
 			children = (
+				30F7B0821AC36CC800764D6B /* Sounds */,
 				30DDDBEA1ABB08AD00BB11EE /* Extensions */,
 				30DDDBE61ABB087400BB11EE /* Infrastructure */,
 				30DDDBE91ABB089000BB11EE /* Nodes */,
@@ -216,6 +219,14 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
+		30F7B0821AC36CC800764D6B /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				30F7B0881AC36E3000764D6B /* bip.mp3 */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -303,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30750F4B1AC1DA2300D5CB29 /* .gitignore in Resources */,
+				30F7B08A1AC36E3000764D6B /* bip.mp3 in Resources */,
 				30500B3D1AAE3010009F4C26 /* LaunchScreen.xib in Resources */,
 				30500B3A1AAE3010009F4C26 /* Images.xcassets in Resources */,
 				30500B381AAE3010009F4C26 /* Main.storyboard in Resources */,

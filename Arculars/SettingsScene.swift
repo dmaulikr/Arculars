@@ -140,7 +140,7 @@ class SettingsScene : SKScene {
                 self.getSettings()
             } else if (btnToggleSound.containsPoint(location)) {
                 if ConfigHandler.toggleSound() {
-                    
+                    self.runAction(SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false))
                 }
                 self.getSettings()
             }

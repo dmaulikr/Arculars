@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameKit
+import AudioToolbox
 
 enum GameType {
     case Endless
@@ -193,12 +194,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
             #if DEBUG
                 println("=== score +\(circle.pointsPerHit)")
             #endif
+            runSound()
             stats_hits.append(circle.nodeColor)
             self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
         } else {
             #if DEBUG
                 println("=== ball and circle color don't match -> game is over")
             #endif
+            runVibration()
             stats_fail = circle.nodeColor
             gameover()
         }
@@ -284,5 +287,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
             println("timer finished")
         #endif
         gameover()
+    }
+    
+    private func runSound() {
+        var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_SOUND)
+        if state {
+            self.runAction(SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false))
+        }
+    }
+    
+    private func runVibration() {
+        var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_VIBRATION)
+        if state {
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
     }
 }

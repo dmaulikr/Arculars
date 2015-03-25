@@ -57,7 +57,7 @@ class MenuScene: SKScene {
     }
     
     private func initButtons() {
-        var radius = self.size.height / 20
+        var radius = self.size.height / 18
         
         // INIT ABOUT BUTTON
         btnAbout = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 3, height: self.size.height / 12))
@@ -336,7 +336,7 @@ class MenuScene: SKScene {
             var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             stats_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnStats.zPosition = 0
-            self.btnStats.runAction(SKAction.sequence([stats_wait, stats_move]), completion: {()
+            self.btnStats.runAction(SKAction.sequence([stats_wait, stats_move, SKAction.waitForDuration(0.1)]), completion: {()
                 self.sceneDelegate!.showStatsScene()
             })
         })
@@ -372,7 +372,7 @@ class MenuScene: SKScene {
             var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             settings_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnSettings.zPosition = 0
-            self.btnSettings.runAction(SKAction.sequence([settings_wait, settings_move]), completion: {()
+            self.btnSettings.runAction(SKAction.sequence([settings_wait, settings_move, SKAction.waitForDuration(0.1)]), completion: {()
                 self.sceneDelegate!.showSettingsScene()
             })
         })
@@ -408,7 +408,7 @@ class MenuScene: SKScene {
             var playe_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             playe_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayEndless.zPosition = 0
-            self.btnPlayEndless.runAction(SKAction.sequence([playe_wait, playe_move]), completion: {()
+            self.btnPlayEndless.runAction(SKAction.sequence([playe_wait, playe_move, SKAction.waitForDuration(0.1)]), completion: {()
                 Globals.currentGameType = GameType.Endless
                 self.sceneDelegate!.startGame()
             })
@@ -445,7 +445,7 @@ class MenuScene: SKScene {
             var playt_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayTimed.zPosition = 0
-            self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move]), completion: {()
+            self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move, SKAction.waitForDuration(0.1)]), completion: {()
                 Globals.currentGameType = GameType.Timed
                 self.sceneDelegate!.startGame()
             })
