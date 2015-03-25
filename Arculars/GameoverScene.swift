@@ -73,6 +73,7 @@ class GameoverScene: SKScene {
         hscoreBadge.fillColor = Colors.AppColorThree
         hscoreBadge.strokeColor = Colors.AppColorThree
         hscoreBadge.lineWidth = 1
+        hscoreLabel.addChild(hscoreBadge)
         
         facebook = SKShapeNode(circleOfRadius: radius)
         facebook.fillColor = Colors.FacebookBlue
@@ -135,9 +136,8 @@ class GameoverScene: SKScene {
             SKAction.fadeAlphaTo(0.0, duration: 0.2),
             SKAction.fadeAlphaTo(1.0, duration: 0.2),
             SKAction.waitForDuration(1.5)
-        ])))
+            ])), withKey: "blinking")
         
-        hscoreBadge.removeFromParent()
         scoreLabel.text = "Score \(lastscore)"
         hscoreLabel.text = "HIGHSCORE \(highscore)"
         
@@ -145,7 +145,9 @@ class GameoverScene: SKScene {
             hscoreLabel.text = "NEW HIGHSCORE \(highscore)"
             hscoreBadge.position = CGPoint(x: hscoreLabel.position.x - hscoreLabel.frame.width / 2 - (hscoreBadge.frame.width * 1.5), y: hscoreLabel.frame.height / 2)
             hscoreLabel.position = CGPoint(x: hscoreLabel.position.x + (hscoreBadge.frame.width / 2), y: hscoreLabel.position.y)
-            hscoreLabel.addChild(hscoreBadge)
+            hscoreBadge.hidden = false
+        } else {
+            hscoreBadge.hidden = true
         }
         
         self.runAction(SKAction.fadeInWithDuration(0.15))
