@@ -232,6 +232,7 @@ class StatsScene: SKScene {
         btnReset.strokeColor = Colors.AppColorOne
         btnReset.fillColor = Colors.AppColorOne
         var rel = SKLabelNode(text: "RESET")
+        rel.userInteractionEnabled = false
         rel.fontSize = self.size.height / 48
         rel.fontName = "Avenir"
         rel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -297,23 +298,24 @@ class StatsScene: SKScene {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            
-            if (btnToMenu.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
-                    self.sceneDelegate!.showMenuScene()
-                })
-            } else if (self.nodeAtPoint(location) == btnReset) {
-                var refreshAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats?", preferredStyle: UIAlertControllerStyle.Alert)
-                
-                refreshAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
-                    StatsHandler.reset()
-                    self.getStats()
-                }))
-                refreshAlert.addAction(UIAlertAction(title: "No", style: .Default, handler: nil))
-                
-                self.view?.window?.rootViewController?.presentViewController(refreshAlert, animated: true, completion: nil)
-            } else if (self.nodeAtPoint(location) == btnGameCenter) {
-                self.sceneDelegate!.presentGameCenter()
+            for object in self.nodesAtPoint(location) {
+                if (btnToMenu == object as? SKShapeNode) {
+                    self.runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
+                        self.sceneDelegate!.showMenuScene()
+                    })
+                } else if (btnReset == object as? SKShapeNode) {
+                    var refreshAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats?", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    refreshAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
+                        StatsHandler.reset()
+                        self.getStats()
+                    }))
+                    refreshAlert.addAction(UIAlertAction(title: "No", style: .Default, handler: nil))
+                    
+                    self.view?.window?.rootViewController?.presentViewController(refreshAlert, animated: true, completion: nil)
+                } else if (btnGameCenter == object as? SKShapeNode) {
+                    self.sceneDelegate!.presentGameCenter()
+                }
             }
         }
     }
