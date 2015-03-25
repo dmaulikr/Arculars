@@ -250,7 +250,7 @@ class MenuScene: SKScene {
             
             var dashedcircle_scale = SKAction.scaleTo(1.0, duration: 0.2)
             var dashedcircle_rotate = SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(2 * M_PI), duration: 10.0))
-            self.dashedCircle.runAction(SKAction.group([dashedcircle_scale, dashedcircle_rotate]))
+            self.dashedCircle.runAction(SKAction.group([dashedcircle_scale, dashedcircle_rotate]), withKey: "rotating")
             
             var content = self.btnGo.childNodeWithName("content") as SKShapeNode
             var content_scale = SKAction.scaleTo(0.0, duration: 0.2)
@@ -295,7 +295,6 @@ class MenuScene: SKScene {
             
             var dashedcircle_scale = SKAction.scaleTo(0.0, duration: 0.2)
             self.dashedCircle.runAction(dashedcircle_scale, completion: { ()
-                self.dashedCircle.removeAllActions()
             })
             
             var content = self.btnGo.childNodeWithName("content") as SKShapeNode
@@ -465,6 +464,7 @@ class MenuScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         initScene()
+        self.runAction(SKAction.fadeInWithDuration(0.3))
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
