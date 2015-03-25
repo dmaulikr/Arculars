@@ -8,6 +8,7 @@
 
 import UIKit
 import SpriteKit
+import AudioToolbox
 
 class SettingsScene : SKScene {
     
@@ -133,10 +134,14 @@ class SettingsScene : SKScene {
                     self.sceneDelegate!.showMenuScene()
                 })
             } else if (btnToggleVibration.containsPoint(location)) {
-                ConfigHandler.toggleVibration()
+                if ConfigHandler.toggleVibration() {
+                    AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                }
                 self.getSettings()
             } else if (btnToggleSound.containsPoint(location)) {
-                ConfigHandler.toggleSound()
+                if ConfigHandler.toggleSound() {
+                    
+                }
                 self.getSettings()
             }
         }

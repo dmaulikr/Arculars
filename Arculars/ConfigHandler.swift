@@ -13,18 +13,20 @@ let SETTINGS_SOUND              = "settings_sound"
 
 class ConfigHandler {
     
-    class func toggleVibration() {
+    class func toggleVibration() -> Bool {
         var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_VIBRATION)
         NSUserDefaults.standardUserDefaults().setBool(!state, forKey: SETTINGS_VIBRATION)
+        return !state
     }
     
     class func getVibrationSetting() -> Bool {
         return NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_VIBRATION)
     }
     
-    class func toggleSound() {
+    class func toggleSound() -> Bool {
         var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_SOUND)
         NSUserDefaults.standardUserDefaults().setBool(!state, forKey: SETTINGS_SOUND)
+        return !state
     }
     
     class func getSoundSetting() -> Bool {
