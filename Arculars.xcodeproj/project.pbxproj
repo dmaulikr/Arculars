@@ -23,8 +23,6 @@
 		30525A031AB3800F001D6C91 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30525A021AB3800F001D6C91 /* Ball.swift */; };
 		305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414B91AC04BFE00636047 /* StatsScene.swift */; };
 		305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414BB1AC0A05000636047 /* SettingsScene.swift */; };
-		30750F481AC1D9F300D5CB29 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 30750F471AC1D9F300D5CB29 /* README.md */; };
-		30750F4B1AC1DA2300D5CB29 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 30750F4A1AC1DA2300D5CB29 /* .gitignore */; };
 		308F5EB21AC2171D004E40EC /* ConfigHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308F5EB11AC2171D004E40EC /* ConfigHandler.swift */; };
 		3098F5251AAF8AB800829428 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098F5241AAF8AB800829428 /* Colors.swift */; };
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
@@ -68,8 +66,6 @@
 		30525A021AB3800F001D6C91 /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		305414B91AC04BFE00636047 /* StatsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsScene.swift; sourceTree = "<group>"; };
 		305414BB1AC0A05000636047 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
-		30750F471AC1D9F300D5CB29 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		30750F4A1AC1DA2300D5CB29 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		308F5EB11AC2171D004E40EC /* ConfigHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHandler.swift; sourceTree = "<group>"; };
 		3098F5241AAF8AB800829428 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
@@ -105,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				3038F8071ABA0BA100741BEE /* GameKit.framework */,
-				30750F491AC1D9F800D5CB29 /* ProjectFiles */,
 				30500B2B1AAE3010009F4C26 /* Arculars */,
 				30500B451AAE3010009F4C26 /* ArcularsTests */,
 				30500B2A1AAE3010009F4C26 /* Products */,
@@ -162,15 +157,6 @@
 				30500B471AAE3010009F4C26 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		30750F491AC1D9F800D5CB29 /* ProjectFiles */ = {
-			isa = PBXGroup;
-			children = (
-				30750F4A1AC1DA2300D5CB29 /* .gitignore */,
-				30750F471AC1D9F300D5CB29 /* README.md */,
-			);
-			name = ProjectFiles;
 			sourceTree = "<group>";
 		};
 		309ED2E51AB492DB007D7EC4 /* Scenes */ = {
@@ -313,7 +299,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				30750F4B1AC1DA2300D5CB29 /* .gitignore in Resources */,
 				30F7B08A1AC36E3000764D6B /* bip.mp3 in Resources */,
 				30500B3D1AAE3010009F4C26 /* LaunchScreen.xib in Resources */,
 				30500B3A1AAE3010009F4C26 /* Images.xcassets in Resources */,
@@ -338,7 +323,6 @@
 				30525A031AB3800F001D6C91 /* Ball.swift in Sources */,
 				30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */,
 				30500B331AAE3010009F4C26 /* GameScene.swift in Sources */,
-				30750F481AC1D9F300D5CB29 /* README.md in Sources */,
 				308F5EB21AC2171D004E40EC /* ConfigHandler.swift in Sources */,
 				305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,

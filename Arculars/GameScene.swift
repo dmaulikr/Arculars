@@ -34,6 +34,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     private var countdown : Countdown!
     private var isGameOver = false
     
+    // Preload sound into memory fixes the small delay when playing the mp3 the first time
+    private var soundAction = SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false)
+    
     // Variables for Stats
     private var stats_hits = [UIColor]()
     private var stats_fail : UIColor!
@@ -292,7 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     private func runSound() {
         var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_SOUND)
         if state {
-            self.runAction(SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false))
+            self.runAction(soundAction)
         }
     }
     
