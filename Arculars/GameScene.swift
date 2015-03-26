@@ -197,14 +197,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
                 println("=== score +\(circle.pointsPerHit)")
             #endif
             runSound()
-            stats_hits.append(circle.nodeColor)
+            stats_hits++
             self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
         } else {
             #if DEBUG
                 println("=== ball and circle color don't match -> game is over")
             #endif
             runVibration()
-            stats_fail = circle.nodeColor
             gameover()
         }
     }
