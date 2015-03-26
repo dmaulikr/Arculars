@@ -38,9 +38,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     private var soundAction = SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false)
     
     // Variables for Stats
-    private var stats_hits = [UIColor]()
-    private var stats_fail : UIColor!
     private var stats_starttime : NSDate!
+    private var stats_hits = 0
     private var stats_moves = 0
     
     override init(size: CGSize) {
@@ -225,7 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         // Update Stats
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_moves)
-        StatsHandler.updateFailBy(stats_fail)
+        StatsHandler.incrementFails()
         StatsHandler.updateHitsBy(stats_hits)
         StatsHandler.updateOverallPointsBy(self.score.getScore())
         StatsHandler.updateLastscore(self.score.getScore(), gameType: Globals.currentGameType)
@@ -250,8 +249,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         score.reset()
         countdown.reset()
         
-        stats_hits.removeAll(keepCapacity: false)
-        stats_fail = nil
+        stats_hits = 0
         stats_moves = 0
         stats_starttime = NSDate()
         
