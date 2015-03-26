@@ -1,8 +1,3 @@
 # Arculars
 
-## What is Arculars?
-
-## How to play?
-
-## Credits
-
+A beautifully drafted, addictive game about circles and arcs.
