@@ -321,11 +321,11 @@ class StatsScene: SKScene {
     }
     
     func stringFromSeconds(seconds : Int) -> NSString {
-        var seconds = seconds % 60
-        var minutes = (seconds / 60) % 60
-        var hours = (seconds / 3600)
+        var s = seconds % 60
+        var m = (seconds / 60) % 60
+        var h = (seconds / 3600)
         
-        return NSString(format: "%0.2d:%0.2d:%0.2d",hours,minutes,seconds)
+        return NSString(format: "%0.2d:%0.2d:%0.2d",h ,m ,s)
     }
     
 }
