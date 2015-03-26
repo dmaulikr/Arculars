@@ -16,7 +16,7 @@ enum GameType {
     case Timed
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCountdownDelegate {
     
     private let circlePosition : CGPoint!
     private let ballPosition : CGPoint!
@@ -31,8 +31,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     private var ballRadius : CGFloat!
     private var ballSpeed : NSTimeInterval!
     private var score : Score!
-    private var countdown : Countdown!
     private var isGameOver = false
+    
+    private var timer : GameTimer!
+    private var countdown : BallCountdown!
     
     // Preload sound into memory fixes the small delay when playing the mp3 the first time
     private var soundAction = SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false)
@@ -90,9 +92,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         score = Score(position: scorePosition)
         rootNode.addChild(score)
         
-        countdown = Countdown(position: CGPoint(x: scorePosition.x, y: scorePosition.y - score.frame.height), seconds: 60)
-        countdown.countdownDelegate = self
+        timer = GameTimer(position: CGPoint(x: self.frame.midX, y: scorePosition.y - score.frame.height), seconds: 60)
+        timer.delegate = self
+        rootNode.addChild(timer)
+        
+        countdown = BallCountdown(rect: CGRect(x: self.frame.midX, y: scorePosition.y - score.frame.height, width: self.frame.width / 6, height: self.frame.height / 128), seconds: 6)
+        countdown.delegate = self
         rootNode.addChild(countdown)
+        
         
         addCircle(Colors.AppColorOne, clockwise: false, speed: 3.2, points: 4)
         addCircle(Colors.AppColorTwo, clockwise: true, speed: 2.6, points: 3)
@@ -199,11 +206,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
             runSound()
             stats_hits++
             self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
+            countdown.reset()
         } else {
             #if DEBUG
                 println("=== ball and circle color don't match -> game is over")
             #endif
-            runVibration()
             gameover()
         }
     }
@@ -217,7 +224,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
     
     private func gameover() {
         isGameOver = true
+        runVibration()
         
+        timer.stop()
         countdown.stop()
         
         // Update Stats
@@ -239,14 +248,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         isGameOver = false
         
         if Globals.currentGameType == GameType.Timed {
+            countdown.hidden = true
+            timer.hidden = false
+            timer.start()
+        } else if Globals.currentGameType == GameType.Endless {
+            timer.hidden = true
             countdown.hidden = false
             countdown.start()
-        } else if Globals.currentGameType == GameType.Endless {
-            countdown.hidden = true
         }
         
         score.reset()
-        countdown.reset()
+        timer.reset()
         
         stats_hits = 0
         stats_moves = 0
@@ -282,10 +294,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, CountdownDelegate {
         })
     }
     
-    func countdownFinished() {
-        #if DEBUG
-            println("timer finished")
-        #endif
+    func gameTimerFinished() {
+        gameover()
+    }
+    
+    func ballExpired() {
         gameover()
     }
     
