@@ -45,7 +45,7 @@ class GameoverScene: SKScene {
     }
     
     private func initScene() {
-        var radius = self.size.height / 16
+        var radius = self.size.height / 18
         var offset = CGFloat(8)
         
         ttpLabel = SKLabelNode(text: "TAP TO PLAY")
@@ -143,8 +143,8 @@ class GameoverScene: SKScene {
         
         if (highscore != 0 && lastscore == highscore) {
             hscoreLabel.text = "NEW HIGHSCORE \(highscore)"
-            hscoreBadge.position = CGPoint(x: hscoreLabel.position.x - hscoreLabel.frame.width / 2 - (hscoreBadge.frame.width * 1.5), y: hscoreLabel.frame.height / 2)
             hscoreLabel.position = CGPoint(x: hscoreLabel.position.x + (hscoreBadge.frame.width / 2), y: hscoreLabel.position.y)
+            hscoreBadge.position = CGPoint(x: hscoreLabel.position.x - hscoreLabel.calculateAccumulatedFrame().width / 2 - (hscoreBadge.calculateAccumulatedFrame().width * 1.5), y: hscoreLabel.calculateAccumulatedFrame().height / 2)
             hscoreBadge.hidden = false
         } else {
             hscoreBadge.hidden = true
