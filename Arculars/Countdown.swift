@@ -13,15 +13,15 @@ class Countdown : SKLabelNode {
 
     var countdownDelegate : CountdownDelegate!
 
-    private var remaining : Int
+    private var remaining : Int!
     private var timer = NSTimer()
-    private let seconds : Int
+    private let seconds : Int!
     
     init(position: CGPoint, seconds: Int) {
-        self.seconds = seconds
-        remaining = seconds
-        
         super.init()
+        
+        self.seconds = seconds
+        self.remaining = seconds
         
         self.zPosition = 2
         self.fontName = "Avenir-Light"
@@ -54,7 +54,7 @@ class Countdown : SKLabelNode {
     }
     
     @objc func tick(timer: NSTimer) {
-        remaining--
+        remaining = remaining - 1
         updateText()
         
         if remaining == 0 {
