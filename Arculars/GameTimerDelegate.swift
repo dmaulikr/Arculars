@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol CountdownDelegate {
-    func countdownFinished()
+protocol GameTimerDelegate {
+    func gameTimerFinished()
 }

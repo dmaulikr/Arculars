@@ -9,9 +9,9 @@
 import Foundation
 import SpriteKit
 
-class Countdown : SKLabelNode {
+class GameTimer : SKLabelNode {
 
-    var countdownDelegate : CountdownDelegate!
+    var delegate : GameTimerDelegate!
 
     private var remaining : Int!
     private var timer = NSTimer()
@@ -59,7 +59,7 @@ class Countdown : SKLabelNode {
         
         if remaining == 0 {
             stop()
-            countdownDelegate.countdownFinished()
+            delegate.gameTimerFinished()
         }
     }
 }
