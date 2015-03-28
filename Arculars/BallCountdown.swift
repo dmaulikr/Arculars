@@ -86,7 +86,6 @@ class BallCountdown : SKNode {
         updateDisplay()
         
         if remaining == 0 {
-            stop()
             delegate.ballExpired()
         }
     }

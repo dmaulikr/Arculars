@@ -35,7 +35,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var multiplicator = 1
     
     private var timer : GameTimer!
+    
     private var countdown : BallCountdown!
+    private var countdownExpired = false
     
     // Preload sound into memory fixes the small delay when playing the mp3 the first time
     private var soundAction = SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false)
@@ -129,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        if !isGameOver {
+        if !isGameOver && !countdownExpired {
             stats_moves++
             shootBall()
             addBall()
@@ -182,6 +184,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             runSound()
             stats_hits++
             self.score.increaseByWithColor(points, color: ball.nodeColor)
+            
+            countdownExpired = false
             countdown?.reset()
         } else {
             gameover()
@@ -216,6 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     private func reset() {
         isGameOver = false
+        countdownExpired = false
         
         score?.reset()
         timer?.removeFromParent()
@@ -294,7 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     func ballExpired() {
-        gameover()
+        countdownExpired = true
     }
     
     private func runSound() {
