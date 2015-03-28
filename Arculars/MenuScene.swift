@@ -18,7 +18,7 @@ class MenuScene: SKScene {
     let aboutTexts = [
         "❤️ Made with love in Switzerland.",
         "✉️ Contact me@rmnblm.io",
-        "⭐️ Please rate me on App Store"
+        "⭐️ Please rate on App Store"
     ]
     
     // Node and all it's descendants
