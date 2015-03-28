@@ -27,9 +27,8 @@ class GameoverScene: SKScene {
     private var shareother : SKShapeNode!
     
     private var ttpLabel : SKLabelNode!
-    private var scoreLabel : SKLabelNode!
-    private var hscoreLabel : SKLabelNode!
-    private var hscoreBadge : SKShapeNode!
+    private var score : SKLabelNode!
+    private var hscore : SKLabelNode!
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -45,35 +44,55 @@ class GameoverScene: SKScene {
     }
     
     private func initScene() {
-        var radius = self.size.height / 18
-        var offset = CGFloat(8)
+        var radius = self.size.height / 21
         
         ttpLabel = SKLabelNode(text: "TAP TO PLAY")
         ttpLabel.fontName = "Avenir"
         ttpLabel.fontSize = self.size.height / 32
-        ttpLabel.position = CGPoint(x: 0, y: self.size.height / 4)
+        ttpLabel.position = CGPoint(x: 0, y: 0)
         
         rootNode.addChild(ttpLabel)
         
-        scoreLabel = SKLabelNode(text: "Score")
-        scoreLabel.fontName = "Avenir-Black"
-        scoreLabel.fontColor = Colors.FontColor
-        scoreLabel.fontSize = self.size.height / 12
-        scoreLabel.position = CGPoint(x: 0, y: 0)
+        var gameoverLabel = SKLabelNode(text: "GAME OVER!")
+        gameoverLabel.fontName = "Avenir-Black"
+        gameoverLabel.fontColor = Colors.FontColor
+        gameoverLabel.fontSize = self.size.height / 20
+        gameoverLabel.position = CGPoint(x: 0, y: (self.size.height / 2) - (self.size.height / 5))
+        rootNode.addChild(gameoverLabel)
+        
+        var scoreLabel = SKLabelNode(text: "YOUR SCORE")
+        scoreLabel.fontName = "Avenir-Light"
+        scoreLabel.fontColor = Colors.AppColorThree
+        scoreLabel.fontSize = self.size.height / 48
+        scoreLabel.position = CGPoint(x: -self.size.width / 6, y: self.size.height / 4)
+        
+        score = SKLabelNode()
+        score.fontName = "Avenir"
+        score.fontColor = Colors.AppColorThree
+        score.fontSize = self.size.height / 20
+        score.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        score.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        score.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height * 2)
+        scoreLabel.addChild(score)
+        
         rootNode.addChild(scoreLabel)
         
-        hscoreLabel = SKLabelNode(text: "Highscore")
+        var hscoreLabel = SKLabelNode(text: "HIGH SCORE")
         hscoreLabel.fontName = "Avenir-Light"
-        hscoreLabel.fontSize = self.size.height / 36
+        hscoreLabel.fontSize = self.size.height / 48
         hscoreLabel.fontColor = Colors.FontColor
-        hscoreLabel.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height)
-        rootNode.addChild(hscoreLabel)
+        hscoreLabel.position = CGPoint(x: self.size.width / 6, y: self.size.height / 4)
         
-        hscoreBadge = SKShapeNode(circleOfRadius: hscoreLabel.frame.height / 4)
-        hscoreBadge.fillColor = Colors.AppColorThree
-        hscoreBadge.strokeColor = Colors.AppColorThree
-        hscoreBadge.lineWidth = 1
-        hscoreLabel.addChild(hscoreBadge)
+        hscore = SKLabelNode()
+        hscore.fontName = "Avenir"
+        hscore.fontColor = Colors.FontColor
+        hscore.fontSize = self.size.height / 20
+        hscore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        hscore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        hscore.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height * 2)
+        hscoreLabel.addChild(hscore)
+        
+        rootNode.addChild(hscoreLabel)
         
         facebook = SKShapeNode(circleOfRadius: radius)
         facebook.fillColor = Colors.FacebookBlue
@@ -81,7 +100,7 @@ class GameoverScene: SKScene {
         facebook.antialiased = true
         facebook.lineWidth = 1
         facebook.zPosition = 3
-        facebook.position = CGPoint(x: -radius + offset, y: -(self.size.height / 4))
+        facebook.position = CGPoint(x: -(self.size.width / 2) + (self.size.width / 5), y: -(self.size.height / 4))
         facebook.addChild(SKSpriteNode(imageNamed: "icon-facebook"))
         rootNode.addChild(facebook)
         
@@ -91,8 +110,9 @@ class GameoverScene: SKScene {
         twitter.antialiased = true
         twitter.lineWidth = 1
         twitter.zPosition = 4
-        twitter.position = CGPoint(x: facebook.position.x - (2 * radius) + offset, y: -(self.size.height / 4))
-        twitter.addChild(SKSpriteNode(imageNamed: "icon-twitter"))
+        twitter.position = CGPoint(x: -(self.size.width / 2) + ((self.size.width / 5) * 2), y: -(self.size.height / 4))
+        var twitterSprite = SKSpriteNode(imageNamed: "icon-twitter")
+        twitter.addChild(twitterSprite)
         rootNode.addChild(twitter)
         
         whatsapp = SKShapeNode(circleOfRadius: radius)
@@ -101,7 +121,7 @@ class GameoverScene: SKScene {
         whatsapp.antialiased = true
         whatsapp.lineWidth = 1
         whatsapp.zPosition = 2
-        whatsapp.position = CGPoint(x: radius - offset, y: -(self.size.height / 4))
+        whatsapp.position = CGPoint(x: -(self.size.width / 2) + ((self.size.width / 5) * 3), y: -(self.size.height / 4))
         whatsapp.addChild(SKSpriteNode(imageNamed: "icon-whatsapp"))
         rootNode.addChild(whatsapp)
         
@@ -111,7 +131,7 @@ class GameoverScene: SKScene {
         shareother.antialiased = true
         shareother.lineWidth = 1
         shareother.zPosition = 1
-        shareother.position = CGPoint(x: whatsapp.position.x + (2 * radius) - offset, y: -(self.size.height / 4))
+        shareother.position = CGPoint(x: -(self.size.width / 2) + ((self.size.width / 5) * 4), y: -(self.size.height / 4))
         shareother.addChild(SKSpriteNode(imageNamed: "icon-share"))
         rootNode.addChild(shareother)
         
@@ -138,17 +158,8 @@ class GameoverScene: SKScene {
             SKAction.waitForDuration(1.5)
             ])), withKey: "blinking")
         
-        scoreLabel.text = "Score \(lastscore)"
-        hscoreLabel.text = "HIGHSCORE \(highscore)"
-        
-        if (highscore != 0 && lastscore == highscore) {
-            hscoreLabel.text = "NEW HIGHSCORE \(highscore)"
-            hscoreLabel.position = CGPoint(x: hscoreLabel.position.x + (hscoreBadge.frame.width / 2), y: hscoreLabel.position.y)
-            hscoreBadge.position = CGPoint(x: hscoreLabel.position.x - hscoreLabel.calculateAccumulatedFrame().width / 2 - (hscoreBadge.calculateAccumulatedFrame().width * 1.5), y: hscoreLabel.calculateAccumulatedFrame().height / 2)
-            hscoreBadge.hidden = false
-        } else {
-            hscoreBadge.hidden = true
-        }
+        score.text = "\(lastscore)"
+        hscore.text = "\(highscore)"
         
         self.runAction(SKAction.fadeInWithDuration(0.15))
     }
