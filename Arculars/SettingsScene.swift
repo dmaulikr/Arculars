@@ -20,6 +20,8 @@ class SettingsScene : SKScene {
     private var vStateLabel : SKLabelNode!
     private var btnToggleSound : SKShapeNode!
     private var sStateLabel : SKLabelNode!
+    private var dStateLabel : SKLabelNode!
+    private var btnDifficulty : SKShapeNode!
     private var btnToMenu : SKShapeNode!
     
     override init(size: CGSize) {
@@ -63,7 +65,6 @@ class SettingsScene : SKScene {
         vLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         vLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         btnToggleVibration = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 4, height: self.size.height / 12))
-        btnToggleVibration.position = CGPoint(x: 0, y: -2 * vLabel.frame.height)
         btnToggleVibration.lineWidth = 0
         vStateLabel = SKLabelNode(text: "NaN")
         vStateLabel.zPosition = -1
@@ -75,7 +76,7 @@ class SettingsScene : SKScene {
         vLabel.position = CGPoint(x: 0, y: btnToggleVibration.calculateAccumulatedFrame().height * 0.75)
         btnToggleVibration.addChild(vLabel)
         btnToggleVibration.addChild(vStateLabel)
-        btnToggleVibration.position = CGPoint(x: 0, y: self.size.height / 12)
+        btnToggleVibration.position = CGPoint(x: 0, y: self.size.height / 6)
         rootNode.addChild(btnToggleVibration)
         
         // INIT TOGGLE SOUND BUTTON
@@ -86,7 +87,6 @@ class SettingsScene : SKScene {
         sLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         sLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         btnToggleSound = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 4, height: self.size.height / 12))
-        btnToggleSound.position = CGPoint(x: 0, y: 0)
         btnToggleSound.lineWidth = 0
         sStateLabel = SKLabelNode(text: "NaN")
         sStateLabel.zPosition = -1
@@ -98,8 +98,30 @@ class SettingsScene : SKScene {
         sLabel.position = CGPoint(x: 0, y: btnToggleSound.calculateAccumulatedFrame().height * 0.75)
         btnToggleSound.addChild(sLabel)
         btnToggleSound.addChild(sStateLabel)
-        btnToggleSound.position = CGPoint(x: 0, y: -self.size.height / 12)
+        btnToggleSound.position = CGPoint(x: 0, y: 0)
         rootNode.addChild(btnToggleSound)
+        
+        // INIT DIFFICULTY BUTTON
+        var dLabel = SKLabelNode(text: "DIFFICULTY")
+        dLabel.fontSize = self.size.height / 32
+        dLabel.fontName = "Avenir"
+        dLabel.fontColor = Colors.FontColor
+        dLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        dLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnDifficulty = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 4, height: self.size.height / 12))
+        btnDifficulty.lineWidth = 0
+        dStateLabel = SKLabelNode(text: "NaN")
+        dStateLabel.zPosition = -1
+        dStateLabel.fontSize = self.size.height / 24
+        dStateLabel.fontName = "Avenir-Black"
+        dStateLabel.fontColor = Colors.FontColor
+        dStateLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        dStateLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        dLabel.position = CGPoint(x: 0, y: btnDifficulty.calculateAccumulatedFrame().height * 0.75)
+        btnDifficulty.addChild(dLabel)
+        btnDifficulty.addChild(dStateLabel)
+        btnDifficulty.position = CGPoint(x: 0, y: -self.size.height / 6)
+        rootNode.addChild(btnDifficulty)
         
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "BACK TO MENU")
@@ -123,6 +145,7 @@ class SettingsScene : SKScene {
     func getSettings() {
         if (SettingsHandler.getVibrationSetting()) { vStateLabel.text = "ON" } else { vStateLabel.text = "OFF" }
         if (SettingsHandler.getSoundSetting()) { sStateLabel.text = "ON" } else { sStateLabel.text = "OFF" }
+        dStateLabel.text = SettingsHandler.getDifficulty().description.uppercaseString
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -142,6 +165,9 @@ class SettingsScene : SKScene {
                 if SettingsHandler.toggleSound() {
                     self.runAction(SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false))
                 }
+                self.getSettings()
+            } else if (btnDifficulty.containsPoint(location)) {
+                SettingsHandler.toggleDifficulty()
                 self.getSettings()
             }
         }
