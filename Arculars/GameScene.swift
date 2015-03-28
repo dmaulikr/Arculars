@@ -32,6 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var ballSpeed : NSTimeInterval!
     private var score : Score!
     private var isGameOver = false
+    private var multiplicator = 1
     
     private var timer : GameTimer!
     private var countdown : BallCountdown!
@@ -92,15 +93,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         score = Score(position: scorePosition)
         rootNode.addChild(score)
         
-        timer = GameTimer(position: CGPoint(x: self.frame.midX, y: scorePosition.y - score.frame.height), seconds: 60)
-        timer.delegate = self
-        rootNode.addChild(timer)
-        
-        countdown = BallCountdown(rect: CGRect(x: self.frame.midX, y: scorePosition.y - score.frame.height, width: self.frame.width / 6, height: self.frame.height / 128), seconds: 6)
-        countdown.delegate = self
-        rootNode.addChild(countdown)
-        
-        
         addCircle(Colors.AppColorOne, clockwise: false, speed: 3.2, points: 4)
         addCircle(Colors.AppColorTwo, clockwise: true, speed: 2.6, points: 3)
         addCircle(Colors.AppColorThree, clockwise: false, speed: 2.0, points: 2)
@@ -138,9 +130,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         if !isGameOver {
-            #if DEBUG
-                println("*** SHOOT ***")
-            #endif
             stats_moves++
             shootBall()
             addBall()
@@ -148,15 +137,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
-        #if DEBUG
-            println("did begin contact")
-        #endif
         if isGameOver { return }
         
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        #if DEBUG
-            println("contact mask \(contactMask)")
-        #endif
         switch (contactMask) {
         case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
             var ball : Ball
@@ -189,36 +172,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
-        #if DEBUG
-            println("ball did collide with circle")
-        #endif
-        // because of the complex shape of the arc's physicsbody
-        // there are multiple contacts when a ball collides with an arc
-        // so this is a fix to avoid multiple points being counted to the score
+        // set the physicscategory to none to prevent additional contacts
         ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
         //  ball.hidden = true
         ball.runAction(SKAction.removeFromParent())
         
         if (ball.nodeColor == circle.nodeColor) {
-            #if DEBUG
-                println("=== score +\(circle.pointsPerHit)")
-            #endif
+            var points = circle.pointsPerHit * multiplicator
             runSound()
             stats_hits++
-            self.score.increaseByWithColor(circle.pointsPerHit, color: ball.nodeColor)
-            countdown.reset()
+            self.score.increaseByWithColor(points, color: ball.nodeColor)
+            countdown?.reset()
         } else {
-            #if DEBUG
-                println("=== ball and circle color don't match -> game is over")
-            #endif
             gameover()
         }
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
-        #if DEBUG
-            println("ball did collide with border")
-        #endif
         ball.runAction(SKAction.removeFromParent())
     }
     
@@ -226,8 +196,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         isGameOver = true
         runVibration()
         
-        timer.stop()
-        countdown.stop()
+        timer?.stop()
+        countdown?.stop()
         
         // Update Stats
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
@@ -247,18 +217,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private func reset() {
         isGameOver = false
         
-        if Globals.currentGameType == GameType.Timed {
-            countdown.hidden = true
-            timer.hidden = false
-            timer.start()
-        } else if Globals.currentGameType == GameType.Endless {
-            timer.hidden = true
-            countdown.hidden = false
-            countdown.start()
-        }
+        score?.reset()
+        timer?.removeFromParent()
+        countdown?.removeFromParent()
         
-        score.reset()
-        timer.reset()
+        if Globals.currentGameType == GameType.Timed {
+            multiplicator = 1
+            initTimer()
+            timer?.start()
+        } else if Globals.currentGameType == GameType.Endless {
+            multiplicator = SettingsHandler.getDifficulty().rawValue
+            initCountdown()
+            countdown?.start()
+        }
         
         stats_hits = 0
         stats_moves = 0
@@ -266,6 +237,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         
         nextBall?.removeFromParent()
         addBall()
+    }
+    
+    private func initTimer() {
+        timer = GameTimer(position: CGPoint(x: self.frame.midX, y: scorePosition.y - score.frame.height), seconds: 60)
+        timer.delegate = self
+        rootNode.addChild(timer)
+    }
+    
+    private func initCountdown() {
+        var countdownTime : Int
+        switch SettingsHandler.getDifficulty() {
+        case .Easy:
+            countdownTime = 12
+            break
+        case .Normal:
+            countdownTime = 8
+            break
+        case .Hard:
+            countdownTime = 4
+            break
+        }
+        countdown = BallCountdown(rect: CGRect(x: self.frame.midX, y: scorePosition.y - score.frame.height, width: self.frame.width / 6, height: self.frame.height / 128), seconds: countdownTime)
+        countdown.delegate = self
+        rootNode.addChild(countdown)
     }
     
     func addLeaderboardScore(score: Int) {

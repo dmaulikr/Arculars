@@ -26,6 +26,7 @@
 		3056065D1AC4ADBA001ABDF7 /* BallCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */; };
 		3056065F1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056065E1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift */; };
 		308F5EB21AC2171D004E40EC /* SettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308F5EB11AC2171D004E40EC /* SettingsHandler.swift */; };
+		30964D121AC6AAD000937D8D /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30964D111AC6AAD000937D8D /* Difficulty.swift */; };
 		3098F5251AAF8AB800829428 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098F5241AAF8AB800829428 /* Colors.swift */; };
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
 		30A5F3F41AC142B7004D7364 /* GameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3F31AC142B7004D7364 /* GameTimer.swift */; };
@@ -71,6 +72,7 @@
 		3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallCountdown.swift; sourceTree = "<group>"; };
 		3056065E1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallCountdownDelegate.swift; sourceTree = "<group>"; };
 		308F5EB11AC2171D004E40EC /* SettingsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHandler.swift; sourceTree = "<group>"; };
+		30964D111AC6AAD000937D8D /* Difficulty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
 		3098F5241AAF8AB800829428 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		30A5F3F31AC142B7004D7364 /* GameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTimer.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				3098F5241AAF8AB800829428 /* Colors.swift */,
+				30964D111AC6AAD000937D8D /* Difficulty.swift */,
 				30A5F3FD1AC15593004D7364 /* Globals.swift */,
 				302197721AB306B400769D2F /* PhysicsCategory.swift */,
 				308F5EB11AC2171D004E40EC /* SettingsHandler.swift */,
@@ -330,6 +333,7 @@
 				30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */,
 				30500B331AAE3010009F4C26 /* GameScene.swift in Sources */,
 				308F5EB21AC2171D004E40EC /* SettingsHandler.swift in Sources */,
+				30964D121AC6AAD000937D8D /* Difficulty.swift in Sources */,
 				305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,

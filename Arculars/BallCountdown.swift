@@ -25,7 +25,7 @@ class BallCountdown : SKNode {
         
         self.zPosition = 2
         
-        var diameter = rect.width / CGFloat(seconds)
+        var diameter = rect.height
         var radius = diameter / 3
         var gap = (diameter - radius) / 2
         
@@ -46,7 +46,6 @@ class BallCountdown : SKNode {
             y: rect.midY
         )
     }
-    
     
     func start() {
         stop()
