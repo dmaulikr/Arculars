@@ -59,7 +59,7 @@ class SettingsScene : SKScene {
         
         // INIT TOGGLE VIBRATION BUTTON
         var vLabel = SKLabelNode(text: "VIBRATION")
-        vLabel.fontSize = self.size.height / 32
+        vLabel.fontSize = self.size.height / 48
         vLabel.fontName = "Avenir"
         vLabel.fontColor = Colors.FontColor
         vLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -73,7 +73,7 @@ class SettingsScene : SKScene {
         vStateLabel.fontColor = Colors.FontColor
         vStateLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         vStateLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        vLabel.position = CGPoint(x: 0, y: btnToggleVibration.calculateAccumulatedFrame().height * 0.75)
+        vLabel.position = CGPoint(x: 0, y: btnToggleVibration.calculateAccumulatedFrame().height * 0.5)
         btnToggleVibration.addChild(vLabel)
         btnToggleVibration.addChild(vStateLabel)
         btnToggleVibration.position = CGPoint(x: 0, y: self.size.height / 6)
@@ -81,7 +81,7 @@ class SettingsScene : SKScene {
         
         // INIT TOGGLE SOUND BUTTON
         var sLabel = SKLabelNode(text: "SOUND")
-        sLabel.fontSize = self.size.height / 32
+        sLabel.fontSize = self.size.height / 48
         sLabel.fontName = "Avenir"
         sLabel.fontColor = Colors.FontColor
         sLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -95,7 +95,7 @@ class SettingsScene : SKScene {
         sStateLabel.fontColor = Colors.FontColor
         sStateLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         sStateLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        sLabel.position = CGPoint(x: 0, y: btnToggleSound.calculateAccumulatedFrame().height * 0.75)
+        sLabel.position = CGPoint(x: 0, y: btnToggleSound.calculateAccumulatedFrame().height * 0.5)
         btnToggleSound.addChild(sLabel)
         btnToggleSound.addChild(sStateLabel)
         btnToggleSound.position = CGPoint(x: 0, y: 0)
@@ -103,7 +103,7 @@ class SettingsScene : SKScene {
         
         // INIT DIFFICULTY BUTTON
         var dLabel = SKLabelNode(text: "DIFFICULTY")
-        dLabel.fontSize = self.size.height / 32
+        dLabel.fontSize = self.size.height / 48
         dLabel.fontName = "Avenir"
         dLabel.fontColor = Colors.FontColor
         dLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -117,7 +117,7 @@ class SettingsScene : SKScene {
         dStateLabel.fontColor = Colors.FontColor
         dStateLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         dStateLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        dLabel.position = CGPoint(x: 0, y: btnDifficulty.calculateAccumulatedFrame().height * 0.75)
+        dLabel.position = CGPoint(x: 0, y: btnDifficulty.calculateAccumulatedFrame().height * 0.5)
         btnDifficulty.addChild(dLabel)
         btnDifficulty.addChild(dStateLabel)
         btnDifficulty.position = CGPoint(x: 0, y: -self.size.height / 6)
