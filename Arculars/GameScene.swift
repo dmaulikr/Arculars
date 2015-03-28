@@ -303,14 +303,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func runSound() {
-        var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_SOUND)
+        var state = SettingsHandler.getSoundSetting()
         if state {
             self.runAction(soundAction)
         }
     }
     
     private func runVibration() {
-        var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_VIBRATION)
+        var state = SettingsHandler.getVibrationSetting()
         if state {
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         }

@@ -11,7 +11,7 @@ import Foundation
 let SETTINGS_VIBRATION          = "settings_vibration"
 let SETTINGS_SOUND              = "settings_sound"
 
-class ConfigHandler {
+class SettingsHandler {
     
     class func toggleVibration() -> Bool {
         var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_VIBRATION)

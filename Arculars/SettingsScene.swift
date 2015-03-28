@@ -121,8 +121,8 @@ class SettingsScene : SKScene {
     }
     
     func getSettings() {
-        if (ConfigHandler.getVibrationSetting()) { vStateLabel.text = "ON" } else { vStateLabel.text = "OFF" }
-        if (ConfigHandler.getSoundSetting()) { sStateLabel.text = "ON" } else { sStateLabel.text = "OFF" }
+        if (SettingsHandler.getVibrationSetting()) { vStateLabel.text = "ON" } else { vStateLabel.text = "OFF" }
+        if (SettingsHandler.getSoundSetting()) { sStateLabel.text = "ON" } else { sStateLabel.text = "OFF" }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -134,12 +134,12 @@ class SettingsScene : SKScene {
                     self.sceneDelegate!.showMenuScene()
                 })
             } else if (btnToggleVibration.containsPoint(location)) {
-                if ConfigHandler.toggleVibration() {
+                if SettingsHandler.toggleVibration() {
                     AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
                 }
                 self.getSettings()
             } else if (btnToggleSound.containsPoint(location)) {
-                if ConfigHandler.toggleSound() {
+                if SettingsHandler.toggleSound() {
                     self.runAction(SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false))
                 }
                 self.getSettings()
