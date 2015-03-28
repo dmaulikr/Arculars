@@ -247,14 +247,14 @@ class StatsScene: SKScene {
         btnGameCenter.fillColor = Colors.AppColorTwo
         var gcl = SKNode()
         var gcl1 = SKLabelNode(text: "GAME")
-        gcl1.position = CGPoint(x: 0, y: gcl1.frame.height / 4)
+        gcl1.position = CGPoint(x: 0, y: gcl1.frame.height / 4 + (gcl1.frame.height / 16))
         gcl1.fontSize = self.size.height / 48
         gcl1.fontName = "Avenir"
         gcl1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         gcl1.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         gcl.addChild(gcl1)
         var gcl2 = SKLabelNode(text: "CENTER")
-        gcl2.position = CGPoint(x: 0, y: -gcl2.frame.height / 4)
+        gcl2.position = CGPoint(x: 0, y: -gcl2.frame.height / 4 - (gcl2.frame.height / 16))
         gcl2.fontSize = self.size.height / 48
         gcl2.fontName = "Avenir"
         gcl2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
