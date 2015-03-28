@@ -517,6 +517,7 @@ class MenuScene: SKScene {
     private func updateAboutText() {
         var label = self.btnAbout.childNodeWithName("label") as SKLabelNode
         label.text = aboutTexts[aboutTextsIndex++]
+        label.fontName = "Avenir"
         if (aboutTextsIndex >= aboutTexts.count) { aboutTextsIndex = 0 }
     }
 }
