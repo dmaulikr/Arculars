@@ -63,7 +63,8 @@ class BallCountdown : SKNode {
     }
     
     private func updateDisplay() {
-
+        if remaining < 0 { return }
+        
         if remaining > 0 {
             for i1 in 0...(remaining - 1) {
                 parts[i1].hidden = false
