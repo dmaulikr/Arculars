@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
     private var circles = [Circle]()
+    private var activeBalls = [Ball]()
     private var nextBall : Ball!
     private var ballRadius : CGFloat!
     private var ballSpeed : NSTimeInterval!
@@ -127,6 +128,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func shootBall() {
+        activeBalls.insert(nextBall, atIndex: 0)
         nextBall.shoot()
     }
     
@@ -174,6 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
+        activeBalls.removeLast()
         // set the physicscategory to none to prevent additional contacts
         ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
         //  ball.hidden = true
@@ -193,6 +196,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
+        activeBalls.removeLast()
         ball.runAction(SKAction.removeFromParent())
     }
     
@@ -203,19 +207,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         timer?.stop()
         countdown?.stop()
         
-        // Update Stats
-        StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
-        StatsHandler.updateFiredBallsBy(stats_moves)
-        StatsHandler.incrementFails()
-        StatsHandler.updateHitsBy(stats_hits)
-        StatsHandler.updateOverallPointsBy(self.score.getScore())
-        StatsHandler.updateLastscore(self.score.getScore(), gameType: Globals.currentGameType)
-        StatsHandler.updateHighscore(self.score.getScore(), gameType: Globals.currentGameType)
-        
-        // Add Score to Gamecenter
-        addLeaderboardScore(self.score.getScore())
-        
-        self.sceneDelegate!.showGameoverScene()
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue, {
+            // Update Stats
+            StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(self.stats_starttime)))
+            StatsHandler.updateFiredBallsBy(self.stats_moves)
+            StatsHandler.incrementFails()
+            StatsHandler.updateHitsBy(self.stats_hits)
+            StatsHandler.updateOverallPointsBy(self.score.getScore())
+            StatsHandler.updateLastscore(self.score.getScore(), gameType: Globals.currentGameType)
+            StatsHandler.updateHighscore(self.score.getScore(), gameType: Globals.currentGameType)
+            
+            // Add Score to Gamecenter
+            self.addLeaderboardScore(self.score.getScore())
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.sceneDelegate!.showGameoverScene()
+            })
+        })
     }
     
     private func reset() {
@@ -300,6 +310,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     func ballExpired() {
         countdownExpired = true
+        if activeBalls.count == 0 {
+            gameover()
+        }
     }
     
     private func runSound() {
