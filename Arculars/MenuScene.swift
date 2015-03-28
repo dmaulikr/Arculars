@@ -18,7 +18,7 @@ class MenuScene: SKScene {
     let aboutTexts = [
         "❤️ Made with love in Switzerland.",
         "✉️ Contact me@rmnblm.io",
-        "🌐 Visit arculars.rmnblm.io"
+        "⭐️ Please rate me on App Store"
     ]
     
     // Node and all it's descendants
@@ -483,6 +483,8 @@ class MenuScene: SKScene {
             if (btnGo.containsPoint(location)) {
                 var action = self.userData?.valueForKey("go_action") as SKAction
                 self.runAction(action)
+            } else if (btnAbout.containsPoint(location)) {
+                self.updateAboutText()
             } else if (btnStats.containsPoint(location)) {
                 var action = self.userData?.valueForKey("stats_action") as SKAction
                 self.runAction(action)
@@ -495,9 +497,7 @@ class MenuScene: SKScene {
             } else if (btnPlayTimed.containsPoint(location)) {
                 var action = self.userData?.valueForKey("playt_action") as SKAction
                 self.runAction(action)
-            } else if (btnAbout.containsPoint(location)) {
-                self.updateAboutText()
-            }  else {
+            } else {
                 
                 // Just a little 'easteregg' ;)
                 var ball = SKShapeNode(circleOfRadius: self.frame.height / 32)
