@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var rootNode = SKNode()
     private var circles = [Circle]()
     private var activeBalls = [Ball]()
+    private var hitSounds = [SKAction]()
     private var nextBall : Ball!
     private var ballRadius : CGFloat!
     private var ballSpeed : NSTimeInterval!
@@ -39,9 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     private var countdown : BallCountdown!
     private var countdownExpired = false
-    
-    // Preload sound into memory fixes the small delay when playing the mp3 the first time
-    private var soundAction = SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false)
     
     // Variables for Stats
     private var stats_starttime : NSDate!
@@ -95,6 +93,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         
         score = Score(position: scorePosition)
         rootNode.addChild(score)
+        
+        hitSounds.append(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
+        hitSounds.append(SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false))
         
         addCircle(Colors.AppColorOne, clockwise: false, points: 4)
         addCircle(Colors.AppColorTwo, clockwise: true, points: 3)
@@ -356,7 +357,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private func runSound() {
         var state = SettingsHandler.getSoundSetting()
         if state {
-            self.runAction(soundAction)
+            var sound = hitSounds[Int(arc4random_uniform(UInt32(hitSounds.count)))]
+            self.runAction(sound)
         }
     }
     
