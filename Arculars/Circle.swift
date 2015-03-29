@@ -11,7 +11,7 @@ import SpriteKit
 
 class Circle : SKShapeNode {
     
-    private var action : SKAction!
+    private var rotateAction : SKAction!
     private var arc : SKShapeNode!
     
     let thickness : CGFloat!
@@ -19,7 +19,7 @@ class Circle : SKShapeNode {
     let nodeColor : UIColor!
     let pointsPerHit : Int!
     
-    init(color: UIColor, position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, secondsPerRound: NSTimeInterval, pointsPerHit: Int) {
+    init(color: UIColor, position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, pointsPerHit: Int) {
         super.init()
         
         self.nodeColor = color
@@ -73,8 +73,7 @@ class Circle : SKShapeNode {
         else {
             rotationangle = -CGFloat(2 * M_PI)
         }
-        action = SKAction.repeatActionForever(SKAction.rotateByAngle(rotationangle, duration: secondsPerRound))
-        arc.runAction(action)
+        rotateAction = SKAction.rotateByAngle(rotationangle, duration: 0.0)
         
         self.addChild(arc)
     }
@@ -104,8 +103,9 @@ class Circle : SKShapeNode {
         return self
     }
     
-    func modifySpeedBy(factor: CGFloat) {
-        action!.speed *= factor
+    func setSpeed(secondsPerRound: NSTimeInterval) {
+        rotateAction.duration = secondsPerRound
+        var action = SKAction.repeatActionForever(rotateAction)
+        arc.runAction(action, withKey: "rotation")
     }
-    
 }

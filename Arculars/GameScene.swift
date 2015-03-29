@@ -48,6 +48,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var stats_hits = 0
     private var stats_moves = 0
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -77,10 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         initScene()
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func didMoveToView(view: SKView) {
         for circle in circles {
             circle.fadeIn()
@@ -96,13 +96,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         score = Score(position: scorePosition)
         rootNode.addChild(score)
         
-        addCircle(Colors.AppColorOne, clockwise: false, speed: 3.2, points: 4)
-        addCircle(Colors.AppColorTwo, clockwise: true, speed: 2.6, points: 3)
-        addCircle(Colors.AppColorThree, clockwise: false, speed: 2.0, points: 2)
-        addCircle(Colors.AppColorFour, clockwise: true, speed: 1.5, points: 1)
+        addCircle(Colors.AppColorOne, clockwise: false, points: 4)
+        addCircle(Colors.AppColorTwo, clockwise: true, points: 3)
+        addCircle(Colors.AppColorThree, clockwise: false, points: 2)
+        addCircle(Colors.AppColorFour, clockwise: true, points: 1)
     }
     
-    private func addCircle(color: UIColor, clockwise: Bool, speed: NSTimeInterval, points: Int) {
+    private func addCircle(color: UIColor, clockwise: Bool, points: Int) {
         var radius : CGFloat!
         var thickness : CGFloat!
         
@@ -117,7 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             radius = lastradius + lastthickness
             thickness = lastthickness
         }
-        var c = Circle(color: color, position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, secondsPerRound: speed, pointsPerHit: points)
+        var c = Circle(color: color, position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, pointsPerHit: points)
         circles.append(c)
         rootNode.addChild(c)
     }
@@ -191,7 +191,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             countdownExpired = false
             countdown?.reset()
         } else {
-            gameover()
+            if Globals.currentGameType == GameType.Timed {
+                var points = circle.pointsPerHit * multiplicator
+                self.score.increaseByWithColor(-points, color: UIColor.redColor())
+            } else {
+                gameover()
+            }
         }
     }
     
@@ -215,12 +220,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             StatsHandler.updateFiredBallsBy(self.stats_moves)
             StatsHandler.incrementFails()
             StatsHandler.updateHitsBy(self.stats_hits)
-            StatsHandler.updateOverallPointsBy(self.score.getScore())
-            StatsHandler.updateLastscore(self.score.getScore(), gameType: Globals.currentGameType)
-            StatsHandler.updateHighscore(self.score.getScore(), gameType: Globals.currentGameType)
             
-            // Add Score to Gamecenter
-            self.addLeaderboardScore(self.score.getScore())
+            var endScore = self.score.getScore()
+            StatsHandler.updateLastscore(endScore, gameType: Globals.currentGameType)
+            StatsHandler.updateHighscore(endScore, gameType: Globals.currentGameType)
+            StatsHandler.updateOverallPointsBy(endScore)
+            
+            self.addLeaderboardScore(endScore)
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.sceneDelegate!.showGameoverScene()
@@ -252,6 +258,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         
         nextBall?.removeFromParent()
         addBall()
+        setCircleSpeed()
+    }
+
+    private func setCircleSpeed() {
+        var speed1 : NSTimeInterval!
+        var speed2 : NSTimeInterval!
+        var speed3 : NSTimeInterval!
+        var speed4 : NSTimeInterval!
+        
+        switch SettingsHandler.getDifficulty() {
+        case .Easy:
+            circles[0].setSpeed(3.52)
+            circles[1].setSpeed(3.86)
+            circles[2].setSpeed(2.2)
+            circles[3].setSpeed(1.65)
+            break
+        case .Normal:
+            circles[0].setSpeed(3.2)
+            circles[1].setSpeed(2.6)
+            circles[2].setSpeed(2.0)
+            circles[3].setSpeed(1.5)
+            break
+        case .Hard:
+            circles[0].setSpeed(2.88)
+            circles[1].setSpeed(2.34)
+            circles[2].setSpeed(1.8)
+            circles[3].setSpeed(1.35)
+            break
+        }
+        
     }
     
     private func initTimer() {
@@ -279,6 +315,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     func addLeaderboardScore(score: Int) {
+        if score < 0 { return }
+        
         var newGCScore : GKScore!
         switch Globals.currentGameType {
             case .Endless:
