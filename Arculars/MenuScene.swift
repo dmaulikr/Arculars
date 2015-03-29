@@ -473,6 +473,7 @@ class MenuScene: SKScene {
     override func didMoveToView(view: SKView) {
         initScene()
         (btnAbout.childNodeWithName("label") as SKLabelNode).text = "ABOUT"
+        aboutTextsIndex = 0
         self.runAction(SKAction.fadeInWithDuration(0.3))
     }
     
