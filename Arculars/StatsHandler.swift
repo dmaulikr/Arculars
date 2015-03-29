@@ -30,8 +30,6 @@ class StatsHandler {
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_ENDLESS)
         case .Timed:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_TIMED)
-        default:
-            return -1
         }
     }
     
@@ -41,8 +39,6 @@ class StatsHandler {
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_ENDLESS)
         case .Timed:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_TIMED)
-        default:
-            return -1
         }
     }
     
@@ -112,6 +108,8 @@ class StatsHandler {
     }
     
     class func updateOverallPointsBy(delta: Int) {
+        if (delta < 0) { return }
+        
         var points = getOverallPoints()
         NSUserDefaults.standardUserDefaults().setInteger(points + delta, forKey: STATS_OVERALLPOINTS)
     }

@@ -31,10 +31,6 @@ class Score : SKLabelNode {
         self.text = "Score \(currentScore)"
     }
     
-    func increase() {
-        self.increaseBy(1)
-    }
-    
     func increaseBy(newScore: Int) {
         self.currentScore += newScore
         self.updateText()
@@ -42,7 +38,13 @@ class Score : SKLabelNode {
     }
     
     func increaseByWithColor(newScore: Int, color: UIColor) {
-        var label = SKLabelNode(text: "+\(newScore)")
+        var label : SKLabelNode!
+        
+        if newScore >= 0 {
+            label = SKLabelNode(text: "+\(newScore)")
+        } else {
+            label = SKLabelNode(text: "\(newScore)")
+        }
         
         // Calculate position
         var x = (self.frame.width / 2) + (label.frame.width / 2) + 8 
