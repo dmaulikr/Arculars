@@ -33,13 +33,9 @@ class Score : SKLabelNode {
         self.text = "SCORE \(currentScore)"
     }
     
-    func increaseBy(newScore: Int) {
-        self.currentScore += newScore
-        self.updateText()
-        
-    }
-    
     func increaseByWithColor(newScore: Int, color: UIColor) {
+        self.currentScore += newScore
+        
         var label : SKLabelNode!
         
         if newScore >= 0 {
@@ -67,7 +63,8 @@ class Score : SKLabelNode {
         var sequence = SKAction.sequence([fadeIn, wait, fadeOut])
         
         label.runAction(sequence, completion: {()
-            self.increaseBy(newScore)
+            label.removeFromParent()
+            self.updateText()
         })
     }
     
