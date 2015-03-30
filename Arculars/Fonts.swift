@@ -8,6 +8,6 @@
 
 struct Fonts {
     static let FontNameLight    = "Avenir-Light"
-    static let FontNameNormal   = "Avenir"
+    static let FontNameNormal   = "Avenir-Roman"
     static let FontNameBold     = "Avenir-Black"
 }
