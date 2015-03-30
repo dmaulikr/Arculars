@@ -166,12 +166,11 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         gameScene.scaleMode = .AspectFill
         gameScene.sceneDelegate = self
         gameScene.gameMode = gameMode
+        
         (self.view as SKView).presentScene(gameScene)
     }
     
     func showStatsScene() {
-        (self.view as SKView).presentScene(nil)
-        
         // Create and configure the stats scene.
         var statsScene = StatsScene(size: self.view.bounds.size)
         statsScene.scaleMode = .AspectFill
@@ -195,6 +194,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         gameoverScene.scaleMode = .AspectFill
         gameoverScene.sceneDelegate = self
         gameoverScene.gameMode = gameMode
+        
         (self.view as SKView).presentScene(gameoverScene)
     }
 }

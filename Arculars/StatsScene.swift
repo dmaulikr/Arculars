@@ -48,7 +48,6 @@ class StatsScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         getStats()
-        runAction(SKAction.fadeInWithDuration(0.3))
     }
     
     deinit {

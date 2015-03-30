@@ -15,13 +15,6 @@ class MenuScene: SKScene {
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
     
-    var aboutTextsIndex = 0
-    let aboutTexts = [
-        "❤️ Made with love in Switzerland.",
-        "✉️ Contact me@rmnblm.io",
-        "⭐️ Please rate on App Store"
-    ]
-    
     // Node and all it's descendants
     private var rootNode = SKNode()
     
@@ -494,7 +487,7 @@ class MenuScene: SKScene {
             if (btnGo.containsPoint(location)) {
                 runAction(go_action)
             } else if (btnAbout.containsPoint(location)) {
-                updateAboutText()
+                
             } else if (btnStats.containsPoint(location)) {
                 runAction(stats_action)
             } else if (btnSettings.containsPoint(location)) {
@@ -517,13 +510,5 @@ class MenuScene: SKScene {
                 })
             }
         }
-    }
-    
-    // MARK: - ABOUT FUNCTIONS
-    private func updateAboutText() {
-        var label = btnAbout.childNodeWithName("label") as SKLabelNode
-        label.text = aboutTexts[aboutTextsIndex++]
-        label.fontName = Fonts.FontNameNormal
-        if (aboutTextsIndex >= aboutTexts.count) { aboutTextsIndex = 0 }
     }
 }

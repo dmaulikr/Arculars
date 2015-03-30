@@ -346,11 +346,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 // DO THINGS ON THE MAIN THREAD
             })
-        })*/
+        })
+        */
     }
     
     // MARK: - GAMECENTER INTEGRATION
-    func addLeaderboardScore(newScore: Int64) {
+    private func addLeaderboardScore(newScore: Int64) {
         if (newScore > 0) {
             var newGCScore : GKScore!
             switch gameMode.rawValue {
