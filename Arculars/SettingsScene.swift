@@ -113,13 +113,13 @@ class SettingsScene : SKScene {
         dStateLabel.text = difficulty.description.uppercaseString
         switch difficulty {
         case .Easy:
-            dInfoLabel.text = "Slower circle speed, points x 1"
+            dInfoLabel.text = "Slower circles, higher ball time, points x 1"
             break
         case .Normal:
-            dInfoLabel.text = "Normal circle speed, points x 2"
+            dInfoLabel.text = "Normal circles, normal ball time, points x 2"
             break
         case .Hard:
-            dInfoLabel.text = "Faster circle speed, points x 3"
+            dInfoLabel.text = "Faster circles, lower ball time, points x 3"
             break
         }
     }
