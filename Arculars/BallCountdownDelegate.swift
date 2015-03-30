@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol BallCountdownDelegate {
+protocol BallCountdownDelegate : class {
     func ballExpired()
 }

@@ -11,7 +11,7 @@ import SpriteKit
 
 class BallCountdown : SKNode {
     
-    var delegate : BallCountdownDelegate!
+    weak var delegate : BallCountdownDelegate!
     
     private var remaining = 0
     private var timer = NSTimer()

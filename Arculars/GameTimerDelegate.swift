@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol GameTimerDelegate {
+protocol GameTimerDelegate : class {
     func gameTimerFinished()
 }

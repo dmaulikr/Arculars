@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameTimer : SKLabelNode {
 
-    var delegate : GameTimerDelegate!
+    weak var delegate : GameTimerDelegate!
 
     private var remaining : Int!
     private var timer = NSTimer()
