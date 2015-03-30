@@ -28,6 +28,8 @@ class GameTimer : SKLabelNode {
         self.fontColor = Colors.FontColor
         self.fontSize = 20
         self.position = position
+        self.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        self.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         
         updateText()
     }

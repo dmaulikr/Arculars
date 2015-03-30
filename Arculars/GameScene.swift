@@ -29,7 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var hitSounds = [SKAction]()
     private var nextBall : Ball!
     private var ballRadius : CGFloat!
-    private var ballSpeed : NSTimeInterval!
     private var score : Score!
     private var isGameOver = false
     private var multiplicator = 1
@@ -38,6 +37,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     private var countdown : BallCountdown!
     private var countdownExpired = false
+    
+    private var btnStop : SKShapeNode!
     
     // Variables for Stats
     private var stats_starttime : NSDate!
@@ -54,10 +55,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         super.init(size: size)
         
         // Init positions
-        var offset : CGFloat = self.size.height / 8
+        var offset : CGFloat = self.size.height / 12
         scorePosition = CGPoint(x: 0, y: (self.size.height / 2) - offset)
         circlePosition = CGPoint(x: 0, y: (self.size.height / 4) - offset)
-        ballPosition = CGPoint(x: 0, y: -(size.height / 2) + (offset / 2))
+        ballPosition = CGPoint(x: 0, y: -(size.height / 2) + (2 * offset))
         
         // Setup Scene
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -90,7 +91,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
         ballRadius = self.size.height / 64
-        ballSpeed = 9.0
+        
+        var stopLabel = SKLabelNode(text: "STOP")
+        stopLabel.fontSize = self.size.height / 28
+        stopLabel.fontName = Fonts.FontNameBold
+        stopLabel.fontColor = UIColor.grayColor()
+        stopLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnStop = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: self.size.height / 12))
+        btnStop.addChild(stopLabel)
+        btnStop.position = CGPoint(x: 0, y: -(self.size.height / 2) + (btnStop.frame.height / 2))
+        btnStop.lineWidth = 0
+        rootNode.addChild(btnStop)
         
         score = Score(position: scorePosition)
         rootNode.addChild(score)
@@ -206,16 +218,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        if !isGameOver && !countdownExpired {
-            stats_moves++
-            shootBall()
-            addBall()
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(rootNode)
+            if (btnStop.containsPoint(location)) {
+                gameover()
+            } else {
+                if !isGameOver && !countdownExpired {
+                    stats_moves++
+                    shootBall()
+                    addBall()
+                }
+            }
         }
     }
     
     // MARK: - GAME FUNCTIONS
     private func addBall() {
-        nextBall = Ball(color: Colors.getRandomBallColor(), position: ballPosition, radius: ballRadius, speed: ballSpeed)
+        nextBall = Ball(color: Colors.getRandomBallColor(), position: ballPosition, radius: ballRadius)
         rootNode.addChild(nextBall.fadeIn())
     }
     

@@ -20,6 +20,8 @@ class Score : SKLabelNode {
         self.fontColor = Colors.FontColor
         self.fontSize = 26
         self.position = position
+        self.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        self.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         updateText()
     }
 
@@ -28,7 +30,7 @@ class Score : SKLabelNode {
     }
     
     private func updateText() {
-        self.text = "Score \(currentScore)"
+        self.text = "SCORE \(currentScore)"
     }
     
     func increaseBy(newScore: Int) {
@@ -55,6 +57,8 @@ class Score : SKLabelNode {
         label.xScale = 0.0
         label.yScale = 0.0
         label.zPosition = 1
+        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         self.addChild(label)
         
         var fadeIn = SKAction.scaleTo(1.0, duration: 0.1)
@@ -73,6 +77,6 @@ class Score : SKLabelNode {
     
     func reset() {
         currentScore = 0
-        self.text = "Score \(currentScore)"
+        updateText()
     }
 }
