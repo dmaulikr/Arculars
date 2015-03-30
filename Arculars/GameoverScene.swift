@@ -53,7 +53,6 @@ class GameoverScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         getScores()
-        runAction(SKAction.fadeInWithDuration(0.15))
     }
     
     deinit {

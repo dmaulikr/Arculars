@@ -216,7 +216,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             countdownTime = 4
             break
         }
-        countdown = BallCountdown(rect: CGRect(x: frame.midX, y: scorePosition.y - score.frame.height, width: frame.width / 6, height: frame.height / 128), seconds: countdownTime)
+        countdown = BallCountdown(rect: CGRect(x: frame.midX, y: scorePosition.y - (score.frame.height * 1.5), width: frame.width / 6, height: frame.height / 128), seconds: countdownTime)
         countdown.delegate = self
         rootNode.addChild(countdown)
     }
@@ -288,8 +288,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         activeBalls.removeLast()
         // set the physicscategory to none to prevent additional contacts
         ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
-        //  ball.hidden = true
-        ball.runAction(SKAction.removeFromParent())
+        ball.removeFromParent()
         
         if (ball.nodeColor == circle.nodeColor) {
             var points = circle.pointsPerHit * multiplicator
@@ -340,6 +339,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         addLeaderboardScore(Int64(endScore))
         
         sceneDelegate!.showGameoverScene(gameMode)
+        
+        /*
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue, {
+            // DO THINGS IN THE BACKGROUND
+        
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                // DO THINGS ON THE MAIN THREAD
+            })
+        })
+        */
     }
     
     // MARK: - GAMECENTER INTEGRATION

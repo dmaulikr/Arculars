@@ -56,7 +56,6 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        runAction(SKAction.fadeInWithDuration(0.3))
     }
     
     override func willMoveFromView(view: SKView) {
@@ -487,7 +486,9 @@ class MenuScene: SKScene {
             if (btnGo.containsPoint(location)) {
                 runAction(go_action)
             } else if (btnAbout.containsPoint(location)) {
-                sceneDelegate!.showAboutScene()
+                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: {()
+                    self.sceneDelegate!.showAboutScene()
+                })
             } else if (btnStats.containsPoint(location)) {
                 runAction(stats_action)
             } else if (btnSettings.containsPoint(location)) {

@@ -46,7 +46,6 @@ class SettingsScene : SKScene {
     
     override func didMoveToView(view: SKView) {
         getSettings()
-        runAction(SKAction.fadeInWithDuration(0.3))
     }
     
     deinit {
@@ -119,13 +118,13 @@ class SettingsScene : SKScene {
         dStateLabel.text = difficulty.description.uppercaseString
         switch difficulty {
         case .Easy:
-            dInfoLabel.text = "Slower circles, higher ball time, points x 1"
+            dInfoLabel.text = "Slow circle speed, Points x 1"
             break
         case .Normal:
-            dInfoLabel.text = "Normal circles, normal ball time, points x 2"
+            dInfoLabel.text = "Normal circle speed, Points x 2"
             break
         case .Hard:
-            dInfoLabel.text = "Faster circles, lower ball time, points x 3"
+            dInfoLabel.text = "Fast circle speed, Points x 3"
             break
         }
     }
