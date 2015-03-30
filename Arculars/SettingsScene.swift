@@ -22,6 +22,7 @@ class SettingsScene : SKScene {
     private var btnToggleSound : SKShapeNode!
     private var sStateLabel : SKLabelNode!
     private var dStateLabel : SKLabelNode!
+    private var dInfoLabel : SKLabelNode!
     private var btnDifficulty : SKShapeNode!
     private var btnToMenu : SKShapeNode!
     
@@ -81,6 +82,12 @@ class SettingsScene : SKScene {
         btnDifficulty = createButton("DIFFICULTY")
         btnDifficulty.position = CGPoint(x: 0, y: -self.size.height / 6)
         dStateLabel = (btnDifficulty.childNodeWithName("label") as SKLabelNode)
+        dInfoLabel = SKLabelNode(text: "")
+        dInfoLabel.fontColor = UIColor.grayColor()
+        dInfoLabel.fontSize = self.size.height / 48
+        dInfoLabel.fontName = Fonts.FontNameNormal
+        dInfoLabel.position = CGPoint(x: 0, y: -btnDifficulty.calculateAccumulatedFrame().height / 2)
+        btnDifficulty.addChild(dInfoLabel)
         rootNode.addChild(btnDifficulty)
         
         // INIT TO MENU BUTTON
@@ -101,7 +108,20 @@ class SettingsScene : SKScene {
     func getSettings() {
         if (SettingsHandler.getVibrationSetting()) { vStateLabel.text = "ON" } else { vStateLabel.text = "OFF" }
         if (SettingsHandler.getSoundSetting()) { sStateLabel.text = "ON" } else { sStateLabel.text = "OFF" }
-        dStateLabel.text = SettingsHandler.getDifficulty().description.uppercaseString
+        
+        var difficulty = SettingsHandler.getDifficulty()
+        dStateLabel.text = difficulty.description.uppercaseString
+        switch difficulty {
+        case .Easy:
+            dInfoLabel.text = "Slower circle speed, points x 1"
+            break
+        case .Normal:
+            dInfoLabel.text = "Normal circle speed, points x 2"
+            break
+        case .Hard:
+            dInfoLabel.text = "Faster circle speed, points x 3"
+            break
+        }
     }
     
     // MARK: TOUCH FUNCTIONS
