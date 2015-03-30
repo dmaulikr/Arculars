@@ -15,12 +15,12 @@ import AudioToolbox
 class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCountdownDelegate {
     
     // MARK: - VARIABLE DECLARATIONS
+    weak var sceneDelegate : SceneDelegate?
     
     private let circlePosition : CGPoint!
     private let ballPosition : CGPoint!
     private let scorePosition : CGPoint!
     
-    var sceneDelegate : SceneDelegate?
     var gameMode : GameMode!
     
     // Node and all it's descendants while playing
@@ -47,7 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var stats_moves = 0
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -56,27 +55,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         super.init(size: size)
         
         // Init positions
-        var offset : CGFloat = self.size.height / 12
-        scorePosition = CGPoint(x: 0, y: (self.size.height / 2) - offset)
-        circlePosition = CGPoint(x: 0, y: (self.size.height / 4) - offset)
+        var offset : CGFloat = size.height / 12
+        scorePosition = CGPoint(x: 0, y: (size.height / 2) - offset)
+        circlePosition = CGPoint(x: 0, y: (size.height / 4) - offset)
         ballPosition = CGPoint(x: 0, y: -(size.height / 2) + (2 * offset))
         
         // Setup Scene
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Colors.Background
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        backgroundColor = Colors.Background
         
         // Add Root Node
-        self.addChild(rootNode)
+        addChild(rootNode)
         
         // Setup Scene Physics
-        self.physicsWorld.contactDelegate = self
-        self.physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.contactDelegate = self
+        physicsWorld.gravity = CGVectorMake(0, 0)
         
-        self.physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRectMake(-(self.size.width / 2), -(self.size.height / 2), self.size.width, self.size.height))
-        self.physicsBody?.categoryBitMask = PhysicsCategory.border.rawValue
-        self.physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
-        self.physicsBody?.collisionBitMask = 0
-        self.physicsBody?.dynamic = true
+        physicsBody = SKPhysicsBody(edgeLoopFromRect: CGRectMake(-(size.width / 2), -(size.height / 2), size.width, size.height))
+        physicsBody?.categoryBitMask = PhysicsCategory.border.rawValue
+        physicsBody?.contactTestBitMask = PhysicsCategory.ball.rawValue
+        physicsBody?.collisionBitMask = 0
+        physicsBody?.dynamic = true
         
         initScene()
     }
@@ -85,23 +84,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         for circle in circles {
             circle.fadeIn()
         }
-        
         reset()
+    }
+    
+    deinit {
+        #if DEBUG
+            println("GameScene deinit is called")
+        #endif
     }
     
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
-        ballRadius = self.size.height / 64
+        ballRadius = size.height / 64
         
         var stopLabel = SKLabelNode(text: "STOP")
-        stopLabel.fontSize = self.size.height / 28
+        stopLabel.fontSize = size.height / 28
         stopLabel.fontName = Fonts.FontNameBold
         stopLabel.fontColor = UIColor.grayColor()
         stopLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnStop = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: self.size.height / 12))
+        btnStop = SKShapeNode(rectOfSize: CGSize(width: size.width, height: size.height / 12))
         btnStop.addChild(stopLabel)
-        btnStop.position = CGPoint(x: 0, y: -(self.size.height / 2) + (btnStop.frame.height / 2))
+        btnStop.position = CGPoint(x: 0, y: -(size.height / 2) + (btnStop.frame.height / 2))
         btnStop.lineWidth = 0
         rootNode.addChild(btnStop)
         
@@ -122,8 +126,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         var thickness : CGFloat!
         
         if circles.count == 0 {
-            radius = self.size.height / 16
-            thickness = self.size.height / 32
+            radius = size.height / 16
+            thickness = size.height / 32
         }
         else {
             var lastradius = circles.last!.radius
@@ -138,7 +142,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func reset() {
-        isGameOver = false
         countdownExpired = false
         
         score?.reset()
@@ -162,6 +165,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         nextBall?.removeFromParent()
         addBall()
         setCircleSpeed()
+        
+        isGameOver = false
     }
     
     private func setCircleSpeed() {
@@ -194,7 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func initTimer() {
-        timer = GameTimer(position: CGPoint(x: self.frame.midX, y: scorePosition.y - score.frame.height), seconds: 60)
+        timer = GameTimer(position: CGPoint(x: frame.midX, y: scorePosition.y - score.frame.height), seconds: 60)
         timer.delegate = self
         rootNode.addChild(timer)
     }
@@ -212,7 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             countdownTime = 4
             break
         }
-        countdown = BallCountdown(rect: CGRect(x: self.frame.midX, y: scorePosition.y - score.frame.height, width: self.frame.width / 6, height: self.frame.height / 128), seconds: countdownTime)
+        countdown = BallCountdown(rect: CGRect(x: frame.midX, y: scorePosition.y - score.frame.height, width: frame.width / 6, height: frame.height / 128), seconds: countdownTime)
         countdown.delegate = self
         rootNode.addChild(countdown)
     }
@@ -241,7 +246,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     private func shootBall() {
         activeBalls.insert(nextBall, atIndex: 0)
-        nextBall.shoot(self.frame.height)
+        nextBall.shoot(frame.height)
     }
     
     // MARK: - COLLISION DETECTION
@@ -291,14 +296,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             var points = circle.pointsPerHit * multiplicator
             runSound()
             stats_hits++
-            self.score.increaseByWithColor(points, color: ball.nodeColor)
+            score.increaseByWithColor(points, color: ball.nodeColor)
             
             countdownExpired = false
             countdown?.reset()
         } else {
             if gameMode == GameMode.Timed {
                 var points = circle.pointsPerHit * multiplicator
-                self.score.increaseByWithColor(-points, color: UIColor.redColor())
+                score.increaseByWithColor(-points, color: UIColor.redColor())
             } else {
                 gameover()
             }
@@ -318,19 +323,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         timer?.stop()
         countdown?.stop()
         
-        StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(self.stats_starttime)))
-        StatsHandler.updateFiredBallsBy(self.stats_moves)
+        StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
+        StatsHandler.updateFiredBallsBy(stats_moves)
         StatsHandler.incrementFails()
-        StatsHandler.updateHitsBy(self.stats_hits)
+        StatsHandler.updateHitsBy(stats_hits)
         
-        var endScore = self.score.getScore()
-        StatsHandler.updateLastscore(endScore, gameMode: self.gameMode)
-        StatsHandler.updateHighscore(endScore, gameMode: self.gameMode)
+        var endScore = score.getScore()
+        StatsHandler.updateLastscore(endScore, gameMode: gameMode)
+        StatsHandler.updateHighscore(endScore, gameMode: gameMode)
         StatsHandler.updateOverallPointsBy(endScore)
         
-        self.addLeaderboardScore(Int64(endScore))
+        addLeaderboardScore(Int64(endScore))
         
-        self.sceneDelegate!.showGameoverScene(self.gameMode)
+        sceneDelegate!.showGameoverScene(gameMode)
         
         /*
         let qualityOfServiceClass = QOS_CLASS_BACKGROUND
@@ -387,12 +392,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     // MARK: - USER FEEDBACK FUNCTIONS
-    
     private func runSound() {
         var state = SettingsHandler.getSoundSetting()
         if state {
             var sound = hitSounds[Int(arc4random_uniform(UInt32(hitSounds.count)))]
-            self.runAction(sound)
+            runAction(sound)
         }
     }
     

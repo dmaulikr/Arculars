@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 RMNBLM. All rights reserved.
 //
 
-protocol SceneDelegate {
+protocol SceneDelegate : class {
     
     func startGame(gameType: GameMode)
     

@@ -13,7 +13,7 @@ import SpriteKit
 class MenuScene: SKScene {
     
     // MARK: - VARIABLE DECLARATIONS
-    var sceneDelegate : SceneDelegate?
+    weak var sceneDelegate : SceneDelegate?
     
     var aboutTextsIndex = 0
     let aboutTexts = [
@@ -35,6 +35,15 @@ class MenuScene: SKScene {
     private var btnPlayTimed : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
+    // Actions
+    private var go_action : SKAction!
+    private var go_action_normal : SKAction!
+    private var go_action_reversed : SKAction!
+    private var stats_action : SKAction!
+    private var playe_action : SKAction!
+    private var playt_action : SKAction!
+    private var settings_action : SKAction!
+    
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -44,51 +53,61 @@ class MenuScene: SKScene {
         super.init(size: size)
         
         // Setup Scene
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Colors.Background
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        backgroundColor = Colors.Background
         
         // Add Root Node
-        self.addChild(rootNode)
+        addChild(rootNode)
         
-        // Init userdata dictionary
-        self.userData = NSMutableDictionary()
+        initScene()
     }
     
     override func didMoveToView(view: SKView) {
-        initScene()
-        (btnAbout.childNodeWithName("label") as SKLabelNode).text = "ABOUT"
-        aboutTextsIndex = 0
-        self.runAction(SKAction.fadeInWithDuration(0.3))
+        runAction(SKAction.fadeInWithDuration(0.3))
+    }
+    
+    override func willMoveFromView(view: SKView) {
+        // Explicitly set actions to nil so deinit is called
+        go_action = nil
+        go_action_normal = nil
+        go_action_reversed = nil
+        settings_action = nil
+        stats_action = nil
+        playe_action = nil
+        playt_action = nil
+    }
+    
+    deinit {
+        #if DEBUG
+            println("MenuScene deinit is called")
+        #endif
     }
     
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
-        rootNode.removeAllChildren()
-        rootNode.removeAllActions()
-        
         initButtons()
         initActions()
         
         var title = SKLabelNode(text: "ARCULARS")
         title.fontName = Fonts.FontNameBold
-        title.fontSize = self.size.height / 16
+        title.fontSize = size.height / 16
         title.fontColor = Colors.FontColor
-        title.position = CGPoint(x: 0, y: (self.size.height / 6) * 2)
+        title.position = CGPoint(x: 0, y: (size.height / 6) * 2)
         rootNode.addChild(title)
     }
     
     private func initButtons() {
-        var radius = self.size.height / 18
+        var radius = size.height / 18
         
         // INIT ABOUT BUTTON
-        btnAbout = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: self.size.height / 12))
-        btnAbout.position = CGPoint(x: 0, y: -(self.size.height / 2) + (btnAbout.frame.height / 2))
+        btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width, height: size.height / 12))
+        btnAbout.position = CGPoint(x: 0, y: -(size.height / 2) + (btnAbout.frame.height / 2))
         btnAbout.lineWidth = 0
         btnAbout.strokeColor = UIColor.clearColor()
         btnAbout.fillColor = UIColor.clearColor()
         var aboutLabel = SKLabelNode(text: "ABOUT")
         aboutLabel.name = "label"
-        aboutLabel.fontSize = self.size.height / 32
+        aboutLabel.fontSize = size.height / 32
         aboutLabel.fontName = Fonts.FontNameBold
         aboutLabel.fontColor = UIColor.grayColor()
         aboutLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -114,23 +133,23 @@ class MenuScene: SKScene {
         btnGo.addChild(goContent)
         var goLabel = SKLabelNode(text: "GO")
         goLabel.fontName = Fonts.FontNameBold
-        goLabel.fontSize = self.size.height / 24
+        goLabel.fontSize = size.height / 24
         goLabel.position = CGPoint(x: 0, y: -goLabel.frame.height / 2)
         goContent.addChild(goLabel)
         rootNode.addChild(btnGo)
         
         var bezierpath = UIBezierPath()
-        bezierpath.addArcWithCenter(self.btnGo.position, radius: distance, startAngle: 0, endAngle: CGFloat(2 * M_PI), clockwise: false)
+        bezierpath.addArcWithCenter(btnGo.position, radius: distance, startAngle: 0, endAngle: CGFloat(2 * M_PI), clockwise: false)
         var dashed = CGPathCreateCopyByDashingPath(bezierpath.CGPath, nil, 0, [10.0,10.0], 2)
         dashedCircle = SKShapeNode(path: dashed)
-        dashedCircle.position = self.btnGo.position
+        dashedCircle.position = btnGo.position
         dashedCircle.fillColor = UIColor.clearColor()
         dashedCircle.lineWidth = 1
         dashedCircle.strokeColor = Colors.FontColor
         dashedCircle.zPosition = -10
         dashedCircle.xScale = 0.0
         dashedCircle.yScale = 0.0
-        self.btnGo.addChild(dashedCircle)
+        btnGo.addChild(dashedCircle)
         
         // INIT STATS BUTTON
         btnStats = SKShapeNode(circleOfRadius: radius)
@@ -145,12 +164,12 @@ class MenuScene: SKScene {
         var statsIcon = SKSpriteNode(imageNamed: "icon-statistics")
         statsIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnStats.addChild(statsIcon)
-        btnGo.addChild(self.btnStats)
+        btnGo.addChild(btnStats)
         
         var statsLabel = SKLabelNode(text: "Stats")
         statsLabel.name = "label"
         statsLabel.fontName = Fonts.FontNameLight
-        statsLabel.fontSize = self.size.height / 40
+        statsLabel.fontSize = size.height / 40
         statsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
         statsLabel.alpha = 0.0
         btnStats.addChild(statsLabel)
@@ -168,12 +187,12 @@ class MenuScene: SKScene {
         var settingsIcon = SKSpriteNode(imageNamed: "icon-settings")
         settingsIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnSettings.addChild(settingsIcon)
-        btnGo.addChild(self.btnSettings)
+        btnGo.addChild(btnSettings)
         
         var settingsLabel = SKLabelNode(text: "Settings")
         settingsLabel.name = "label"
         settingsLabel.fontName = Fonts.FontNameLight
-        settingsLabel.fontSize = self.size.height / 40
+        settingsLabel.fontSize = size.height / 40
         settingsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
         settingsLabel.alpha = 0.0
         btnSettings.addChild(settingsLabel)
@@ -191,12 +210,12 @@ class MenuScene: SKScene {
         var clockIcon = SKSpriteNode(imageNamed: "icon-clock")
         clockIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnPlayTimed.addChild(clockIcon)
-        btnGo.addChild(self.btnPlayTimed)
+        btnGo.addChild(btnPlayTimed)
         
         var playtLabel = SKLabelNode(text: "Timed")
         playtLabel.name = "label"
         playtLabel.fontName = Fonts.FontNameLight
-        playtLabel.fontSize = self.size.height / 40
+        playtLabel.fontSize = size.height / 40
         playtLabel.position = CGPoint(x: 0, y: (1.25 * radius))
         playtLabel.alpha = 0.0
         btnPlayTimed.addChild(playtLabel)
@@ -214,25 +233,18 @@ class MenuScene: SKScene {
         var iconInfinity = SKSpriteNode(imageNamed: "icon-infinity")
         iconInfinity.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnPlayEndless.addChild(iconInfinity)
-        btnGo.addChild(self.btnPlayEndless)
+        btnGo.addChild(btnPlayEndless)
         
         var playeLabel = SKLabelNode(text: "Endless")
         playeLabel.name = "label"
         playeLabel.fontName = Fonts.FontNameLight
-        playeLabel.fontSize = self.size.height / 40
+        playeLabel.fontSize = size.height / 40
         playeLabel.position = CGPoint(x: 0, y: (1.25 * radius))
         playeLabel.alpha = 0.0
         btnPlayEndless.addChild(playeLabel)
     }
     
     private func initActions() {
-        var go_action_normal : SKAction!
-        var go_action_reversed : SKAction!
-        var stats_action : SKAction!
-        var playe_action : SKAction!
-        var playt_action : SKAction!
-        var settings_action : SKAction!
-        
         go_action_normal = SKAction.runBlock({
             var stats_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance), CGAffineTransformMakeRotation(-CGFloat(M_PI_4)))
             var stats_move = SKAction.moveTo(stats_endpoint, duration: 0.2)
@@ -279,7 +291,7 @@ class MenuScene: SKScene {
             content_scale.timingMode = SKActionTimingMode.EaseIn
             content.runAction(content_scale)
             
-            self.userData?.setObject(go_action_reversed, forKey: "go_action")
+            self.go_action = self.go_action_reversed
         })
         
         go_action_reversed = SKAction.runBlock({
@@ -324,7 +336,7 @@ class MenuScene: SKScene {
             content_scale.timingMode = SKActionTimingMode.EaseIn
             content.runAction(content_scale)
             
-            self.userData?.setObject(go_action_normal, forKey: "go_action")
+            self.go_action = self.go_action_normal
         })
         
         stats_action = SKAction.runBlock({
@@ -471,11 +483,7 @@ class MenuScene: SKScene {
             })
         })
         
-        self.userData?.setObject(go_action_normal, forKey: "go_action")
-        self.userData?.setObject(stats_action, forKey: "stats_action")
-        self.userData?.setObject(settings_action, forKey: "settings_action")
-        self.userData?.setObject(playe_action, forKey: "playe_action")
-        self.userData?.setObject(playt_action, forKey: "playt_action")
+        go_action = go_action_normal
     }
     
     // MARK: - TOUCH FUNCTIONS
@@ -484,26 +492,20 @@ class MenuScene: SKScene {
             let location = touch.locationInNode(rootNode)
             
             if (btnGo.containsPoint(location)) {
-                var action = self.userData?.valueForKey("go_action") as SKAction
-                self.runAction(action)
+                runAction(go_action)
             } else if (btnAbout.containsPoint(location)) {
-                self.updateAboutText()
+                updateAboutText()
             } else if (btnStats.containsPoint(location)) {
-                var action = self.userData?.valueForKey("stats_action") as SKAction
-                self.runAction(action)
+                runAction(stats_action)
             } else if (btnSettings.containsPoint(location)) {
-                var action = self.userData?.valueForKey("settings_action") as SKAction
-                self.runAction(action)
+                runAction(settings_action)
             } else if (btnPlayEndless.containsPoint(location)) {
-                var action = self.userData?.valueForKey("playe_action") as SKAction
-                self.runAction(action)
+                runAction(playe_action)
             } else if (btnPlayTimed.containsPoint(location)) {
-                var action = self.userData?.valueForKey("playt_action") as SKAction
-                self.runAction(action)
+                runAction(playt_action)
             } else {
-                
                 // Just a little 'easteregg' ;)
-                var ball = SKShapeNode(circleOfRadius: self.frame.height / 32)
+                var ball = SKShapeNode(circleOfRadius: frame.height / 32)
                 ball.fillColor = Colors.getRandomBallColor()
                 ball.lineWidth = 1
                 ball.strokeColor = ball.fillColor
@@ -519,7 +521,7 @@ class MenuScene: SKScene {
     
     // MARK: - ABOUT FUNCTIONS
     private func updateAboutText() {
-        var label = self.btnAbout.childNodeWithName("label") as SKLabelNode
+        var label = btnAbout.childNodeWithName("label") as SKLabelNode
         label.text = aboutTexts[aboutTextsIndex++]
         label.fontName = Fonts.FontNameNormal
         if (aboutTextsIndex >= aboutTexts.count) { aboutTextsIndex = 0 }

@@ -14,8 +14,8 @@ import Social
 class GameoverScene: SKScene {
     
     // MARK: - VARIABLE DECLARATIONS
+    weak var sceneDelegate : SceneDelegate?
     
-    var sceneDelegate : SceneDelegate?
     var gameMode : GameMode!
     
     // Node and all it's descendants
@@ -42,16 +42,28 @@ class GameoverScene: SKScene {
         super.init(size: size)
         
         // Setup Scene
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Colors.Background
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        backgroundColor = Colors.Background
         
         // Add Root Node
-        self.addChild(rootNode)
+        addChild(rootNode)
         
         initScene()
     }
     
     override func didMoveToView(view: SKView) {
+        getScores()
+        runAction(SKAction.fadeInWithDuration(0.15))
+    }
+    
+    deinit {
+        #if DEBUG
+            println("GameOverScene deinit is called")
+        #endif
+    }
+    
+    // MARK: - SCORES 
+    private func getScores() {
         var lastscore = StatsHandler.getLastscore(gameMode)
         var highscore = StatsHandler.getHighscore(gameMode)
         
@@ -63,17 +75,15 @@ class GameoverScene: SKScene {
         
         score.text = "\(lastscore)"
         hscore.text = "\(highscore)"
-        
-        self.runAction(SKAction.fadeInWithDuration(0.15))
     }
     
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
-        var radius = self.size.height / 21
+        var radius = size.height / 21
         
         ttpLabel = SKLabelNode(text: "TAP TO PLAY")
         ttpLabel.fontName = Fonts.FontNameNormal
-        ttpLabel.fontSize = self.size.height / 32
+        ttpLabel.fontSize = size.height / 32
         ttpLabel.position = CGPoint(x: 0, y: 0)
         
         rootNode.addChild(ttpLabel)
@@ -81,20 +91,20 @@ class GameoverScene: SKScene {
         var gameoverLabel = SKLabelNode(text: "GAME OVER!")
         gameoverLabel.fontName = Fonts.FontNameBold
         gameoverLabel.fontColor = Colors.FontColor
-        gameoverLabel.fontSize = self.size.height / 20
-        gameoverLabel.position = CGPoint(x: 0, y: (self.size.height / 2) - (self.size.height / 5))
+        gameoverLabel.fontSize = size.height / 20
+        gameoverLabel.position = CGPoint(x: 0, y: (size.height / 2) - (size.height / 5))
         rootNode.addChild(gameoverLabel)
         
         var scoreLabel = SKLabelNode(text: "YOUR SCORE")
         scoreLabel.fontName = Fonts.FontNameLight
         scoreLabel.fontColor = Colors.AppColorThree
-        scoreLabel.fontSize = self.size.height / 48
-        scoreLabel.position = CGPoint(x: -self.size.width / 6, y: self.size.height / 4)
+        scoreLabel.fontSize = size.height / 48
+        scoreLabel.position = CGPoint(x: -size.width / 6, y: size.height / 4)
         
         score = SKLabelNode()
         score.fontName = Fonts.FontNameNormal
         score.fontColor = Colors.AppColorThree
-        score.fontSize = self.size.height / 20
+        score.fontSize = size.height / 20
         score.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         score.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         score.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height * 2)
@@ -104,14 +114,14 @@ class GameoverScene: SKScene {
         
         var hscoreLabel = SKLabelNode(text: "HIGH SCORE")
         hscoreLabel.fontName = Fonts.FontNameLight
-        hscoreLabel.fontSize = self.size.height / 48
+        hscoreLabel.fontSize = size.height / 48
         hscoreLabel.fontColor = Colors.FontColor
-        hscoreLabel.position = CGPoint(x: self.size.width / 6, y: self.size.height / 4)
+        hscoreLabel.position = CGPoint(x: size.width / 6, y: size.height / 4)
         
         hscore = SKLabelNode()
         hscore.fontName = Fonts.FontNameNormal
         hscore.fontColor = Colors.FontColor
-        hscore.fontSize = self.size.height / 20
+        hscore.fontSize = size.height / 20
         hscore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         hscore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         hscore.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height * 2)
@@ -125,7 +135,7 @@ class GameoverScene: SKScene {
         facebook.antialiased = true
         facebook.lineWidth = 1
         facebook.zPosition = 3
-        facebook.position = CGPoint(x: -(self.size.width / 2) + (self.size.width / 5), y: -(self.size.height / 4))
+        facebook.position = CGPoint(x: -(size.width / 2) + (size.width / 5), y: -(size.height / 4))
         facebook.addChild(SKSpriteNode(imageNamed: "icon-facebook"))
         rootNode.addChild(facebook)
         
@@ -135,7 +145,7 @@ class GameoverScene: SKScene {
         twitter.antialiased = true
         twitter.lineWidth = 1
         twitter.zPosition = 4
-        twitter.position = CGPoint(x: -(self.size.width / 2) + ((self.size.width / 5) * 2), y: -(self.size.height / 4))
+        twitter.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 2), y: -(size.height / 4))
         var twitterSprite = SKSpriteNode(imageNamed: "icon-twitter")
         twitter.addChild(twitterSprite)
         rootNode.addChild(twitter)
@@ -146,7 +156,7 @@ class GameoverScene: SKScene {
         whatsapp.antialiased = true
         whatsapp.lineWidth = 1
         whatsapp.zPosition = 2
-        whatsapp.position = CGPoint(x: -(self.size.width / 2) + ((self.size.width / 5) * 3), y: -(self.size.height / 4))
+        whatsapp.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 3), y: -(size.height / 4))
         whatsapp.addChild(SKSpriteNode(imageNamed: "icon-whatsapp"))
         rootNode.addChild(whatsapp)
         
@@ -156,19 +166,19 @@ class GameoverScene: SKScene {
         shareother.antialiased = true
         shareother.lineWidth = 1
         shareother.zPosition = 1
-        shareother.position = CGPoint(x: -(self.size.width / 2) + ((self.size.width / 5) * 4), y: -(self.size.height / 4))
+        shareother.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 4), y: -(size.height / 4))
         shareother.addChild(SKSpriteNode(imageNamed: "icon-share"))
         rootNode.addChild(shareother)
         
         var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
         tomenuLabel.fontName = Fonts.FontNameNormal
         tomenuLabel.fontColor = Colors.FontColor
-        tomenuLabel.fontSize = self.size.height / 32
-        tomenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tomenuLabel.frame.height * 4))
+        tomenuLabel.fontSize = size.height / 32
+        tomenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tomenuLabel.frame.height * 4))
         tomenu.lineWidth = 0
         tomenu.fillColor = UIColor.clearColor()
         tomenu.strokeColor = UIColor.clearColor()
-        tomenuLabel.position = CGPoint(x: 0, y: -(self.size.height / 2) + (tomenuLabel.frame.height * 1.5))
+        tomenuLabel.position = CGPoint(x: 0, y: -(size.height / 2) + (tomenuLabel.frame.height * 1.5))
         tomenu.addChild(tomenuLabel)
         rootNode.addChild(tomenu)
     }
@@ -179,19 +189,19 @@ class GameoverScene: SKScene {
             let location = touch.locationInNode(rootNode)
             
             if (tomenu.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
+                runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
                     self.sceneDelegate!.showMenuScene()
                 })
             } else if (twitter.containsPoint(location)) {
-                self.sceneDelegate!.shareOnTwitter()
+                sceneDelegate!.shareOnTwitter()
             } else if (facebook.containsPoint(location)) {
-                self.sceneDelegate!.shareOnFacebook()
+                sceneDelegate!.shareOnFacebook()
             } else if (whatsapp.containsPoint(location)) {
-                self.sceneDelegate!.shareOnWhatsApp()
+                sceneDelegate!.shareOnWhatsApp()
             } else if (shareother.containsPoint(location)) {
-                self.sceneDelegate!.shareOnOther()
+                sceneDelegate!.shareOnOther()
             } else {
-                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: { ()
+                runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
                     self.sceneDelegate!.startGame(self.gameMode)
                 })
             }

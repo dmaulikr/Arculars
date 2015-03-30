@@ -12,7 +12,7 @@ import SpriteKit
 class StatsScene: SKScene {
     
     // MARK: - VARIABLE DECLARATIONS
-    var sceneDelegate : SceneDelegate?
+    weak var sceneDelegate : SceneDelegate?
     
     private var rootNode = SKNode()
     
@@ -37,32 +37,38 @@ class StatsScene: SKScene {
         super.init(size: size)
         
         // Setup Scene
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = Colors.Background
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        backgroundColor = Colors.Background
         
         // Add Root Node
-        self.addChild(rootNode)
+        addChild(rootNode)
         
         initScene()
     }
     
     override func didMoveToView(view: SKView) {
-        self.getStats()
-        self.runAction(SKAction.fadeInWithDuration(0.3))
+        getStats()
+        runAction(SKAction.fadeInWithDuration(0.3))
+    }
+    
+    deinit {
+        #if DEBUG
+            println("StatsScene deinit is called")
+        #endif
     }
     
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
-        var rowheight = self.size.height / 12
+        var rowheight = size.height / 12
         
         // INIT TITLE
-        var title = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 3, height: rowheight))
-        title.position = CGPoint(x: 0, y: (self.size.height / 2) - rowheight)
+        var title = SKShapeNode(rectOfSize: CGSize(width: size.width / 3, height: rowheight))
+        title.position = CGPoint(x: 0, y: (size.height / 2) - rowheight)
         title.lineWidth = 0
         title.strokeColor = UIColor.clearColor()
         title.fillColor = UIColor.clearColor()
         var titleLabel = SKLabelNode(text: "STATS")
-        titleLabel.fontSize = self.size.height / 32
+        titleLabel.fontSize = size.height / 32
         titleLabel.fontName = Fonts.FontNameBold
         titleLabel.fontColor = Colors.FontColor
         titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -72,49 +78,49 @@ class StatsScene: SKScene {
         
         // INIT PLAYED TIME NODE
         var ptn = createRow("PLAYED TIME")
-        ptn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 2))
+        ptn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 2))
         label_playedtime = (ptn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(ptn)
         
         // INIT OVERALL POINTS NODE
         var opn = createRow("OVERALL POINTS")
-        opn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 3))
+        opn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 3))
         label_overallpoints = (opn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(opn)
         
         // INIT HIGHSCORE ENDLESS NODE
         var hen = createRow("HIGH SCORE ENDLESS")
-        hen.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 4))
+        hen.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 4))
         label_highscore_endless = (hen.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(hen)
         
         // INIT HIGHSCORE TIMED NODE
         var htn = createRow("HIGH SCORE TIMED")
-        htn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 5))
+        htn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 5))
         label_highscore_timed = (htn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(htn)
         
         // INIT FIRED BALLS NODE
         var fbn = createRow("FIRED BALLS")
-        fbn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 6))
+        fbn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 6))
         label_firedballs = (fbn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(fbn)
         
         // INIT HITS NODE
         var hin = createRow("HITS")
-        hin.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 7))
+        hin.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 7))
         label_hits = (hin.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(hin)
         
         // INIT FAILS NODE
         var fan = createRow("FAILS")
-        fan.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 8))
+        fan.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 8))
         label_fails = (fan.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(fan)
         
         // INIT RESET AND GAMECENTER BUTTONS
-        var btns = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: 2 * rowheight))
-        btns.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 9.5))
+        var btns = SKShapeNode(rectOfSize: CGSize(width: size.width, height: 2 * rowheight))
+        btns.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 9.5))
         btns.lineWidth = 0
         
         btnReset = SKShapeNode(circleOfRadius: rowheight * 0.75)
@@ -124,7 +130,7 @@ class StatsScene: SKScene {
         btnReset.fillColor = Colors.AppColorOne
         var rel = SKLabelNode(text: "RESET")
         rel.userInteractionEnabled = false
-        rel.fontSize = self.size.height / 48
+        rel.fontSize = size.height / 48
         rel.fontName = Fonts.FontNameNormal
         rel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -139,14 +145,14 @@ class StatsScene: SKScene {
         var gcl = SKNode()
         var gcl1 = SKLabelNode(text: "GAME")
         gcl1.position = CGPoint(x: 0, y: gcl1.frame.height / 4 + (gcl1.frame.height / 16))
-        gcl1.fontSize = self.size.height / 48
+        gcl1.fontSize = size.height / 48
         gcl1.fontName = Fonts.FontNameNormal
         gcl1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         gcl1.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         gcl.addChild(gcl1)
         var gcl2 = SKLabelNode(text: "CENTER")
         gcl2.position = CGPoint(x: 0, y: -gcl2.frame.height / 4 - (gcl2.frame.height / 16))
-        gcl2.fontSize = self.size.height / 48
+        gcl2.fontSize = size.height / 48
         gcl2.fontName = Fonts.FontNameNormal
         gcl2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         gcl2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -158,11 +164,11 @@ class StatsScene: SKScene {
         
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "BACK TO MENU")
-        tml.position = CGPoint(x: 0, y: -(self.size.height / 2) + (self.size.height / 24))
+        tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 24))
         tml.fontName = Fonts.FontNameNormal
         tml.fontColor = Colors.FontColor
-        tml.fontSize = self.size.height / 32
-        btnToMenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tml.frame.height * 4))
+        tml.fontSize = size.height / 32
+        btnToMenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tml.frame.height * 4))
         btnToMenu.lineWidth = 0
         btnToMenu.fillColor = UIColor.clearColor()
         btnToMenu.strokeColor = UIColor.clearColor()
@@ -186,9 +192,9 @@ class StatsScene: SKScene {
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
-            for object in self.nodesAtPoint(location) {
+            for object in nodesAtPoint(location) {
                 if (btnToMenu == object as? SKShapeNode) {
-                    self.runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
+                    runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
                         self.sceneDelegate!.showMenuScene()
                     })
                 } else if (btnReset == object as? SKShapeNode) {
@@ -200,9 +206,9 @@ class StatsScene: SKScene {
                     }))
                     refreshAlert.addAction(UIAlertAction(title: "No", style: .Default, handler: nil))
                     
-                    self.view?.window?.rootViewController?.presentViewController(refreshAlert, animated: true, completion: nil)
+                    view?.window?.rootViewController?.presentViewController(refreshAlert, animated: true, completion: nil)
                 } else if (btnGameCenter == object as? SKShapeNode) {
-                    self.sceneDelegate!.presentGameCenter()
+                    sceneDelegate!.presentGameCenter()
                 }
             }
         }
@@ -210,13 +216,13 @@ class StatsScene: SKScene {
     
     // MARK: - HELPER FUNCTIONS
     private func createRow(labelText: NSString) -> SKShapeNode {
-        var labelFontSize = self.size.height / 48
-        var statsFontSize = self.size.height / 24
+        var labelFontSize = size.height / 48
+        var statsFontSize = size.height / 24
         var statsFontName = Fonts.FontNameBold
-        var gap = self.size.width / 50
-        var rowheight = self.size.height / 12
+        var gap = size.width / 50
+        var rowheight = size.height / 12
         
-        var row = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var row = SKShapeNode(rectOfSize: CGSize(width: size.width, height: rowheight))
         row.lineWidth = 0
         var label = SKLabelNode(text: labelText)
         label.position = CGPoint(x: gap, y: 0)

@@ -13,12 +13,6 @@ import Social
 
 class GameViewController: UIViewController, SceneDelegate, GKGameCenterControllerDelegate {
     
-    var menuScene : MenuScene!
-    var gameScene : GameScene!
-    var gameoverScene : GameoverScene!
-    var statsScene : StatsScene!
-    var settingsScene : SettingsScene!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,31 +27,6 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
             skView.showsPhysics = true
             */
         #endif
-        
-        // Create and configure the menu scene.
-        menuScene = MenuScene(size: skView.bounds.size)
-        menuScene.scaleMode = .AspectFill
-        menuScene.sceneDelegate = self
-        
-        // Create and configure the stats scene.
-        statsScene = StatsScene(size: skView.bounds.size)
-        statsScene.scaleMode = .AspectFill
-        statsScene.sceneDelegate = self
-        
-        // Create and configure the settings scene.
-        settingsScene = SettingsScene(size: skView.bounds.size)
-        settingsScene.scaleMode = .AspectFill
-        settingsScene.sceneDelegate = self
-        
-        // Create and configure the game scene.
-        gameScene = GameScene(size: skView.bounds.size)
-        gameScene.scaleMode = .AspectFill
-        gameScene.sceneDelegate = self
-        
-        // Create and configure the gameover scene.
-        gameoverScene = GameoverScene(size: skView.bounds.size)
-        gameoverScene.scaleMode = .AspectFill
-        gameoverScene.sceneDelegate = self
         
         // Try to authenticate Game Center
         tryAuthenticateLocalPlayer()
@@ -183,23 +152,48 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     }
     
     func showMenuScene() {
+        // Create and configure the menu scene.
+        var menuScene = MenuScene(size: self.view.bounds.size)
+        menuScene.scaleMode = .AspectFill
+        menuScene.sceneDelegate = self
+        
         (self.view as SKView).presentScene(menuScene)
     }
     
     func startGame(gameMode: GameMode) {
+        // Create and configure the game scene.
+        var gameScene = GameScene(size: self.view.bounds.size)
+        gameScene.scaleMode = .AspectFill
+        gameScene.sceneDelegate = self
         gameScene.gameMode = gameMode
         (self.view as SKView).presentScene(gameScene)
     }
     
     func showStatsScene() {
+        (self.view as SKView).presentScene(nil)
+        
+        // Create and configure the stats scene.
+        var statsScene = StatsScene(size: self.view.bounds.size)
+        statsScene.scaleMode = .AspectFill
+        statsScene.sceneDelegate = self
+        
         (self.view as SKView).presentScene(statsScene)
     }
     
     func showSettingsScene() {
+        // Create and configure the settings scene.
+        var settingsScene = SettingsScene(size: self.view.bounds.size)
+        settingsScene.scaleMode = .AspectFill
+        settingsScene.sceneDelegate = self
+        
         (self.view as SKView).presentScene(settingsScene)
     }
     
     func showGameoverScene(gameMode: GameMode) {
+        // Create and configure the gameover scene.
+        var gameoverScene = GameoverScene(size: self.view.bounds.size)
+        gameoverScene.scaleMode = .AspectFill
+        gameoverScene.sceneDelegate = self
         gameoverScene.gameMode = gameMode
         (self.view as SKView).presentScene(gameoverScene)
     }
