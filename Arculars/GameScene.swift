@@ -340,18 +340,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         addLeaderboardScore(Int64(endScore))
         
         sceneDelegate!.showGameoverScene(gameMode)
-        
-        /*
-        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-        dispatch_async(backgroundQueue, {
-            // DO THINGS IN THE BACKGROUND
-        
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                // DO THINGS ON THE MAIN THREAD
-            })
-        })
-        */
     }
     
     // MARK: - GAMECENTER INTEGRATION
