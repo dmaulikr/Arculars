@@ -63,7 +63,7 @@ class StatsHandler {
     }
     
     class func updateHighscore(score: Int, gameType: GameType) {
-        var highscore = StatsHandler.getHighscore(Globals.currentGameType)
+        var highscore = StatsHandler.getHighscore(gameType)
         if score <= highscore {
             return
         }

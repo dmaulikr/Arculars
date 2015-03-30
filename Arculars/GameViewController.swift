@@ -59,10 +59,6 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         gameoverScene.scaleMode = .AspectFill
         gameoverScene.sceneDelegate = self
         
-        if (NSUserDefaults.standardUserDefaults().objectForKey("useGC") == nil) {
-            self.authenticateLocalPlayer()
-        }
-        
         // Present the initial scene.
         showMenuScene()
     }
@@ -177,7 +173,8 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         (self.view as SKView).presentScene(menuScene)
     }
     
-    func startGame() {
+    func startGame(gameType: GameType) {
+        gameScene.gameType = gameType
         (self.view as SKView).presentScene(gameScene)
     }
     
@@ -189,7 +186,8 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         (self.view as SKView).presentScene(settingsScene)
     }
     
-    func showGameoverScene() {
+    func showGameoverScene(gameType: GameType) {
+        gameoverScene.gameType = gameType
         (self.view as SKView).presentScene(gameoverScene)
     }
 }

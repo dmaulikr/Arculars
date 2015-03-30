@@ -11,18 +11,16 @@ import SpriteKit
 import GameKit
 import AudioToolbox
 
-enum GameType {
-    case Endless
-    case Timed
-}
-
 class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCountdownDelegate {
+    
+    // MARK: - VARIABLE DECLARATIONS
     
     private let circlePosition : CGPoint!
     private let ballPosition : CGPoint!
     private let scorePosition : CGPoint!
     
     var sceneDelegate : SceneDelegate?
+    var gameType : GameType!
     
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
@@ -45,6 +43,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var stats_starttime : NSDate!
     private var stats_hits = 0
     private var stats_moves = 0
+    
+    // MARK: - SCENE SPECIFIC FUNCTIONS
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -87,6 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         reset()
     }
     
+    // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
         ballRadius = self.size.height / 64
         ballSpeed = 9.0
@@ -123,118 +124,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         rootNode.addChild(c)
     }
     
-    private func addBall() {
-        nextBall = Ball(color: Colors.getRandomBallColor(), position: ballPosition, radius: ballRadius, speed: ballSpeed)
-        rootNode.addChild(nextBall.fadeIn())
-    }
-    
-    private func shootBall() {
-        activeBalls.insert(nextBall, atIndex: 0)
-        nextBall.shoot()
-    }
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        if !isGameOver && !countdownExpired {
-            stats_moves++
-            shootBall()
-            addBall()
-        }
-    }
-    
-    func didBeginContact(contact: SKPhysicsContact) {
-        if isGameOver { return }
-        
-        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        switch (contactMask) {
-        case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
-            var ball : Ball
-            var circle : Circle
-            
-            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                ball = contact.bodyA.node as Ball
-                circle = contact.bodyB.node?.parent as Circle // parent because the arc's parent
-            } else {
-                ball = contact.bodyB.node as Ball
-                circle = contact.bodyA.node?.parent as Circle // parent because the arc's parent
-            }
-            ballDidCollideWithCircle(ball, circle: circle)
-            
-            break
-        case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
-            var ball : Ball
-            
-            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                ball = contact.bodyA.node as Ball
-            } else{
-                ball = contact.bodyB.node as Ball
-            }
-            
-            ballDidCollideWithBorder(ball)
-            break
-        default:
-            return
-        }
-    }
-    
-    private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
-        activeBalls.removeLast()
-        // set the physicscategory to none to prevent additional contacts
-        ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
-        //  ball.hidden = true
-        ball.runAction(SKAction.removeFromParent())
-        
-        if (ball.nodeColor == circle.nodeColor) {
-            var points = circle.pointsPerHit * multiplicator
-            runSound()
-            stats_hits++
-            self.score.increaseByWithColor(points, color: ball.nodeColor)
-            
-            countdownExpired = false
-            countdown?.reset()
-        } else {
-            if Globals.currentGameType == GameType.Timed {
-                var points = circle.pointsPerHit * multiplicator
-                self.score.increaseByWithColor(-points, color: UIColor.redColor())
-            } else {
-                gameover()
-            }
-        }
-    }
-    
-    private func ballDidCollideWithBorder(ball: Ball) {
-        activeBalls.removeLast()
-        ball.runAction(SKAction.removeFromParent())
-    }
-    
-    private func gameover() {
-        isGameOver = true
-        runVibration()
-        
-        timer?.stop()
-        countdown?.stop()
-        
-        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
-        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
-        dispatch_async(backgroundQueue, {
-            // Update Stats
-            StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(self.stats_starttime)))
-            StatsHandler.updateFiredBallsBy(self.stats_moves)
-            StatsHandler.incrementFails()
-            StatsHandler.updateHitsBy(self.stats_hits)
-            
-            var endScore = self.score.getScore()
-            StatsHandler.updateLastscore(endScore, gameType: Globals.currentGameType)
-            StatsHandler.updateHighscore(endScore, gameType: Globals.currentGameType)
-            StatsHandler.updateOverallPointsBy(endScore)
-            
-            self.addLeaderboardScore(endScore)
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.sceneDelegate!.showGameoverScene()
-            })
-        })
-    }
-    
     private func reset() {
         isGameOver = false
         countdownExpired = false
@@ -243,11 +132,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         timer?.removeFromParent()
         countdown?.removeFromParent()
         
-        if Globals.currentGameType == GameType.Timed {
+        if gameType == GameType.Timed {
             multiplicator = 1
             initTimer()
             timer?.start()
-        } else if Globals.currentGameType == GameType.Endless {
+        } else if gameType == GameType.Endless {
             multiplicator = SettingsHandler.getDifficulty().rawValue
             initCountdown()
             countdown?.start()
@@ -261,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         addBall()
         setCircleSpeed()
     }
-
+    
     private func setCircleSpeed() {
         var speed1 : NSTimeInterval!
         var speed2 : NSTimeInterval!
@@ -315,15 +204,132 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         rootNode.addChild(countdown)
     }
     
+    // MARK: - TOUCH FUNCTIONS
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        if !isGameOver && !countdownExpired {
+            stats_moves++
+            shootBall()
+            addBall()
+        }
+    }
+    
+    // MARK: - GAME FUNCTIONS
+    private func addBall() {
+        nextBall = Ball(color: Colors.getRandomBallColor(), position: ballPosition, radius: ballRadius, speed: ballSpeed)
+        rootNode.addChild(nextBall.fadeIn())
+    }
+    
+    private func shootBall() {
+        activeBalls.insert(nextBall, atIndex: 0)
+        nextBall.shoot()
+    }
+    
+    // MARK: - COLLISION DETECTION
+    func didBeginContact(contact: SKPhysicsContact) {
+        if isGameOver { return }
+        
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        switch (contactMask) {
+        case PhysicsCategory.ball.rawValue | PhysicsCategory.arc.rawValue:
+            var ball : Ball
+            var circle : Circle
+            
+            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                ball = contact.bodyA.node as Ball
+                circle = contact.bodyB.node?.parent as Circle // parent because the arc's parent
+            } else {
+                ball = contact.bodyB.node as Ball
+                circle = contact.bodyA.node?.parent as Circle // parent because the arc's parent
+            }
+            ballDidCollideWithCircle(ball, circle: circle)
+            
+            break
+        case PhysicsCategory.border.rawValue | PhysicsCategory.ball.rawValue:
+            var ball : Ball
+            
+            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                ball = contact.bodyA.node as Ball
+            } else{
+                ball = contact.bodyB.node as Ball
+            }
+            
+            ballDidCollideWithBorder(ball)
+            break
+        default:
+            return
+        }
+    }
+    
+    private func ballDidCollideWithCircle(ball: Ball, circle: Circle) {
+        activeBalls.removeLast()
+        // set the physicscategory to none to prevent additional contacts
+        ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
+        //  ball.hidden = true
+        ball.runAction(SKAction.removeFromParent())
+        
+        if (ball.nodeColor == circle.nodeColor) {
+            var points = circle.pointsPerHit * multiplicator
+            runSound()
+            stats_hits++
+            self.score.increaseByWithColor(points, color: ball.nodeColor)
+            
+            countdownExpired = false
+            countdown?.reset()
+        } else {
+            if gameType == GameType.Timed {
+                var points = circle.pointsPerHit * multiplicator
+                self.score.increaseByWithColor(-points, color: UIColor.redColor())
+            } else {
+                gameover()
+            }
+        }
+    }
+    
+    private func ballDidCollideWithBorder(ball: Ball) {
+        activeBalls.removeLast()
+        ball.runAction(SKAction.removeFromParent())
+    }
+    
+    // MARK: - GAMEOVER FUNCTIONS
+    private func gameover() {
+        isGameOver = true
+        runVibration()
+        
+        timer?.stop()
+        countdown?.stop()
+        
+        let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+        let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+        dispatch_async(backgroundQueue, {
+            // Update Stats
+            StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(self.stats_starttime)))
+            StatsHandler.updateFiredBallsBy(self.stats_moves)
+            StatsHandler.incrementFails()
+            StatsHandler.updateHitsBy(self.stats_hits)
+            
+            var endScore = self.score.getScore()
+            StatsHandler.updateLastscore(endScore, gameType: self.gameType)
+            StatsHandler.updateHighscore(endScore, gameType: self.gameType)
+            StatsHandler.updateOverallPointsBy(endScore)
+            
+            self.addLeaderboardScore(endScore)
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.sceneDelegate!.showGameoverScene(self.gameType)
+            })
+        })
+    }
+    
+    // MARK: - GAMECENTER INTEGRATION
     func addLeaderboardScore(score: Int) {
         if score < 0 { return }
         
         var newGCScore : GKScore!
-        switch Globals.currentGameType {
-            case .Endless:
+        switch gameType.rawValue {
+            case GameType.Endless.rawValue:
                 newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
                 break
-            case .Timed:
+            case GameType.Timed.rawValue:
                 newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.timed")
                 break
             default:
@@ -343,16 +349,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         })
     }
     
+    // MARK: - GAMETIMER DELEGATE
     func gameTimerFinished() {
         gameover()
     }
     
+    // MARK: - BALLCOUNTDOWN DELEGATE
     func ballExpired() {
         countdownExpired = true
         if activeBalls.count == 0 {
             gameover()
         }
     }
+    
+    // MARK: - USER FEEDBACK FUNCTIONS
     
     private func runSound() {
         var state = SettingsHandler.getSoundSetting()

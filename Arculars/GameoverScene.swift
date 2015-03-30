@@ -13,7 +13,10 @@ import Social
 
 class GameoverScene: SKScene {
     
+    // MARK: - VARIABLE DECLARATIONS
+    
     var sceneDelegate : SceneDelegate?
+    var gameType : GameType!
     
     // Node and all it's descendants
     private var rootNode = SKNode()
@@ -30,6 +33,11 @@ class GameoverScene: SKScene {
     private var score : SKLabelNode!
     private var hscore : SKLabelNode!
     
+    // MARK: - SCENE SPECIFIC FUNCTIONS
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -43,31 +51,48 @@ class GameoverScene: SKScene {
         initScene()
     }
     
+    override func didMoveToView(view: SKView) {
+        var lastscore = StatsHandler.getLastscore(gameType)
+        var highscore = StatsHandler.getHighscore(gameType)
+        
+        ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
+            SKAction.fadeAlphaTo(0.0, duration: 0.2),
+            SKAction.fadeAlphaTo(1.0, duration: 0.2),
+            SKAction.waitForDuration(1.5)
+            ])), withKey: "blinking")
+        
+        score.text = "\(lastscore)"
+        hscore.text = "\(highscore)"
+        
+        self.runAction(SKAction.fadeInWithDuration(0.15))
+    }
+    
+    // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
         var radius = self.size.height / 21
         
         ttpLabel = SKLabelNode(text: "TAP TO PLAY")
-        ttpLabel.fontName = "Avenir"
+        ttpLabel.fontName = Fonts.FontNameNormal
         ttpLabel.fontSize = self.size.height / 32
         ttpLabel.position = CGPoint(x: 0, y: 0)
         
         rootNode.addChild(ttpLabel)
         
         var gameoverLabel = SKLabelNode(text: "GAME OVER!")
-        gameoverLabel.fontName = "Avenir-Black"
+        gameoverLabel.fontName = Fonts.FontNameBold
         gameoverLabel.fontColor = Colors.FontColor
         gameoverLabel.fontSize = self.size.height / 20
         gameoverLabel.position = CGPoint(x: 0, y: (self.size.height / 2) - (self.size.height / 5))
         rootNode.addChild(gameoverLabel)
         
         var scoreLabel = SKLabelNode(text: "YOUR SCORE")
-        scoreLabel.fontName = "Avenir-Light"
+        scoreLabel.fontName = Fonts.FontNameLight
         scoreLabel.fontColor = Colors.AppColorThree
         scoreLabel.fontSize = self.size.height / 48
         scoreLabel.position = CGPoint(x: -self.size.width / 6, y: self.size.height / 4)
         
         score = SKLabelNode()
-        score.fontName = "Avenir"
+        score.fontName = Fonts.FontNameNormal
         score.fontColor = Colors.AppColorThree
         score.fontSize = self.size.height / 20
         score.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -78,13 +103,13 @@ class GameoverScene: SKScene {
         rootNode.addChild(scoreLabel)
         
         var hscoreLabel = SKLabelNode(text: "HIGH SCORE")
-        hscoreLabel.fontName = "Avenir-Light"
+        hscoreLabel.fontName = Fonts.FontNameLight
         hscoreLabel.fontSize = self.size.height / 48
         hscoreLabel.fontColor = Colors.FontColor
         hscoreLabel.position = CGPoint(x: self.size.width / 6, y: self.size.height / 4)
         
         hscore = SKLabelNode()
-        hscore.fontName = "Avenir"
+        hscore.fontName = Fonts.FontNameNormal
         hscore.fontColor = Colors.FontColor
         hscore.fontSize = self.size.height / 20
         hscore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -136,7 +161,7 @@ class GameoverScene: SKScene {
         rootNode.addChild(shareother)
         
         var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
-        tomenuLabel.fontName = "Avenir"
+        tomenuLabel.fontName = Fonts.FontNameNormal
         tomenuLabel.fontColor = Colors.FontColor
         tomenuLabel.fontSize = self.size.height / 32
         tomenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tomenuLabel.frame.height * 4))
@@ -148,26 +173,7 @@ class GameoverScene: SKScene {
         rootNode.addChild(tomenu)
     }
     
-    override func didMoveToView(view: SKView) {
-        var lastscore = StatsHandler.getLastscore(Globals.currentGameType)
-        var highscore = StatsHandler.getHighscore(Globals.currentGameType)
-        
-        ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
-            SKAction.fadeAlphaTo(0.0, duration: 0.2),
-            SKAction.fadeAlphaTo(1.0, duration: 0.2),
-            SKAction.waitForDuration(1.5)
-            ])), withKey: "blinking")
-        
-        score.text = "\(lastscore)"
-        hscore.text = "\(highscore)"
-        
-        self.runAction(SKAction.fadeInWithDuration(0.15))
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
@@ -186,7 +192,7 @@ class GameoverScene: SKScene {
                 self.sceneDelegate!.shareOnOther()
             } else {
                 self.runAction(SKAction.fadeOutWithDuration(0.15), completion: { ()
-                    self.sceneDelegate!.startGame()
+                    self.sceneDelegate!.startGame(self.gameType)
                 })
             }
         }

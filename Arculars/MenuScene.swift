@@ -12,6 +12,7 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
+    // MARK: - VARIABLE DECLARATIONS
     var sceneDelegate : SceneDelegate?
     
     var aboutTextsIndex = 0
@@ -34,6 +35,11 @@ class MenuScene: SKScene {
     private var btnPlayTimed : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
+    // MARK: - SCENE SPECIFIC FUNCTIONS
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -48,6 +54,14 @@ class MenuScene: SKScene {
         self.userData = NSMutableDictionary()
     }
     
+    override func didMoveToView(view: SKView) {
+        initScene()
+        (btnAbout.childNodeWithName("label") as SKLabelNode).text = "ABOUT"
+        aboutTextsIndex = 0
+        self.runAction(SKAction.fadeInWithDuration(0.3))
+    }
+    
+    // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
         rootNode.removeAllChildren()
         rootNode.removeAllActions()
@@ -56,7 +70,7 @@ class MenuScene: SKScene {
         initActions()
         
         var title = SKLabelNode(text: "ARCULARS")
-        title.fontName = "Avenir-Black"
+        title.fontName = Fonts.FontNameBold
         title.fontSize = self.size.height / 16
         title.fontColor = Colors.FontColor
         title.position = CGPoint(x: 0, y: (self.size.height / 6) * 2)
@@ -75,7 +89,7 @@ class MenuScene: SKScene {
         var aboutLabel = SKLabelNode(text: "ABOUT")
         aboutLabel.name = "label"
         aboutLabel.fontSize = self.size.height / 32
-        aboutLabel.fontName = "Avenir-Black"
+        aboutLabel.fontName = Fonts.FontNameBold
         aboutLabel.fontColor = UIColor.grayColor()
         aboutLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         aboutLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -99,7 +113,7 @@ class MenuScene: SKScene {
         goContent.name = "content"
         btnGo.addChild(goContent)
         var goLabel = SKLabelNode(text: "GO")
-        goLabel.fontName = "Avenir-Black"
+        goLabel.fontName = Fonts.FontNameBold
         goLabel.fontSize = self.size.height / 24
         goLabel.position = CGPoint(x: 0, y: -goLabel.frame.height / 2)
         goContent.addChild(goLabel)
@@ -135,7 +149,7 @@ class MenuScene: SKScene {
         
         var statsLabel = SKLabelNode(text: "Stats")
         statsLabel.name = "label"
-        statsLabel.fontName = "Avenir-Light"
+        statsLabel.fontName = Fonts.FontNameLight
         statsLabel.fontSize = self.size.height / 40
         statsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
         statsLabel.alpha = 0.0
@@ -158,7 +172,7 @@ class MenuScene: SKScene {
         
         var settingsLabel = SKLabelNode(text: "Settings")
         settingsLabel.name = "label"
-        settingsLabel.fontName = "Avenir-Light"
+        settingsLabel.fontName = Fonts.FontNameLight
         settingsLabel.fontSize = self.size.height / 40
         settingsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
         settingsLabel.alpha = 0.0
@@ -181,7 +195,7 @@ class MenuScene: SKScene {
         
         var playtLabel = SKLabelNode(text: "Timed")
         playtLabel.name = "label"
-        playtLabel.fontName = "Avenir-Light"
+        playtLabel.fontName = Fonts.FontNameLight
         playtLabel.fontSize = self.size.height / 40
         playtLabel.position = CGPoint(x: 0, y: (1.25 * radius))
         playtLabel.alpha = 0.0
@@ -204,7 +218,7 @@ class MenuScene: SKScene {
         
         var playeLabel = SKLabelNode(text: "Endless")
         playeLabel.name = "label"
-        playeLabel.fontName = "Avenir-Light"
+        playeLabel.fontName = Fonts.FontNameLight
         playeLabel.fontSize = self.size.height / 40
         playeLabel.position = CGPoint(x: 0, y: (1.25 * radius))
         playeLabel.alpha = 0.0
@@ -417,8 +431,7 @@ class MenuScene: SKScene {
             playe_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayEndless.zPosition = 0
             self.btnPlayEndless.runAction(SKAction.sequence([playe_wait, playe_move, SKAction.waitForDuration(0.1)]), completion: {()
-                Globals.currentGameType = GameType.Endless
-                self.sceneDelegate!.startGame()
+                self.sceneDelegate!.startGame(GameType.Endless)
             })
         })
         
@@ -454,8 +467,7 @@ class MenuScene: SKScene {
             playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayTimed.zPosition = 0
             self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move, SKAction.waitForDuration(0.1)]), completion: {()
-                Globals.currentGameType = GameType.Timed
-                self.sceneDelegate!.startGame()
+                self.sceneDelegate!.startGame(GameType.Timed)
             })
         })
         
@@ -466,17 +478,7 @@ class MenuScene: SKScene {
         self.userData?.setObject(playt_action, forKey: "playt_action")
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func didMoveToView(view: SKView) {
-        initScene()
-        (btnAbout.childNodeWithName("label") as SKLabelNode).text = "ABOUT"
-        aboutTextsIndex = 0
-        self.runAction(SKAction.fadeInWithDuration(0.3))
-    }
-    
+    // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
@@ -515,10 +517,11 @@ class MenuScene: SKScene {
         }
     }
     
+    // MARK: - ABOUT FUNCTIONS
     private func updateAboutText() {
         var label = self.btnAbout.childNodeWithName("label") as SKLabelNode
         label.text = aboutTexts[aboutTextsIndex++]
-        label.fontName = "Avenir"
+        label.fontName = Fonts.FontNameNormal
         if (aboutTextsIndex >= aboutTexts.count) { aboutTextsIndex = 0 }
     }
 }

@@ -12,6 +12,7 @@ import AudioToolbox
 
 class SettingsScene : SKScene {
     
+    // MARK: - VARIABLE DECLARATIONS
     var sceneDelegate : SceneDelegate?
     
     private var rootNode = SKNode()
@@ -23,6 +24,11 @@ class SettingsScene : SKScene {
     private var dStateLabel : SKLabelNode!
     private var btnDifficulty : SKShapeNode!
     private var btnToMenu : SKShapeNode!
+    
+    // MARK: - SCENE SPECIFIC FUNCTIONS
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -37,10 +43,12 @@ class SettingsScene : SKScene {
         initScene()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func didMoveToView(view: SKView) {
+        self.getSettings()
+        self.runAction(SKAction.fadeInWithDuration(0.3))
     }
     
+    // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
         // INIT TITLE
         var title = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 3, height: self.size.height / 12))
@@ -50,7 +58,7 @@ class SettingsScene : SKScene {
         title.fillColor = UIColor.clearColor()
         var titleLabel = SKLabelNode(text: "SETTINGS")
         titleLabel.fontSize = self.size.height / 32
-        titleLabel.fontName = "Avenir-Black"
+        titleLabel.fontName = Fonts.FontNameBold
         titleLabel.fontColor = Colors.FontColor
         titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -58,75 +66,27 @@ class SettingsScene : SKScene {
         rootNode.addChild(title)
         
         // INIT TOGGLE VIBRATION BUTTON
-        var vLabel = SKLabelNode(text: "VIBRATION")
-        vLabel.fontSize = self.size.height / 48
-        vLabel.fontName = "Avenir"
-        vLabel.fontColor = Colors.FontColor
-        vLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        vLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnToggleVibration = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 4, height: self.size.height / 12))
-        btnToggleVibration.lineWidth = 0
-        vStateLabel = SKLabelNode(text: "NaN")
-        vStateLabel.zPosition = -1
-        vStateLabel.fontSize = self.size.height / 24
-        vStateLabel.fontName = "Avenir-Black"
-        vStateLabel.fontColor = Colors.FontColor
-        vStateLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        vStateLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        vLabel.position = CGPoint(x: 0, y: btnToggleVibration.calculateAccumulatedFrame().height * 0.5)
-        btnToggleVibration.addChild(vLabel)
-        btnToggleVibration.addChild(vStateLabel)
+        btnToggleVibration = createButton("VIBRATION")
         btnToggleVibration.position = CGPoint(x: 0, y: self.size.height / 6)
+        vStateLabel = (btnToggleVibration.childNodeWithName("label") as SKLabelNode)
         rootNode.addChild(btnToggleVibration)
         
         // INIT TOGGLE SOUND BUTTON
-        var sLabel = SKLabelNode(text: "SOUND")
-        sLabel.fontSize = self.size.height / 48
-        sLabel.fontName = "Avenir"
-        sLabel.fontColor = Colors.FontColor
-        sLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        sLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnToggleSound = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 4, height: self.size.height / 12))
-        btnToggleSound.lineWidth = 0
-        sStateLabel = SKLabelNode(text: "NaN")
-        sStateLabel.zPosition = -1
-        sStateLabel.fontSize = self.size.height / 24
-        sStateLabel.fontName = "Avenir-Black"
-        sStateLabel.fontColor = Colors.FontColor
-        sStateLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        sStateLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        sLabel.position = CGPoint(x: 0, y: btnToggleSound.calculateAccumulatedFrame().height * 0.5)
-        btnToggleSound.addChild(sLabel)
-        btnToggleSound.addChild(sStateLabel)
+        btnToggleSound = createButton("SOUND")
         btnToggleSound.position = CGPoint(x: 0, y: 0)
+        sStateLabel = (btnToggleSound.childNodeWithName("label") as SKLabelNode)
         rootNode.addChild(btnToggleSound)
         
         // INIT DIFFICULTY BUTTON
-        var dLabel = SKLabelNode(text: "DIFFICULTY")
-        dLabel.fontSize = self.size.height / 48
-        dLabel.fontName = "Avenir"
-        dLabel.fontColor = Colors.FontColor
-        dLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        dLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnDifficulty = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 4, height: self.size.height / 12))
-        btnDifficulty.lineWidth = 0
-        dStateLabel = SKLabelNode(text: "NaN")
-        dStateLabel.zPosition = -1
-        dStateLabel.fontSize = self.size.height / 24
-        dStateLabel.fontName = "Avenir-Black"
-        dStateLabel.fontColor = Colors.FontColor
-        dStateLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        dStateLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        dLabel.position = CGPoint(x: 0, y: btnDifficulty.calculateAccumulatedFrame().height * 0.5)
-        btnDifficulty.addChild(dLabel)
-        btnDifficulty.addChild(dStateLabel)
+        btnDifficulty = createButton("DIFFICULTY")
         btnDifficulty.position = CGPoint(x: 0, y: -self.size.height / 6)
+        dStateLabel = (btnDifficulty.childNodeWithName("label") as SKLabelNode)
         rootNode.addChild(btnDifficulty)
         
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "BACK TO MENU")
         tml.position = CGPoint(x: 0, y: -(self.size.height / 2) + (self.size.height / 24))
-        tml.fontName = "Avenir"
+        tml.fontName = Fonts.FontNameNormal
         tml.fontColor = Colors.FontColor
         tml.fontSize = self.size.height / 32
         btnToMenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tml.frame.height * 4))
@@ -137,17 +97,14 @@ class SettingsScene : SKScene {
         rootNode.addChild(btnToMenu)
     }
     
-    override func didMoveToView(view: SKView) {
-        self.getSettings()
-        self.runAction(SKAction.fadeInWithDuration(0.3))
-    }
-    
+    // MARK: SETTINGS FUNCTIONS
     func getSettings() {
         if (SettingsHandler.getVibrationSetting()) { vStateLabel.text = "ON" } else { vStateLabel.text = "OFF" }
         if (SettingsHandler.getSoundSetting()) { sStateLabel.text = "ON" } else { sStateLabel.text = "OFF" }
         dStateLabel.text = SettingsHandler.getDifficulty().description.uppercaseString
     }
     
+    // MARK: TOUCH FUNCTIONS
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
@@ -171,5 +128,30 @@ class SettingsScene : SKScene {
                 self.getSettings()
             }
         }
+    }
+    
+    // MARK: - HELPER FUNCTIONS
+    private func createButton(labelText: NSString) -> SKShapeNode {
+        var vLabel = SKLabelNode(text: labelText)
+        vLabel.fontSize = self.size.height / 48
+        vLabel.fontName = Fonts.FontNameNormal
+        vLabel.fontColor = Colors.FontColor
+        vLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        vLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        var button = SKShapeNode(rectOfSize: CGSize(width: self.size.width / 4, height: self.size.height / 12))
+        button.lineWidth = 0
+        var label = SKLabelNode(text: "NaN")
+        label.name = "label"
+        label.zPosition = -1
+        label.fontSize = self.size.height / 24
+        label.fontName = Fonts.FontNameBold
+        label.fontColor = Colors.FontColor
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        vLabel.position = CGPoint(x: 0, y: button.calculateAccumulatedFrame().height * 0.5)
+        button.addChild(vLabel)
+        button.addChild(label)
+        
+        return button
     }
 }

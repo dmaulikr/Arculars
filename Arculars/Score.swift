@@ -16,7 +16,7 @@ class Score : SKLabelNode {
         super.init()
         
         self.zPosition = 2
-        self.fontName = "Avenir-Black"
+        self.fontName = Fonts.FontNameBold
         self.fontColor = Colors.FontColor
         self.fontSize = 26
         self.position = position
@@ -51,7 +51,7 @@ class Score : SKLabelNode {
         
         label.position = CGPoint(x: x, y: 0)
         label.fontColor = color
-        label.fontName = "Avenir-Black"
+        label.fontName = Fonts.FontNameBold
         label.xScale = 0.0
         label.yScale = 0.0
         label.zPosition = 1

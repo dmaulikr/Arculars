@@ -24,7 +24,7 @@ class GameTimer : SKLabelNode {
         self.remaining = seconds
         
         self.zPosition = 2
-        self.fontName = "Avenir-Light"
+        self.fontName = Fonts.FontNameLight
         self.fontColor = Colors.FontColor
         self.fontSize = 20
         self.position = position

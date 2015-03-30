@@ -11,6 +11,7 @@ import SpriteKit
 
 class StatsScene: SKScene {
     
+    // MARK: - VARIABLE DECLARATIONS
     var sceneDelegate : SceneDelegate?
     
     private var rootNode = SKNode()
@@ -27,6 +28,11 @@ class StatsScene: SKScene {
     private var btnGameCenter               : SKShapeNode!
     private var btnToMenu                   : SKShapeNode!
     
+    // MARK: - SCENE SPECIFIC FUNCTIONS
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override init(size: CGSize) {
         super.init(size: size)
         
@@ -40,16 +46,13 @@ class StatsScene: SKScene {
         initScene()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func didMoveToView(view: SKView) {
+        self.getStats()
+        self.runAction(SKAction.fadeInWithDuration(0.3))
     }
     
+    // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
-        var labelFontSize = self.size.height / 48
-        var labelFontName = "Avenir"
-        var statsFontSize = self.size.height / 24
-        var statsFontName = "Avenir-Black"
-        var gap = self.size.width / 50
         var rowheight = self.size.height / 12
         
         // INIT TITLE
@@ -60,7 +63,7 @@ class StatsScene: SKScene {
         title.fillColor = UIColor.clearColor()
         var titleLabel = SKLabelNode(text: "STATS")
         titleLabel.fontSize = self.size.height / 32
-        titleLabel.fontName = "Avenir-Black"
+        titleLabel.fontName = Fonts.FontNameBold
         titleLabel.fontColor = Colors.FontColor
         titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -68,157 +71,45 @@ class StatsScene: SKScene {
         rootNode.addChild(title)
         
         // INIT PLAYED TIME NODE
-        var ptn = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var ptn = createRow("PLAYED TIME")
         ptn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 2))
-        ptn.lineWidth = 0
-        var ptl = SKLabelNode(text: "PLAYED TIME")
-        ptl.position = CGPoint(x: gap, y: 0)
-        ptl.fontSize = labelFontSize
-        ptl.fontName = labelFontName
-        ptl.fontColor = Colors.FontColor
-        ptl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        ptl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        ptn.addChild(ptl)
-        label_playedtime = SKLabelNode(text: "00:00:00")
-        label_playedtime.position = CGPoint(x: -gap, y: 0)
-        label_playedtime.fontSize = statsFontSize
-        label_playedtime.fontName = statsFontName
-        label_playedtime.fontColor = Colors.FontColor
-        label_playedtime.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        label_playedtime.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        ptn.addChild(label_playedtime)
+        label_playedtime = (ptn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(ptn)
         
         // INIT OVERALL POINTS NODE
-        var opn = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var opn = createRow("OVERALL POINTS")
         opn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 3))
-        opn.lineWidth = 0
-        var opl = SKLabelNode(text: "OVERALL POINTS")
-        opl.position = CGPoint(x: gap, y: 0)
-        opl.fontSize = labelFontSize
-        opl.fontName = labelFontName
-        opl.fontColor = Colors.FontColor
-        opl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        opl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        opn.addChild(opl)
-        label_overallpoints = SKLabelNode(text: "0")
-        label_overallpoints.position = CGPoint(x: -gap, y: 0)
-        label_overallpoints.fontSize = statsFontSize
-        label_overallpoints.fontName = statsFontName
-        label_overallpoints.fontColor = Colors.FontColor
-        label_overallpoints.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        label_overallpoints.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        opn.addChild(label_overallpoints)
+        label_overallpoints = (opn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(opn)
         
         // INIT HIGHSCORE ENDLESS NODE
-        var hen = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var hen = createRow("HIGH SCORE ENDLESS")
         hen.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 4))
-        hen.lineWidth = 0
-        var hel = SKLabelNode(text: "HIGHSCORE ENDLESS")
-        hel.position = CGPoint(x: gap, y: 0)
-        hel.fontSize = labelFontSize
-        hel.fontName = labelFontName
-        hel.fontColor = Colors.FontColor
-        hel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        hel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        hen.addChild(hel)
-        label_highscore_endless = SKLabelNode(text: "0")
-        label_highscore_endless.position = CGPoint(x: -gap, y: 0)
-        label_highscore_endless.fontSize = statsFontSize
-        label_highscore_endless.fontName = statsFontName
-        label_highscore_endless.fontColor = Colors.FontColor
-        label_highscore_endless.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        label_highscore_endless.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        hen.addChild(label_highscore_endless)
+        label_highscore_endless = (hen.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(hen)
         
         // INIT HIGHSCORE TIMED NODE
-        var htn = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var htn = createRow("HIGH SCORE TIMED")
         htn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 5))
-        htn.lineWidth = 0
-        var htl = SKLabelNode(text: "HIGHSCORE TIMED")
-        htl.position = CGPoint(x: gap, y: 0)
-        htl.fontSize = labelFontSize
-        htl.fontName = labelFontName
-        htl.fontColor = Colors.FontColor
-        htl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        htl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        htn.addChild(htl)
-        label_highscore_timed = SKLabelNode(text: "0")
-        label_highscore_timed.position = CGPoint(x: -gap, y: 0)
-        label_highscore_timed.fontSize = statsFontSize
-        label_highscore_timed.fontName = statsFontName
-        label_highscore_timed.fontColor = Colors.FontColor
-        label_highscore_timed.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        label_highscore_timed.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        htn.addChild(label_highscore_timed)
+        label_highscore_timed = (htn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(htn)
         
         // INIT FIRED BALLS NODE
-        var fbn = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var fbn = createRow("FIRED BALLS")
         fbn.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 6))
-        fbn.lineWidth = 0
-        var fbl = SKLabelNode(text: "FIRED BALLS")
-        fbl.position = CGPoint(x: gap, y: 0)
-        fbl.fontSize = labelFontSize
-        fbl.fontName = labelFontName
-        fbl.fontColor = Colors.FontColor
-        fbl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        fbl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        fbn.addChild(fbl)
-        label_firedballs = SKLabelNode(text: "0")
-        label_firedballs.position = CGPoint(x: -gap, y: 0)
-        label_firedballs.fontSize = statsFontSize
-        label_firedballs.fontName = statsFontName
-        label_firedballs.fontColor = Colors.FontColor
-        label_firedballs.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        label_firedballs.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        fbn.addChild(label_firedballs)
+        label_firedballs = (fbn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(fbn)
         
         // INIT HITS NODE
-        var hin = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var hin = createRow("HITS")
         hin.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 7))
-        hin.lineWidth = 0
-        var hil = SKLabelNode(text: "HITS")
-        hil.position = CGPoint(x: gap, y: 0)
-        hil.fontSize = labelFontSize
-        hil.fontName = labelFontName
-        hil.fontColor = Colors.FontColor
-        hil.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        hil.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        hin.addChild(hil)
-        label_hits = SKLabelNode(text: "0")
-        label_hits.position = CGPoint(x: -gap, y: 0)
-        label_hits.fontSize = statsFontSize
-        label_hits.fontName = statsFontName
-        label_hits.fontColor = Colors.FontColor
-        label_hits.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        label_hits.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        hin.addChild(label_hits)
+        label_hits = (hin.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(hin)
         
         // INIT FAILS NODE
-        var fan = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        var fan = createRow("FAILS")
         fan.position = CGPoint(x: 0, y: (self.size.height / 2) - (rowheight * 8))
-        fan.lineWidth = 0
-        var fal = SKLabelNode(text: "FAILS")
-        fal.position = CGPoint(x: gap, y: 0)
-        fal.fontSize = labelFontSize
-        fal.fontName = labelFontName
-        fal.fontColor = Colors.FontColor
-        fal.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        fal.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        fan.addChild(fal)
-        label_fails = SKLabelNode(text: "0")
-        label_fails.position = CGPoint(x: -gap, y: 0)
-        label_fails.fontSize = statsFontSize
-        label_fails.fontName = statsFontName
-        label_fails.fontColor = Colors.FontColor
-        label_fails.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
-        label_fails.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        fan.addChild(label_fails)
+        label_fails = (fan.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(fan)
         
         // INIT RESET AND GAMECENTER BUTTONS
@@ -234,7 +125,7 @@ class StatsScene: SKScene {
         var rel = SKLabelNode(text: "RESET")
         rel.userInteractionEnabled = false
         rel.fontSize = self.size.height / 48
-        rel.fontName = "Avenir"
+        rel.fontName = Fonts.FontNameNormal
         rel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         btnReset.addChild(rel)
@@ -249,14 +140,14 @@ class StatsScene: SKScene {
         var gcl1 = SKLabelNode(text: "GAME")
         gcl1.position = CGPoint(x: 0, y: gcl1.frame.height / 4 + (gcl1.frame.height / 16))
         gcl1.fontSize = self.size.height / 48
-        gcl1.fontName = "Avenir"
+        gcl1.fontName = Fonts.FontNameNormal
         gcl1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         gcl1.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         gcl.addChild(gcl1)
         var gcl2 = SKLabelNode(text: "CENTER")
         gcl2.position = CGPoint(x: 0, y: -gcl2.frame.height / 4 - (gcl2.frame.height / 16))
         gcl2.fontSize = self.size.height / 48
-        gcl2.fontName = "Avenir"
+        gcl2.fontName = Fonts.FontNameNormal
         gcl2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         gcl2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         gcl.addChild(gcl2)
@@ -268,7 +159,7 @@ class StatsScene: SKScene {
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "BACK TO MENU")
         tml.position = CGPoint(x: 0, y: -(self.size.height / 2) + (self.size.height / 24))
-        tml.fontName = "Avenir"
+        tml.fontName = Fonts.FontNameNormal
         tml.fontColor = Colors.FontColor
         tml.fontSize = self.size.height / 32
         btnToMenu = SKShapeNode(rect: CGRect(x: -(self.size.width / 2), y: -(self.size.height / 2), width: self.size.width, height: tml.frame.height * 4))
@@ -280,11 +171,7 @@ class StatsScene: SKScene {
         
     }
     
-    override func didMoveToView(view: SKView) {
-        self.getStats()
-        self.runAction(SKAction.fadeInWithDuration(0.3))
-    }
-    
+    // MARK: - STATS FUNCTIONS
     private func getStats() {
         label_playedtime.text = stringFromSeconds(StatsHandler.getPlayedTime())
         label_overallpoints.text = "\(StatsHandler.getOverallPoints())"
@@ -295,6 +182,7 @@ class StatsScene: SKScene {
         label_fails.text = "\(StatsHandler.getFails())"
     }
     
+    // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
@@ -320,7 +208,37 @@ class StatsScene: SKScene {
         }
     }
     
-    func stringFromSeconds(seconds : Int) -> NSString {
+    // MARK: - HELPER FUNCTIONS
+    private func createRow(labelText: NSString) -> SKShapeNode {
+        var labelFontSize = self.size.height / 48
+        var statsFontSize = self.size.height / 24
+        var statsFontName = Fonts.FontNameBold
+        var gap = self.size.width / 50
+        var rowheight = self.size.height / 12
+        
+        var row = SKShapeNode(rectOfSize: CGSize(width: self.size.width, height: rowheight))
+        row.lineWidth = 0
+        var label = SKLabelNode(text: labelText)
+        label.position = CGPoint(x: gap, y: 0)
+        label.fontSize = labelFontSize
+        label.fontName = Fonts.FontNameNormal
+        label.fontColor = Colors.FontColor
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        row.addChild(label)
+        var stats_label = SKLabelNode(text: "0")
+        stats_label.name = "stats_label"
+        stats_label.position = CGPoint(x: -gap, y: 0)
+        stats_label.fontSize = statsFontSize
+        stats_label.fontName = statsFontName
+        stats_label.fontColor = Colors.FontColor
+        stats_label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
+        stats_label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        row.addChild(stats_label)
+        return row
+    }
+    
+    private func stringFromSeconds(seconds : Int) -> NSString {
         var s = seconds % 60
         var m = (seconds / 60) % 60
         var h = (seconds / 3600)
