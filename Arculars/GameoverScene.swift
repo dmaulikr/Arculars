@@ -16,7 +16,7 @@ class GameoverScene: SKScene {
     // MARK: - VARIABLE DECLARATIONS
     
     var sceneDelegate : SceneDelegate?
-    var gameType : GameType!
+    var gameMode : GameMode!
     
     // Node and all it's descendants
     private var rootNode = SKNode()
@@ -52,8 +52,8 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        var lastscore = StatsHandler.getLastscore(gameType)
-        var highscore = StatsHandler.getHighscore(gameType)
+        var lastscore = StatsHandler.getLastscore(gameMode)
+        var highscore = StatsHandler.getHighscore(gameMode)
         
         ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.fadeAlphaTo(0.0, duration: 0.2),
@@ -192,7 +192,7 @@ class GameoverScene: SKScene {
                 self.sceneDelegate!.shareOnOther()
             } else {
                 self.runAction(SKAction.fadeOutWithDuration(0.15), completion: { ()
-                    self.sceneDelegate!.startGame(self.gameType)
+                    self.sceneDelegate!.startGame(self.gameMode)
                 })
             }
         }

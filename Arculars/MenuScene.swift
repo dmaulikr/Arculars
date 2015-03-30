@@ -431,7 +431,7 @@ class MenuScene: SKScene {
             playe_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayEndless.zPosition = 0
             self.btnPlayEndless.runAction(SKAction.sequence([playe_wait, playe_move, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.startGame(GameType.Endless)
+                self.sceneDelegate!.startGame(GameMode.Endless)
             })
         })
         
@@ -467,7 +467,7 @@ class MenuScene: SKScene {
             playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayTimed.zPosition = 0
             self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.startGame(GameType.Timed)
+                self.sceneDelegate!.startGame(GameMode.Timed)
             })
         })
         

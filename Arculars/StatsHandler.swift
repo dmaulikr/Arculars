@@ -24,8 +24,8 @@ let STATS_FAILS                         = "stats_fails"
 
 class StatsHandler {
     
-    class func getHighscore(gameType: GameType) -> Int {
-        switch gameType {
+    class func getHighscore(gameMode: GameMode) -> Int {
+        switch gameMode {
         case .Endless:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_ENDLESS)
         case .Timed:
@@ -33,8 +33,8 @@ class StatsHandler {
         }
     }
     
-    class func getLastscore(gameType: GameType) -> Int {
-        switch gameType {
+    class func getLastscore(gameMode: GameMode) -> Int {
+        switch gameMode {
         case .Endless:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_ENDLESS)
         case .Timed:
@@ -62,13 +62,13 @@ class StatsHandler {
         return NSUserDefaults.standardUserDefaults().integerForKey(STATS_FAILS)
     }
     
-    class func updateHighscore(score: Int, gameType: GameType) {
-        var highscore = StatsHandler.getHighscore(gameType)
+    class func updateHighscore(score: Int, gameMode: GameMode) {
+        var highscore = StatsHandler.getHighscore(gameMode)
         if score <= highscore {
             return
         }
         
-        switch gameType {
+        switch gameMode {
         case .Endless:
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_ENDLESS)
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -82,8 +82,8 @@ class StatsHandler {
         }
     }
     
-    class func updateLastscore(score: Int, gameType: GameType) {
-        switch gameType {
+    class func updateLastscore(score: Int, gameMode: GameMode) {
+        switch gameMode {
         case .Endless:
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_LASTSCORE_ENDLESS)
             NSUserDefaults.standardUserDefaults().synchronize()

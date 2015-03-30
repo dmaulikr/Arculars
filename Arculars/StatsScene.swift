@@ -175,8 +175,8 @@ class StatsScene: SKScene {
     private func getStats() {
         label_playedtime.text = stringFromSeconds(StatsHandler.getPlayedTime())
         label_overallpoints.text = "\(StatsHandler.getOverallPoints())"
-        label_highscore_endless.text = "\(StatsHandler.getHighscore(GameType.Endless))"
-        label_highscore_timed.text = "\(StatsHandler.getHighscore(GameType.Timed))"
+        label_highscore_endless.text = "\(StatsHandler.getHighscore(GameMode.Endless))"
+        label_highscore_timed.text = "\(StatsHandler.getHighscore(GameMode.Timed))"
         label_firedballs.text = "\(StatsHandler.getFiredBalls())"
         label_hits.text = "\(StatsHandler.getHits())"
         label_fails.text = "\(StatsHandler.getFails())"

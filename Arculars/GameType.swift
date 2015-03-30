@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 RMNBLM. All rights reserved.
 //
 
-enum GameType : Int {
+enum GameMode : Int {
     
     case Endless    = 1
     case Timed      = 2

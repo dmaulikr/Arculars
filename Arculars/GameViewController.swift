@@ -59,6 +59,9 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         gameoverScene.scaleMode = .AspectFill
         gameoverScene.sceneDelegate = self
         
+        // Try to authenticate Game Center
+        tryAuthenticateLocalPlayer()
+        
         // Present the initial scene.
         showMenuScene()
     }
@@ -73,6 +76,21 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    func tryAuthenticateLocalPlayer() {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            if viewController != nil {
+                // self.scene!.gamePaused = true
+                self.presentViewController(viewController, animated: true, completion: nil)
+                
+                // Add an observer which calls 'gameCenterStateChanged' to handle a changed game center state
+                let notificationCenter = NSNotificationCenter.defaultCenter()
+                notificationCenter.addObserver(self, selector:"gameCenterStateChanged", name: "GKPlayerAuthenticationDidChangeNotificationName", object: nil)
+            }
+        }
     }
     
     func authenticateLocalPlayer() {
@@ -114,12 +132,7 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
 
     func presentGameCenter() {
         if GKLocalPlayer.localPlayer().authenticated {
-            var gcViewController = GKGameCenterViewController()
-            gcViewController.gameCenterDelegate = self
-            gcViewController.viewState = GKGameCenterViewControllerState.Leaderboards
-                
-            // Show leaderboard
-            self.presentViewController(gcViewController, animated: true, completion: nil)
+            gameCenterStateChanged()
         } else {
             authenticateLocalPlayer()
         }
@@ -173,8 +186,8 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         (self.view as SKView).presentScene(menuScene)
     }
     
-    func startGame(gameType: GameType) {
-        gameScene.gameType = gameType
+    func startGame(gameMode: GameMode) {
+        gameScene.gameMode = gameMode
         (self.view as SKView).presentScene(gameScene)
     }
     
@@ -186,8 +199,8 @@ class GameViewController: UIViewController, SceneDelegate, GKGameCenterControlle
         (self.view as SKView).presentScene(settingsScene)
     }
     
-    func showGameoverScene(gameType: GameType) {
-        gameoverScene.gameType = gameType
+    func showGameoverScene(gameMode: GameMode) {
+        gameoverScene.gameMode = gameMode
         (self.view as SKView).presentScene(gameoverScene)
     }
 }

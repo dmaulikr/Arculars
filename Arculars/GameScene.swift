@@ -20,7 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private let scorePosition : CGPoint!
     
     var sceneDelegate : SceneDelegate?
-    var gameType : GameType!
+    var gameMode : GameMode!
     
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
@@ -132,11 +132,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         timer?.removeFromParent()
         countdown?.removeFromParent()
         
-        if gameType == GameType.Timed {
+        if gameMode == GameMode.Timed {
             multiplicator = 1
             initTimer()
             timer?.start()
-        } else if gameType == GameType.Endless {
+        } else if gameMode == GameMode.Endless {
             multiplicator = SettingsHandler.getDifficulty().rawValue
             initCountdown()
             countdown?.start()
@@ -276,7 +276,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             countdownExpired = false
             countdown?.reset()
         } else {
-            if gameType == GameType.Timed {
+            if gameMode == GameMode.Timed {
                 var points = circle.pointsPerHit * multiplicator
                 self.score.increaseByWithColor(-points, color: UIColor.redColor())
             } else {
@@ -308,14 +308,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             StatsHandler.updateHitsBy(self.stats_hits)
             
             var endScore = self.score.getScore()
-            StatsHandler.updateLastscore(endScore, gameType: self.gameType)
-            StatsHandler.updateHighscore(endScore, gameType: self.gameType)
+            StatsHandler.updateLastscore(endScore, gameMode: self.gameMode)
+            StatsHandler.updateHighscore(endScore, gameMode: self.gameMode)
             StatsHandler.updateOverallPointsBy(endScore)
             
             self.addLeaderboardScore(endScore)
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.sceneDelegate!.showGameoverScene(self.gameType)
+                self.sceneDelegate!.showGameoverScene(self.gameMode)
             })
         })
     }
@@ -325,11 +325,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         if score < 0 { return }
         
         var newGCScore : GKScore!
-        switch gameType.rawValue {
-            case GameType.Endless.rawValue:
+        switch gameMode.rawValue {
+            case GameMode.Endless.rawValue:
                 newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
                 break
-            case GameType.Timed.rawValue:
+            case GameMode.Timed.rawValue:
                 newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.timed")
                 break
             default:
