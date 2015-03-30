@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 RMNBLM. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import SpriteKit
 import GameKit
@@ -317,34 +318,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         timer?.stop()
         countdown?.stop()
         
+        StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(self.stats_starttime)))
+        StatsHandler.updateFiredBallsBy(self.stats_moves)
+        StatsHandler.incrementFails()
+        StatsHandler.updateHitsBy(self.stats_hits)
+        
+        var endScore = self.score.getScore()
+        StatsHandler.updateLastscore(endScore, gameMode: self.gameMode)
+        StatsHandler.updateHighscore(endScore, gameMode: self.gameMode)
+        StatsHandler.updateOverallPointsBy(endScore)
+        
+        self.addLeaderboardScore(Int64(endScore))
+        
+        self.sceneDelegate!.showGameoverScene(self.gameMode)
+        
+        /*
         let qualityOfServiceClass = QOS_CLASS_BACKGROUND
         let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
         dispatch_async(backgroundQueue, {
-            // Update Stats
-            StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(self.stats_starttime)))
-            StatsHandler.updateFiredBallsBy(self.stats_moves)
-            StatsHandler.incrementFails()
-            StatsHandler.updateHitsBy(self.stats_hits)
-            
-            var endScore = self.score.getScore()
-            StatsHandler.updateLastscore(endScore, gameMode: self.gameMode)
-            StatsHandler.updateHighscore(endScore, gameMode: self.gameMode)
-            StatsHandler.updateOverallPointsBy(endScore)
-            
-            self.addLeaderboardScore(endScore)
-            
+            // DO THINGS IN THE BACKGROUND
+        
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.sceneDelegate!.showGameoverScene(self.gameMode)
+                // DO THINGS ON THE MAIN THREAD
             })
-        })
+        })*/
     }
     
     // MARK: - GAMECENTER INTEGRATION
-    func addLeaderboardScore(score: Int) {
-        if score < 0 { return }
-        
-        var newGCScore : GKScore!
-        switch gameMode.rawValue {
+    func addLeaderboardScore(newScore: Int64) {
+        if (newScore > 0) {
+            var newGCScore : GKScore!
+            switch gameMode.rawValue {
             case GameMode.Endless.rawValue:
                 newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
                 break
@@ -353,19 +357,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
                 break
             default:
                 return
-        }
-        newGCScore.value = Int64(score)
-        GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
-            if error != nil {
-                #if DEBUG
-                    println("Score not submitted")
-                #endif
-            } else {
-                #if DEBUG
-                    println("Score submitted")
-                #endif
             }
-        })
+            newGCScore.value = newScore
+            GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
+                if error != nil {
+                    #if DEBUG
+                        println("Score not submitted")
+                    #endif
+                } else {
+                    #if DEBUG
+                        println("Score submitted")
+                    #endif
+                }
+            })
+        }
     }
     
     // MARK: - GAMETIMER DELEGATE
