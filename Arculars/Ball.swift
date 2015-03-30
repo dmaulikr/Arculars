@@ -11,7 +11,7 @@ import SpriteKit
 
 class Ball : SKShapeNode {
     
-    private let ballSpeed : CGFloat = 556.0 // 556 pixels per second
+    private let ballSpeed : CGFloat = 500.0 // pixels per second
     let nodeColor : UIColor!
     
     required init?(coder aDecoder: NSCoder) {
