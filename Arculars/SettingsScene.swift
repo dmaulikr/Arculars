@@ -163,7 +163,7 @@ class SettingsScene : SKScene {
                 self.getSettings()
             } else if (btnToggleSound.containsPoint(location)) {
                 if SettingsHandler.toggleSound() {
-                    self.runAction(SKAction.playSoundFileNamed("bip.mp3", waitForCompletion: false))
+                    self.runAction(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
                 }
                 self.getSettings()
             } else if (btnDifficulty.containsPoint(location)) {
