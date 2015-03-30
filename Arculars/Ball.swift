@@ -11,17 +11,15 @@ import SpriteKit
 
 class Ball : SKShapeNode {
     
-    private let ballSpeed : NSTimeInterval!
+    private let ballSpeed : CGFloat = 556.0 // 556 pixels per second
     let nodeColor : UIColor!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(color: SKColor, position: CGPoint, radius: CGFloat, speed: NSTimeInterval) {
+    init(color: SKColor, position: CGPoint, radius: CGFloat) {
         super.init()
-        
-        ballSpeed = speed
         
         var circlepath = CGPathCreateMutable()
         CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)
@@ -75,9 +73,7 @@ class Ball : SKShapeNode {
         return self
     }
     
-    func shoot() {
-        var range = 5000.0
-        // shoot the ball wide enough to get it off scree
-        self.runAction(SKAction.moveTo(CGPoint(x: 0, y: range), duration: ballSpeed))
+    func shoot(range: CGFloat) {
+        self.runAction(SKAction.moveTo(CGPoint(x: 0, y:range), duration: NSTimeInterval(range / ballSpeed)))
     }
 }

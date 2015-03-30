@@ -240,7 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     
     private func shootBall() {
         activeBalls.insert(nextBall, atIndex: 0)
-        nextBall.shoot()
+        nextBall.shoot(self.frame.height)
     }
     
     // MARK: - COLLISION DETECTION
