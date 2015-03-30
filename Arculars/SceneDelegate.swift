@@ -14,6 +14,8 @@ protocol SceneDelegate : class {
     func showStatsScene()
     func showSettingsScene()
     func showGameoverScene(gameType: GameMode)
+    func showAboutScene()
+    func showHelpScene()
     
     func presentGameCenter()
     

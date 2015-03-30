@@ -487,7 +487,7 @@ class MenuScene: SKScene {
             if (btnGo.containsPoint(location)) {
                 runAction(go_action)
             } else if (btnAbout.containsPoint(location)) {
-                
+                sceneDelegate!.showAboutScene()
             } else if (btnStats.containsPoint(location)) {
                 runAction(stats_action)
             } else if (btnSettings.containsPoint(location)) {

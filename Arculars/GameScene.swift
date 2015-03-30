@@ -162,7 +162,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         stats_moves = 0
         stats_starttime = NSDate()
         
-        nextBall?.removeFromParent()
         addBall()
         setCircleSpeed()
         
@@ -319,6 +318,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private func gameover() {
         isGameOver = true
         runVibration()
+        
+        nextBall?.removeFromParent()
+        for ball in activeBalls {
+            ball.removeFromParent()
+        }
         
         timer?.stop()
         countdown?.stop()
