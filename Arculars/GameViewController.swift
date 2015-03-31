@@ -48,7 +48,7 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func presentGameCenter() {
-        GCHelper.showGameCenter(self, viewState: GKGameCenterViewControllerState.Default)
+        GCHelper.showGameCenter(self, viewState: GKGameCenterViewControllerState.Leaderboards)
     }
     
     func shareOnTwitter() {
