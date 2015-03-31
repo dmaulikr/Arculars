@@ -20,6 +20,7 @@ class MenuScene: SKScene {
     
     private var distance : CGFloat!
     
+    private var title : SKLabelNode!
     private var btnAbout : SKShapeNode!
     private var btnHelp : SKShapeNode!
     private var btnSettings : SKShapeNode!
@@ -32,6 +33,7 @@ class MenuScene: SKScene {
     private var dashedCircle : SKShapeNode!
     
     // Actions
+    private var FADEINaction : SKAction!
     private var GOaction : SKAction!
     private var GOaction_normal : SKAction!
     private var GOaction_reverse : SKAction!
@@ -59,10 +61,12 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
+        self.runAction(FADEINaction)
     }
     
     override func willMoveFromView(view: SKView) {
         // Explicitly set actions to nil so deinit is called
+        FADEINaction        = nil
         GOaction            = nil
         GOaction_normal     = nil
         GOaction_reverse    = nil
@@ -83,11 +87,11 @@ class MenuScene: SKScene {
         initButtons()
         initActions()
         
-        var title = SKLabelNode(text: "ARCULARS")
+        title = SKLabelNode(text: "ARCULARS")
         title.fontName = Fonts.FontNameBold
         title.fontSize = size.height / 16
         title.fontColor = Colors.FontColor
-        title.position = CGPoint(x: 0, y: (size.height / 6) * 2)
+        title.position = CGPoint(x: 0, y: self.size.height / 2)
         rootNode.addChild(title)
     }
     
@@ -103,6 +107,8 @@ class MenuScene: SKScene {
         btnHelp.position = CGPoint(x: -(size.width / 6), y: -(size.height / 2) + (size.height / 12))
         btnHelp.lineWidth = 0
         btnHelp.addChild(helpSprite)
+        btnHelp.xScale = 0.0
+        btnHelp.yScale = 0.0
         rootNode.addChild(btnHelp)
         
         // INIT ABOUT BUTTON
@@ -114,6 +120,8 @@ class MenuScene: SKScene {
         btnAbout.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
         btnAbout.lineWidth = 0
         btnAbout.addChild(aboutSprite)
+        btnAbout.xScale = 0.0
+        btnAbout.yScale = 0.0
         rootNode.addChild(btnAbout)
         
         // INIT SETTINGS BUTTON
@@ -125,6 +133,8 @@ class MenuScene: SKScene {
         btnSettings.position = CGPoint(x: (size.width / 6), y: -(size.height / 2) + (size.height / 12))
         btnSettings.lineWidth = 0
         btnSettings.addChild(settingsSprite)
+        btnSettings.xScale = 0.0
+        btnSettings.yScale = 0.0
         rootNode.addChild(btnSettings)
         
         // INIT GO BUTTON
@@ -148,6 +158,8 @@ class MenuScene: SKScene {
         goLabel.fontSize = size.height / 24
         goLabel.position = CGPoint(x: 0, y: -goLabel.frame.height / 2)
         goContent.addChild(goLabel)
+        btnGo.xScale = 0.0
+        btnGo.yScale = 0.0
         rootNode.addChild(btnGo)
         
         var bezierpath = UIBezierPath()
@@ -257,6 +269,27 @@ class MenuScene: SKScene {
     }
     
     private func initActions() {
+        FADEINaction = SKAction.runBlock({
+            var popin = SKAction.sequence([
+                SKAction.scaleTo(1.05, duration: 0.1),
+                SKAction.scaleTo(0.95, duration: 0.1),
+                SKAction.scaleTo(1.00, duration: 0.1)
+            ])
+            
+            var flyin = SKAction.sequence([
+                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 6) * 2) - 10), duration: 0.1),
+                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 6) * 2) + 10), duration: 0.1),
+                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 6) * 2), duration: 0.1)
+            ])
+            
+            self.title.runAction(flyin)
+            
+            self.btnGo.runAction(popin)
+            self.btnAbout.runAction(popin)
+            self.btnSettings.runAction(popin)
+            self.btnHelp.runAction(popin)
+        })
+        
         GOaction_normal = SKAction.runBlock({
             var SWendpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance), CGAffineTransformMakeRotation(-CGFloat(M_PI_4)))
             var SWmove = SKAction.moveTo(SWendpoint, duration: 0.2)
