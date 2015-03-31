@@ -204,7 +204,7 @@ class MenuScene: SKScene {
         btnPlayTimed.addChild(clockIcon)
         btnGo.addChild(btnPlayTimed)
         
-        var playtLabel = SKLabelNode(text: "Timed")
+        var playtLabel = SKLabelNode(text: "Limited")
         playtLabel.name = "label"
         playtLabel.fontName = Fonts.FontNameLight
         playtLabel.fontSize = size.height / 40
@@ -471,7 +471,7 @@ class MenuScene: SKScene {
             playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayTimed.zPosition = 0
             self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.startGame(GameMode.Timed)
+                self.sceneDelegate!.startGame(GameMode.Limited)
             })
         })
         

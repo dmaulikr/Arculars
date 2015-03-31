@@ -8,7 +8,7 @@
 
 enum GameMode : Int {
     
-    case Endless    = 1
-    case Timed      = 2
+    case Endless      = 1
+    case Limited      = 2
     
 }

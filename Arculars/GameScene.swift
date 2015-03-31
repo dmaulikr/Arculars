@@ -148,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         timer?.removeFromParent()
         countdown?.removeFromParent()
         
-        if gameMode == GameMode.Timed {
+        if gameMode == GameMode.Limited {
             multiplicator = 1
             initTimer()
             timer?.start()
@@ -299,7 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             countdownExpired = false
             countdown?.reset()
         } else {
-            if gameMode == GameMode.Timed {
+            if gameMode == GameMode.Limited {
                 var points = circle.pointsPerHit * multiplicator
                 score.increaseByWithColor(-points, color: UIColor.redColor())
             } else {
@@ -358,10 +358,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         if (newScore > 0) {
             switch gameMode.rawValue {
             case GameMode.Endless.rawValue:
-                EasyGameCenter.reportScoreLeaderboard(leaderboardIdentifier: "io.rmnblm.arculars.endless", score: newScore, completion: nil)
+                EasyGameCenter.reportScoreLeaderboard(leaderboardIdentifier: "arculars_endless", score: newScore, completion: nil)
                 break
-            case GameMode.Timed.rawValue:
-                EasyGameCenter.reportScoreLeaderboard(leaderboardIdentifier: "io.rmnblm.arculars.timed", score: newScore, completion: nil)
+            case GameMode.Limited.rawValue:
+                EasyGameCenter.reportScoreLeaderboard(leaderboardIdentifier: "arculars_limited", score: newScore, completion: nil)
                 break
             default:
                 return

@@ -57,14 +57,7 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func presentGameCenter() {
-        if !EasyGameCenter.isPlayerIdentifiedToGameCenter() {
-            EasyGameCenter.showGameCenterAuthentication {
-                (result) -> Void in
-                EasyGameCenter.showGameCenterLeaderboards(nil)
-            }
-        } else {
-            EasyGameCenter.showGameCenterLeaderboards(nil)
-        }
+        EasyGameCenter.showGameCenterLeaderboards(nil)
     }
     
     func shareOnTwitter() {

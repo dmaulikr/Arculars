@@ -10,9 +10,9 @@ import Foundation
 import SpriteKit
 
 let GAME_HIGHSCORE_ENDLESS              = "game_highscore_endless"
-let GAME_HIGHSCORE_TIMED                = "game_highscore_timed"
+let GAME_HIGHSCORE_LIMITED              = "game_highscore_limited"
 let GAME_LASTSCORE_ENDLESS              = "game_lastscore_endless"
-let GAME_LASTSCORE_TIMED                = "game_lastscore_timed"
+let GAME_LASTSCORE_LIMITED              = "game_lastscore_limited"
 
 let STATS_PLAYEDTIME                    = "stats_playedtime"
 let STATS_FIREDBALLS                    = "stats_firedballs"
@@ -28,8 +28,8 @@ class StatsHandler {
         switch gameMode {
         case .Endless:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_ENDLESS)
-        case .Timed:
-            return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_TIMED)
+        case .Limited:
+            return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_LIMITED)
         }
     }
     
@@ -37,8 +37,8 @@ class StatsHandler {
         switch gameMode {
         case .Endless:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_ENDLESS)
-        case .Timed:
-            return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_TIMED)
+        case .Limited:
+            return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_LIMITED)
         }
     }
     
@@ -73,12 +73,10 @@ class StatsHandler {
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_ENDLESS)
             NSUserDefaults.standardUserDefaults().synchronize()
             break
-        case .Timed:
-            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_TIMED)
+        case .Limited:
+            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_LIMITED)
             NSUserDefaults.standardUserDefaults().synchronize()
             break
-        default:
-            return
         }
     }
     
@@ -88,12 +86,10 @@ class StatsHandler {
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_LASTSCORE_ENDLESS)
             NSUserDefaults.standardUserDefaults().synchronize()
             break
-        case .Timed:
-            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_LASTSCORE_TIMED)
+        case .Limited:
+            NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_LASTSCORE_LIMITED)
             NSUserDefaults.standardUserDefaults().synchronize()
             break
-        default:
-            return
         }
     }
     
@@ -126,9 +122,9 @@ class StatsHandler {
     
     class func reset() {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_HIGHSCORE_ENDLESS)
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_HIGHSCORE_TIMED)
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_HIGHSCORE_LIMITED)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_LASTSCORE_ENDLESS)
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_LASTSCORE_TIMED)
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_HIGHSCORE_LIMITED)
         
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDTIME)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
