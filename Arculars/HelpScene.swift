@@ -82,9 +82,7 @@ class HelpScene: SKScene {
             let location = touch.locationInNode(self)
             for object in nodesAtPoint(location) {
                 if (btnToMenu == object as? SKShapeNode) {
-                    runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
-                        self.sceneDelegate!.showMenuScene()
-                    })
+                    sceneDelegate!.showMenuScene()
                 }
             }
         }

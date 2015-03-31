@@ -193,9 +193,7 @@ class StatsScene: SKScene {
             let location = touch.locationInNode(self)
             for object in nodesAtPoint(location) {
                 if (btnToMenu == object as? SKShapeNode) {
-                    runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
-                        self.sceneDelegate!.showMenuScene()
-                    })
+                    sceneDelegate!.showMenuScene()
                 } else if (btnReset == object as? SKShapeNode) {
                     var refreshAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats?", preferredStyle: UIAlertControllerStyle.Alert)
                     

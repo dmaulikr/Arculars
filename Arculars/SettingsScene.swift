@@ -135,9 +135,7 @@ class SettingsScene : SKScene {
             let location = touch.locationInNode(self)
             
             if (btnToMenu.containsPoint(location)) {
-                runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
-                    self.sceneDelegate!.showMenuScene()
-                })
+                sceneDelegate!.showMenuScene()
             } else if (btnToggleVibration.containsPoint(location)) {
                 if SettingsHandler.toggleVibration() {
                     AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
