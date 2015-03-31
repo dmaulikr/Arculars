@@ -164,8 +164,16 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func showAchievements() {
-        GCHandler.showGameCenterAchievements(completion: {(result) -> Void in
-            self.showMenu()
-        })
+        if !GCHandler.isPlayerIdentifiedToGameCenter() {
+            GCHandler.showGameCenterAuthentication(completion: {(result) -> Void in
+                GCHandler.showGameCenterAchievements(completion: {(result) -> Void in
+                    self.showMenu()
+                })
+            })
+        } else {
+            GCHandler.showGameCenterAchievements(completion: {(result) -> Void in
+                self.showMenu()
+            })
+        }
     }
 }
