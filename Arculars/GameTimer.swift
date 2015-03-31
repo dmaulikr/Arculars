@@ -9,6 +9,10 @@
 import Foundation
 import SpriteKit
 
+protocol GameTimerDelegate : class {
+    func gameTimerFinished()
+}
+
 class GameTimer : SKLabelNode {
 
     weak var delegate : GameTimerDelegate!

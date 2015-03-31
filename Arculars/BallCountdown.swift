@@ -9,6 +9,10 @@
 import Foundation
 import SpriteKit
 
+protocol BallCountdownDelegate : class {
+    func ballExpired()
+}
+
 class BallCountdown : SKNode {
     
     weak var delegate : BallCountdownDelegate!

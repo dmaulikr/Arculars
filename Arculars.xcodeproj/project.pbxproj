@@ -28,7 +28,6 @@
 		305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414B91AC04BFE00636047 /* StatsScene.swift */; };
 		305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414BB1AC0A05000636047 /* SettingsScene.swift */; };
 		3056065D1AC4ADBA001ABDF7 /* BallCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */; };
-		3056065F1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056065E1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift */; };
 		305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF11AC9727D004F68E6 /* AboutScene.swift */; };
 		305BCAF41AC973A8004F68E6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF31AC973A8004F68E6 /* HelpScene.swift */; };
 		308F5EB21AC2171D004E40EC /* SettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308F5EB11AC2171D004E40EC /* SettingsHandler.swift */; };
@@ -36,9 +35,9 @@
 		3098F5251AAF8AB800829428 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098F5241AAF8AB800829428 /* Colors.swift */; };
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
 		30A5F3F41AC142B7004D7364 /* GameTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3F31AC142B7004D7364 /* GameTimer.swift */; };
-		30A5F3F61AC14405004D7364 /* GameTimerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3F51AC14405004D7364 /* GameTimerDelegate.swift */; };
 		30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */; };
 		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
+		30E010401ACA6F1C001B6B78 /* GCHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E0103F1ACA6F1C001B6B78 /* GCHelper.swift */; };
 		30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F02AC01ABF570300A0CF68 /* GameoverScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +77,6 @@
 		305414B91AC04BFE00636047 /* StatsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsScene.swift; sourceTree = "<group>"; };
 		305414BB1AC0A05000636047 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallCountdown.swift; sourceTree = "<group>"; };
-		3056065E1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallCountdownDelegate.swift; sourceTree = "<group>"; };
 		305BCAF11AC9727D004F68E6 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		305BCAF31AC973A8004F68E6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		308F5EB11AC2171D004E40EC /* SettingsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHandler.swift; sourceTree = "<group>"; };
@@ -86,9 +84,9 @@
 		3098F5241AAF8AB800829428 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		30A5F3F31AC142B7004D7364 /* GameTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTimer.swift; sourceTree = "<group>"; };
-		30A5F3F51AC14405004D7364 /* GameTimerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameTimerDelegate.swift; sourceTree = "<group>"; };
 		30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsHandler.swift; sourceTree = "<group>"; };
 		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		30E0103F1ACA6F1C001B6B78 /* GCHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCHelper.swift; sourceTree = "<group>"; };
 		30F02AC01ABF570300A0CF68 /* GameoverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameoverScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +196,7 @@
 				302197721AB306B400769D2F /* PhysicsCategory.swift */,
 				308F5EB11AC2171D004E40EC /* SettingsHandler.swift */,
 				30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */,
+				30E0103F1ACA6F1C001B6B78 /* GCHelper.swift */,
 			);
 			name = Infrastructure;
 			sourceTree = "<group>";
@@ -209,9 +208,7 @@
 				303FCDEC1AAE349900A59347 /* Circle.swift */,
 				301C00861AB4576D00A635FC /* Score.swift */,
 				30A5F3F31AC142B7004D7364 /* GameTimer.swift */,
-				30A5F3F51AC14405004D7364 /* GameTimerDelegate.swift */,
 				3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */,
-				3056065E1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift */,
 			);
 			name = Nodes;
 			sourceTree = "<group>";
@@ -353,11 +350,10 @@
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,
 				3056065D1AC4ADBA001ABDF7 /* BallCountdown.swift in Sources */,
 				30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */,
-				3056065F1AC4ADC4001ABDF7 /* BallCountdownDelegate.swift in Sources */,
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
 				305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */,
 				30A5F3F41AC142B7004D7364 /* GameTimer.swift in Sources */,
-				30A5F3F61AC14405004D7364 /* GameTimerDelegate.swift in Sources */,
+				30E010401ACA6F1C001B6B78 /* GCHelper.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
 				302D814D1AC93E6A00FDF44D /* Fonts.swift in Sources */,
 				305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */,
