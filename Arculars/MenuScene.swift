@@ -25,7 +25,7 @@ class MenuScene: SKScene {
     private var btnStats : SKShapeNode!
     private var btnSettings: SKShapeNode!
     private var btnPlayEndless: SKShapeNode!
-    private var btnPlayTimed : SKShapeNode!
+    private var btnPlayLimited : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
     // Actions
@@ -190,19 +190,19 @@ class MenuScene: SKScene {
         btnSettings.addChild(settingsLabel)
         
         // INIT TIMED GAME BUTTON
-        btnPlayTimed = SKShapeNode(circleOfRadius: radius)
-        btnPlayTimed.fillColor = Colors.AppColorThree
-        btnPlayTimed.strokeColor = Colors.AppColorThree
-        btnPlayTimed.lineWidth = 1
-        btnPlayTimed.antialiased = true
-        btnPlayTimed.position = CGPoint(x: 0, y: 0)
-        btnPlayTimed.xScale = 0.0
-        btnPlayTimed.yScale = 0.0
-        btnPlayTimed.zPosition = -1
+        btnPlayLimited = SKShapeNode(circleOfRadius: radius)
+        btnPlayLimited.fillColor = Colors.AppColorThree
+        btnPlayLimited.strokeColor = Colors.AppColorThree
+        btnPlayLimited.lineWidth = 1
+        btnPlayLimited.antialiased = true
+        btnPlayLimited.position = CGPoint(x: 0, y: 0)
+        btnPlayLimited.xScale = 0.0
+        btnPlayLimited.yScale = 0.0
+        btnPlayLimited.zPosition = -1
         var clockIcon = SKSpriteNode(imageNamed: "icon-clock")
         clockIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        btnPlayTimed.addChild(clockIcon)
-        btnGo.addChild(btnPlayTimed)
+        btnPlayLimited.addChild(clockIcon)
+        btnGo.addChild(btnPlayLimited)
         
         var playtLabel = SKLabelNode(text: "Limited")
         playtLabel.name = "label"
@@ -210,7 +210,7 @@ class MenuScene: SKScene {
         playtLabel.fontSize = size.height / 40
         playtLabel.position = CGPoint(x: 0, y: (1.25 * radius))
         playtLabel.alpha = 0.0
-        btnPlayTimed.addChild(playtLabel)
+        btnPlayLimited.addChild(playtLabel)
         
         // INIT ENDLESS GAME BUTTON
         btnPlayEndless = SKShapeNode(circleOfRadius: radius)
@@ -260,8 +260,8 @@ class MenuScene: SKScene {
             var playt_move = SKAction.moveTo(playt_endpoint, duration: 0.2)
             playt_move.timingMode = SKActionTimingMode.EaseIn
             var playt_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
-                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
+            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
+                var label = self.btnPlayLimited.childNodeWithName("label") as SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
@@ -306,8 +306,8 @@ class MenuScene: SKScene {
             var playt_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             playt_move.timingMode = SKActionTimingMode.EaseIn
             var playt_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
-                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
+            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
+                var label = self.btnPlayLimited.childNodeWithName("label") as SKLabelNode
                 label.alpha = 0.0
             })
             
@@ -335,12 +335,12 @@ class MenuScene: SKScene {
             var single_duration = 0.2
             
             var playt_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playt_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
+            CGPathMoveToPoint(playt_path, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
             CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), false)
             var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnPlayTimed.zPosition = -2
-            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayLimited.zPosition = -2
+            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]))
             
             var playe_path = CGPathCreateMutable()
             CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
@@ -371,12 +371,12 @@ class MenuScene: SKScene {
             var single_duration = 0.2
             
             var playt_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playt_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
+            CGPathMoveToPoint(playt_path, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
             CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI / 4), true)
             var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnPlayTimed.zPosition = -2
-            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayLimited.zPosition = -2
+            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]))
             
             var playe_path = CGPathCreateMutable()
             CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
@@ -407,12 +407,12 @@ class MenuScene: SKScene {
             var single_duration = 0.2
             
             var playt_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playt_path, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
+            CGPathMoveToPoint(playt_path, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
             CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), false)
             var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
             var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnPlayTimed.zPosition = -2
-            self.btnPlayTimed.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayLimited.zPosition = -2
+            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]))
             
             var settings_path = CGPathCreateMutable()
             CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
@@ -469,8 +469,8 @@ class MenuScene: SKScene {
             var playt_wait = SKAction.waitForDuration(2 * single_duration)
             var playt_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnPlayTimed.zPosition = 0
-            self.btnPlayTimed.runAction(SKAction.sequence([playt_wait, playt_move, SKAction.waitForDuration(0.1)]), completion: {()
+            self.btnPlayLimited.zPosition = 0
+            self.btnPlayLimited.runAction(SKAction.sequence([playt_wait, playt_move, SKAction.waitForDuration(0.1)]), completion: {()
                 self.sceneDelegate!.startGame(GameMode.Limited)
             })
         })
@@ -495,7 +495,7 @@ class MenuScene: SKScene {
                 runAction(settings_action)
             } else if (btnPlayEndless.containsPoint(location)) {
                 runAction(playe_action)
-            } else if (btnPlayTimed.containsPoint(location)) {
+            } else if (btnPlayLimited.containsPoint(location)) {
                 runAction(playt_action)
             } else {
                 // Just a little 'easteregg' ;)
