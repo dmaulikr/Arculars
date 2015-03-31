@@ -21,21 +21,24 @@ class MenuScene: SKScene {
     private var distance : CGFloat!
     
     private var btnAbout : SKShapeNode!
+    private var btnHelp : SKShapeNode!
+    private var btnSettings : SKShapeNode!
+    
     private var btnGo : SKShapeNode!
     private var btnStats : SKShapeNode!
-    private var btnSettings: SKShapeNode!
+    private var btnAchievements: SKShapeNode!
     private var btnPlayEndless: SKShapeNode!
     private var btnPlayLimited : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
     // Actions
-    private var go_action : SKAction!
-    private var go_action_normal : SKAction!
-    private var go_action_reversed : SKAction!
-    private var stats_action : SKAction!
-    private var playe_action : SKAction!
-    private var playt_action : SKAction!
-    private var settings_action : SKAction!
+    private var GOaction : SKAction!
+    private var GOaction_normal : SKAction!
+    private var GOaction_reverse : SKAction!
+    private var SWaction : SKAction!
+    private var NWaction : SKAction!
+    private var NEaction : SKAction!
+    private var SEaction : SKAction!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
@@ -60,13 +63,13 @@ class MenuScene: SKScene {
     
     override func willMoveFromView(view: SKView) {
         // Explicitly set actions to nil so deinit is called
-        go_action = nil
-        go_action_normal = nil
-        go_action_reversed = nil
-        settings_action = nil
-        stats_action = nil
-        playe_action = nil
-        playt_action = nil
+        GOaction            = nil
+        GOaction_normal     = nil
+        GOaction_reverse    = nil
+        SEaction            = nil
+        SWaction            = nil
+        NWaction            = nil
+        NEaction            = nil
     }
     
     deinit {
@@ -91,21 +94,38 @@ class MenuScene: SKScene {
     private func initButtons() {
         var radius = size.height / 18
         
+        // INIT HELP BUTTON
+        var helpSprite = SKSpriteNode(imageNamed: "icon-help")
+        helpSprite.colorBlendFactor = 1
+        helpSprite.color = UIColor.grayColor()
+        helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnHelp = SKShapeNode(rectOfSize: CGSize(width: helpSprite.frame.width, height: helpSprite.frame.height))
+        btnHelp.position = CGPoint(x: -(size.width / 6), y: -(size.height / 2) + (size.height / 12))
+        btnHelp.lineWidth = 0
+        btnHelp.addChild(helpSprite)
+        rootNode.addChild(btnHelp)
+        
         // INIT ABOUT BUTTON
-        btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width, height: size.height / 12))
-        btnAbout.position = CGPoint(x: 0, y: -(size.height / 2) + (btnAbout.frame.height / 2))
+        var aboutSprite = SKSpriteNode(imageNamed: "icon-arculars")
+        aboutSprite.colorBlendFactor = 1
+        aboutSprite.color = UIColor.grayColor()
+        aboutSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnAbout = SKShapeNode(rectOfSize: CGSize(width: aboutSprite.frame.width, height: aboutSprite.frame.height))
+        btnAbout.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
         btnAbout.lineWidth = 0
-        btnAbout.strokeColor = UIColor.clearColor()
-        btnAbout.fillColor = UIColor.clearColor()
-        var aboutLabel = SKLabelNode(text: "ABOUT")
-        aboutLabel.name = "label"
-        aboutLabel.fontSize = size.height / 32
-        aboutLabel.fontName = Fonts.FontNameBold
-        aboutLabel.fontColor = UIColor.grayColor()
-        aboutLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        aboutLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnAbout.addChild(aboutLabel)
+        btnAbout.addChild(aboutSprite)
         rootNode.addChild(btnAbout)
+        
+        // INIT SETTINGS BUTTON
+        var settingsSprite = SKSpriteNode(imageNamed: "icon-settings")
+        settingsSprite.colorBlendFactor = 1
+        settingsSprite.color = UIColor.grayColor()
+        settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnSettings = SKShapeNode(rectOfSize: CGSize(width: settingsSprite.frame.width, height: settingsSprite.frame.height))
+        btnSettings.position = CGPoint(x: (size.width / 6), y: -(size.height / 2) + (size.height / 12))
+        btnSettings.lineWidth = 0
+        btnSettings.addChild(settingsSprite)
+        rootNode.addChild(btnSettings)
         
         // INIT GO BUTTON
         btnGo = SKShapeNode(circleOfRadius: radius)
@@ -158,7 +178,7 @@ class MenuScene: SKScene {
         btnStats.addChild(statsIcon)
         btnGo.addChild(btnStats)
         
-        var statsLabel = SKLabelNode(text: "Stats")
+        var statsLabel = SKLabelNode(text: "Statistics")
         statsLabel.name = "label"
         statsLabel.fontName = Fonts.FontNameLight
         statsLabel.fontSize = size.height / 40
@@ -166,28 +186,28 @@ class MenuScene: SKScene {
         statsLabel.alpha = 0.0
         btnStats.addChild(statsLabel)
         
-        // INIT SETTINGS BUTTON
-        btnSettings = SKShapeNode(circleOfRadius: radius)
-        btnSettings.fillColor = Colors.AppColorThree
-        btnSettings.strokeColor = Colors.AppColorThree
-        btnSettings.lineWidth = 1
-        btnSettings.antialiased = true
-        btnSettings.position = CGPoint(x: 0, y: 0)
-        btnSettings.xScale = 0.0
-        btnSettings.yScale = 0.0
-        btnSettings.zPosition = -1
-        var settingsIcon = SKSpriteNode(imageNamed: "icon-settings")
-        settingsIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        btnSettings.addChild(settingsIcon)
-        btnGo.addChild(btnSettings)
+        // INIT ACHIEVEMENTS BUTTON
+        btnAchievements = SKShapeNode(circleOfRadius: radius)
+        btnAchievements.fillColor = Colors.AppColorThree
+        btnAchievements.strokeColor = Colors.AppColorThree
+        btnAchievements.lineWidth = 1
+        btnAchievements.antialiased = true
+        btnAchievements.position = CGPoint(x: 0, y: 0)
+        btnAchievements.xScale = 0.0
+        btnAchievements.yScale = 0.0
+        btnAchievements.zPosition = -1
+        var achievementIcon = SKSpriteNode(imageNamed: "icon-achievement")
+        achievementIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnAchievements.addChild(achievementIcon)
+        btnGo.addChild(btnAchievements)
         
-        var settingsLabel = SKLabelNode(text: "Settings")
+        var settingsLabel = SKLabelNode(text: "Achievements")
         settingsLabel.name = "label"
         settingsLabel.fontName = Fonts.FontNameLight
         settingsLabel.fontSize = size.height / 40
         settingsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
         settingsLabel.alpha = 0.0
-        btnSettings.addChild(settingsLabel)
+        btnAchievements.addChild(settingsLabel)
         
         // INIT TIMED GAME BUTTON
         btnPlayLimited = SKShapeNode(circleOfRadius: radius)
@@ -237,39 +257,39 @@ class MenuScene: SKScene {
     }
     
     private func initActions() {
-        go_action_normal = SKAction.runBlock({
-            var stats_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance), CGAffineTransformMakeRotation(-CGFloat(M_PI_4)))
-            var stats_move = SKAction.moveTo(stats_endpoint, duration: 0.2)
-            stats_move.timingMode = SKActionTimingMode.EaseIn
-            var stats_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]), completion: {()
+        GOaction_normal = SKAction.runBlock({
+            var SWendpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance), CGAffineTransformMakeRotation(-CGFloat(M_PI_4)))
+            var SWmove = SKAction.moveTo(SWendpoint, duration: 0.2)
+            SWmove.timingMode = SKActionTimingMode.EaseIn
+            var SWscale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnStats.runAction(SKAction.group([SWmove, SWscale]), completion: {()
                 var label = self.btnStats.childNodeWithName("label") as SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
-            var settings_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance), CGAffineTransformMakeRotation(CGFloat(M_PI_4)))
-            var settings_move = SKAction.moveTo(settings_endpoint, duration: 0.2)
-            settings_move.timingMode = SKActionTimingMode.EaseIn
-            var settings_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]), completion: {()
-                var label = self.btnSettings.childNodeWithName("label") as SKLabelNode
+            var SEendpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance), CGAffineTransformMakeRotation(CGFloat(M_PI_4)))
+            var SEmove = SKAction.moveTo(SEendpoint, duration: 0.2)
+            SEmove.timingMode = SKActionTimingMode.EaseIn
+            var SEscale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]), completion: {()
+                var label = self.btnAchievements.childNodeWithName("label") as SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
-            var playt_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + self.distance), CGAffineTransformMakeRotation(-CGFloat(M_PI_4)))
-            var playt_move = SKAction.moveTo(playt_endpoint, duration: 0.2)
-            playt_move.timingMode = SKActionTimingMode.EaseIn
-            var playt_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
+            var NEendpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + self.distance), CGAffineTransformMakeRotation(-CGFloat(M_PI_4)))
+            var NEmove = SKAction.moveTo(NEendpoint, duration: 0.2)
+            NEmove.timingMode = SKActionTimingMode.EaseIn
+            var NEscale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]), completion: {()
                 var label = self.btnPlayLimited.childNodeWithName("label") as SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
-            var playe_endpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + self.distance), CGAffineTransformMakeRotation(CGFloat(M_PI_4)))
-            var playe_move = SKAction.moveTo(playe_endpoint, duration: 0.2)
-            playe_move.timingMode = SKActionTimingMode.EaseIn
-            var playe_scale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]), completion: {()
+            var NWendpoint = CGPointApplyAffineTransform(CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + self.distance), CGAffineTransformMakeRotation(CGFloat(M_PI_4)))
+            var NWmove = SKAction.moveTo(NWendpoint, duration: 0.2)
+            NWmove.timingMode = SKActionTimingMode.EaseIn
+            var NWscale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]), completion: {()
                 var label = self.btnPlayEndless.childNodeWithName("label") as SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
@@ -283,38 +303,38 @@ class MenuScene: SKScene {
             content_scale.timingMode = SKActionTimingMode.EaseIn
             content.runAction(content_scale)
             
-            self.go_action = self.go_action_reversed
+            self.GOaction = self.GOaction_reverse
         })
         
-        go_action_reversed = SKAction.runBlock({
-            var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            stats_move.timingMode = SKActionTimingMode.EaseIn
-            var stats_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]), completion: {()
+        GOaction_reverse = SKAction.runBlock({
+            var SWmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            SWmove.timingMode = SKActionTimingMode.EaseIn
+            var SWscale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnStats.runAction(SKAction.group([SWmove, SWscale]), completion: {()
                 var label = self.btnStats.childNodeWithName("label") as SKLabelNode
                 label.alpha = 0.0
             })
             
-            var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            settings_move.timingMode = SKActionTimingMode.EaseIn
-            var settings_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]), completion: {()
-                var label = self.btnSettings.childNodeWithName("label") as SKLabelNode
+            var SEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            SEmove.timingMode = SKActionTimingMode.EaseIn
+            var SEscale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]), completion: {()
+                var label = self.btnAchievements.childNodeWithName("label") as SKLabelNode
                 label.alpha = 0.0
             })
             
-            var playt_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            playt_move.timingMode = SKActionTimingMode.EaseIn
-            var playt_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]), completion: {()
+            var NEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            NEmove.timingMode = SKActionTimingMode.EaseIn
+            var NEscale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]), completion: {()
                 var label = self.btnPlayLimited.childNodeWithName("label") as SKLabelNode
                 label.alpha = 0.0
             })
             
-            var playe_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            playe_move.timingMode = SKActionTimingMode.EaseIn
-            var playe_scale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]), completion: {()
+            var NWmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            NWmove.timingMode = SKActionTimingMode.EaseIn
+            var NWscale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]), completion: {()
                 var label = self.btnPlayEndless.childNodeWithName("label") as SKLabelNode
                 label.alpha = 0.0
             })
@@ -328,154 +348,154 @@ class MenuScene: SKScene {
             content_scale.timingMode = SKActionTimingMode.EaseIn
             content.runAction(content_scale)
             
-            self.go_action = self.go_action_normal
+            self.GOaction = self.GOaction_normal
         })
         
-        stats_action = SKAction.runBlock({
+        SWaction = SKAction.runBlock({
             var single_duration = 0.2
             
-            var playt_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playt_path, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
-            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), false)
-            var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var NEpath = CGPathCreateMutable()
+            CGPathMoveToPoint(NEpath, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
+            CGPathAddArc(NEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), false)
+            var NEmove = SKAction.followPath(NEpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var NEscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayLimited.zPosition = -2
-            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]))
             
-            var playe_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
-            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75)  , -CGFloat(M_PI * 0.75), false)
-            var playe_move = SKAction.followPath(playe_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var playe_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var NWpath = CGPathCreateMutable()
+            CGPathMoveToPoint(NWpath, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
+            CGPathAddArc(NWpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75)  , -CGFloat(M_PI * 0.75), false)
+            var NWmove = SKAction.followPath(NWpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var NWscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayEndless.zPosition = -2
-            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]))
+            self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]))
             
-            var settings_path = CGPathCreateMutable()
-            CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), true)
-            var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var settings_scale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnSettings.zPosition = -2
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            var SEpath = CGPathCreateMutable()
+            CGPathMoveToPoint(SEpath, nil, self.btnAchievements.position.x, self.btnAchievements.position.y)
+            CGPathAddArc(SEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), true)
+            var SEmove = SKAction.followPath(SEpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var SEscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnAchievements.zPosition = -2
+            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]))
             
-            var stats_wait = SKAction.waitForDuration(2 * single_duration)
-            var stats_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            stats_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            var SWwait = SKAction.waitForDuration(2 * single_duration)
+            var SWmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            SWmove.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnStats.zPosition = 0
-            self.btnStats.runAction(SKAction.sequence([stats_wait, stats_move, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.showStatsScene()
+            self.btnStats.runAction(SKAction.sequence([SWwait, SWmove, SKAction.waitForDuration(0.1)]), completion: {()
+                self.sceneDelegate!.showStatistics()
             })
         })
         
-        settings_action = SKAction.runBlock({
+        SEaction = SKAction.runBlock({
             var single_duration = 0.2
             
-            var playt_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playt_path, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
-            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI / 4), true)
-            var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var NEpath = CGPathCreateMutable()
+            CGPathMoveToPoint(NEpath, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
+            CGPathAddArc(NEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI / 4), true)
+            var NEmove = SKAction.followPath(NEpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var NEscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayLimited.zPosition = -2
-            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]))
             
-            var playe_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
-            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75)  , -CGFloat(M_PI / 4), true)
-            var playe_move = SKAction.followPath(playe_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var playe_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var NWpath = CGPathCreateMutable()
+            CGPathMoveToPoint(NWpath, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
+            CGPathAddArc(NWpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75)  , -CGFloat(M_PI / 4), true)
+            var NWmove = SKAction.followPath(NWpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var NWscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayEndless.zPosition = -2
-            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]))
+            self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]))
             
-            var stats_path = CGPathCreateMutable()
-            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), -CGFloat(M_PI / 4), false)
-            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var stats_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var SWpath = CGPathCreateMutable()
+            CGPathMoveToPoint(SWpath, nil, self.btnStats.position.x, self.btnStats.position.y)
+            CGPathAddArc(SWpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), -CGFloat(M_PI / 4), false)
+            var SWmove = SKAction.followPath(SWpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var SWscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnStats.zPosition = -2
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            self.btnStats.runAction(SKAction.group([SWmove, SWscale]))
             
-            var settings_wait = SKAction.waitForDuration(2 * single_duration)
-            var settings_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            settings_move.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnSettings.zPosition = 0
-            self.btnSettings.runAction(SKAction.sequence([settings_wait, settings_move, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.showSettingsScene()
+            var SEwait = SKAction.waitForDuration(2 * single_duration)
+            var SEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            SEmove.timingMode = SKActionTimingMode.EaseInEaseOut
+            self.btnAchievements.zPosition = 0
+            self.btnAchievements.runAction(SKAction.sequence([SEwait, SEmove, SKAction.waitForDuration(0.1)]), completion: {()
+                self.sceneDelegate!.showAchievements()
             })
         })
         
-        playe_action = SKAction.runBlock({
+        NWaction = SKAction.runBlock({
             var single_duration = 0.2
             
-            var playt_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playt_path, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
-            CGPathAddArc(playt_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), false)
-            var playt_move = SKAction.followPath(playt_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var playt_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var NEpath = CGPathCreateMutable()
+            CGPathMoveToPoint(NEpath, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
+            CGPathAddArc(NEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), false)
+            var NEmove = SKAction.followPath(NEpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var NEscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayLimited.zPosition = -2
-            self.btnPlayLimited.runAction(SKAction.group([playt_move, playt_scale]))
+            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]))
             
-            var settings_path = CGPathCreateMutable()
-            CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), true)
-            var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var settings_scale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnSettings.zPosition = -2
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            var SEpath = CGPathCreateMutable()
+            CGPathMoveToPoint(SEpath, nil, self.btnAchievements.position.x, self.btnAchievements.position.y)
+            CGPathAddArc(SEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), true)
+            var SEmove = SKAction.followPath(SEpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var SEscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnAchievements.zPosition = -2
+            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]))
             
-            var stats_path = CGPathCreateMutable()
-            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), CGFloat(M_PI * 0.75), true)
-            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var stats_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var SWpath = CGPathCreateMutable()
+            CGPathMoveToPoint(SWpath, nil, self.btnStats.position.x, self.btnStats.position.y)
+            CGPathAddArc(SWpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), CGFloat(M_PI * 0.75), true)
+            var SWmove = SKAction.followPath(SWpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var SWscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnStats.zPosition = -2
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            self.btnStats.runAction(SKAction.group([SWmove, SWscale]))
             
-            var playe_wait = SKAction.waitForDuration(2 * single_duration)
-            var playe_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            playe_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            var NWwait = SKAction.waitForDuration(2 * single_duration)
+            var NWmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            NWmove.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayEndless.zPosition = 0
-            self.btnPlayEndless.runAction(SKAction.sequence([playe_wait, playe_move, SKAction.waitForDuration(0.1)]), completion: {()
+            self.btnPlayEndless.runAction(SKAction.sequence([NWwait, NWmove, SKAction.waitForDuration(0.1)]), completion: {()
                 self.sceneDelegate!.startGame(GameMode.Endless)
             })
         })
         
-        playt_action = SKAction.runBlock({
+        NEaction = SKAction.runBlock({
             var single_duration = 0.2
             
-            var playe_path = CGPathCreateMutable()
-            CGPathMoveToPoint(playe_path, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
-            CGPathAddArc(playe_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), true)
-            var playe_move = SKAction.followPath(playe_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var playe_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var NWpath = CGPathCreateMutable()
+            CGPathMoveToPoint(NWpath, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
+            CGPathAddArc(NWpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), true)
+            var NWmove = SKAction.followPath(NWpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var NWscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayEndless.zPosition = -2
-            self.btnPlayEndless.runAction(SKAction.group([playe_move, playe_scale]))
+            self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]))
             
-            var settings_path = CGPathCreateMutable()
-            CGPathMoveToPoint(settings_path, nil, self.btnSettings.position.x, self.btnSettings.position.y)
-            CGPathAddArc(settings_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI / 4), false)
-            var settings_move = SKAction.followPath(settings_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var settings_scale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnSettings.zPosition = -2
-            self.btnSettings.runAction(SKAction.group([settings_move, settings_scale]))
+            var SEpath = CGPathCreateMutable()
+            CGPathMoveToPoint(SEpath, nil, self.btnAchievements.position.x, self.btnAchievements.position.y)
+            CGPathAddArc(SEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI / 4), false)
+            var SEmove = SKAction.followPath(SEpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var SEscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnAchievements.zPosition = -2
+            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]))
             
-            var stats_path = CGPathCreateMutable()
-            CGPathMoveToPoint(stats_path, nil, self.btnStats.position.x, self.btnStats.position.y)
-            CGPathAddArc(stats_path, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), false)
-            var stats_move = SKAction.followPath(stats_path, asOffset: false, orientToPath: false, duration: single_duration)
-            var stats_scale = SKAction.scaleTo(0.0, duration: single_duration)
+            var SWpath = CGPathCreateMutable()
+            CGPathMoveToPoint(SWpath, nil, self.btnStats.position.x, self.btnStats.position.y)
+            CGPathAddArc(SWpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI * 0.75), CGFloat(M_PI / 4), false)
+            var SWmove = SKAction.followPath(SWpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var SWscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnStats.zPosition = -2
-            self.btnStats.runAction(SKAction.group([stats_move, stats_scale]))
+            self.btnStats.runAction(SKAction.group([SWmove, SWscale]))
             
-            var playt_wait = SKAction.waitForDuration(2 * single_duration)
-            var playt_move = SKAction.moveTo(self.btnGo.position, duration: 0.2)
-            playt_move.timingMode = SKActionTimingMode.EaseInEaseOut
+            var NEwait = SKAction.waitForDuration(2 * single_duration)
+            var NEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            NEmove.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayLimited.zPosition = 0
-            self.btnPlayLimited.runAction(SKAction.sequence([playt_wait, playt_move, SKAction.waitForDuration(0.1)]), completion: {()
+            self.btnPlayLimited.runAction(SKAction.sequence([NEwait, NEmove, SKAction.waitForDuration(0.1)]), completion: {()
                 self.sceneDelegate!.startGame(GameMode.Limited)
             })
         })
         
-        go_action = go_action_normal
+        GOaction = GOaction_normal
     }
     
     // MARK: - TOUCH FUNCTIONS
@@ -484,19 +504,27 @@ class MenuScene: SKScene {
             let location = touch.locationInNode(rootNode)
             
             if (btnGo.containsPoint(location)) {
-                runAction(go_action)
+                runAction(GOaction)
             } else if (btnAbout.containsPoint(location)) {
                 self.runAction(SKAction.fadeOutWithDuration(0.15), completion: {()
-                    self.sceneDelegate!.showAboutScene()
+                    self.sceneDelegate!.showAbout()
+                })
+            } else if (btnHelp.containsPoint(location)) {
+                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: {()
+                    self.sceneDelegate!.showHelp()
+                })
+            } else if (btnSettings.containsPoint(location)) {
+                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: {()
+                    self.sceneDelegate!.showSettings()
                 })
             } else if (btnStats.containsPoint(location)) {
-                runAction(stats_action)
-            } else if (btnSettings.containsPoint(location)) {
-                runAction(settings_action)
+                runAction(SWaction)
+            } else if (btnAchievements.containsPoint(location)) {
+                runAction(SEaction)
             } else if (btnPlayEndless.containsPoint(location)) {
-                runAction(playe_action)
+                runAction(NWaction)
             } else if (btnPlayLimited.containsPoint(location)) {
-                runAction(playt_action)
+                runAction(NEaction)
             } else {
                 // Just a little 'easteregg' ;)
                 var ball = SKShapeNode(circleOfRadius: frame.height / 32)

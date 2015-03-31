@@ -41,7 +41,7 @@ class GameViewController: UIViewController, SceneDelegate {
         GCHandler.delegate = self
         
         // Present the initial scene.
-        showMenuScene()
+        showMenu()
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -104,7 +104,7 @@ class GameViewController: UIViewController, SceneDelegate {
         self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
-    func showMenuScene() {
+    func showMenu() {
         // Create and configure the menu scene.
         var scene = MenuScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
@@ -123,7 +123,7 @@ class GameViewController: UIViewController, SceneDelegate {
         (self.view as SKView).presentScene(scene)
     }
     
-    func showStatsScene() {
+    func showStatistics() {
         // Create and configure the stats scene.
         var scene = StatsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
@@ -132,7 +132,7 @@ class GameViewController: UIViewController, SceneDelegate {
         (self.view as SKView).presentScene(scene)
     }
     
-    func showSettingsScene() {
+    func showSettings() {
         // Create and configure the settings scene.
         var scene = SettingsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
@@ -141,7 +141,7 @@ class GameViewController: UIViewController, SceneDelegate {
         (self.view as SKView).presentScene(scene)
     }
     
-    func showGameoverScene(gameMode: GameMode) {
+    func showGameover(gameMode: GameMode) {
         // Create and configure the gameover scene.
         var scene = GameoverScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
@@ -151,7 +151,7 @@ class GameViewController: UIViewController, SceneDelegate {
         (self.view as SKView).presentScene(scene)
     }
     
-    func showAboutScene() {
+    func showAbout() {
         var scene = AboutScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
@@ -159,8 +159,16 @@ class GameViewController: UIViewController, SceneDelegate {
         (self.view as SKView).presentScene(scene)
     }
     
-    func showHelpScene() {
+    func showHelp() {
         var scene = HelpScene(size: self.view.bounds.size)
+        scene.scaleMode = .AspectFill
+        scene.sceneDelegate = self
+        
+        (self.view as SKView).presentScene(scene)
+    }
+    
+    func showAchievements() {
+        var scene = AchievementsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         

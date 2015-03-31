@@ -338,7 +338,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         
         reportLeaderboardScore(endScore)
         
-        sceneDelegate!.showGameoverScene(gameMode)
+        sceneDelegate!.showGameover(gameMode)
     }
     
     // MARK: - GAMECENTER INTEGRATION

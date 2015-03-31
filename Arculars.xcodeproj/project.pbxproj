@@ -30,6 +30,7 @@
 		3056065D1AC4ADBA001ABDF7 /* BallCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */; };
 		305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF11AC9727D004F68E6 /* AboutScene.swift */; };
 		305BCAF41AC973A8004F68E6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF31AC973A8004F68E6 /* HelpScene.swift */; };
+		308B91361ACB158300A8ECBD /* AchievementsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308B91351ACB158300A8ECBD /* AchievementsScene.swift */; };
 		308F5EB21AC2171D004E40EC /* SettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308F5EB11AC2171D004E40EC /* SettingsHandler.swift */; };
 		3091AC1C1ACA84D300E25F13 /* GCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3091AC1B1ACA84D300E25F13 /* GCHandler.swift */; };
 		3091AC1E1ACA84E000E25F13 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */; };
@@ -80,6 +81,7 @@
 		3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallCountdown.swift; sourceTree = "<group>"; };
 		305BCAF11AC9727D004F68E6 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		305BCAF31AC973A8004F68E6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
+		308B91351ACB158300A8ECBD /* AchievementsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementsScene.swift; sourceTree = "<group>"; };
 		308F5EB11AC2171D004E40EC /* SettingsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHandler.swift; sourceTree = "<group>"; };
 		3091AC1B1ACA84D300E25F13 /* GCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCHandler.swift; sourceTree = "<group>"; };
 		3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -186,6 +188,7 @@
 				305414BB1AC0A05000636047 /* SettingsScene.swift */,
 				305BCAF11AC9727D004F68E6 /* AboutScene.swift */,
 				305BCAF31AC973A8004F68E6 /* HelpScene.swift */,
+				308B91351ACB158300A8ECBD /* AchievementsScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */,
 				30A5F3F41AC142B7004D7364 /* GameTimer.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
+				308B91361ACB158300A8ECBD /* AchievementsScene.swift in Sources */,
 				302D814D1AC93E6A00FDF44D /* Fonts.swift in Sources */,
 				305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */,
 				30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  AboutScene.swift
+//  AchievementsScene.swift
 //  Arculars
 //
 //  Created by Roman Blum on 30/03/15.
@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class AboutScene: SKScene {
+class AchievementsScene: SKScene {
     
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
@@ -41,7 +41,7 @@ class AboutScene: SKScene {
     
     deinit {
         #if DEBUG
-            println("AboutScene deinit is called")
+            println("AchievementsScene deinit is called")
         #endif
     }
     
@@ -53,7 +53,7 @@ class AboutScene: SKScene {
         title.lineWidth = 0
         title.strokeColor = UIColor.clearColor()
         title.fillColor = UIColor.clearColor()
-        var titleLabel = SKLabelNode(text: "ABOUT")
+        var titleLabel = SKLabelNode(text: "ACHIEVEMENTS")
         titleLabel.fontSize = size.height / 32
         titleLabel.fontName = Fonts.FontNameBold
         titleLabel.fontColor = Colors.FontColor
@@ -74,7 +74,6 @@ class AboutScene: SKScene {
         btnToMenu.strokeColor = UIColor.clearColor()
         btnToMenu.addChild(tml)
         rootNode.addChild(btnToMenu)
-        
     }
     
     // MARK: - TOUCH FUNCTIONS

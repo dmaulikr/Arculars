@@ -189,7 +189,7 @@ class GameoverScene: SKScene {
             
             if (tomenu.containsPoint(location)) {
                 runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
-                    self.sceneDelegate!.showMenuScene()
+                    self.sceneDelegate!.showMenu()
                 })
             } else if (twitter.containsPoint(location)) {
                 sceneDelegate!.shareOnTwitter()
