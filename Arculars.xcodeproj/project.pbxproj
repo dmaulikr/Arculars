@@ -135,7 +135,6 @@
 		30500B2B1AAE3010009F4C26 /* Arculars */ = {
 			isa = PBXGroup;
 			children = (
-				3091AC161ACA833100E25F13 /* GameCenter */,
 				30F7B0821AC36CC800764D6B /* Sounds */,
 				30DDDBEA1ABB08AD00BB11EE /* Extensions */,
 				30DDDBE61ABB087400BB11EE /* Infrastructure */,
@@ -174,13 +173,6 @@
 				30500B471AAE3010009F4C26 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		3091AC161ACA833100E25F13 /* GameCenter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = GameCenter;
 			sourceTree = "<group>";
 		};
 		309ED2E51AB492DB007D7EC4 /* Scenes */ = {
