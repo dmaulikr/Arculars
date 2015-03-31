@@ -28,8 +28,17 @@ class GameViewController: UIViewController, SceneDelegate {
             */
         #endif
         
-        // Try to authenticate Game Center
-        GCHelper.authenticateLocalUser()
+        // Init Easy Game Center Singleton
+        let eaysGameCenter = EasyGameCenter.sharedInstance {
+            (resultPlayerAuthentified) -> Void in
+            if resultPlayerAuthentified {
+                // When player is authentified to Game Center
+            } else {
+                // Player not authentified to Game Center
+                // No connexion internet or not authentified to Game Center
+            }
+        }
+        EasyGameCenter.delegate = self
         
         // Present the initial scene.
         showMenuScene()
@@ -48,7 +57,14 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func presentGameCenter() {
-        GCHelper.showGameCenter(self, viewState: GKGameCenterViewControllerState.Leaderboards)
+        if !EasyGameCenter.isPlayerIdentifiedToGameCenter() {
+            EasyGameCenter.showGameCenterAuthentication {
+                (result) -> Void in
+                EasyGameCenter.showGameCenterLeaderboards(nil)
+            }
+        } else {
+            EasyGameCenter.showGameCenterLeaderboards(nil)
+        }
     }
     
     func shareOnTwitter() {
