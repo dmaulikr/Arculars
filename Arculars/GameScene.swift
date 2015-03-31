@@ -336,7 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         StatsHandler.updateHighscore(endScore, gameMode: gameMode)
         StatsHandler.updateOverallPointsBy(endScore)
         
-        addLeaderboardScore(Int64(endScore))
+        reportLeaderboardScore(endScore)
         
         sceneDelegate!.showGameoverScene(gameMode)
         
@@ -354,31 +354,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     // MARK: - GAMECENTER INTEGRATION
-    private func addLeaderboardScore(newScore: Int64) {
+    private func reportLeaderboardScore(newScore: Int) {
         if (newScore > 0) {
-            var newGCScore : GKScore!
             switch gameMode.rawValue {
             case GameMode.Endless.rawValue:
-                newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.endless")
+                GCHelper.sharedInstance.reportLeaderboardIdentifier("io.rmnblm.arculars.endless", score: newScore)
                 break
             case GameMode.Timed.rawValue:
-                newGCScore = GKScore(leaderboardIdentifier: "io.rmnblm.arculars.timed")
+                GCHelper.sharedInstance.reportLeaderboardIdentifier("io.rmnblm.arculars.timed", score: newScore)
                 break
             default:
                 return
             }
-            newGCScore.value = newScore
-            GKScore.reportScores([newGCScore], withCompletionHandler: {(error) -> Void in
-                if error != nil {
-                    #if DEBUG
-                        println("Score not submitted")
-                    #endif
-                } else {
-                    #if DEBUG
-                        println("Score submitted")
-                    #endif
-                }
-            })
         }
     }
     
