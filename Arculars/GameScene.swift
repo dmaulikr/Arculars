@@ -176,10 +176,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         
         switch SettingsHandler.getDifficulty() {
         case .Easy:
-            circles[0].setSpeed(3.52)
-            circles[1].setSpeed(3.86)
-            circles[2].setSpeed(2.2)
-            circles[3].setSpeed(1.65)
+            circles[0].setSpeed(3.84)
+            circles[1].setSpeed(3.12)
+            circles[2].setSpeed(2.4)
+            circles[3].setSpeed(1.8)
             break
         case .Normal:
             circles[0].setSpeed(3.2)
@@ -207,7 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         var countdownTime : Int
         switch SettingsHandler.getDifficulty() {
         case .Easy:
-            countdownTime = 12
+            countdownTime = 15
             break
         case .Normal:
             countdownTime = 8
