@@ -164,6 +164,12 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func showAchievements() {
+        var alert = UIAlertController(title: "Coming Soon!", message: "Achievements will be in a future release. Stay tuned! :)", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: {()
+            self.showMenu()
+        })
+        /*
         if !GCHandler.isPlayerIdentifiedToGameCenter() {
             GCHandler.showGameCenterAuthentication(completion: {(result) -> Void in
                 GCHandler.showGameCenterAchievements(completion: {(result) -> Void in
@@ -175,5 +181,6 @@ class GameViewController: UIViewController, SceneDelegate {
                 self.showMenu()
             })
         }
+        */
     }
 }
