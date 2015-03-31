@@ -346,10 +346,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         if (newScore > 0) {
             switch gameMode.rawValue {
             case GameMode.Endless.rawValue:
-                EasyGameCenter.reportScoreLeaderboard(leaderboardIdentifier: "arculars_endless", score: newScore, completion: nil)
+                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: "arculars_endless", score: newScore, completion: nil)
                 break
             case GameMode.Limited.rawValue:
-                EasyGameCenter.reportScoreLeaderboard(leaderboardIdentifier: "arculars_limited", score: newScore, completion: nil)
+                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: "arculars_limited", score: newScore, completion: nil)
                 break
             default:
                 return

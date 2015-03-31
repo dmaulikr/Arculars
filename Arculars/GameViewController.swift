@@ -29,7 +29,7 @@ class GameViewController: UIViewController, SceneDelegate {
         #endif
         
         // Init Easy Game Center Singleton
-        let eaysGameCenter = EasyGameCenter.sharedInstance {
+        let eaysGameCenter = GCHandler.sharedInstance {
             (resultPlayerAuthentified) -> Void in
             if resultPlayerAuthentified {
                 // When player is authentified to Game Center
@@ -38,7 +38,7 @@ class GameViewController: UIViewController, SceneDelegate {
                 // No connexion internet or not authentified to Game Center
             }
         }
-        EasyGameCenter.delegate = self
+        GCHandler.delegate = self
         
         // Present the initial scene.
         showMenuScene()
@@ -57,7 +57,7 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func presentGameCenter() {
-        EasyGameCenter.showGameCenterLeaderboards(nil)
+        GCHandler.showGameCenterLeaderboards(nil)
     }
     
     func shareOnTwitter() {
