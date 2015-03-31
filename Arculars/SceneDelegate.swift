@@ -18,8 +18,6 @@ protocol SceneDelegate : class {
     func showHelp()
     func showAchievements()
     
-    func presentGameCenter()
-    
     func shareOnOther()
     func shareOnTwitter()
     func shareOnFacebook()

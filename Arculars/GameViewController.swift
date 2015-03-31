@@ -56,10 +56,6 @@ class GameViewController: UIViewController, SceneDelegate {
         return UIStatusBarStyle.LightContent
     }
     
-    func presentGameCenter() {
-        GCHandler.showGameCenterLeaderboards(nil)
-    }
-    
     func shareOnTwitter() {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
             var twitterSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
@@ -168,10 +164,8 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func showAchievements() {
-        var scene = AchievementsScene(size: self.view.bounds.size)
-        scene.scaleMode = .AspectFill
-        scene.sceneDelegate = self
-        
-        (self.view as SKView).presentScene(scene)
+        GCHandler.showGameCenterAchievements(completion: {(result) -> Void in
+            self.showMenu()
+        })
     }
 }

@@ -25,7 +25,6 @@ class StatsScene: SKScene {
     private var label_fails                 : SKLabelNode!
     
     private var btnReset                    : SKShapeNode!
-    private var btnGameCenter               : SKShapeNode!
     private var btnToMenu                   : SKShapeNode!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
@@ -123,7 +122,7 @@ class StatsScene: SKScene {
         btns.lineWidth = 0
         
         btnReset = SKShapeNode(circleOfRadius: rowheight * 0.75)
-        btnReset.position = CGPoint(x: -btns.frame.width / 4, y: 0)
+        btnReset.position = CGPoint(x: 0, y: 0)
         btnReset.lineWidth = 1
         btnReset.strokeColor = Colors.AppColorOne
         btnReset.fillColor = Colors.AppColorOne
@@ -135,30 +134,6 @@ class StatsScene: SKScene {
         rel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         btnReset.addChild(rel)
         btns.addChild(btnReset)
-        
-        btnGameCenter = SKShapeNode(circleOfRadius: rowheight * 0.75)
-        btnGameCenter.position = CGPoint(x: btns.frame.width / 4, y: 0)
-        btnGameCenter.lineWidth = 1
-        btnGameCenter.strokeColor = Colors.AppColorTwo
-        btnGameCenter.fillColor = Colors.AppColorTwo
-        var gcl = SKNode()
-        var gcl1 = SKLabelNode(text: "GAME")
-        gcl1.position = CGPoint(x: 0, y: gcl1.frame.height / 4 + (gcl1.frame.height / 16))
-        gcl1.fontSize = size.height / 48
-        gcl1.fontName = Fonts.FontNameNormal
-        gcl1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        gcl1.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        gcl.addChild(gcl1)
-        var gcl2 = SKLabelNode(text: "CENTER")
-        gcl2.position = CGPoint(x: 0, y: -gcl2.frame.height / 4 - (gcl2.frame.height / 16))
-        gcl2.fontSize = size.height / 48
-        gcl2.fontName = Fonts.FontNameNormal
-        gcl2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        gcl2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        gcl.addChild(gcl2)
-        btnGameCenter.addChild(gcl)
-        btns.addChild(btnGameCenter)
-        
         rootNode.addChild(btns)
         
         // INIT TO MENU BUTTON
@@ -204,8 +179,6 @@ class StatsScene: SKScene {
                     refreshAlert.addAction(UIAlertAction(title: "No", style: .Default, handler: nil))
                     
                     view?.window?.rootViewController?.presentViewController(refreshAlert, animated: true, completion: nil)
-                } else if (btnGameCenter == object as? SKShapeNode) {
-                    sceneDelegate!.presentGameCenter()
                 }
             }
         }
