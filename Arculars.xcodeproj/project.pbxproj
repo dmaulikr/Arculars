@@ -137,13 +137,13 @@
 		30500B2B1AAE3010009F4C26 /* Arculars */ = {
 			isa = PBXGroup;
 			children = (
-				30F7B0821AC36CC800764D6B /* Sounds */,
 				30DDDBEA1ABB08AD00BB11EE /* Extensions */,
 				30DDDBE61ABB087400BB11EE /* Infrastructure */,
 				30DDDBE91ABB089000BB11EE /* Nodes */,
 				309ED2E51AB492DB007D7EC4 /* Scenes */,
+				30F7B0821AC36CC800764D6B /* Sounds */,
+				306002111ACB22CC00F74A7B /* ViewControllers */,
 				30500B2E1AAE3010009F4C26 /* AppDelegate.swift */,
-				30500B341AAE3010009F4C26 /* GameViewController.swift */,
 				30500B361AAE3010009F4C26 /* Main.storyboard */,
 				30500B3B1AAE3010009F4C26 /* LaunchScreen.xib */,
 				30500B391AAE3010009F4C26 /* Images.xcassets */,
@@ -175,6 +175,14 @@
 				30500B471AAE3010009F4C26 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		306002111ACB22CC00F74A7B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				30500B341AAE3010009F4C26 /* GameViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		309ED2E51AB492DB007D7EC4 /* Scenes */ = {
