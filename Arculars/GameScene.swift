@@ -12,7 +12,7 @@ import SpriteKit
 import GameKit
 import AudioToolbox
 
-class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountdownDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarDelegate, BallCountdownDelegate {
     
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
@@ -34,6 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountd
     private var isGameOver = false
     private var multiplicator = 1
     
+    private var healthBar : HealthBar!
     private var timerBar : TimerBar!
     
     private var ballCountdown : BallCountdown!
@@ -152,9 +153,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountd
         multiplicator = SettingsHandler.getDifficulty().rawValue
         
         if gameMode == GameMode.Timed {
-            initTimer()
+            initTimerBar()
             timerBar?.start()
         } else if gameMode == GameMode.Endless {
+            initHealthBar()
             initCountdown()
             ballCountdown?.start()
         }
@@ -198,12 +200,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountd
         
     }
     
-    private func initTimer() {
+    private func initTimerBar() {
         var barHeight = size.height / 96
         timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 30)
         timerBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         timerBar.delegate = self
         rootNode.addChild(timerBar)
+    }
+    
+    private func initHealthBar() {
+        var barHeight = size.height / 96
+        healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 3)
+        healthBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
+        healthBar.delegate = self
+        rootNode.addChild(healthBar)
     }
     
     private func initCountdown() {
@@ -310,7 +320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountd
                 runVibration()
                 timerBar?.add(-circle.pointsPerHit * multiplicator)
             } else if gameMode == GameMode.Endless {
-                gameover()
+                healthBar?.decrement()
             }
         }
     }
@@ -366,6 +376,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountd
     
     // MARK: - TIMERBAR DELEGATE
     func timerBarExpired() {
+        gameover()
+    }
+    
+    // MARK: - HEALTHBAR DELEGATE
+    func healthZero() {
         gameover()
     }
     
