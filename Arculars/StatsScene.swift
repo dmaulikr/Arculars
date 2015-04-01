@@ -93,7 +93,7 @@ class StatsScene: SKScene {
         rootNode.addChild(hen)
         
         // INIT HIGHSCORE TIMED NODE
-        var htn = createRow("HIGH SCORE LIMITED")
+        var htn = createRow("HIGH SCORE TIMED")
         htn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 5))
         label_highscore_timed = (htn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(htn)
