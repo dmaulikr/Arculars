@@ -103,7 +103,8 @@ class MenuScene: SKScene {
         helpSprite.colorBlendFactor = 1
         helpSprite.color = UIColor.grayColor()
         helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        btnHelp = SKShapeNode(rectOfSize: CGSize(width: helpSprite.frame.width, height: helpSprite.frame.height))
+        helpSprite.size = CGSize(width: size.width / 16, height: size.width / 16)
+        btnHelp = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnHelp.position = CGPoint(x: -(size.width / 6), y: -(size.height / 2) + (size.height / 12))
         btnHelp.lineWidth = 0
         btnHelp.addChild(helpSprite)
@@ -116,7 +117,8 @@ class MenuScene: SKScene {
         aboutSprite.colorBlendFactor = 1
         aboutSprite.color = UIColor.grayColor()
         aboutSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        btnAbout = SKShapeNode(rectOfSize: CGSize(width: aboutSprite.frame.width, height: aboutSprite.frame.height))
+        aboutSprite.size = CGSize(width: size.width / 16, height: size.width / 16)
+        btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnAbout.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
         btnAbout.lineWidth = 0
         btnAbout.addChild(aboutSprite)
@@ -129,7 +131,8 @@ class MenuScene: SKScene {
         settingsSprite.colorBlendFactor = 1
         settingsSprite.color = UIColor.grayColor()
         settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        btnSettings = SKShapeNode(rectOfSize: CGSize(width: settingsSprite.frame.width, height: settingsSprite.frame.height))
+        settingsSprite.size = CGSize(width: size.width / 16, height: size.width / 16)
+        btnSettings = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnSettings.position = CGPoint(x: (size.width / 6), y: -(size.height / 2) + (size.height / 12))
         btnSettings.lineWidth = 0
         btnSettings.addChild(settingsSprite)
@@ -187,10 +190,11 @@ class MenuScene: SKScene {
         btnStats.zPosition = -1
         var statsIcon = SKSpriteNode(imageNamed: "icon-statistics")
         statsIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        statsIcon.size = CGSize(width: radius, height: radius)
         btnStats.addChild(statsIcon)
         btnGo.addChild(btnStats)
         
-        var statsLabel = SKLabelNode(text: "Statistics")
+        var statsLabel = SKLabelNode(text: "Stats")
         statsLabel.name = "label"
         statsLabel.fontName = Fonts.FontNameLight
         statsLabel.fontSize = size.height / 40
@@ -210,6 +214,7 @@ class MenuScene: SKScene {
         btnAchievements.zPosition = -1
         var achievementIcon = SKSpriteNode(imageNamed: "icon-achievement")
         achievementIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        achievementIcon.size = CGSize(width: radius, height: radius)
         btnAchievements.addChild(achievementIcon)
         btnGo.addChild(btnAchievements)
         
@@ -233,6 +238,7 @@ class MenuScene: SKScene {
         btnPlayLimited.zPosition = -1
         var clockIcon = SKSpriteNode(imageNamed: "icon-clock")
         clockIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        clockIcon.size = CGSize(width: radius, height: radius)
         btnPlayLimited.addChild(clockIcon)
         btnGo.addChild(btnPlayLimited)
         
@@ -256,6 +262,7 @@ class MenuScene: SKScene {
         btnPlayEndless.zPosition = -1
         var iconInfinity = SKSpriteNode(imageNamed: "icon-infinity")
         iconInfinity.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        iconInfinity.size = CGSize(width: radius, height: radius)
         btnPlayEndless.addChild(iconInfinity)
         btnGo.addChild(btnPlayEndless)
         
@@ -539,15 +546,15 @@ class MenuScene: SKScene {
             if (btnGo.containsPoint(location)) {
                 runAction(GOaction)
             } else if (btnAbout.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: {()
+                self.runAction(SKAction.fadeOutWithDuration(0.1), completion: {()
                     self.sceneDelegate!.showAbout()
                 })
             } else if (btnHelp.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: {()
+                self.runAction(SKAction.fadeOutWithDuration(0.1), completion: {()
                     self.sceneDelegate!.showHelp()
                 })
             } else if (btnSettings.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.15), completion: {()
+                self.runAction(SKAction.fadeOutWithDuration(0.1), completion: {()
                     self.sceneDelegate!.showSettings()
                 })
             } else if (btnStats.containsPoint(location)) {
