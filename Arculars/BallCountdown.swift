@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 protocol BallCountdownDelegate : class {
-    func ballExpired()
+    func ballCountdownExpired()
 }
 
 class BallCountdown : SKNode {
@@ -91,7 +91,7 @@ class BallCountdown : SKNode {
         updateDisplay()
         
         if remaining == 0 {
-            delegate.ballExpired()
+            delegate.ballCountdownExpired()
         }
     }
 }

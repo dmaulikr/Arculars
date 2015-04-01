@@ -12,7 +12,7 @@ import SpriteKit
 import GameKit
 import AudioToolbox
 
-class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCountdownDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountdownDelegate {
     
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
@@ -34,9 +34,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     private var isGameOver = false
     private var multiplicator = 1
     
-    private var timer : GameTimer!
+    private var timerBar : TimerBar!
     
-    private var countdown : BallCountdown!
+    private var ballCountdown : BallCountdown!
     private var countdownExpired = false
     
     private var btnStop : SKShapeNode!
@@ -145,17 +145,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         countdownExpired = false
         
         score?.reset()
-        timer?.removeFromParent()
-        countdown?.removeFromParent()
+        
+        timerBar?.removeFromParent()
+        ballCountdown?.removeFromParent()
+        
+        multiplicator = SettingsHandler.getDifficulty().rawValue
         
         if gameMode == GameMode.Timed {
-            multiplicator = 1
             initTimer()
-            timer?.start()
+            timerBar?.start()
         } else if gameMode == GameMode.Endless {
-            multiplicator = SettingsHandler.getDifficulty().rawValue
             initCountdown()
-            countdown?.start()
+            ballCountdown?.start()
         }
         
         stats_hits = 0
@@ -198,9 +199,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
     }
     
     private func initTimer() {
-        timer = GameTimer(position: CGPoint(x: frame.midX, y: scorePosition.y - score.frame.height), seconds: 60)
-        timer.delegate = self
-        rootNode.addChild(timer)
+        var barHeight = size.height / 96
+        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 30)
+        timerBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
+        timerBar.delegate = self
+        rootNode.addChild(timerBar)
     }
     
     private func initCountdown() {
@@ -216,9 +219,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             countdownTime = 4
             break
         }
-        countdown = BallCountdown(rect: CGRect(x: frame.midX, y: scorePosition.y - (score.frame.height * 1.5), width: frame.width / 6, height: frame.height / 128), seconds: countdownTime)
-        countdown.delegate = self
-        rootNode.addChild(countdown)
+        ballCountdown = BallCountdown(rect: CGRect(x: frame.midX, y: scorePosition.y - (score.frame.height * 1.5), width: frame.width / 6, height: frame.height / 128), seconds: countdownTime)
+        ballCountdown.delegate = self
+        rootNode.addChild(ballCountdown)
     }
     
     // MARK: - TOUCH FUNCTIONS
@@ -296,13 +299,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             stats_hits++
             score.increaseByWithColor(points, color: ball.nodeColor)
             
-            countdownExpired = false
-            countdown?.reset()
+            if gameMode == GameMode.Timed {
+                timerBar?.add(circle.pointsPerHit)
+            } else if gameMode == GameMode.Endless {
+                countdownExpired = false
+                ballCountdown?.reset()
+            }
         } else {
             if gameMode == GameMode.Timed {
-                var points = circle.pointsPerHit * multiplicator
-                score.increaseByWithColor(-points, color: UIColor.redColor())
-            } else {
+                timerBar?.add(-circle.pointsPerHit * multiplicator)
+            } else if gameMode == GameMode.Endless {
                 gameover()
             }
         }
@@ -323,8 +329,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
             ball.removeFromParent()
         }
         
-        timer?.stop()
-        countdown?.stop()
+        timerBar?.stop()
+        ballCountdown?.stop()
         
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_moves)
@@ -357,13 +363,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameTimerDelegate, BallCount
         }
     }
     
-    // MARK: - GAMETIMER DELEGATE
-    func gameTimerFinished() {
+    // MARK: - TIMERBAR DELEGATE
+    func timerBarExpired() {
         gameover()
     }
     
     // MARK: - BALLCOUNTDOWN DELEGATE
-    func ballExpired() {
+    func ballCountdownExpired() {
         countdownExpired = true
         if activeBalls.count == 0 {
             gameover()
