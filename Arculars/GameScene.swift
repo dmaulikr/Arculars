@@ -307,6 +307,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, BallCountd
             }
         } else {
             if gameMode == GameMode.Timed {
+                runVibration()
                 timerBar?.add(-circle.pointsPerHit * multiplicator)
             } else if gameMode == GameMode.Endless {
                 gameover()

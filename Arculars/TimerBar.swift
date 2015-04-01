@@ -69,7 +69,7 @@ class TimerBar : SKNode {
         var scale = 1.0 - (CGFloat(1.0 / CGFloat(max)) * CGFloat(current))
         bar.runAction(SKAction.scaleXTo(scale, duration: 1.0))
         
-        if current >= max {
+        if current > max {
             stop()
             delegate.timerBarExpired()
         }

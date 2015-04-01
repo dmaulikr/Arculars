@@ -103,7 +103,7 @@ class MenuScene: SKScene {
         helpSprite.colorBlendFactor = 1
         helpSprite.color = UIColor.grayColor()
         helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        helpSprite.size = CGSize(width: size.width / 16, height: size.width / 16)
+        helpSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnHelp = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnHelp.position = CGPoint(x: -(size.width / 6), y: -(size.height / 2) + (size.height / 12))
         btnHelp.lineWidth = 0
@@ -117,7 +117,7 @@ class MenuScene: SKScene {
         aboutSprite.colorBlendFactor = 1
         aboutSprite.color = UIColor.grayColor()
         aboutSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        aboutSprite.size = CGSize(width: size.width / 16, height: size.width / 16)
+        aboutSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnAbout.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
         btnAbout.lineWidth = 0
@@ -131,7 +131,7 @@ class MenuScene: SKScene {
         settingsSprite.colorBlendFactor = 1
         settingsSprite.color = UIColor.grayColor()
         settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        settingsSprite.size = CGSize(width: size.width / 16, height: size.width / 16)
+        settingsSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnSettings = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnSettings.position = CGPoint(x: (size.width / 6), y: -(size.height / 2) + (size.height / 12))
         btnSettings.lineWidth = 0
