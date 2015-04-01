@@ -45,7 +45,7 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     override func prefersStatusBarHidden() -> Bool {
-        return false
+        return true
     }
     
     override func shouldAutorotate() -> Bool {
