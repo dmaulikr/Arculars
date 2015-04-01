@@ -10,9 +10,9 @@ import Foundation
 import SpriteKit
 
 let GAME_HIGHSCORE_ENDLESS              = "game_highscore_endless"
-let GAME_HIGHSCORE_LIMITED              = "game_highscore_limited"
+let GAME_HIGHSCORE_LIMITED              = "game_highscore_timed"
 let GAME_LASTSCORE_ENDLESS              = "game_lastscore_endless"
-let GAME_LASTSCORE_LIMITED              = "game_lastscore_limited"
+let GAME_LASTSCORE_LIMITED              = "game_lastscore_timed"
 
 let STATS_PLAYEDTIME                    = "stats_playedtime"
 let STATS_FIREDBALLS                    = "stats_firedballs"
@@ -28,7 +28,7 @@ class StatsHandler {
         switch gameMode {
         case .Endless:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_ENDLESS)
-        case .Limited:
+        case .Timed:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_HIGHSCORE_LIMITED)
         }
     }
@@ -37,7 +37,7 @@ class StatsHandler {
         switch gameMode {
         case .Endless:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_ENDLESS)
-        case .Limited:
+        case .Timed:
             return NSUserDefaults.standardUserDefaults().integerForKey(GAME_LASTSCORE_LIMITED)
         }
     }
@@ -73,7 +73,7 @@ class StatsHandler {
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_ENDLESS)
             NSUserDefaults.standardUserDefaults().synchronize()
             break
-        case .Limited:
+        case .Timed:
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_LIMITED)
             NSUserDefaults.standardUserDefaults().synchronize()
             break
@@ -86,7 +86,7 @@ class StatsHandler {
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_LASTSCORE_ENDLESS)
             NSUserDefaults.standardUserDefaults().synchronize()
             break
-        case .Limited:
+        case .Timed:
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_LASTSCORE_LIMITED)
             NSUserDefaults.standardUserDefaults().synchronize()
             break

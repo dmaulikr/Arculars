@@ -29,7 +29,7 @@ class MenuScene: SKScene {
     private var btnStats : SKShapeNode!
     private var btnAchievements: SKShapeNode!
     private var btnPlayEndless: SKShapeNode!
-    private var btnPlayLimited : SKShapeNode!
+    private var btnPlayTimed : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
     // Actions
@@ -227,28 +227,28 @@ class MenuScene: SKScene {
         btnAchievements.addChild(settingsLabel)
         
         // INIT TIMED GAME BUTTON
-        btnPlayLimited = SKShapeNode(circleOfRadius: radius)
-        btnPlayLimited.fillColor = Colors.AppColorThree
-        btnPlayLimited.strokeColor = Colors.AppColorThree
-        btnPlayLimited.lineWidth = 1
-        btnPlayLimited.antialiased = true
-        btnPlayLimited.position = CGPoint(x: 0, y: 0)
-        btnPlayLimited.xScale = 0.0
-        btnPlayLimited.yScale = 0.0
-        btnPlayLimited.zPosition = -1
+        btnPlayTimed = SKShapeNode(circleOfRadius: radius)
+        btnPlayTimed.fillColor = Colors.AppColorThree
+        btnPlayTimed.strokeColor = Colors.AppColorThree
+        btnPlayTimed.lineWidth = 1
+        btnPlayTimed.antialiased = true
+        btnPlayTimed.position = CGPoint(x: 0, y: 0)
+        btnPlayTimed.xScale = 0.0
+        btnPlayTimed.yScale = 0.0
+        btnPlayTimed.zPosition = -1
         var clockIcon = SKSpriteNode(imageNamed: "icon-clock")
         clockIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         clockIcon.size = CGSize(width: radius, height: radius)
-        btnPlayLimited.addChild(clockIcon)
-        btnGo.addChild(btnPlayLimited)
+        btnPlayTimed.addChild(clockIcon)
+        btnGo.addChild(btnPlayTimed)
         
-        var playtLabel = SKLabelNode(text: "Limited")
+        var playtLabel = SKLabelNode(text: "Timed")
         playtLabel.name = "label"
         playtLabel.fontName = Fonts.FontNameLight
         playtLabel.fontSize = size.height / 40
         playtLabel.position = CGPoint(x: 0, y: (1.25 * radius))
         playtLabel.alpha = 0.0
-        btnPlayLimited.addChild(playtLabel)
+        btnPlayTimed.addChild(playtLabel)
         
         // INIT ENDLESS GAME BUTTON
         btnPlayEndless = SKShapeNode(circleOfRadius: radius)
@@ -320,8 +320,8 @@ class MenuScene: SKScene {
             var NEmove = SKAction.moveTo(NEendpoint, duration: 0.2)
             NEmove.timingMode = SKActionTimingMode.EaseIn
             var NEscale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]), completion: {()
-                var label = self.btnPlayLimited.childNodeWithName("label") as SKLabelNode
+            self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]), completion: {()
+                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
@@ -366,8 +366,8 @@ class MenuScene: SKScene {
             var NEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             NEmove.timingMode = SKActionTimingMode.EaseIn
             var NEscale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]), completion: {()
-                var label = self.btnPlayLimited.childNodeWithName("label") as SKLabelNode
+            self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]), completion: {()
+                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
                 label.alpha = 0.0
             })
             
@@ -395,12 +395,12 @@ class MenuScene: SKScene {
             var single_duration = 0.2
             
             var NEpath = CGPathCreateMutable()
-            CGPathMoveToPoint(NEpath, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
+            CGPathMoveToPoint(NEpath, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
             CGPathAddArc(NEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), false)
             var NEmove = SKAction.followPath(NEpath, asOffset: false, orientToPath: false, duration: single_duration)
             var NEscale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnPlayLimited.zPosition = -2
-            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]))
+            self.btnPlayTimed.zPosition = -2
+            self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]))
             
             var NWpath = CGPathCreateMutable()
             CGPathMoveToPoint(NWpath, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
@@ -431,12 +431,12 @@ class MenuScene: SKScene {
             var single_duration = 0.2
             
             var NEpath = CGPathCreateMutable()
-            CGPathMoveToPoint(NEpath, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
+            CGPathMoveToPoint(NEpath, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
             CGPathAddArc(NEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), -CGFloat(M_PI / 4), true)
             var NEmove = SKAction.followPath(NEpath, asOffset: false, orientToPath: false, duration: single_duration)
             var NEscale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnPlayLimited.zPosition = -2
-            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]))
+            self.btnPlayTimed.zPosition = -2
+            self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]))
             
             var NWpath = CGPathCreateMutable()
             CGPathMoveToPoint(NWpath, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
@@ -467,12 +467,12 @@ class MenuScene: SKScene {
             var single_duration = 0.2
             
             var NEpath = CGPathCreateMutable()
-            CGPathMoveToPoint(NEpath, nil, self.btnPlayLimited.position.x, self.btnPlayLimited.position.y)
+            CGPathMoveToPoint(NEpath, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
             CGPathAddArc(NEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), false)
             var NEmove = SKAction.followPath(NEpath, asOffset: false, orientToPath: false, duration: single_duration)
             var NEscale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnPlayLimited.zPosition = -2
-            self.btnPlayLimited.runAction(SKAction.group([NEmove, NEscale]))
+            self.btnPlayTimed.zPosition = -2
+            self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]))
             
             var SEpath = CGPathCreateMutable()
             CGPathMoveToPoint(SEpath, nil, self.btnAchievements.position.x, self.btnAchievements.position.y)
@@ -529,9 +529,9 @@ class MenuScene: SKScene {
             var NEwait = SKAction.waitForDuration(2 * single_duration)
             var NEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             NEmove.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnPlayLimited.zPosition = 0
-            self.btnPlayLimited.runAction(SKAction.sequence([NEwait, NEmove, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.startGame(GameMode.Limited)
+            self.btnPlayTimed.zPosition = 0
+            self.btnPlayTimed.runAction(SKAction.sequence([NEwait, NEmove, SKAction.waitForDuration(0.1)]), completion: {()
+                self.sceneDelegate!.startGame(GameMode.Timed)
             })
         })
         
@@ -563,7 +563,7 @@ class MenuScene: SKScene {
                 runAction(SEaction)
             } else if (btnPlayEndless.containsPoint(location)) {
                 runAction(NWaction)
-            } else if (btnPlayLimited.containsPoint(location)) {
+            } else if (btnPlayTimed.containsPoint(location)) {
                 runAction(NEaction)
             } else {
                 // Just a little 'easteregg' ;)
