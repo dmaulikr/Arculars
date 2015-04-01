@@ -170,7 +170,7 @@ class StatsScene: SKScene {
                 if (btnToMenu == object as? SKShapeNode) {
                     sceneDelegate!.showMenu()
                 } else if (btnReset == object as? SKShapeNode) {
-                    var refreshAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats?", preferredStyle: UIAlertControllerStyle.Alert)
+                    var refreshAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats? This will not reset your Game Center scores.", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     refreshAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
                         StatsHandler.reset()
