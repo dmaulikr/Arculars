@@ -57,9 +57,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         // Init positions
         var offset : CGFloat = size.height / 12
-        scorePosition = CGPoint(x: 0, y: (size.height / 2) - offset)
         circlePosition = CGPoint(x: 0, y: (size.height / 4) - offset)
         ballPosition = CGPoint(x: 0, y: -(size.height / 2) + (2 * offset))
+        scorePosition = CGPoint(x: 0, y: (size.height / 2) - offset)
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -111,6 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         rootNode.addChild(btnStop)
         
         score = Score(position: scorePosition)
+        score.fontSize = size.height / 16
         rootNode.addChild(score)
         
         hitSounds.append(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
@@ -157,7 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             timerBar?.start()
         } else if gameMode == GameMode.Endless {
             initHealthBar()
-            initCountdown()
+            // initCountdown()
             ballCountdown?.start()
         }
         
@@ -316,8 +317,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
                 ballCountdown?.reset()
             }
         } else {
+            runVibration()
             if gameMode == GameMode.Timed {
-                runVibration()
                 timerBar?.add(-circle.pointsPerHit * multiplicator)
             } else if gameMode == GameMode.Endless {
                 healthBar?.decrement()
@@ -345,7 +346,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_moves)
-        StatsHandler.incrementFails()
+        StatsHandler.incrementPlayedGames()
         StatsHandler.updateHitsBy(stats_hits)
         
         var endScore = score.getScore()
