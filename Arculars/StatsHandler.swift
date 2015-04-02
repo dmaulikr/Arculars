@@ -11,15 +11,15 @@ import SpriteKit
 
 let GAME_HIGHSCORE_ENDLESS              = "game_highscore_endless"
 let GAME_HIGHSCORE_TIMED                = "game_highscore_timed"
+
 let GAME_LASTSCORE_ENDLESS              = "game_lastscore_endless"
 let GAME_LASTSCORE_TIMED                = "game_lastscore_timed"
 
 let STATS_PLAYEDTIME                    = "stats_playedtime"
+let STATS_PLAYEDGAMES                   = "stats_playedgames"
 let STATS_FIREDBALLS                    = "stats_firedballs"
 let STATS_OVERALLPOINTS                 = "stats_overallpoints"
-
 let STATS_HITS                          = "stats_hits"
-let STATS_FAILS                         = "stats_fails"
 
 
 class StatsHandler {
@@ -42,6 +42,10 @@ class StatsHandler {
         }
     }
     
+    class func getPlayedGames() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_PLAYEDGAMES)
+    }
+    
     class func getPlayedTime() -> Int {
         return NSUserDefaults.standardUserDefaults().integerForKey(STATS_PLAYEDTIME)
     }
@@ -56,10 +60,6 @@ class StatsHandler {
     
     class func getHits() -> Int {
         return NSUserDefaults.standardUserDefaults().integerForKey(STATS_HITS)
-    }
-    
-    class func getFails() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_FAILS)
     }
     
     class func updateHighscore(score: Int, gameMode: GameMode) {
@@ -115,9 +115,9 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_HITS)
     }
     
-    class func incrementFails() {
-        var current = getFails()
-        NSUserDefaults.standardUserDefaults().setInteger(current + 1, forKey: STATS_FAILS)
+    class func incrementPlayedGames() {
+        var current = getPlayedGames()
+        NSUserDefaults.standardUserDefaults().setInteger(current + 1, forKey: STATS_PLAYEDGAMES)
     }
     
     class func reset() {
@@ -126,11 +126,10 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_LASTSCORE_ENDLESS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: GAME_HIGHSCORE_TIMED)
         
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDGAMES)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDTIME)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_OVERALLPOINTS)
-        
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_HITS)
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FAILS)
     }
 }

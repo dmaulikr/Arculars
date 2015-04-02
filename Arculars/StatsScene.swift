@@ -17,12 +17,12 @@ class StatsScene: SKScene {
     private var rootNode = SKNode()
     
     private var label_playedtime            : SKLabelNode!
+    private var label_playedgames           : SKLabelNode!
     private var label_overallpoints         : SKLabelNode!
     private var label_highscore_endless     : SKLabelNode!
-    private var label_highscore_timed     : SKLabelNode!
+    private var label_highscore_timed       : SKLabelNode!
     private var label_firedballs            : SKLabelNode!
     private var label_hits                  : SKLabelNode!
-    private var label_fails                 : SKLabelNode!
     
     private var btnReset                    : SKShapeNode!
     private var btnToMenu                   : SKShapeNode!
@@ -80,41 +80,41 @@ class StatsScene: SKScene {
         label_playedtime = (ptn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(ptn)
         
+        // INIT PLAYED GAMES NODE
+        var pgn = createRow("PLAYED GAMES")
+        pgn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 3))
+        label_playedgames = (pgn.childNodeWithName("stats_label") as SKLabelNode)
+        rootNode.addChild(pgn)
+        
         // INIT OVERALL POINTS NODE
         var opn = createRow("OVERALL POINTS")
-        opn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 3))
+        opn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 4))
         label_overallpoints = (opn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(opn)
         
         // INIT HIGHSCORE ENDLESS NODE
         var hen = createRow("HIGH SCORE ENDLESS")
-        hen.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 4))
+        hen.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 5))
         label_highscore_endless = (hen.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(hen)
         
         // INIT HIGHSCORE TIMED NODE
         var htn = createRow("HIGH SCORE TIMED")
-        htn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 5))
+        htn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 6))
         label_highscore_timed = (htn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(htn)
         
         // INIT FIRED BALLS NODE
         var fbn = createRow("FIRED BALLS")
-        fbn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 6))
+        fbn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 7))
         label_firedballs = (fbn.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(fbn)
         
         // INIT HITS NODE
         var hin = createRow("HITS")
-        hin.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 7))
+        hin.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 8))
         label_hits = (hin.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(hin)
-        
-        // INIT FAILS NODE
-        var fan = createRow("FAILS")
-        fan.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 8))
-        label_fails = (fan.childNodeWithName("stats_label") as SKLabelNode)
-        rootNode.addChild(fan)
         
         // INIT RESET AND GAMECENTER BUTTONS
         var btns = SKShapeNode(rectOfSize: CGSize(width: size.width, height: 2 * rowheight))
@@ -154,12 +154,12 @@ class StatsScene: SKScene {
     // MARK: - STATS FUNCTIONS
     private func getStats() {
         label_playedtime.text = stringFromSeconds(StatsHandler.getPlayedTime())
+        label_playedgames.text = "\(StatsHandler.getPlayedGames())"
         label_overallpoints.text = "\(StatsHandler.getOverallPoints())"
         label_highscore_endless.text = "\(StatsHandler.getHighscore(GameMode.Endless))"
         label_highscore_timed.text = "\(StatsHandler.getHighscore(GameMode.Timed))"
         label_firedballs.text = "\(StatsHandler.getFiredBalls())"
         label_hits.text = "\(StatsHandler.getHits())"
-        label_fails.text = "\(StatsHandler.getFails())"
     }
     
     // MARK: - TOUCH FUNCTIONS
