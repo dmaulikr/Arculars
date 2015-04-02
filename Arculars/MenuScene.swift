@@ -584,18 +584,34 @@ class MenuScene: SKScene {
             } else if (btnPlayTimed.containsPoint(location)) {
                 runAction(NEaction)
             } else {
-                // Just a little 'easteregg' ;)
-                var ball = SKShapeNode(circleOfRadius: frame.height / 32)
-                ball.fillColor = Colors.getRandomBallColor()
-                ball.lineWidth = 1
-                ball.strokeColor = ball.fillColor
-                ball.position = location
-                ball.zPosition = -10
-                rootNode.addChild(ball)
-                ball.runAction(SKAction.scaleTo(0.0, duration: 0.5), completion: {()
-                    ball.removeFromParent()
-                })
+                easteregg(location)
             }
         }
+    }
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(rootNode)
+            
+            var random = Int(arc4random_uniform(6));
+            if random == 3 {
+                easteregg(location)
+            }
+        }
+    }
+    
+    // MARK: - CREATE RANDOM BALLS (EASTEREGG)
+    func easteregg(position: CGPoint) {
+        // Just a little 'easteregg' ;)
+        var ball = SKShapeNode(circleOfRadius: frame.height / 32)
+        ball.fillColor = Colors.getRandomBallColor()
+        ball.lineWidth = 1
+        ball.strokeColor = ball.fillColor
+        ball.position = position
+        ball.zPosition = -10
+        rootNode.addChild(ball)
+        ball.runAction(SKAction.scaleTo(0.0, duration: 0.5), completion: {()
+            ball.removeFromParent()
+        })
     }
 }
