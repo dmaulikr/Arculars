@@ -163,7 +163,11 @@ class GameViewController: UIViewController, SceneDelegate {
         (self.view as SKView).presentScene(scene)
     }
     
-    func showAchievements() {
+    func showUnlocks() {
+        
+    }
+    
+    func showGamecenter() {
         if !GCHandler.isPlayerIdentifiedToGameCenter() {
             GCHandler.showGameCenterAuthentication(completion: {(result) -> Void in
                 GCHandler.showGameCenterAchievements(completion: {(result) -> Void in

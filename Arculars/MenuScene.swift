@@ -24,12 +24,13 @@ class MenuScene: SKScene {
     private var btnAbout : SKShapeNode!
     private var btnHelp : SKShapeNode!
     private var btnSettings : SKShapeNode!
+    private var btnGamecenter : SKShapeNode!
     
     private var btnGo : SKShapeNode!
     private var btnStats : SKShapeNode!
-    private var btnAchievements: SKShapeNode!
     private var btnPlayEndless: SKShapeNode!
     private var btnPlayTimed : SKShapeNode!
+    private var btnUnlocks: SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
     // Actions
@@ -105,7 +106,7 @@ class MenuScene: SKScene {
         helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         helpSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnHelp = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
-        btnHelp.position = CGPoint(x: -(size.width / 6), y: -(size.height / 2) + (size.height / 12))
+        btnHelp.position = CGPoint(x: -(size.width / 4), y: -(size.height / 2) + (size.height / 12))
         btnHelp.lineWidth = 0
         btnHelp.addChild(helpSprite)
         btnHelp.xScale = 0.0
@@ -119,7 +120,7 @@ class MenuScene: SKScene {
         aboutSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         aboutSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
-        btnAbout.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
+        btnAbout.position = CGPoint(x: -(size.width / 12), y: -(size.height / 2) + (size.height / 12))
         btnAbout.lineWidth = 0
         btnAbout.addChild(aboutSprite)
         btnAbout.xScale = 0.0
@@ -133,12 +134,26 @@ class MenuScene: SKScene {
         settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         settingsSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnSettings = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
-        btnSettings.position = CGPoint(x: (size.width / 6), y: -(size.height / 2) + (size.height / 12))
+        btnSettings.position = CGPoint(x: (size.width / 12), y: -(size.height / 2) + (size.height / 12))
         btnSettings.lineWidth = 0
         btnSettings.addChild(settingsSprite)
         btnSettings.xScale = 0.0
         btnSettings.yScale = 0.0
         rootNode.addChild(btnSettings)
+        
+        // INIT SETTINGS BUTTON
+        var gamecenterSprite = SKSpriteNode(imageNamed: "icon-achievement")
+        gamecenterSprite.colorBlendFactor = 1
+        gamecenterSprite.color = UIColor.grayColor()
+        gamecenterSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        gamecenterSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
+        btnGamecenter = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
+        btnGamecenter.position = CGPoint(x: (size.width / 4), y: -(size.height / 2) + (size.height / 12))
+        btnGamecenter.lineWidth = 0
+        btnGamecenter.addChild(gamecenterSprite)
+        btnGamecenter.xScale = 0.0
+        btnGamecenter.yScale = 0.0
+        rootNode.addChild(btnGamecenter)
         
         // INIT GO BUTTON
         btnGo = SKShapeNode(circleOfRadius: radius)
@@ -202,29 +217,29 @@ class MenuScene: SKScene {
         statsLabel.alpha = 0.0
         btnStats.addChild(statsLabel)
         
-        // INIT ACHIEVEMENTS BUTTON
-        btnAchievements = SKShapeNode(circleOfRadius: radius)
-        btnAchievements.fillColor = Colors.AppColorThree
-        btnAchievements.strokeColor = Colors.AppColorThree
-        btnAchievements.lineWidth = 1
-        btnAchievements.antialiased = true
-        btnAchievements.position = CGPoint(x: 0, y: 0)
-        btnAchievements.xScale = 0.0
-        btnAchievements.yScale = 0.0
-        btnAchievements.zPosition = -1
-        var achievementIcon = SKSpriteNode(imageNamed: "icon-achievement")
-        achievementIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        achievementIcon.size = CGSize(width: radius, height: radius)
-        btnAchievements.addChild(achievementIcon)
-        btnGo.addChild(btnAchievements)
+        // INIT UNLOCKS BUTTON
+        btnUnlocks = SKShapeNode(circleOfRadius: radius)
+        btnUnlocks.fillColor = Colors.AppColorThree
+        btnUnlocks.strokeColor = Colors.AppColorThree
+        btnUnlocks.lineWidth = 1
+        btnUnlocks.antialiased = true
+        btnUnlocks.position = CGPoint(x: 0, y: 0)
+        btnUnlocks.xScale = 0.0
+        btnUnlocks.yScale = 0.0
+        btnUnlocks.zPosition = -1
+        var donutIcon = SKSpriteNode(imageNamed: "icon-donut")
+        donutIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        donutIcon.size = CGSize(width: radius, height: radius)
+        btnUnlocks.addChild(donutIcon)
+        btnGo.addChild(btnUnlocks)
         
-        var settingsLabel = SKLabelNode(text: "Achievements")
-        settingsLabel.name = "label"
-        settingsLabel.fontName = Fonts.FontNameLight
-        settingsLabel.fontSize = size.height / 40
-        settingsLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
-        settingsLabel.alpha = 0.0
-        btnAchievements.addChild(settingsLabel)
+        var unlocksLabel = SKLabelNode(text: "Unlocks")
+        unlocksLabel.name = "label"
+        unlocksLabel.fontName = Fonts.FontNameLight
+        unlocksLabel.fontSize = size.height / 40
+        unlocksLabel.position = CGPoint(x: 0, y: -(1.75 * radius))
+        unlocksLabel.alpha = 0.0
+        btnUnlocks.addChild(unlocksLabel)
         
         // INIT TIMED GAME BUTTON
         btnPlayTimed = SKShapeNode(circleOfRadius: radius)
@@ -295,6 +310,7 @@ class MenuScene: SKScene {
             self.btnAbout.runAction(popin)
             self.btnSettings.runAction(popin)
             self.btnHelp.runAction(popin)
+            self.btnGamecenter.runAction(popin)
         })
         
         GOaction_normal = SKAction.runBlock({
@@ -311,8 +327,8 @@ class MenuScene: SKScene {
             var SEmove = SKAction.moveTo(SEendpoint, duration: 0.2)
             SEmove.timingMode = SKActionTimingMode.EaseIn
             var SEscale = SKAction.scaleTo(1.0, duration: 0.2)
-            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]), completion: {()
-                var label = self.btnAchievements.childNodeWithName("label") as SKLabelNode
+            self.btnUnlocks.runAction(SKAction.group([SEmove, SEscale]), completion: {()
+                var label = self.btnUnlocks.childNodeWithName("label") as SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
@@ -358,8 +374,8 @@ class MenuScene: SKScene {
             var SEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             SEmove.timingMode = SKActionTimingMode.EaseIn
             var SEscale = SKAction.scaleTo(0.0, duration: 0.2)
-            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]), completion: {()
-                var label = self.btnAchievements.childNodeWithName("label") as SKLabelNode
+            self.btnUnlocks.runAction(SKAction.group([SEmove, SEscale]), completion: {()
+                var label = self.btnUnlocks.childNodeWithName("label") as SKLabelNode
                 label.alpha = 0.0
             })
             
@@ -411,12 +427,12 @@ class MenuScene: SKScene {
             self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]))
             
             var SEpath = CGPathCreateMutable()
-            CGPathMoveToPoint(SEpath, nil, self.btnAchievements.position.x, self.btnAchievements.position.y)
+            CGPathMoveToPoint(SEpath, nil, self.btnUnlocks.position.x, self.btnUnlocks.position.y)
             CGPathAddArc(SEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), -CGFloat(M_PI * 0.75), true)
             var SEmove = SKAction.followPath(SEpath, asOffset: false, orientToPath: false, duration: single_duration)
             var SEscale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnAchievements.zPosition = -2
-            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]))
+            self.btnUnlocks.zPosition = -2
+            self.btnUnlocks.runAction(SKAction.group([SEmove, SEscale]))
             
             var SWwait = SKAction.waitForDuration(2 * single_duration)
             var SWmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
@@ -457,9 +473,9 @@ class MenuScene: SKScene {
             var SEwait = SKAction.waitForDuration(2 * single_duration)
             var SEmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             SEmove.timingMode = SKActionTimingMode.EaseInEaseOut
-            self.btnAchievements.zPosition = 0
-            self.btnAchievements.runAction(SKAction.sequence([SEwait, SEmove, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.showAchievements()
+            self.btnUnlocks.zPosition = 0
+            self.btnUnlocks.runAction(SKAction.sequence([SEwait, SEmove, SKAction.waitForDuration(0.1)]), completion: {()
+                self.sceneDelegate!.showUnlocks()
             })
         })
         
@@ -475,12 +491,12 @@ class MenuScene: SKScene {
             self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]))
             
             var SEpath = CGPathCreateMutable()
-            CGPathMoveToPoint(SEpath, nil, self.btnAchievements.position.x, self.btnAchievements.position.y)
+            CGPathMoveToPoint(SEpath, nil, self.btnUnlocks.position.x, self.btnUnlocks.position.y)
             CGPathAddArc(SEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI * 0.75), true)
             var SEmove = SKAction.followPath(SEpath, asOffset: false, orientToPath: false, duration: single_duration)
             var SEscale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnAchievements.zPosition = -2
-            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]))
+            self.btnUnlocks.zPosition = -2
+            self.btnUnlocks.runAction(SKAction.group([SEmove, SEscale]))
             
             var SWpath = CGPathCreateMutable()
             CGPathMoveToPoint(SWpath, nil, self.btnStats.position.x, self.btnStats.position.y)
@@ -511,12 +527,12 @@ class MenuScene: SKScene {
             self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]))
             
             var SEpath = CGPathCreateMutable()
-            CGPathMoveToPoint(SEpath, nil, self.btnAchievements.position.x, self.btnAchievements.position.y)
+            CGPathMoveToPoint(SEpath, nil, self.btnUnlocks.position.x, self.btnUnlocks.position.y)
             CGPathAddArc(SEpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 4), CGFloat(M_PI / 4), false)
             var SEmove = SKAction.followPath(SEpath, asOffset: false, orientToPath: false, duration: single_duration)
             var SEscale = SKAction.scaleTo(0.0, duration: single_duration)
-            self.btnAchievements.zPosition = -2
-            self.btnAchievements.runAction(SKAction.group([SEmove, SEscale]))
+            self.btnUnlocks.zPosition = -2
+            self.btnUnlocks.runAction(SKAction.group([SEmove, SEscale]))
             
             var SWpath = CGPathCreateMutable()
             CGPathMoveToPoint(SWpath, nil, self.btnStats.position.x, self.btnStats.position.y)
@@ -557,9 +573,11 @@ class MenuScene: SKScene {
                 self.runAction(SKAction.fadeOutWithDuration(0.1), completion: {()
                     self.sceneDelegate!.showSettings()
                 })
+            } else if (btnGamecenter.containsPoint(location)) {
+                self.sceneDelegate!.showGamecenter()
             } else if (btnStats.containsPoint(location)) {
                 runAction(SWaction)
-            } else if (btnAchievements.containsPoint(location)) {
+            } else if (btnUnlocks.containsPoint(location)) {
                 runAction(SEaction)
             } else if (btnPlayEndless.containsPoint(location)) {
                 runAction(NWaction)
