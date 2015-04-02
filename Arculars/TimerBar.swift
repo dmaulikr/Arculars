@@ -17,9 +17,12 @@ class TimerBar : SKNode {
     
     weak var delegate : TimerBarDelegate!
     
-    private var max : Int!
-    private var current : Int!
+    
+    private var max : Double!
+    private var current : Double!
+    
     private var bar : SKSpriteNode!
+    private var interval = 0.5
     
     private var timer = NSTimer()
     
@@ -27,7 +30,7 @@ class TimerBar : SKNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(size: CGSize, color: UIColor, max: Int) {
+    init(size: CGSize, color: UIColor, max: Double) {
         super.init()
         
         self.max = max
@@ -40,7 +43,7 @@ class TimerBar : SKNode {
     func start() {
         stop()
         reset()
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("tick:"), userInfo: nil, repeats: true)
+        timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: Selector("tick:"), userInfo: nil, repeats: true)
     }
     
     func reset() {
@@ -51,7 +54,7 @@ class TimerBar : SKNode {
         timer.invalidate()
     }
     
-    func add(seconds: Int) {
+    func addTime(seconds: Double) {
         current = current - seconds
         if current < 0 {
             current = 0
@@ -65,7 +68,7 @@ class TimerBar : SKNode {
     }
     
     @objc func tick(timer: NSTimer) {
-        current = current + 1
+        current = current + interval
         var scale = 1.0 - (CGFloat(1.0 / CGFloat(max)) * CGFloat(current))
         bar.runAction(SKAction.scaleXTo(scale, duration: 1.0), completion: {()
             if scale <= 0 {

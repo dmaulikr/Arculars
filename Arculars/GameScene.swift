@@ -290,12 +290,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             score.increaseByWithColor(points, color: ball.nodeColor)
             
             if gameMode == GameMode.Timed {
-                timerBar?.add(circle.pointsPerHit)
+                timerBar?.addTime(Double(circle.pointsPerHit))
             }
         } else {
             runVibration()
             if gameMode == GameMode.Timed {
-                timerBar?.add(-circle.pointsPerHit * multiplicator)
+                timerBar?.addTime(Double(-circle.pointsPerHit * multiplicator))
             } else if gameMode == GameMode.Endless {
                 healthBar?.decrement()
             }
