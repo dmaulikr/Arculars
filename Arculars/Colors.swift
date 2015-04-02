@@ -9,6 +9,7 @@
 import UIKit
 
 struct Colors {
+    static let ScoreColor       = UIColor(rgba: "#283233")
     static let FontColor        = UIColor(rgba: "#F0F0F0")
     static let Background       = UIColor(rgba: "#121F21")
     static let AppColorOne      = UIColor(rgba: "#6D21CD")
