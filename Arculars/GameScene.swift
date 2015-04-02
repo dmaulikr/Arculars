@@ -350,11 +350,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         }
     }
     
-    // MARK: - TIMERBAR DELEGATE
-    func timerBarExpired() {
-        isTimerBarExpired = true
-    }
-    
+    // MARK: - TIMERBAR DELEGATE    
     func timerBarZero() {
         gameover()
     }
