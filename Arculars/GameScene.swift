@@ -12,7 +12,7 @@ import SpriteKit
 import GameKit
 import AudioToolbox
 
-class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarDelegate, BallCountdownDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarDelegate {
     
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
@@ -36,9 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private var healthBar : HealthBar!
     private var timerBar : TimerBar!
-    
-    private var ballCountdown : BallCountdown!
-    private var countdownExpired = false
+    private var isTimerBarExpired = false
     
     private var btnStop : SKShapeNode!
     
@@ -144,12 +142,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     private func reset() {
-        countdownExpired = false
+        isTimerBarExpired = false
         
         score?.reset()
         
+        healthBar?.removeFromParent()
         timerBar?.removeFromParent()
-        ballCountdown?.removeFromParent()
         
         multiplicator = SettingsHandler.getDifficulty().rawValue
         
@@ -158,8 +156,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             timerBar?.start()
         } else if gameMode == GameMode.Endless {
             initHealthBar()
-            // initCountdown()
-            ballCountdown?.start()
         }
         
         stats_hits = 0
@@ -217,24 +213,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         rootNode.addChild(healthBar)
     }
     
-    private func initCountdown() {
-        var countdownTime : Int
-        switch SettingsHandler.getDifficulty() {
-        case .Easy:
-            countdownTime = 15
-            break
-        case .Normal:
-            countdownTime = 8
-            break
-        case .Hard:
-            countdownTime = 4
-            break
-        }
-        ballCountdown = BallCountdown(rect: CGRect(x: frame.midX, y: scorePosition.y - (score.frame.height * 1.5), width: frame.width / 6, height: frame.height / 128), seconds: countdownTime)
-        ballCountdown.delegate = self
-        rootNode.addChild(ballCountdown)
-    }
-    
     // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
@@ -242,7 +220,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             if (btnStop.containsPoint(location)) {
                 gameover()
             } else {
-                if !isGameOver && !countdownExpired {
+                if !isGameOver && !isTimerBarExpired {
                     stats_moves++
                     shootBall()
                     addBall()
@@ -313,9 +291,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             
             if gameMode == GameMode.Timed {
                 timerBar?.add(circle.pointsPerHit)
-            } else if gameMode == GameMode.Endless {
-                countdownExpired = false
-                ballCountdown?.reset()
             }
         } else {
             runVibration()
@@ -343,7 +318,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         }
         
         timerBar?.stop()
-        ballCountdown?.stop()
         
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_moves)
@@ -378,20 +352,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     // MARK: - TIMERBAR DELEGATE
     func timerBarExpired() {
+        isTimerBarExpired = true
+    }
+    
+    func timerBarZero() {
         gameover()
     }
     
     // MARK: - HEALTHBAR DELEGATE
-    func healthZero() {
+    func healthBarZero() {
         gameover()
-    }
-    
-    // MARK: - BALLCOUNTDOWN DELEGATE
-    func ballCountdownExpired() {
-        countdownExpired = true
-        if activeBalls.count == 0 {
-            gameover()
-        }
     }
     
     // MARK: - USER FEEDBACK FUNCTIONS

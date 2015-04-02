@@ -28,7 +28,6 @@
 		30525A031AB3800F001D6C91 /* Ball.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30525A021AB3800F001D6C91 /* Ball.swift */; };
 		305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414B91AC04BFE00636047 /* StatsScene.swift */; };
 		305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414BB1AC0A05000636047 /* SettingsScene.swift */; };
-		3056065D1AC4ADBA001ABDF7 /* BallCountdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */; };
 		305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF11AC9727D004F68E6 /* AboutScene.swift */; };
 		305BCAF41AC973A8004F68E6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF31AC973A8004F68E6 /* HelpScene.swift */; };
 		308F5EB21AC2171D004E40EC /* SettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308F5EB11AC2171D004E40EC /* SettingsHandler.swift */; };
@@ -79,7 +78,6 @@
 		30525A021AB3800F001D6C91 /* Ball.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ball.swift; sourceTree = "<group>"; };
 		305414B91AC04BFE00636047 /* StatsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsScene.swift; sourceTree = "<group>"; };
 		305414BB1AC0A05000636047 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
-		3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BallCountdown.swift; sourceTree = "<group>"; };
 		305BCAF11AC9727D004F68E6 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		305BCAF31AC973A8004F68E6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		308F5EB11AC2171D004E40EC /* SettingsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHandler.swift; sourceTree = "<group>"; };
@@ -221,7 +219,6 @@
 				30525A021AB3800F001D6C91 /* Ball.swift */,
 				303FCDEC1AAE349900A59347 /* Circle.swift */,
 				301C00861AB4576D00A635FC /* Score.swift */,
-				3056065C1AC4ADBA001ABDF7 /* BallCountdown.swift */,
 				3040C9B81ACC447B0064BEFB /* TimerBar.swift */,
 				30E95DF21ACC962A003FACEC /* HealthBar.swift */,
 			);
@@ -364,7 +361,6 @@
 				3091AC1C1ACA84D300E25F13 /* GCHandler.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,
-				3056065D1AC4ADBA001ABDF7 /* BallCountdown.swift in Sources */,
 				30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */,
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
 				305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */,

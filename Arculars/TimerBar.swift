@@ -11,6 +11,7 @@ import SpriteKit
 
 protocol TimerBarDelegate : class {
     func timerBarExpired()
+    func timerBarZero()
 }
 
 class TimerBar : SKNode {
@@ -66,12 +67,16 @@ class TimerBar : SKNode {
     
     @objc func tick(timer: NSTimer) {
         current = current + 1
-        var scale = 1.0 - (CGFloat(1.0 / CGFloat(max)) * CGFloat(current))
-        bar.runAction(SKAction.scaleXTo(scale, duration: 1.0))
-        
         if current > max {
             stop()
             delegate.timerBarExpired()
         }
+        
+        var scale = 1.0 - (CGFloat(1.0 / CGFloat(max)) * CGFloat(current))
+        bar.runAction(SKAction.scaleXTo(scale, duration: 1.0), completion: {()
+            if scale <= 0 {
+                self.delegate.timerBarZero()
+            }
+        })
     }
 }

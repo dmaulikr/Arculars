@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 
 protocol HealthBarDelegate : class {
-    func healthZero()
+    func healthBarZero()
 }
 
 class HealthBar : SKNode {
@@ -65,7 +65,7 @@ class HealthBar : SKNode {
                 SKAction.fadeAlphaTo(0.0, duration: 0.2)
             ]))
         } else {
-            delegate.healthZero()
+            delegate.healthBarZero()
         }
     }
     
