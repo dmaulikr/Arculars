@@ -176,10 +176,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         switch SettingsHandler.getDifficulty() {
         case .Easy:
-            circles[0].setSpeed(3.84)
-            circles[1].setSpeed(3.12)
-            circles[2].setSpeed(2.4)
-            circles[3].setSpeed(1.8)
+            circles[0].setSpeed(4.16)
+            circles[1].setSpeed(3.38)
+            circles[2].setSpeed(2.6)
+            circles[3].setSpeed(1.95)
             break
         case .Normal:
             circles[0].setSpeed(3.2)
@@ -188,10 +188,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             circles[3].setSpeed(1.5)
             break
         case .Hard:
-            circles[0].setSpeed(2.88)
-            circles[1].setSpeed(2.34)
-            circles[2].setSpeed(1.8)
-            circles[3].setSpeed(1.35)
+            circles[0].setSpeed(2.65)
+            circles[1].setSpeed(2.0)
+            circles[2].setSpeed(1.54)
+            circles[3].setSpeed(1.16)
             break
         }
         
