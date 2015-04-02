@@ -304,10 +304,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
         ball.removeFromParent()
         
+        stats_hits++
+        
         if (ball.nodeColor == circle.nodeColor) {
             var points = circle.pointsPerHit * multiplicator
             runSound()
-            stats_hits++
             score.increaseByWithColor(points, color: ball.nodeColor)
             
             if gameMode == GameMode.Timed {
