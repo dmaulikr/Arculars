@@ -176,29 +176,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         switch SettingsHandler.getDifficulty() {
         case .Easy:
-            circles[0].setSpeed(4.16)
-            circles[1].setSpeed(3.38)
-            circles[2].setSpeed(2.6)
-            circles[3].setSpeed(1.95)
+            circles[0].setSpeed(4.0, max: 4.4)
+            circles[1].setSpeed(3.2, max: 3.6)
+            circles[2].setSpeed(2.4, max: 2.8)
+            circles[3].setSpeed(2.0, max: 2.4)
             break
         case .Normal:
-            circles[0].setSpeed(3.2)
-            circles[1].setSpeed(2.6)
-            circles[2].setSpeed(2.0)
-            circles[3].setSpeed(1.5)
+            circles[0].setSpeed(3.0, max: 3.4)
+            circles[1].setSpeed(2.4, max: 2.8)
+            circles[2].setSpeed(1.8, max: 2.2)
+            circles[3].setSpeed(1.6, max: 2.0)
             break
         case .Hard:
-            circles[0].setSpeed(2.65)
-            circles[1].setSpeed(2.0)
-            circles[2].setSpeed(1.54)
-            circles[3].setSpeed(1.16)
+            circles[0].setSpeed(2.4, max: 2.8)
+            circles[1].setSpeed(1.8, max: 2.2)
+            circles[2].setSpeed(1.4, max: 1.8)
+            circles[3].setSpeed(1.0, max: 1.4)
             break
         }
         
     }
     
     private func initTimerBar() {
-        var barHeight = size.height / 96
+        var barHeight = size.height / 48
         timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 30)
         timerBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         timerBar.delegate = self
@@ -206,7 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     private func initHealthBar() {
-        var barHeight = size.height / 96
+        var barHeight = size.height / 48
         healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 3)
         healthBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         healthBar.delegate = self

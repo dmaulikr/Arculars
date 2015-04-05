@@ -19,6 +19,9 @@ class Circle : SKShapeNode {
     let nodeColor : UIColor!
     let pointsPerHit : Int!
     
+    private var minSpeed : NSTimeInterval!
+    private var maxSpeed : NSTimeInterval!
+    
     init(color: UIColor, position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, pointsPerHit: Int) {
         super.init()
         
@@ -103,9 +106,29 @@ class Circle : SKShapeNode {
         return self
     }
     
-    func setSpeed(secondsPerRound: NSTimeInterval) {
-        rotateAction.duration = secondsPerRound
-        var action = SKAction.repeatActionForever(rotateAction)
-        arc.runAction(action, withKey: "rotation")
+    func setSpeed(min: NSTimeInterval, max: NSTimeInterval) {
+        minSpeed = min
+        maxSpeed = max
+        updateAction()
+    }
+    
+    /*
+    *
+    *   This method updates itself by creating an action 
+    *   with a random duration between minSpeed and maxSpeed
+    *   and is executed random times between 5 and 15
+    *
+    */
+    private func updateAction() {
+        var times = Int(arc4random_uniform(5) + 5)
+        var duration = NSTimeInterval(arc4random_uniform(UInt32(maxSpeed * 10) - UInt32(minSpeed * 10)) / 10) + minSpeed
+        
+        rotateAction.duration = duration
+        var action = SKAction.repeatAction(rotateAction, count: times)
+        
+        arc.removeAllActions()
+        arc.runAction(action, completion: {()
+            self.updateAction()
+        })
     }
 }
