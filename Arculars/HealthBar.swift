@@ -72,7 +72,7 @@ class HealthBar : SKNode {
     }
     
     func reset() {
-        current = 0
+        current = slots.count
         
         for slot in slots {
             slot.alpha = 1.0
