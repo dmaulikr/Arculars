@@ -22,7 +22,7 @@ class Ball : SKShapeNode {
         super.init()
         
         var circlepath = CGPathCreateMutable()
-        CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)
+        CGPathAddArc(circlepath, nil, 0, 0, radius - 1, CGFloat(M_PI * 2), 0, true)
         self.path = circlepath
         self.fillColor = color
         self.strokeColor = color
