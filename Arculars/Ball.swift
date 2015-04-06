@@ -33,7 +33,6 @@ class Ball : SKShapeNode {
         self.physicsBody!.categoryBitMask = PhysicsCategory.ball.rawValue
         self.physicsBody!.contactTestBitMask = PhysicsCategory.arc.rawValue
         self.physicsBody!.collisionBitMask = 0
-        self.physicsBody!.usesPreciseCollisionDetection = true
         self.physicsBody!.dynamic = true
         
         self.nodeColor = color
