@@ -51,14 +51,14 @@ class Circle : SKShapeNode {
         var bodypath : CGMutablePath = CGPathCreateMutable();
         var offsetangle = CGFloat(sizeOfArc / 9)
         
-        var p1 = CGPointApplyAffineTransform(CGPoint(x: 0, y: CGFloat(radius - (thickness / 2))), CGAffineTransformMakeRotation(offsetangle))
+        var p1 = CGPointApplyAffineTransform(CGPoint(x: 0, y: CGFloat(radius - (thickness / 6))), CGAffineTransformMakeRotation(offsetangle))
         CGPathMoveToPoint(bodypath, nil, p1.x, p1.y)
-        var p2 = CGPointApplyAffineTransform(CGPoint(x: 0, y: CGFloat(radius + (thickness / 2))), CGAffineTransformMakeRotation(offsetangle))
+        var p2 = CGPointApplyAffineTransform(CGPoint(x: 0, y: CGFloat(radius + (thickness / 6))), CGAffineTransformMakeRotation(offsetangle))
         CGPathAddLineToPoint(bodypath, nil, p2.x, p2.y)
-        CGPathAddArc(bodypath, nil, 0, 0, CGFloat(radius + (thickness / 2)), CGFloat(sizeOfArc + offsetangle), -CGFloat(offsetangle), true)
-        var p3 = CGPointApplyAffineTransform(CGPoint(x: CGFloat(radius - (thickness / 2)), y: 0), CGAffineTransformMakeRotation(-offsetangle))
+        CGPathAddArc(bodypath, nil, 0, 0, CGFloat(radius + (thickness / 6)), CGFloat(sizeOfArc + offsetangle), -CGFloat(offsetangle), true)
+        var p3 = CGPointApplyAffineTransform(CGPoint(x: CGFloat(radius - (thickness / 6)), y: 0), CGAffineTransformMakeRotation(-offsetangle))
         CGPathAddLineToPoint(bodypath, nil, p3.x, p3.y)
-        CGPathAddArc(bodypath, nil, 0, 0, CGFloat(radius - (thickness / 2)), -CGFloat(offsetangle), CGFloat(sizeOfArc + offsetangle), false)
+        CGPathAddArc(bodypath, nil, 0, 0, CGFloat(radius - (thickness / 6)), -CGFloat(offsetangle), CGFloat(sizeOfArc + offsetangle), false)
         CGPathCloseSubpath(bodypath)
         
         arc.physicsBody = SKPhysicsBody(polygonFromPath: bodypath)
