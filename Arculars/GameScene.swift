@@ -304,7 +304,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func ballDidCollideWithBorder(ball: Ball) {
         activeBalls.removeLast()
-        ball.runAction(SKAction.removeFromParent())
+        ball.removeFromParent()
     }
     
     // MARK: - GAMEOVER FUNCTIONS
