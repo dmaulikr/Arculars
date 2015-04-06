@@ -36,14 +36,6 @@ class Ball : SKShapeNode {
         self.physicsBody!.usesPreciseCollisionDetection = true
         self.physicsBody!.dynamic = true
         
-        var ballOffset = SKShapeNode(circleOfRadius: radius)
-        ballOffset.fillColor = color.darkerColor(0.1)
-        ballOffset.strokeColor = color.darkerColor(0.1)
-        ballOffset.lineWidth = 1
-        ballOffset.zPosition = -1
-        ballOffset.position = CGPoint(x: 0, y: -2)
-        self.addChild(ballOffset)
-        
         self.nodeColor = color
     }
     
