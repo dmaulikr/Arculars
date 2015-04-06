@@ -27,6 +27,8 @@ class HealthBar : SKNode {
     init(size: CGSize, color: UIColor, max: Int) {
         super.init()
         
+        self.zPosition = 100
+        
         var gapSize = CGFloat(size.width / 64)
         var slotSize : CGFloat = ((size.width - (CGFloat(max - 1) * gapSize)) / CGFloat(max))
         for index in 0...(max - 1) {

@@ -34,6 +34,7 @@ class TimerBar : SKNode {
         super.init()
         
         self.max = max
+        self.zPosition = 100
         
         bar = SKSpriteNode(color: color, size: size)
         bar.anchorPoint = CGPoint(x: 0.0, y: 0.0)
