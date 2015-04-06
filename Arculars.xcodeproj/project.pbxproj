@@ -12,7 +12,7 @@
 		302D81481AC857DA00FDF44D /* hit2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 302D81461AC857DA00FDF44D /* hit2.wav */; };
 		302D81491AC857DA00FDF44D /* hit1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 302D81471AC857DA00FDF44D /* hit1.wav */; };
 		302D814D1AC93E6A00FDF44D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D814C1AC93E6A00FDF44D /* Fonts.swift */; };
-		302D814F1AC93E9600FDF44D /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D814E1AC93E9600FDF44D /* GameType.swift */; };
+		302D814F1AC93E9600FDF44D /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D814E1AC93E9600FDF44D /* GameMode.swift */; };
 		3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3038F8071ABA0BA100741BEE /* GameKit.framework */; };
 		3038F80E1ABA1F0600741BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */; };
 		303FCDED1AAE349900A59347 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303FCDEC1AAE349900A59347 /* Circle.swift */; };
@@ -58,7 +58,7 @@
 		302D81461AC857DA00FDF44D /* hit2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit2.wav; sourceTree = "<group>"; };
 		302D81471AC857DA00FDF44D /* hit1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit1.wav; sourceTree = "<group>"; };
 		302D814C1AC93E6A00FDF44D /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
-		302D814E1AC93E9600FDF44D /* GameType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameType.swift; sourceTree = "<group>"; };
+		302D814E1AC93E9600FDF44D /* GameMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		3038F8071ABA0BA100741BEE /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		303FCDEC1AAE349900A59347 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
@@ -204,7 +204,7 @@
 				3098F5241AAF8AB800829428 /* Colors.swift */,
 				30964D111AC6AAD000937D8D /* Difficulty.swift */,
 				302D814C1AC93E6A00FDF44D /* Fonts.swift */,
-				302D814E1AC93E9600FDF44D /* GameType.swift */,
+				302D814E1AC93E9600FDF44D /* GameMode.swift */,
 				302197721AB306B400769D2F /* PhysicsCategory.swift */,
 				308F5EB11AC2171D004E40EC /* SettingsHandler.swift */,
 				30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */,
@@ -373,7 +373,7 @@
 				309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */,
 				30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */,
 				301C00871AB4576D00A635FC /* Score.swift in Sources */,
-				302D814F1AC93E9600FDF44D /* GameType.swift in Sources */,
+				302D814F1AC93E9600FDF44D /* GameMode.swift in Sources */,
 				302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */,
 				3040C9B91ACC447B0064BEFB /* TimerBar.swift in Sources */,
 			);
