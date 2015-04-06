@@ -34,9 +34,12 @@ class HelpScene: SKScene {
         addChild(rootNode)
         
         initScene()
+        
+        alpha = 0.0
     }
     
     override func didMoveToView(view: SKView) {
+        runAction(SKAction.fadeInWithDuration(0.1))
     }
     
     deinit {

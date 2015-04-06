@@ -317,13 +317,11 @@ class MenuScene: SKScene {
         
         FADEOUTaction = SKAction.runBlock({
             var popout = SKAction.sequence([
-                SKAction.scaleTo(1.05, duration: 0.05),
-                SKAction.scaleTo(0.0, duration: 0.05)
+                SKAction.scaleTo(0.0, duration: 0.1)
                 ])
             
             var flyout = SKAction.sequence([
-                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 6) * 2) + 10), duration: 0.05),
-                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 2)), duration: 0.05)
+                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 2)), duration: 0.1)
                 ])
             
             self.title.runAction(flyout)
