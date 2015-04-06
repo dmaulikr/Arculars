@@ -97,10 +97,12 @@ class SettingsScene : SKScene {
         
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "BACK TO MENU")
-        tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 24))
+        tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
         tml.fontName = Fonts.FontNameNormal
-        tml.fontColor = Colors.FontColor
+        tml.fontColor = Colors.DisabledColor
         tml.fontSize = size.height / 32
+        tml.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        tml.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         btnToMenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tml.frame.height * 4))
         btnToMenu.lineWidth = 0
         btnToMenu.fillColor = UIColor.clearColor()

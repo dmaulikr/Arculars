@@ -35,6 +35,7 @@ class MenuScene: SKScene {
     
     // Actions
     private var FADEINaction : SKAction!
+    private var FADEOUTaction : SKAction!
     private var GOaction : SKAction!
     private var GOaction_normal : SKAction!
     private var GOaction_reverse : SKAction!
@@ -68,6 +69,7 @@ class MenuScene: SKScene {
     override func willMoveFromView(view: SKView) {
         // Explicitly set actions to nil so deinit is called
         FADEINaction        = nil
+        FADEOUTaction       = nil
         GOaction            = nil
         GOaction_normal     = nil
         GOaction_reverse    = nil
@@ -102,7 +104,7 @@ class MenuScene: SKScene {
         // INIT HELP BUTTON
         var helpSprite = SKSpriteNode(imageNamed: "icon-help")
         helpSprite.colorBlendFactor = 1
-        helpSprite.color = UIColor.grayColor()
+        helpSprite.color = Colors.DisabledColor
         helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         helpSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnHelp = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
@@ -116,7 +118,7 @@ class MenuScene: SKScene {
         // INIT ABOUT BUTTON
         var aboutSprite = SKSpriteNode(imageNamed: "icon-arculars")
         aboutSprite.colorBlendFactor = 1
-        aboutSprite.color = UIColor.grayColor()
+        aboutSprite.color = Colors.DisabledColor
         aboutSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         aboutSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
@@ -130,7 +132,7 @@ class MenuScene: SKScene {
         // INIT SETTINGS BUTTON
         var settingsSprite = SKSpriteNode(imageNamed: "icon-settings")
         settingsSprite.colorBlendFactor = 1
-        settingsSprite.color = UIColor.grayColor()
+        settingsSprite.color = Colors.DisabledColor
         settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         settingsSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnSettings = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
@@ -141,10 +143,10 @@ class MenuScene: SKScene {
         btnSettings.yScale = 0.0
         rootNode.addChild(btnSettings)
         
-        // INIT SETTINGS BUTTON
+        // INIT GAMECENTER BUTTON
         var gamecenterSprite = SKSpriteNode(imageNamed: "icon-achievement")
         gamecenterSprite.colorBlendFactor = 1
-        gamecenterSprite.color = UIColor.grayColor()
+        gamecenterSprite.color = Colors.DisabledColor
         gamecenterSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         gamecenterSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnGamecenter = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
@@ -311,6 +313,26 @@ class MenuScene: SKScene {
             self.btnSettings.runAction(popin)
             self.btnHelp.runAction(popin)
             self.btnGamecenter.runAction(popin)
+        })
+        
+        FADEOUTaction = SKAction.runBlock({
+            var popout = SKAction.sequence([
+                SKAction.scaleTo(1.05, duration: 0.05),
+                SKAction.scaleTo(0.0, duration: 0.05)
+                ])
+            
+            var flyout = SKAction.sequence([
+                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 6) * 2) + 10), duration: 0.05),
+                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 2)), duration: 0.05)
+                ])
+            
+            self.title.runAction(flyout)
+            
+            self.btnGo.runAction(popout)
+            self.btnAbout.runAction(popout)
+            self.btnSettings.runAction(popout)
+            self.btnHelp.runAction(popout)
+            self.btnGamecenter.runAction(popout)
         })
         
         GOaction_normal = SKAction.runBlock({
@@ -562,15 +584,15 @@ class MenuScene: SKScene {
             if (btnGo.containsPoint(location)) {
                 runAction(GOaction)
             } else if (btnAbout.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.1), completion: {()
+                self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
                     self.sceneDelegate!.showAbout()
                 })
             } else if (btnHelp.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.1), completion: {()
+                self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
                     self.sceneDelegate!.showHelp()
                 })
             } else if (btnSettings.containsPoint(location)) {
-                self.runAction(SKAction.fadeOutWithDuration(0.1), completion: {()
+                self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
                     self.sceneDelegate!.showSettings()
                 })
             } else if (btnGamecenter.containsPoint(location)) {
