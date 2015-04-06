@@ -115,7 +115,7 @@ class Circle : SKShapeNode {
     *
     *   This method updates itself by creating an action 
     *   with a random duration between minSpeed and maxSpeed
-    *   and is executed random times between 5 and 15
+    *   and is executed random times between 5 and 10
     *
     */
     private func updateAction() {
