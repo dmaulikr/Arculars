@@ -13,4 +13,5 @@ enum PhysicsCategory : UInt32 {
     case border     = 2
     case ball       = 4
     case arc        = 8
+    case powerup    = 16
 }
