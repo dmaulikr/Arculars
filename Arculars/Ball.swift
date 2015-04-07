@@ -24,7 +24,7 @@ class Ball : SKShapeNode {
         var circlepath = CGPathCreateMutable()
         CGPathAddArc(circlepath, nil, 0, 0, radius - 1, CGFloat(M_PI * 2), 0, true)
         path = circlepath
-        
+        antialiased = true
         lineWidth = 1
         self.position = position
         

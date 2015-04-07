@@ -34,6 +34,7 @@ class Circle : SKShapeNode {
         path = circlepath
         lineWidth = thickness
         zPosition = 0
+        antialiased = true
         self.position = position
         
         let sizeOfArc = CGFloat(M_PI / 2)
