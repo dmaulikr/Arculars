@@ -66,7 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = Colors.Background
+        backgroundColor = Colors.BackgroundColor
         
         // Add Root Node
         addChild(rootNode)
