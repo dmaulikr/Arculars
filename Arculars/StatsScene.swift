@@ -119,7 +119,7 @@ class StatsScene: SKScene {
         label_hits = (hin.childNodeWithName("stats_label") as SKLabelNode)
         rootNode.addChild(hin)
         
-        // INIT RESET AND GAMECENTER BUTTONS
+        // INIT RESET BUTTON
         var btns = SKShapeNode(rectOfSize: CGSize(width: size.width, height: 2 * rowheight))
         btns.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 9.5))
         btns.lineWidth = 0
