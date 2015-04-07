@@ -45,8 +45,8 @@ class Powerup : SKShapeNode {
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         label.fontSize = self.frame.height / 2
-        label.fontName = Fonts.FontNameNormal
-        label.fontColor = Colors.FontColor
+        label.fontName = Fonts.FontNameBold
+        label.fontColor = Colors.PowerupColor
         label.hidden = true
         self.addChild(label)
     }
@@ -101,6 +101,7 @@ class Powerup : SKShapeNode {
         count = seconds
         updateText()
         label.hidden = false
+        fillColor = UIColor.clearColor()
         timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("tick:"), userInfo: nil, repeats: true)
     }
     

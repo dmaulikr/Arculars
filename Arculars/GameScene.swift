@@ -335,10 +335,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             }
         }
         
-        checkPowerup()
+        checkForPowerup()
     }
     
-    private func checkPowerup() {
+    private func checkForPowerup() {
         if (powerupHandler.checkForNewPowerup(score.getScore()) && powerupHandler.currentPowerup == nil) {
             var type = powerupHandler.randomPowerupType()
             var powerup = Powerup(radius: ballRadius * 2, type: type)
@@ -463,17 +463,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             break
         case .ExtraPoints30:
             score.increaseByWithColor(30, color: Colors.PowerupColor)
-            checkPowerup()
+            checkForPowerup()
             powerupExpired()
             break
         case .ExtraPoints50:
             score.increaseByWithColor(50, color: Colors.PowerupColor)
-            checkPowerup()
+            checkForPowerup()
             powerupExpired()
             break
         case .ExtraPoints100:
             score.increaseByWithColor(100, color: Colors.PowerupColor)
-            checkPowerup()
+            checkForPowerup()
             powerupExpired()
             break
         default:
