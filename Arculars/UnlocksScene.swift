@@ -44,7 +44,7 @@ class UnlocksScene: SKScene {
     
     deinit {
         #if DEBUG
-            println("HelpScene deinit is called")
+            println("UnlocksScene deinit is called")
         #endif
     }
     
