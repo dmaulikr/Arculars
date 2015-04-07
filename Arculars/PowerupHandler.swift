@@ -15,9 +15,10 @@ enum PowerupType : Int, Printable {
     case FullTime = 3 // Only in Timed Mode
     case FullLifes = 4 // Only in Endless Mode
     case Unicolor = 5
-    case ExtraPoints30 = 6
-    case ExtraPoints50 = 7
-    case ExtraPoints100 = 8
+    case ExtraPoints10 = 6
+    case ExtraPoints30 = 7
+    case ExtraPoints50 = 8
+    case ExtraPoints100 = 9
     
     var description : String {
         switch self {
@@ -27,6 +28,7 @@ enum PowerupType : Int, Printable {
         case .FullTime:    return ""
         case .FullLifes:    return ""
         case .Unicolor:    return ""
+        case .ExtraPoints10:    return ""
         case .ExtraPoints30:    return ""
         case .ExtraPoints50:    return ""
         case .ExtraPoints100:    return ""
@@ -49,6 +51,7 @@ class PowerupHandler {
         PowerupType.TriplePoints    : 2,
         PowerupType.FullLifes       : 1,
         PowerupType.Unicolor        : 3,
+        PowerupType.ExtraPoints10   : 4,
         PowerupType.ExtraPoints30   : 3,
         PowerupType.ExtraPoints50   : 2,
         PowerupType.ExtraPoints100  : 1
@@ -59,6 +62,7 @@ class PowerupHandler {
         PowerupType.TriplePoints    : 2,
         PowerupType.FullTime        : 1,
         PowerupType.Unicolor        : 3,
+        PowerupType.ExtraPoints10   : 4,
         PowerupType.ExtraPoints30   : 3,
         PowerupType.ExtraPoints50   : 2,
         PowerupType.ExtraPoints100  : 1

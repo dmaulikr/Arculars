@@ -472,6 +472,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             availableColors.append(Colors.PowerupColor)
             powerupHandler.currentPowerup.startWith(5)
             break
+        case .ExtraPoints10:
+            score.increaseByWithColor(10, color: Colors.PowerupColor)
+            checkForPowerup()
+            powerupExpired()
+            break
         case .ExtraPoints30:
             score.increaseByWithColor(30, color: Colors.PowerupColor)
             checkForPowerup()
