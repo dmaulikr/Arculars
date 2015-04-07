@@ -16,6 +16,8 @@ class AboutScene: SKScene {
     
     private var rootNode = SKNode()
     
+    private var btnWeb : SKShapeNode!
+    private var btnMail : SKShapeNode!
     private var btnToMenu : SKShapeNode!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
@@ -65,6 +67,55 @@ class AboutScene: SKScene {
         title.addChild(titleLabel)
         rootNode.addChild(title)
         
+        // LABES
+        var versionInfo = SKLabelNode(text: "Arculars v\(version())")
+        versionInfo.fontSize = size.height / 32
+        versionInfo.fontColor = Colors.FontColor
+        versionInfo.fontName = Fonts.FontNameNormal
+        versionInfo.position = CGPoint(x: 0, y: size.height / 4)
+        versionInfo.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        versionInfo.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        rootNode.addChild(versionInfo)
+        
+        var madeWithLove = SKLabelNode(text: "Made with love in Switzerland. ❤️")
+        madeWithLove.fontSize = size.height / 48
+        madeWithLove.fontColor = Colors.FontColor
+        madeWithLove.fontName = Fonts.FontNameLight
+        madeWithLove.position = CGPoint(x: 0, y: -size.height / 4)
+        madeWithLove.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        madeWithLove.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        rootNode.addChild(madeWithLove)
+        
+        // INIT MAIL BUTTON
+        btnMail = SKShapeNode(circleOfRadius: size.height / 16)
+        btnMail.position = CGPoint(x: size.width / 6, y: 0)
+        btnMail.lineWidth = 1
+        btnMail.strokeColor = Colors.AppColorOne
+        btnMail.fillColor = Colors.AppColorOne
+        var email = SKLabelNode(text: "EMAIL")
+        email.userInteractionEnabled = false
+        email.fontSize = size.height / 48
+        email.fontName = Fonts.FontNameNormal
+        email.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        email.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnMail.addChild(email)
+        rootNode.addChild(btnMail)
+        
+        // INIT WEB BUTTON
+        btnWeb = SKShapeNode(circleOfRadius: size.height / 16)
+        btnWeb.position = CGPoint(x: -size.width / 6, y: 0)
+        btnWeb.lineWidth = 1
+        btnWeb.strokeColor = Colors.AppColorTwo
+        btnWeb.fillColor = Colors.AppColorTwo
+        var web = SKLabelNode(text: "WEB")
+        web.userInteractionEnabled = false
+        web.fontSize = size.height / 48
+        web.fontName = Fonts.FontNameNormal
+        web.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        web.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnWeb.addChild(web)
+        rootNode.addChild(btnWeb)
+        
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "BACK TO MENU")
         tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
@@ -89,8 +140,22 @@ class AboutScene: SKScene {
             for object in nodesAtPoint(location) {
                 if (btnToMenu == object as? SKShapeNode) {
                     sceneDelegate!.showMenu()
+                } else if (btnMail == object as? SKShapeNode) {
+                    let url = NSURL(string: "mailto:\(Strings.ArcularsEmail)")
+                    UIApplication.sharedApplication().openURL(url!)
+                } else if (btnWeb == object as? SKShapeNode) {
+                    let url = NSURL(string: "\(Strings.ArcularsWebsite)")
+                    UIApplication.sharedApplication().openURL(url!)
                 }
             }
         }
+    }
+    
+    // MARK: - HELPER FUNCTIONS
+    func version() -> String {
+        let dictionary = NSBundle.mainBundle().infoDictionary!
+        let version = dictionary["CFBundleShortVersionString"] as String
+        let build = dictionary["CFBundleVersion"] as String
+        return "\(version) build \(build)"
     }
 }
