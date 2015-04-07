@@ -129,7 +129,7 @@ class SettingsScene : SKScene {
             dInfoLabel.text = "Normal circle speed - Points x 2".uppercaseString
             break
         case .Hard:
-            dInfoLabel.text = "Fast circle speed - Points x 3".uppercaseString
+            dInfoLabel.text = "Fast circle speed - Points x 4".uppercaseString
             break
         }
     }

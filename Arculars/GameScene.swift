@@ -164,8 +164,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         healthBar?.removeFromParent()
         timerBar?.removeFromParent()
         
-        multiplicator = SettingsHandler.getDifficulty().rawValue
-        
         if gameMode == GameMode.Timed {
             initTimerBar()
             timerBar?.start()
@@ -203,18 +201,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             circles[1].setSpeed(3.2, max: 3.6)
             circles[2].setSpeed(2.4, max: 2.8)
             circles[3].setSpeed(2.0, max: 2.4)
+            multiplicator = 1
             break
         case .Normal:
             circles[0].setSpeed(3.0, max: 3.4)
             circles[1].setSpeed(2.4, max: 2.8)
             circles[2].setSpeed(1.8, max: 2.2)
             circles[3].setSpeed(1.6, max: 2.0)
+            multiplicator = 2
             break
         case .Hard:
             circles[0].setSpeed(2.4, max: 2.8)
             circles[1].setSpeed(1.8, max: 2.2)
             circles[2].setSpeed(1.4, max: 1.8)
             circles[3].setSpeed(1.2, max: 1.6)
+            multiplicator = 4
             break
         }
         
