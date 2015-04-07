@@ -106,7 +106,6 @@ class MenuScene: SKScene {
         helpSprite.colorBlendFactor = 1
         helpSprite.color = Colors.DisabledColor
         helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        helpSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnHelp = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnHelp.position = CGPoint(x: -(size.width / 4), y: -(size.height / 2) + (size.height / 12))
         btnHelp.lineWidth = 0
@@ -120,7 +119,6 @@ class MenuScene: SKScene {
         aboutSprite.colorBlendFactor = 1
         aboutSprite.color = Colors.DisabledColor
         aboutSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        aboutSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnAbout.position = CGPoint(x: -(size.width / 12), y: -(size.height / 2) + (size.height / 12))
         btnAbout.lineWidth = 0
@@ -134,7 +132,6 @@ class MenuScene: SKScene {
         settingsSprite.colorBlendFactor = 1
         settingsSprite.color = Colors.DisabledColor
         settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        settingsSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnSettings = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnSettings.position = CGPoint(x: (size.width / 12), y: -(size.height / 2) + (size.height / 12))
         btnSettings.lineWidth = 0
@@ -148,7 +145,6 @@ class MenuScene: SKScene {
         gamecenterSprite.colorBlendFactor = 1
         gamecenterSprite.color = Colors.DisabledColor
         gamecenterSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        gamecenterSprite.size = CGSize(width: size.width / 12, height: size.width / 12)
         btnGamecenter = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnGamecenter.position = CGPoint(x: (size.width / 4), y: -(size.height / 2) + (size.height / 12))
         btnGamecenter.lineWidth = 0
@@ -207,7 +203,6 @@ class MenuScene: SKScene {
         btnStats.zPosition = -1
         var statsIcon = SKSpriteNode(imageNamed: "icon-statistics")
         statsIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        statsIcon.size = CGSize(width: radius, height: radius)
         btnStats.addChild(statsIcon)
         btnGo.addChild(btnStats)
         
@@ -231,7 +226,6 @@ class MenuScene: SKScene {
         btnUnlocks.zPosition = -1
         var donutIcon = SKSpriteNode(imageNamed: "icon-donut")
         donutIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        donutIcon.size = CGSize(width: radius, height: radius)
         btnUnlocks.addChild(donutIcon)
         btnGo.addChild(btnUnlocks)
         
@@ -255,7 +249,6 @@ class MenuScene: SKScene {
         btnPlayTimed.zPosition = -1
         var clockIcon = SKSpriteNode(imageNamed: "icon-clock")
         clockIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        clockIcon.size = CGSize(width: radius, height: radius)
         btnPlayTimed.addChild(clockIcon)
         btnGo.addChild(btnPlayTimed)
         
@@ -279,7 +272,6 @@ class MenuScene: SKScene {
         btnPlayEndless.zPosition = -1
         var iconInfinity = SKSpriteNode(imageNamed: "icon-infinity")
         iconInfinity.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        iconInfinity.size = CGSize(width: radius, height: radius)
         btnPlayEndless.addChild(iconInfinity)
         btnGo.addChild(btnPlayEndless)
         
@@ -623,10 +615,11 @@ class MenuScene: SKScene {
     // MARK: - CREATE RANDOM BALLS (EASTEREGG)
     func easteregg(position: CGPoint) {
         // Just a little 'easteregg' ;)
-        var ball = SKShapeNode(circleOfRadius: frame.height / 32)
+        var ball = SKShapeNode(circleOfRadius: frame.height / 64)
         ball.fillColor = Colors.AppColorThree
         ball.lineWidth = 1
-        ball.strokeColor = ball.fillColor
+        ball.strokeColor = Colors.AppColorThree
+        ball.antialiased = true
         ball.position = position
         ball.zPosition = -10
         rootNode.addChild(ball)

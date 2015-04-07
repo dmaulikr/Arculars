@@ -106,7 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         stopLabel.fontColor = UIColor.grayColor()
         stopLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnStop = SKShapeNode(rectOfSize: CGSize(width: size.width, height: size.height / 12))
+        btnStop = SKShapeNode(rectOfSize: CGSize(width: stopLabel.frame.width * 1.5, height: stopLabel.frame.height * 2))
         btnStop.addChild(stopLabel)
         btnStop.position = CGPoint(x: 0, y: -(size.height / 2) + (btnStop.frame.height / 2))
         btnStop.lineWidth = 0
@@ -185,11 +185,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     private func resetCircleSpeed() {
-        var speed1 : NSTimeInterval!
-        var speed2 : NSTimeInterval!
-        var speed3 : NSTimeInterval!
-        var speed4 : NSTimeInterval!
-        
         switch SettingsHandler.getDifficulty() {
         case .Easy:
             circles[0].setSpeed(4.0, max: 4.4)
@@ -207,7 +202,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             circles[0].setSpeed(2.4, max: 2.8)
             circles[1].setSpeed(1.8, max: 2.2)
             circles[2].setSpeed(1.4, max: 1.8)
-            circles[3].setSpeed(1.0, max: 1.4)
+            circles[3].setSpeed(1.2, max: 1.6)
             break
         }
         
