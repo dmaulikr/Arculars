@@ -324,10 +324,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         ball.removeFromParent()
         
         stats_hits++
-        if (ball.nodeColor == Colors.PowerupColor && circle.nodeColor != Colors.PowerupColor) {
-            ball.removeFromParent()
-        }
-        else if (ball.nodeColor == circle.nodeColor) {
+        if (ball.nodeColor == circle.nodeColor) {
             runSound()
             var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
             score.increaseByWithColor(points, color: ball.nodeColor)
