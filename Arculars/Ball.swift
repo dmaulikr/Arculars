@@ -12,7 +12,7 @@ import SpriteKit
 class Ball : SKShapeNode {
     
     private let ballSpeed : CGFloat = 500.0 // pixels per second
-    let nodeColor : UIColor!
+    var nodeColor : UIColor!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -23,31 +23,36 @@ class Ball : SKShapeNode {
         
         var circlepath = CGPathCreateMutable()
         CGPathAddArc(circlepath, nil, 0, 0, radius - 1, CGFloat(M_PI * 2), 0, true)
-        self.path = circlepath
-        self.fillColor = color
-        self.strokeColor = color
-        self.lineWidth = 1
+        path = circlepath
+        
+        lineWidth = 1
         self.position = position
         
-        self.physicsBody = SKPhysicsBody(circleOfRadius: radius)
-        self.physicsBody!.categoryBitMask = PhysicsCategory.ball.rawValue
-        self.physicsBody!.contactTestBitMask = PhysicsCategory.arc.rawValue
-        self.physicsBody!.collisionBitMask = 0
-        self.physicsBody!.dynamic = true
+        physicsBody = SKPhysicsBody(circleOfRadius: radius)
+        physicsBody!.categoryBitMask = PhysicsCategory.ball.rawValue
+        physicsBody!.contactTestBitMask = PhysicsCategory.arc.rawValue
+        physicsBody!.collisionBitMask = 0
+        physicsBody!.dynamic = true
         
-        self.nodeColor = color
+        setColor(color)
+    }
+    
+    func setColor(color: UIColor) {
+        fillColor = color
+        strokeColor = color
+        nodeColor = color
     }
     
     func fadeIn() -> Ball {
         
         // disable the physicsbody because otherwise this will fail
-        let temp = self.physicsBody
-        self.physicsBody = nil
+        let temp = physicsBody
+        physicsBody = nil
         
-        self.xScale = 0.0
-        self.yScale = 0.0
+        xScale = 0.0
+        yScale = 0.0
         
-        self.runAction(
+        runAction(
             SKAction.sequence([
                 SKAction.scaleTo(1.05, duration: 0.1),
                 SKAction.scaleTo(0.95, duration: 0.1),
@@ -60,11 +65,11 @@ class Ball : SKShapeNode {
     }
     
     func fadeOut() -> Ball {
-        self.runAction(SKAction.scaleTo(0.0, duration: 0.3))
+        runAction(SKAction.scaleTo(0.0, duration: 0.3))
         return self
     }
     
     func shoot(range: CGFloat) {
-        self.runAction(SKAction.moveTo(CGPoint(x: 0, y:range), duration: NSTimeInterval(range / ballSpeed)))
+        runAction(SKAction.moveTo(CGPoint(x: 0, y:range), duration: NSTimeInterval(range / ballSpeed)))
     }
 }

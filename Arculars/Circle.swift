@@ -16,33 +16,30 @@ class Circle : SKShapeNode {
     
     let thickness : CGFloat!
     let radius : CGFloat!
-    let nodeColor : UIColor!
+    var nodeColor : UIColor!
     let pointsPerHit : Int!
     
-    private var minSpeed : NSTimeInterval!
-    private var maxSpeed : NSTimeInterval!
+    var minSpeed : NSTimeInterval!
+    var maxSpeed : NSTimeInterval!
     
-    init(color: UIColor, position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, pointsPerHit: Int) {
+    init(position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, pointsPerHit: Int) {
         super.init()
         
-        self.nodeColor = color
         self.pointsPerHit = pointsPerHit
         self.radius = radius
         self.thickness = thickness
         
         var circlepath = CGPathCreateMutable()
         CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)
-        self.path = circlepath
-        self.lineWidth = thickness
-        self.zPosition = 0
-        self.strokeColor = color.colorWithAlphaComponent(0.2)
+        path = circlepath
+        lineWidth = thickness
+        zPosition = 0
         self.position = position
         
         let sizeOfArc = CGFloat(M_PI / 2)
         let arcpath = UIBezierPath(arcCenter: CGPoint(x: 0, y: 0), radius: radius, startAngle: 0.0, endAngle: sizeOfArc, clockwise: true)
         arc = SKShapeNode(path: arcpath.CGPath)
         arc.lineCap = kCGLineCapRound
-        arc.strokeColor = color
         arc.antialiased = true
         arc.zPosition = 1
         arc.lineWidth = thickness
@@ -77,7 +74,7 @@ class Circle : SKShapeNode {
         }
         rotateAction = SKAction.rotateByAngle(rotationangle, duration: 0.0)
         
-        self.addChild(arc)
+        addChild(arc)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -90,10 +87,10 @@ class Circle : SKShapeNode {
         let temp = arc.physicsBody
         arc.physicsBody = nil
         
-        self.xScale = 0.0
-        self.yScale = 0.0
+        xScale = 0.0
+        yScale = 0.0
         
-        self.runAction(
+        runAction(
             SKAction.sequence([
                 SKAction.scaleTo(1.05, duration: 0.1),
                 SKAction.scaleTo(0.95, duration: 0.1),
@@ -103,6 +100,12 @@ class Circle : SKShapeNode {
         })
         
         return self
+    }
+    
+    func setColor(color: UIColor) {
+        arc.strokeColor = color
+        strokeColor = color.colorWithAlphaComponent(0.2)
+        nodeColor = color
     }
     
     func setSpeed(min: NSTimeInterval, max: NSTimeInterval) {

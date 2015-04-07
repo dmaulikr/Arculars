@@ -624,7 +624,7 @@ class MenuScene: SKScene {
     func easteregg(position: CGPoint) {
         // Just a little 'easteregg' ;)
         var ball = SKShapeNode(circleOfRadius: frame.height / 32)
-        ball.fillColor = Colors.getRandomBallColor()
+        ball.fillColor = Colors.AppColorThree
         ball.lineWidth = 1
         ball.strokeColor = ball.fillColor
         ball.position = position
