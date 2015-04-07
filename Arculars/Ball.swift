@@ -11,7 +11,7 @@ import SpriteKit
 
 class Ball : SKShapeNode {
     
-    private let ballSpeed : CGFloat = 500.0 // pixels per second
+    private let ballSpeed : NSTimeInterval = 1.5 // pixels per second
     var nodeColor : UIColor!
     
     required init?(coder aDecoder: NSCoder) {
@@ -70,6 +70,6 @@ class Ball : SKShapeNode {
     }
     
     func shoot(range: CGFloat) {
-        runAction(SKAction.moveTo(CGPoint(x: 0, y:range), duration: NSTimeInterval(range / ballSpeed)))
+        runAction(SKAction.moveTo(CGPoint(x: 0, y:range), duration: ballSpeed))
     }
 }

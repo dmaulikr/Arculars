@@ -267,7 +267,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func shootBall() {
         activeBalls.insert(nextBall, atIndex: 0)
-        nextBall.shoot(frame.height)
+        nextBall.shoot((circlePosition.y - ballPosition.y) * 2)
     }
     
     // MARK: - COLLISION DETECTION
