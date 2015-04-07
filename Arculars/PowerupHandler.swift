@@ -24,12 +24,12 @@ enum PowerupType : Int, Printable {
         case .None:    return ""
         case .DoublePoints:  return "Double Points"
         case .TriplePoints:    return "Triple Points"
-        case .FullTime:    return "Recharge Time"
-        case .FullLifes:    return "Recharge Lifes"
-        case .Unicolor:    return "Unicolor"
-        case .ExtraPoints30:    return "Extra Points"
-        case .ExtraPoints50:    return "Extra Points"
-        case .ExtraPoints100:    return "Extra Points"
+        case .FullTime:    return ""
+        case .FullLifes:    return ""
+        case .Unicolor:    return ""
+        case .ExtraPoints30:    return ""
+        case .ExtraPoints50:    return ""
+        case .ExtraPoints100:    return ""
         }
     }
 }
@@ -45,22 +45,22 @@ class PowerupHandler {
     var currentPowerup : Powerup!
     
     private let PowerupsEndless : [PowerupType : UInt32] = [
-        PowerupType.DoublePoints    : 5,
-        PowerupType.TriplePoints    : 3,
+        PowerupType.DoublePoints    : 3,
+        PowerupType.TriplePoints    : 2,
         PowerupType.FullLifes       : 1,
-        PowerupType.Unicolor        : 2,
-        PowerupType.ExtraPoints30   : 5,
-        PowerupType.ExtraPoints50   : 3,
+        PowerupType.Unicolor        : 3,
+        PowerupType.ExtraPoints30   : 3,
+        PowerupType.ExtraPoints50   : 2,
         PowerupType.ExtraPoints100  : 1
     ]
     
     private let PowerupsTimed : [PowerupType : UInt32] = [
-        PowerupType.DoublePoints    : 5,
-        PowerupType.TriplePoints    : 3,
+        PowerupType.DoublePoints    : 3,
+        PowerupType.TriplePoints    : 2,
         PowerupType.FullTime        : 1,
-        PowerupType.Unicolor        : 2,
-        PowerupType.ExtraPoints30   : 5,
-        PowerupType.ExtraPoints50   : 3,
+        PowerupType.Unicolor        : 3,
+        PowerupType.ExtraPoints30   : 3,
+        PowerupType.ExtraPoints50   : 2,
         PowerupType.ExtraPoints100  : 1
     ]
     

@@ -34,6 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     private var nextBall : Ball!
     private var ballRadius : CGFloat!
     private var score : Score!
+    private var powerupDescription : SKLabelNode!
     private var isGameOver = false
     private var multiplicator = 1
     private var powerupMultiplicator = 1
@@ -113,8 +114,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         rootNode.addChild(btnStop)
         
         score = Score(position: scorePosition)
-        score.fontSize = size.height / 16
+        score.fontSize = size.height / 20
         rootNode.addChild(score)
+        
+        
+        powerupDescription = SKLabelNode()
+        powerupDescription.fontColor = Colors.PowerupColor
+        powerupDescription.fontName = Fonts.FontNameLight
+        powerupDescription.fontSize = size.height / 64
+        powerupDescription.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        powerupDescription.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        powerupDescription.position = CGPoint(x: scorePosition.x, y: scorePosition.y - score.frame.height)
+        addChild(powerupDescription)
         
         hitSounds.append(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
         hitSounds.append(SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false))
@@ -172,8 +183,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         powerupHandler = PowerupHandler(gameMode: gameMode, difficulty: SettingsHandler.getDifficulty())
         
-        addBall()
-        
         isGameOver = false
     }
     
@@ -182,6 +191,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         for circle in circles {
             availableColors.append(circle.nodeColor)
         }
+        
+        nextBall?.removeFromParent()
+        addBall()
     }
     
     private func resetCircleSpeed() {
@@ -312,8 +324,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         ball.removeFromParent()
         
         stats_hits++
-        
-        if (ball.nodeColor == circle.nodeColor) {
+        if (ball.nodeColor == Colors.PowerupColor && circle.nodeColor != Colors.PowerupColor) {
+            ball.removeFromParent()
+        }
+        else if (ball.nodeColor == circle.nodeColor) {
             runSound()
             var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
             score.increaseByWithColor(points, color: ball.nodeColor)
@@ -428,16 +442,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     // MARK: - HANDLING POWERUPS
     private func handlePowerup() {
         var type = powerupHandler.currentPowerup.powerupType!
+        powerupDescription.text = type.description.uppercaseString
+        
         switch type {
         case .None:
             break
         case .DoublePoints:
             powerupMultiplicator = 2
-            powerupHandler.currentPowerup.startWith(10)
+            powerupHandler.currentPowerup.startWith(30)
             break
         case .TriplePoints:
             powerupMultiplicator = 3
-            powerupHandler.currentPowerup.startWith(10)
+            powerupHandler.currentPowerup.startWith(15)
             break
         case .FullLifes:
             healthBar?.reset()
@@ -481,11 +497,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         powerupHandler.currentPowerup.stop()
         powerupHandler.currentPowerup.fadeOut()
         powerupHandler.currentPowerup = nil
+
+        powerupDescription.text = ""
         
         resetCircleColors()
         resetAvailableColors()
-        nextBall?.removeFromParent()
-        addBall()
     }
     
     // MARK: - HELPER FUNCTIONS

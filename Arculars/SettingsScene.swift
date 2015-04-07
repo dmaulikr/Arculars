@@ -92,7 +92,7 @@ class SettingsScene : SKScene {
         dStateLabel = (btnDifficulty.childNodeWithName("label") as SKLabelNode)
         dInfoLabel = SKLabelNode(text: "")
         dInfoLabel.fontColor = UIColor.grayColor()
-        dInfoLabel.fontSize = size.height / 48
+        dInfoLabel.fontSize = size.height / 64
         dInfoLabel.fontName = Fonts.FontNameNormal
         dInfoLabel.position = CGPoint(x: 0, y: -btnDifficulty.calculateAccumulatedFrame().height / 2)
         btnDifficulty.addChild(dInfoLabel)
@@ -123,13 +123,13 @@ class SettingsScene : SKScene {
         dStateLabel.text = difficulty.description.uppercaseString
         switch difficulty {
         case .Easy:
-            dInfoLabel.text = "Slow circle speed, Points x 1"
+            dInfoLabel.text = "Slow circle speed - Points x 1".uppercaseString
             break
         case .Normal:
-            dInfoLabel.text = "Normal circle speed, Points x 2"
+            dInfoLabel.text = "Normal circle speed - Points x 2".uppercaseString
             break
         case .Hard:
-            dInfoLabel.text = "Fast circle speed, Points x 3"
+            dInfoLabel.text = "Fast circle speed - Points x 3".uppercaseString
             break
         }
     }

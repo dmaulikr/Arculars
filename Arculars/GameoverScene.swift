@@ -198,9 +198,7 @@ class GameoverScene: SKScene {
             } else if (shareother.containsPoint(location)) {
                 sceneDelegate!.shareOnOther()
             } else {
-                runAction(SKAction.fadeOutWithDuration(0.3), completion: { ()
-                    self.sceneDelegate!.startGame(self.gameMode)
-                })
+                sceneDelegate!.startGame(gameMode)
             }
         }
     }
