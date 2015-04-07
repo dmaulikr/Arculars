@@ -107,7 +107,7 @@ class MenuScene: SKScene {
         helpSprite.color = Colors.DisabledColor
         helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnHelp = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
-        btnHelp.position = CGPoint(x: -(size.width / 4), y: -(size.height / 2) + (size.height / 12))
+        btnHelp.position = CGPoint(x: -helpSprite.frame.width * 3, y: -(size.height / 2) + (size.height / 12))
         btnHelp.lineWidth = 0
         btnHelp.addChild(helpSprite)
         btnHelp.xScale = 0.0
@@ -120,7 +120,7 @@ class MenuScene: SKScene {
         aboutSprite.color = Colors.DisabledColor
         aboutSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnAbout = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
-        btnAbout.position = CGPoint(x: -(size.width / 12), y: -(size.height / 2) + (size.height / 12))
+        btnAbout.position = CGPoint(x: -aboutSprite.frame.width, y: -(size.height / 2) + (size.height / 12))
         btnAbout.lineWidth = 0
         btnAbout.addChild(aboutSprite)
         btnAbout.xScale = 0.0
@@ -133,7 +133,7 @@ class MenuScene: SKScene {
         settingsSprite.color = Colors.DisabledColor
         settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnSettings = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
-        btnSettings.position = CGPoint(x: (size.width / 12), y: -(size.height / 2) + (size.height / 12))
+        btnSettings.position = CGPoint(x: settingsSprite.frame.width, y: -(size.height / 2) + (size.height / 12))
         btnSettings.lineWidth = 0
         btnSettings.addChild(settingsSprite)
         btnSettings.xScale = 0.0
@@ -146,7 +146,7 @@ class MenuScene: SKScene {
         gamecenterSprite.color = Colors.DisabledColor
         gamecenterSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnGamecenter = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
-        btnGamecenter.position = CGPoint(x: (size.width / 4), y: -(size.height / 2) + (size.height / 12))
+        btnGamecenter.position = CGPoint(x: gamecenterSprite.frame.width * 3, y: -(size.height / 2) + (size.height / 12))
         btnGamecenter.lineWidth = 0
         btnGamecenter.addChild(gamecenterSprite)
         btnGamecenter.xScale = 0.0
