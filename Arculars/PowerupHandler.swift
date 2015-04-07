@@ -69,16 +69,16 @@ class PowerupHandler {
         
         switch difficulty {
         case .Easy:
-            random = 20
-            interval = 30
+            random = 30
+            interval = 20
             break
         case .Normal:
             random = 30
-            interval = 40
+            interval = 30
             break
         case .Hard:
-            random = 50
-            interval = 50
+            random = 30
+            interval = 40
             break
         }
         
