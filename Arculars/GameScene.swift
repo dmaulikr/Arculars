@@ -12,7 +12,7 @@ import SpriteKit
 import GameKit
 import AudioToolbox
 
-class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarDelegate {
+class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarDelegate, PowerupDelegate {
     
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
@@ -23,9 +23,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     var gameMode : GameMode!
     
+    private var powerupHandler : PowerupHandler!
+    
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
     private var circles = [Circle]()
+    private var availableColors = [UIColor]()
     private var activeBalls = [Ball]()
     private var hitSounds = [SKAction]()
     private var nextBall : Ball!
@@ -33,6 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     private var score : Score!
     private var isGameOver = false
     private var multiplicator = 1
+    private var powerupMultiplicator = 1
     
     private var healthBar : HealthBar!
     private var timerBar : TimerBar!
@@ -136,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             radius = lastradius + lastthickness
             thickness = lastthickness
         }
-        var c = Circle(color: color, position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, pointsPerHit: points)
+        var c = Circle(position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, pointsPerHit: points)
         circles.append(c)
         rootNode.addChild(c)
     }
@@ -162,13 +166,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         stats_moves = 0
         stats_starttime = NSDate()
         
+        resetCircleColors()
+        resetCircleSpeed()
+        resetAvailableColors()
+        
+        powerupHandler = PowerupHandler(gameMode: gameMode, difficulty: SettingsHandler.getDifficulty())
+        
         addBall()
-        setCircleSpeed()
         
         isGameOver = false
     }
     
-    private func setCircleSpeed() {
+    private func resetAvailableColors() {
+        availableColors.removeAll()
+        for circle in circles {
+            availableColors.append(circle.nodeColor)
+        }
+    }
+    
+    private func resetCircleSpeed() {
         var speed1 : NSTimeInterval!
         var speed2 : NSTimeInterval!
         var speed3 : NSTimeInterval!
@@ -195,6 +211,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             break
         }
         
+    }
+    
+    private func resetCircleColors() {
+        circles[0].setColor(Colors.AppColorOne)
+        circles[1].setColor(Colors.AppColorTwo)
+        circles[2].setColor(Colors.AppColorThree)
+        circles[3].setColor(Colors.AppColorFour)
     }
     
     private func initTimerBar() {
@@ -231,7 +254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     // MARK: - GAME FUNCTIONS
     private func addBall() {
-        nextBall = Ball(color: Colors.getRandomBallColor(), position: ballPosition, radius: ballRadius)
+        nextBall = Ball(color: getRandomBallColor(), position: ballPosition, radius: ballRadius)
         rootNode.addChild(nextBall.fadeIn())
     }
     
@@ -271,6 +294,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             
             ballDidCollideWithBorder(ball)
             break
+        case PhysicsCategory.powerup.rawValue | PhysicsCategory.ball.rawValue:
+            var ball : Ball
+            
+            if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
+                ball = contact.bodyA.node as Ball
+            } else{
+                ball = contact.bodyB.node as Ball
+            }
+            
+            ballDidCollideWithPowerup(ball)
+            break
         default:
             return
         }
@@ -285,8 +319,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         stats_hits++
         
         if (ball.nodeColor == circle.nodeColor) {
-            var points = circle.pointsPerHit * multiplicator
             runSound()
+            var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
             score.increaseByWithColor(points, color: ball.nodeColor)
             
             if gameMode == GameMode.Timed {
@@ -295,16 +329,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         } else {
             runVibration()
             if gameMode == GameMode.Timed {
-                timerBar?.addTime(Double(-circle.pointsPerHit * multiplicator))
+                timerBar?.addTime(Double(-circle.pointsPerHit))
             } else if gameMode == GameMode.Endless {
                 healthBar?.decrement()
             }
+        }
+        
+        checkPowerup()
+    }
+    
+    private func checkPowerup() {
+        if (powerupHandler.checkForNewPowerup(score.getScore()) && powerupHandler.currentPowerup == nil) {
+            var type = powerupHandler.randomPowerupType()
+            var powerup = Powerup(radius: ballRadius * 2, type: type)
+            powerup.position = circlePosition
+            powerup.delegate = self
+            powerupHandler.currentPowerup = powerup
+            rootNode.addChild(powerup)
+            powerup.fadeIn()
         }
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
         activeBalls.removeLast()
         ball.removeFromParent()
+    }
+    
+    private func ballDidCollideWithPowerup(ball: Ball) {
+        activeBalls.removeLast()
+        ball.removeFromParent()
+        handlePowerup()
     }
     
     // MARK: - GAMEOVER FUNCTIONS
@@ -374,5 +428,75 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         if state {
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
         }
+    }
+    
+    // MARK: - HANDLING POWERUPS
+    private func handlePowerup() {
+        var type = powerupHandler.currentPowerup.powerupType!
+        switch type {
+        case .None:
+            break
+        case .DoublePoints:
+            powerupMultiplicator = 2
+            powerupHandler.currentPowerup.startWith(10)
+            break
+        case .TriplePoints:
+            powerupMultiplicator = 3
+            powerupHandler.currentPowerup.startWith(10)
+            break
+        case .FullLifes:
+            healthBar?.reset()
+            powerupExpired()
+            break
+        case .FullTime:
+            timerBar?.reset()
+            powerupExpired()
+            break
+        case .Unicolor:
+            for circle in circles {
+                circle.setColor(Colors.PowerupColor)
+            }
+            nextBall?.setColor(Colors.PowerupColor)
+            availableColors.removeAll()
+            availableColors.append(Colors.PowerupColor)
+            powerupHandler.currentPowerup.startWith(5)
+            break
+        case .ExtraPoints30:
+            score.increaseByWithColor(30, color: Colors.PowerupColor)
+            checkPowerup()
+            powerupExpired()
+            break
+        case .ExtraPoints50:
+            score.increaseByWithColor(50, color: Colors.PowerupColor)
+            checkPowerup()
+            powerupExpired()
+            break
+        case .ExtraPoints100:
+            score.increaseByWithColor(100, color: Colors.PowerupColor)
+            checkPowerup()
+            powerupExpired()
+            break
+        default:
+            break
+        }
+    }
+    
+    func powerupExpired() {
+        powerupMultiplicator = 1
+        powerupHandler.currentPowerup.stop()
+        powerupHandler.currentPowerup.fadeOut()
+        powerupHandler.currentPowerup = nil
+        
+        resetCircleColors()
+        resetAvailableColors()
+        nextBall?.removeFromParent()
+        addBall()
+    }
+    
+    // MARK: - HELPER FUNCTIONS
+    private func getRandomBallColor() -> UIColor {
+        var random = Int(arc4random_uniform(UInt32(availableColors.count)));
+        var color = availableColors[random]
+        return color
     }
 }
