@@ -16,6 +16,7 @@
 		302D814D1AC93E6A00FDF44D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D814C1AC93E6A00FDF44D /* Fonts.swift */; };
 		302D814F1AC93E9600FDF44D /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D814E1AC93E9600FDF44D /* GameMode.swift */; };
 		3034C8CE1AD43AEF00577E51 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034C8CD1AD43AEF00577E51 /* Strings.swift */; };
+		3034C8D11AD43D5700577E51 /* UnlocksScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3034C8D01AD43D5700577E51 /* UnlocksScene.swift */; };
 		3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3038F8071ABA0BA100741BEE /* GameKit.framework */; };
 		3038F80E1ABA1F0600741BEE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */; };
 		303FCDED1AAE349900A59347 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 303FCDEC1AAE349900A59347 /* Circle.swift */; };
@@ -65,6 +66,7 @@
 		302D814C1AC93E6A00FDF44D /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		302D814E1AC93E9600FDF44D /* GameMode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		3034C8CD1AD43AEF00577E51 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		3034C8D01AD43D5700577E51 /* UnlocksScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlocksScene.swift; sourceTree = "<group>"; };
 		3038F8071ABA0BA100741BEE /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		3038F80D1ABA1F0600741BEE /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		303FCDEC1AAE349900A59347 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				305414BB1AC0A05000636047 /* SettingsScene.swift */,
 				305BCAF11AC9727D004F68E6 /* AboutScene.swift */,
 				305BCAF31AC973A8004F68E6 /* HelpScene.swift */,
+				3034C8D01AD43D5700577E51 /* UnlocksScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				302D814D1AC93E6A00FDF44D /* Fonts.swift in Sources */,
 				305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */,
 				30E95DF31ACC962A003FACEC /* HealthBar.swift in Sources */,
+				3034C8D11AD43D5700577E51 /* UnlocksScene.swift in Sources */,
 				30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */,
 				3038F80E1ABA1F0600741BEE /* SceneDelegate.swift in Sources */,
 				309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */,

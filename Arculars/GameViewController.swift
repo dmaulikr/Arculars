@@ -164,11 +164,11 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func showUnlocks() {
-        var alert = UIAlertController(title: "Coming soon!", message: "Unlocks will be in a future release. :)", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (alertaction) -> Void in
-            self.showMenu()
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        var scene = UnlocksScene(size: self.view.bounds.size)
+        scene.scaleMode = .AspectFill
+        scene.sceneDelegate = self
+        
+        (self.view as SKView).presentScene(scene)
     }
     
     func showGamecenter() {
