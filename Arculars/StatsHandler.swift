@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SpriteKit
 
 let GAME_HIGHSCORE_ENDLESS              = "game_highscore_endless"
 let GAME_HIGHSCORE_TIMED                = "game_highscore_timed"

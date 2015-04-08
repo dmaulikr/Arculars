@@ -389,6 +389,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         StatsHandler.updateLastscore(endScore, gameMode: gameMode)
         StatsHandler.updateHighscore(endScore, gameMode: gameMode)
         StatsHandler.updateOverallPointsBy(endScore)
+        CreditsHandler.depositCredits(endScore)
         
         reportLeaderboardScore(endScore)
         
