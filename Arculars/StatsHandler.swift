@@ -95,11 +95,13 @@ class StatsHandler {
     class func updatePlayedTimeBy(delta: Int) {
         var time = getPlayedTime()
         NSUserDefaults.standardUserDefaults().setInteger(time + delta, forKey: STATS_PLAYEDTIME)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func updateFiredBallsBy(delta: Int) {
         var moves = getFiredBalls()
         NSUserDefaults.standardUserDefaults().setInteger(moves + delta, forKey: STATS_FIREDBALLS)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func updateOverallPointsBy(delta: Int) {
@@ -107,16 +109,19 @@ class StatsHandler {
         
         var points = getOverallPoints()
         NSUserDefaults.standardUserDefaults().setInteger(points + delta, forKey: STATS_OVERALLPOINTS)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func updateHitsBy(delta: Int) {
         var current = getHits()
         NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_HITS)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func incrementPlayedGames() {
         var current = getPlayedGames()
         NSUserDefaults.standardUserDefaults().setInteger(current + 1, forKey: STATS_PLAYEDGAMES)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func reset() {
@@ -130,5 +135,7 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_OVERALLPOINTS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_HITS)
+        
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }

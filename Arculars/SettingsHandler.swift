@@ -17,6 +17,7 @@ class SettingsHandler {
     class func toggleVibration() -> Bool {
         var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_VIBRATION)
         NSUserDefaults.standardUserDefaults().setBool(!state, forKey: SETTINGS_VIBRATION)
+        NSUserDefaults.standardUserDefaults().synchronize()
         return !state
     }
     
@@ -27,6 +28,7 @@ class SettingsHandler {
     class func toggleSound() -> Bool {
         var state = NSUserDefaults.standardUserDefaults().boolForKey(SETTINGS_SOUND)
         NSUserDefaults.standardUserDefaults().setBool(!state, forKey: SETTINGS_SOUND)
+        NSUserDefaults.standardUserDefaults().synchronize()
         return !state
     }
     
@@ -47,6 +49,7 @@ class SettingsHandler {
             NSUserDefaults.standardUserDefaults().setInteger(Difficulty.Easy.rawValue, forKey: SETTINGS_DIFFICULTY)
             break
         }
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func getDifficulty() -> Difficulty {
