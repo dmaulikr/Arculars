@@ -67,7 +67,8 @@ class AboutScene: SKScene {
         title.addChild(titleLabel)
         rootNode.addChild(title)
         
-        // LABES
+        
+        // LABELS
         var versionInfo = SKLabelNode(text: "Arculars v\(version())")
         versionInfo.fontSize = size.height / 32
         versionInfo.fontColor = Colors.FontColor
@@ -77,11 +78,11 @@ class AboutScene: SKScene {
         versionInfo.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rootNode.addChild(versionInfo)
         
-        var madeWithLove = SKLabelNode(text: "Made with love in Switzerland. ❤️")
-        madeWithLove.fontSize = size.height / 48
+        var madeWithLove = SKLabelNode(text: "Made with love in Switzerland. :)")
+        madeWithLove.fontSize = size.height / 42
         madeWithLove.fontColor = Colors.FontColor
         madeWithLove.fontName = Fonts.FontNameLight
-        madeWithLove.position = CGPoint(x: 0, y: -size.height / 4)
+        madeWithLove.position = CGPoint(x: 0, y: versionInfo.position.y - (versionInfo.frame.height * 1.5))
         madeWithLove.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         madeWithLove.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rootNode.addChild(madeWithLove)
