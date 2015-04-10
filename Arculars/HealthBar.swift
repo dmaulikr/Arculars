@@ -59,8 +59,8 @@ class HealthBar : SKNode {
     }
     
     func decrement() {
+        current = current - 1
         if current > 0 {
-            current = current - 1
             slots[current].runAction(SKAction.sequence([
                 SKAction.fadeAlphaTo(0.1, duration: 0.2),
                 SKAction.fadeAlphaTo(1.0, duration: 0.2),
