@@ -331,7 +331,7 @@ class MenuScene: SKScene {
             SWmove.timingMode = SKActionTimingMode.EaseIn
             var SWscale = SKAction.scaleTo(1.0, duration: 0.2)
             self.btnStats.runAction(SKAction.group([SWmove, SWscale]), completion: {()
-                var label = self.btnStats.childNodeWithName("label") as SKLabelNode
+                var label = self.btnStats.childNodeWithName("label") as! SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
@@ -340,7 +340,7 @@ class MenuScene: SKScene {
             SEmove.timingMode = SKActionTimingMode.EaseIn
             var SEscale = SKAction.scaleTo(1.0, duration: 0.2)
             self.btnUnlocks.runAction(SKAction.group([SEmove, SEscale]), completion: {()
-                var label = self.btnUnlocks.childNodeWithName("label") as SKLabelNode
+                var label = self.btnUnlocks.childNodeWithName("label") as! SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
@@ -349,7 +349,7 @@ class MenuScene: SKScene {
             NEmove.timingMode = SKActionTimingMode.EaseIn
             var NEscale = SKAction.scaleTo(1.0, duration: 0.2)
             self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]), completion: {()
-                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
+                var label = self.btnPlayTimed.childNodeWithName("label") as! SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
@@ -358,7 +358,7 @@ class MenuScene: SKScene {
             NWmove.timingMode = SKActionTimingMode.EaseIn
             var NWscale = SKAction.scaleTo(1.0, duration: 0.2)
             self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]), completion: {()
-                var label = self.btnPlayEndless.childNodeWithName("label") as SKLabelNode
+                var label = self.btnPlayEndless.childNodeWithName("label") as! SKLabelNode
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
@@ -366,7 +366,7 @@ class MenuScene: SKScene {
             var dashedcircle_rotate = SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(2 * M_PI), duration: 10.0))
             self.dashedCircle.runAction(SKAction.group([dashedcircle_scale, dashedcircle_rotate]), withKey: "rotating")
             
-            var content = self.btnGo.childNodeWithName("content") as SKShapeNode
+            var content = self.btnGo.childNodeWithName("content") as! SKShapeNode
             var content_scale = SKAction.scaleTo(0.0, duration: 0.2)
             content_scale.timingMode = SKActionTimingMode.EaseIn
             content.runAction(content_scale)
@@ -379,7 +379,7 @@ class MenuScene: SKScene {
             SWmove.timingMode = SKActionTimingMode.EaseIn
             var SWscale = SKAction.scaleTo(0.0, duration: 0.2)
             self.btnStats.runAction(SKAction.group([SWmove, SWscale]), completion: {()
-                var label = self.btnStats.childNodeWithName("label") as SKLabelNode
+                var label = self.btnStats.childNodeWithName("label") as! SKLabelNode
                 label.alpha = 0.0
             })
             
@@ -387,7 +387,7 @@ class MenuScene: SKScene {
             SEmove.timingMode = SKActionTimingMode.EaseIn
             var SEscale = SKAction.scaleTo(0.0, duration: 0.2)
             self.btnUnlocks.runAction(SKAction.group([SEmove, SEscale]), completion: {()
-                var label = self.btnUnlocks.childNodeWithName("label") as SKLabelNode
+                var label = self.btnUnlocks.childNodeWithName("label") as! SKLabelNode
                 label.alpha = 0.0
             })
             
@@ -395,7 +395,7 @@ class MenuScene: SKScene {
             NEmove.timingMode = SKActionTimingMode.EaseIn
             var NEscale = SKAction.scaleTo(0.0, duration: 0.2)
             self.btnPlayTimed.runAction(SKAction.group([NEmove, NEscale]), completion: {()
-                var label = self.btnPlayTimed.childNodeWithName("label") as SKLabelNode
+                var label = self.btnPlayTimed.childNodeWithName("label") as! SKLabelNode
                 label.alpha = 0.0
             })
             
@@ -403,7 +403,7 @@ class MenuScene: SKScene {
             NWmove.timingMode = SKActionTimingMode.EaseIn
             var NWscale = SKAction.scaleTo(0.0, duration: 0.2)
             self.btnPlayEndless.runAction(SKAction.group([NWmove, NWscale]), completion: {()
-                var label = self.btnPlayEndless.childNodeWithName("label") as SKLabelNode
+                var label = self.btnPlayEndless.childNodeWithName("label") as! SKLabelNode
                 label.alpha = 0.0
             })
             
@@ -411,7 +411,7 @@ class MenuScene: SKScene {
             self.dashedCircle.runAction(dashedcircle_scale, completion: { ()
             })
             
-            var content = self.btnGo.childNodeWithName("content") as SKShapeNode
+            var content = self.btnGo.childNodeWithName("content") as! SKShapeNode
             var content_scale = SKAction.scaleTo(1.0, duration: 0.2)
             content_scale.timingMode = SKActionTimingMode.EaseIn
             content.runAction(content_scale)
@@ -567,7 +567,7 @@ class MenuScene: SKScene {
     }
     
     // MARK: - TOUCH FUNCTIONS
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
             
@@ -601,7 +601,7 @@ class MenuScene: SKScene {
         }
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
             

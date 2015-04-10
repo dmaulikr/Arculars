@@ -78,7 +78,7 @@ class GCHandler: NSObject, GKGameCenterControllerDelegate {
         if Static.instance == nil {
             dispatch_once(&Static.onceToken) {
                 Static.instance = GCHandler()
-                GCHandler.loginPlayerToGameCenter({
+                GCHandler.loginPlayerToGameCenter(completion: {
                     (result) in
                     if completion != nil {
                         completion!(resultPlayerAuthentified: result)
@@ -100,7 +100,7 @@ class GCHandler: NSObject, GKGameCenterControllerDelegate {
         if Static.instance == nil {
             dispatch_once(&Static.onceToken) {
                 Static.instance = GCHandler()
-                GCHandler.loginPlayerToGameCenter(nil)
+                GCHandler.loginPlayerToGameCenter(completion: nil)
             }
         }
         
@@ -529,12 +529,12 @@ class GCHandler: NSObject, GKGameCenterControllerDelegate {
         
         if GCHandler.isPlayerIdentifiedToGameCenter()  {
             
-            if let achievementFind = gameCenter.achievementsCache[identifierAchievement]? {
+            if let achievementFind = gameCenter.achievementsCache[identifierAchievement as String] {
                 return achievementFind
             } else {
                 
-                if  let achievementGet = GKAchievement(identifier: identifierAchievement) {
-                    gameCenter.achievementsCache[identifierAchievement] = achievementGet
+                if  let achievementGet = GKAchievement(identifier: identifierAchievement as String) {
+                    gameCenter.achievementsCache[identifierAchievement as String] = achievementGet
                     
                     /* recursive recall this func now that the achievement exist */
                     return GCHandler.achievementForIndetifier(identifierAchievement: identifierAchievement)

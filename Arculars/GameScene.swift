@@ -56,13 +56,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     override init(size: CGSize) {
-        super.init(size: size)
-        
         // Init positions
         var offset : CGFloat = size.height / 12
         circlePosition = CGPoint(x: 0, y: (size.height / 4) - offset)
         ballPosition = CGPoint(x: 0, y: -(size.height / 2) + (2 * offset))
         scorePosition = CGPoint(x: 0, y: (size.height / 2) - offset)
+        
+        super.init(size: size)
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -245,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     // MARK: - TOUCH FUNCTIONS
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
             if (btnStop.containsPoint(location)) {
@@ -282,11 +282,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             var circle : Circle
             
             if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                ball = contact.bodyA.node as Ball
-                circle = contact.bodyB.node?.parent as Circle // parent because the arc's parent
+                ball = contact.bodyA.node as! Ball
+                circle = contact.bodyB.node?.parent as! Circle // parent because the arc's parent
             } else {
-                ball = contact.bodyB.node as Ball
-                circle = contact.bodyA.node?.parent as Circle // parent because the arc's parent
+                ball = contact.bodyB.node as! Ball
+                circle = contact.bodyA.node?.parent as! Circle // parent because the arc's parent
             }
             ballDidCollideWithCircle(ball, circle: circle)
             
@@ -295,9 +295,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             var ball : Ball
             
             if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                ball = contact.bodyA.node as Ball
+                ball = contact.bodyA.node as! Ball
             } else{
-                ball = contact.bodyB.node as Ball
+                ball = contact.bodyB.node as! Ball
             }
             
             ballDidCollideWithBorder(ball)
@@ -306,9 +306,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             var ball : Ball
             
             if contact.bodyA.categoryBitMask == PhysicsCategory.ball.rawValue {
-                ball = contact.bodyA.node as Ball
+                ball = contact.bodyA.node as! Ball
             } else{
-                ball = contact.bodyB.node as Ball
+                ball = contact.bodyB.node as! Ball
             }
             
             ballDidCollideWithPowerup(ball)

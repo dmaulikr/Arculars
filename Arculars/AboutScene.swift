@@ -135,7 +135,7 @@ class AboutScene: SKScene {
     }
     
     // MARK: - TOUCH FUNCTIONS
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             for object in nodesAtPoint(location) {
@@ -155,8 +155,8 @@ class AboutScene: SKScene {
     // MARK: - HELPER FUNCTIONS
     func version() -> String {
         let dictionary = NSBundle.mainBundle().infoDictionary!
-        let version = dictionary["CFBundleShortVersionString"] as String
-        let build = dictionary["CFBundleVersion"] as String
+        let version = dictionary["CFBundleShortVersionString"] as! String
+        let build = dictionary["CFBundleVersion"] as! String
         return "\(version) build \(build)"
     }
 }

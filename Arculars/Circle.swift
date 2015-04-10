@@ -23,11 +23,11 @@ class Circle : SKShapeNode {
     var maxSpeed : NSTimeInterval!
     
     init(position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, pointsPerHit: Int) {
-        super.init()
-        
         self.pointsPerHit = pointsPerHit
         self.radius = radius
         self.thickness = thickness
+        
+        super.init()
         
         var circlepath = CGPathCreateMutable()
         CGPathAddArc(circlepath, nil, 0, 0, radius, CGFloat(M_PI * 2), 0, true)

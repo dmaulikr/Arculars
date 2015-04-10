@@ -80,43 +80,43 @@ class StatsScene: SKScene {
         // INIT PLAYED TIME NODE
         var ptn = createRow("PLAYED TIME")
         ptn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 2))
-        label_playedtime = (ptn.childNodeWithName("stats_label") as SKLabelNode)
+        label_playedtime = (ptn.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(ptn)
         
         // INIT PLAYED GAMES NODE
         var pgn = createRow("PLAYED GAMES")
         pgn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 3))
-        label_playedgames = (pgn.childNodeWithName("stats_label") as SKLabelNode)
+        label_playedgames = (pgn.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(pgn)
         
         // INIT OVERALL POINTS NODE
         var opn = createRow("OVERALL POINTS")
         opn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 4))
-        label_overallpoints = (opn.childNodeWithName("stats_label") as SKLabelNode)
+        label_overallpoints = (opn.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(opn)
         
         // INIT HIGHSCORE ENDLESS NODE
         var hen = createRow("HIGH SCORE ENDLESS")
         hen.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 5))
-        label_highscore_endless = (hen.childNodeWithName("stats_label") as SKLabelNode)
+        label_highscore_endless = (hen.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(hen)
         
         // INIT HIGHSCORE TIMED NODE
         var htn = createRow("HIGH SCORE TIMED")
         htn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 6))
-        label_highscore_timed = (htn.childNodeWithName("stats_label") as SKLabelNode)
+        label_highscore_timed = (htn.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(htn)
         
         // INIT FIRED BALLS NODE
         var fbn = createRow("FIRED BALLS")
         fbn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 7))
-        label_firedballs = (fbn.childNodeWithName("stats_label") as SKLabelNode)
+        label_firedballs = (fbn.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(fbn)
         
         // INIT HITS NODE
         var hin = createRow("HITS")
         hin.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 8))
-        label_hits = (hin.childNodeWithName("stats_label") as SKLabelNode)
+        label_hits = (hin.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(hin)
         
         // INIT RESET BUTTON
@@ -168,7 +168,7 @@ class StatsScene: SKScene {
     }
     
     // MARK: - TOUCH FUNCTIONS
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             for object in nodesAtPoint(location) {
@@ -199,7 +199,7 @@ class StatsScene: SKScene {
         
         var row = SKShapeNode(rectOfSize: CGSize(width: size.width, height: rowheight))
         row.lineWidth = 0
-        var label = SKLabelNode(text: labelText)
+        var label = SKLabelNode(text: labelText as String)
         label.position = CGPoint(x: gap, y: 0)
         label.fontSize = labelFontSize
         label.fontName = Fonts.FontNameNormal
@@ -219,12 +219,12 @@ class StatsScene: SKScene {
         return row
     }
     
-    private func stringFromSeconds(seconds : Int) -> NSString {
+    private func stringFromSeconds(seconds : Int) -> String {
         var s = seconds % 60
         var m = (seconds / 60) % 60
         var h = (seconds / 3600)
         
-        return NSString(format: "%0.2d:%0.2d:%0.2d",h ,m ,s)
+        return NSString(format: "%0.2d:%0.2d:%0.2d",h ,m ,s) as String
     }
     
 }

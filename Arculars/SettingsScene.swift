@@ -77,19 +77,19 @@ class SettingsScene : SKScene {
         // INIT TOGGLE VIBRATION BUTTON
         btnToggleVibration = createButton("VIBRATION")
         btnToggleVibration.position = CGPoint(x: 0, y: size.height / 6)
-        vStateLabel = (btnToggleVibration.childNodeWithName("label") as SKLabelNode)
+        vStateLabel = (btnToggleVibration.childNodeWithName("label") as! SKLabelNode)
         rootNode.addChild(btnToggleVibration)
         
         // INIT TOGGLE SOUND BUTTON
         btnToggleSound = createButton("SOUND")
         btnToggleSound.position = CGPoint(x: 0, y: 0)
-        sStateLabel = (btnToggleSound.childNodeWithName("label") as SKLabelNode)
+        sStateLabel = (btnToggleSound.childNodeWithName("label") as! SKLabelNode)
         rootNode.addChild(btnToggleSound)
         
         // INIT DIFFICULTY BUTTON
         btnDifficulty = createButton("DIFFICULTY")
         btnDifficulty.position = CGPoint(x: 0, y: -size.height / 6)
-        dStateLabel = (btnDifficulty.childNodeWithName("label") as SKLabelNode)
+        dStateLabel = (btnDifficulty.childNodeWithName("label") as! SKLabelNode)
         dInfoLabel = SKLabelNode(text: "")
         dInfoLabel.fontColor = UIColor.grayColor()
         dInfoLabel.fontSize = size.height / 64
@@ -135,7 +135,7 @@ class SettingsScene : SKScene {
     }
     
     // MARK: TOUCH FUNCTIONS
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             
@@ -160,7 +160,7 @@ class SettingsScene : SKScene {
     
     // MARK: - HELPER FUNCTIONS
     private func createButton(labelText: NSString) -> SKShapeNode {
-        var vLabel = SKLabelNode(text: labelText)
+        var vLabel = SKLabelNode(text: labelText as String)
         vLabel.fontSize = size.height / 48
         vLabel.fontName = Fonts.FontNameNormal
         vLabel.fontColor = Colors.FontColor
