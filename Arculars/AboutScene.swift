@@ -118,7 +118,7 @@ class AboutScene: SKScene {
         rootNode.addChild(btnWeb)
         
         // INIT TO MENU BUTTON
-        var tml = SKLabelNode(text: "BACK TO MENU")
+        var tml = SKLabelNode(text: "CLOSE")
         tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
         tml.fontName = Fonts.FontNameNormal
         tml.fontColor = Colors.DisabledColor

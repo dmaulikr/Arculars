@@ -163,14 +163,6 @@ class GameViewController: UIViewController, SceneDelegate {
         (self.view as! SKView).presentScene(scene)
     }
     
-    func showUnlocks() {
-        var scene = UnlocksScene(size: self.view.bounds.size)
-        scene.scaleMode = .AspectFill
-        scene.sceneDelegate = self
-        
-        (self.view as! SKView).presentScene(scene)
-    }
-    
     func showGamecenter() {
         if !GCHandler.isPlayerIdentifiedToGameCenter() {
             GCHandler.showGameCenterAuthentication(completion: {(result) -> Void in

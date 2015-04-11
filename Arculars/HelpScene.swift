@@ -56,7 +56,7 @@ class HelpScene: SKScene {
         title.lineWidth = 0
         title.strokeColor = UIColor.clearColor()
         title.fillColor = UIColor.clearColor()
-        var titleLabel = SKLabelNode(text: "HELP")
+        var titleLabel = SKLabelNode(text: "HOW TO PLAY")
         titleLabel.fontSize = size.height / 32
         titleLabel.fontName = Fonts.FontNameBold
         titleLabel.fontColor = Colors.FontColor
@@ -66,7 +66,7 @@ class HelpScene: SKScene {
         rootNode.addChild(title)
         
         // INIT TO MENU BUTTON
-        var tml = SKLabelNode(text: "BACK TO MENU")
+        var tml = SKLabelNode(text: "CLOSE")
         tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
         tml.fontName = Fonts.FontNameNormal
         tml.fontColor = Colors.DisabledColor

@@ -11,14 +11,13 @@ protocol SceneDelegate : class {
     func startGame(gameType: GameMode)
     
     func showMenu()
-    func showStatistics()
-    func showSettings()
     func showGameover(gameType: GameMode)
     
     func showAbout()
     func showHelp()
     func showGamecenter()
-    func showUnlocks()
+    func showStatistics()
+    func showSettings()
     
     func shareOnOther()
     func shareOnTwitter()
