@@ -47,7 +47,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     // Variables for Stats
     private var stats_starttime : NSDate!
-    private var stats_moves = 0
+    private var stats_firedballs = 0
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
@@ -170,7 +170,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             initHealthBar()
         }
         
-        stats_moves = 0
+        stats_firedballs = 0
         stats_starttime = NSDate()
         
         resetCircleColors()
@@ -250,7 +250,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
                 gameover()
             } else {
                 if !isGameOver && !isTimerBarExpired {
-                    stats_moves++
+                    stats_firedballs++
                     shootBall()
                     addBall()
                 }
@@ -378,7 +378,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         timerBar?.stop()
         
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
-        StatsHandler.updateFiredBallsBy(stats_moves)
+        StatsHandler.updateFiredBallsBy(stats_firedballs)
         StatsHandler.incrementPlayedGames()
         
         var endScore = score.getScore()
