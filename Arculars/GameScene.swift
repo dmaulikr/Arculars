@@ -47,7 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     // Variables for Stats
     private var stats_starttime : NSDate!
-    private var stats_hits = 0
     private var stats_moves = 0
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
@@ -171,7 +170,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             initHealthBar()
         }
         
-        stats_hits = 0
         stats_moves = 0
         stats_starttime = NSDate()
         
@@ -230,7 +228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func initTimerBar() {
         var barHeight = size.height / 48
-        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 15)
+        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 20)
         timerBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         timerBar.delegate = self
         rootNode.addChild(timerBar)
@@ -324,7 +322,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         ball.physicsBody!.categoryBitMask = PhysicsCategory.none.rawValue
         ball.removeFromParent()
         
-        stats_hits++
         if (ball.nodeColor == circle.nodeColor) {
             runSound()
             var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
@@ -383,13 +380,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_moves)
         StatsHandler.incrementPlayedGames()
-        StatsHandler.updateHitsBy(stats_hits)
         
         var endScore = score.getScore()
         StatsHandler.updateLastscore(endScore, gameMode: gameMode)
         StatsHandler.updateHighscore(endScore, gameMode: gameMode)
         StatsHandler.updateOverallPointsBy(endScore)
-        CreditsHandler.depositCredits(endScore)
+        StatsHandler.depositCredits(endScore)
         
         reportLeaderboardScore(endScore)
         

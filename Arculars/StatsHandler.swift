@@ -18,10 +18,34 @@ let STATS_PLAYEDTIME                    = "stats_playedtime"
 let STATS_PLAYEDGAMES                   = "stats_playedgames"
 let STATS_FIREDBALLS                    = "stats_firedballs"
 let STATS_OVERALLPOINTS                 = "stats_overallpoints"
-let STATS_HITS                          = "stats_hits"
 
+let ARCULARS_CREDITS                    = "arculars_credits"
 
 class StatsHandler {
+    
+    class func getCredits() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey(ARCULARS_CREDITS)
+    }
+    
+    class func depositCredits(credits: Int) -> Bool {
+        if (credits > 0) {
+            var current = getCredits()
+            NSUserDefaults.standardUserDefaults().setInteger(current + credits, forKey: ARCULARS_CREDITS)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            return true
+        }
+        return false
+    }
+    
+    class func withdrawCredits(credits: Int) -> Bool {
+        var current = getCredits()
+        if (credits > 0 && current >= credits) {
+            NSUserDefaults.standardUserDefaults().setInteger(current - credits, forKey: ARCULARS_CREDITS)
+            NSUserDefaults.standardUserDefaults().synchronize()
+            return true
+        }
+        return false
+    }
     
     class func getHighscore(gameMode: GameMode) -> Int {
         switch gameMode {
@@ -55,10 +79,6 @@ class StatsHandler {
     
     class func getOverallPoints() -> Int {
         return NSUserDefaults.standardUserDefaults().integerForKey(STATS_OVERALLPOINTS)
-    }
-    
-    class func getHits() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_HITS)
     }
     
     class func updateHighscore(score: Int, gameMode: GameMode) {
@@ -112,12 +132,6 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
-    class func updateHitsBy(delta: Int) {
-        var current = getHits()
-        NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_HITS)
-        NSUserDefaults.standardUserDefaults().synchronize()
-    }
-    
     class func incrementPlayedGames() {
         var current = getPlayedGames()
         NSUserDefaults.standardUserDefaults().setInteger(current + 1, forKey: STATS_PLAYEDGAMES)
@@ -134,7 +148,8 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDTIME)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_OVERALLPOINTS)
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_HITS)
+        
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: ARCULARS_CREDITS)
         
         NSUserDefaults.standardUserDefaults().synchronize()
     }
