@@ -164,7 +164,7 @@ class StatsScene: SKScene {
         label_highscore_endless.text = "\(StatsHandler.getHighscore(GameMode.Endless))"
         label_highscore_timed.text = "\(StatsHandler.getHighscore(GameMode.Timed))"
         label_firedballs.text = "\(StatsHandler.getFiredBalls())"
-        label_precision.text = "\(StatsHandler.getPrecision())"
+        label_precision.text = String(format: "%.1f", StatsHandler.getPrecision()) + "%"
     }
     
     // MARK: - TOUCH FUNCTIONS

@@ -61,7 +61,13 @@ class StatsHandler {
     }
     
     class func getPrecision() -> Float {
-        return 0.0
+        var firedballs = getFiredBalls()
+        var cc = getCorrectCollisions()
+        if (firedballs == 0) || (cc == 0) {
+            return 0.0
+        }
+        var precision = (Float(cc) / Float(firedballs)) * 100
+        return Float(precision)
     }
     
     class func updateHighscore(score: Int, gameMode: GameMode) {
