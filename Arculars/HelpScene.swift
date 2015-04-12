@@ -65,6 +65,11 @@ class HelpScene: SKScene {
         title.addChild(titleLabel)
         rootNode.addChild(title)
         
+        // TUTORIAL IMAGE
+        var image = SKSpriteNode(imageNamed: "tutorial-image")
+        image.position = CGPoint(x: 0, y: 0)
+        rootNode.addChild(image)
+        
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "CLOSE")
         tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
