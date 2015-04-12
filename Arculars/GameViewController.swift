@@ -41,7 +41,13 @@ class GameViewController: UIViewController, SceneDelegate {
         GCHandler.delegate = self
         
         // Present the initial scene.
-        showMenu()
+        if !NSUserDefaults.standardUserDefaults().boolForKey("hasPerformedFirstLaunch") {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasPerformedFirstLaunch")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            showHelp()
+        } else {
+            showMenu()
+        }
     }
     
     override func prefersStatusBarHidden() -> Bool {
