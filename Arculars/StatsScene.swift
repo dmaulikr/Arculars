@@ -22,10 +22,9 @@ class StatsScene: SKScene {
     private var label_highscore_endless     : SKLabelNode!
     private var label_highscore_timed       : SKLabelNode!
     private var label_firedballs            : SKLabelNode!
-    private var label_credits               : SKLabelNode!
+    private var label_precision             : SKLabelNode!
     
     private var btnReset                    : SKShapeNode!
-    private var btnUpgradeBall              : SKShapeNode!
     private var btnToMenu                   : SKShapeNode!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
@@ -115,10 +114,10 @@ class StatsScene: SKScene {
         rootNode.addChild(fbn)
         
         // INIT HITS NODE
-        var crn = createRow("CREDITS")
-        crn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 8))
-        label_credits = (crn.childNodeWithName("stats_label") as! SKLabelNode)
-        rootNode.addChild(crn)
+        var prn = createRow("PRECISION")
+        prn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 8))
+        label_precision = (prn.childNodeWithName("stats_label") as! SKLabelNode)
+        rootNode.addChild(prn)
         
         // INIT RESET BUTTON
         var btns = SKShapeNode(rectOfSize: CGSize(width: size.width, height: 2 * rowheight))
@@ -126,7 +125,7 @@ class StatsScene: SKScene {
         btns.lineWidth = 0
         
         btnReset = SKShapeNode(circleOfRadius: rowheight * 0.75)
-        btnReset.position = CGPoint(x: -size.width / 6, y: 0)
+        btnReset.position = CGPoint(x: 0, y: 0)
         btnReset.lineWidth = 1
         btnReset.strokeColor = Colors.AppColorOne
         btnReset.fillColor = Colors.AppColorOne
@@ -139,21 +138,6 @@ class StatsScene: SKScene {
         btnReset.addChild(rel)
         btns.addChild(btnReset)
         rootNode.addChild(btns)
-        
-        // INIT UPGRADE BUTTON
-        btnUpgradeBall = SKShapeNode(circleOfRadius: rowheight * 0.75)
-        btnUpgradeBall.position = CGPoint(x: size.width / 6, y: 0)
-        btnUpgradeBall.lineWidth = 1
-        btnUpgradeBall.strokeColor = Colors.AppColorTwo
-        btnUpgradeBall.fillColor = Colors.AppColorTwo
-        var ubl = SKLabelNode(text: "UPGRADE BALL")
-        ubl.userInteractionEnabled = false
-        ubl.fontSize = size.height / 48
-        ubl.fontName = Fonts.FontNameNormal
-        ubl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        ubl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnUpgradeBall.addChild(ubl)
-        btns.addChild(btnUpgradeBall)
         
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "CLOSE")
@@ -180,7 +164,7 @@ class StatsScene: SKScene {
         label_highscore_endless.text = "\(StatsHandler.getHighscore(GameMode.Endless))"
         label_highscore_timed.text = "\(StatsHandler.getHighscore(GameMode.Timed))"
         label_firedballs.text = "\(StatsHandler.getFiredBalls())"
-        label_credits.text = "\(StatsHandler.getCredits())"
+        label_precision.text = "\(StatsHandler.getPrecision())"
     }
     
     // MARK: - TOUCH FUNCTIONS

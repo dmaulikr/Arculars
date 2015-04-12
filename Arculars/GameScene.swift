@@ -48,6 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     // Variables for Stats
     private var stats_starttime : NSDate!
     private var stats_firedballs = 0
+    private var stats_correct_collisions = 0
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
@@ -170,6 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             initHealthBar()
         }
         
+        stats_correct_collisions = 0
         stats_firedballs = 0
         stats_starttime = NSDate()
         
@@ -323,6 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         ball.removeFromParent()
         
         if (ball.nodeColor == circle.nodeColor) {
+            stats_correct_collisions++
             runSound()
             var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
             score.increaseByWithColor(points, color: ball.nodeColor)
@@ -379,13 +382,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_firedballs)
+        StatsHandler.updateCorrectCollisionsBy(stats_correct_collisions)
         StatsHandler.incrementPlayedGames()
         
         var endScore = score.getScore()
         StatsHandler.updateLastscore(endScore, gameMode: gameMode)
         StatsHandler.updateHighscore(endScore, gameMode: gameMode)
         StatsHandler.updateOverallPointsBy(endScore)
-        StatsHandler.depositCredits(endScore)
         
         reportLeaderboardScore(endScore)
         
