@@ -9,8 +9,31 @@
 import UIKit
 import SpriteKit
 
+let PowerupsTimed : [PowerupType : UInt32] = [
+    PowerupType.DoublePoints    : 3,
+    PowerupType.TriplePoints    : 2,
+    PowerupType.FullTime        : 1,
+    PowerupType.Unicolor        : 3,
+    PowerupType.ExtraPoints10   : 4,
+    PowerupType.ExtraPoints30   : 3,
+    PowerupType.ExtraPoints50   : 2,
+    PowerupType.ExtraPoints100  : 1
+]
+
+let PowerupsEndless : [PowerupType : UInt32] = [
+    PowerupType.DoublePoints    : 3,
+    PowerupType.TriplePoints    : 2,
+    PowerupType.FullLifes       : 1,
+    PowerupType.Unicolor        : 3,
+    PowerupType.ExtraPoints10   : 4,
+    PowerupType.ExtraPoints30   : 3,
+    PowerupType.ExtraPoints50   : 2,
+    PowerupType.ExtraPoints100  : 1
+]
+
 protocol PowerupDelegate : class {
     func powerupExpired()
+    func powerupZero()
 }
 
 class Powerup : SKShapeNode {
@@ -77,6 +100,12 @@ class Powerup : SKShapeNode {
                 SKAction.scaleTo(1.0, duration: 0.1)
                 ]), completion: {()
                     self.physicsBody = temp
+                    
+                    var scaleAction = SKAction.scaleTo(0.0, duration: 6.0)
+                    scaleAction.timingMode = SKActionTimingMode.EaseIn
+                    self.runAction(scaleAction, completion: {()
+                        self.delegate.powerupExpired()
+                    })
         })
         
         return self
@@ -97,14 +126,17 @@ class Powerup : SKShapeNode {
         count = count - 1
         updateText()
         if count <= 0 {
-            delegate.powerupExpired()
+            delegate.powerupZero()
         }
     }
     
     func startWith(seconds: Int) {
+        removeAllActions()
         physicsBody = nil
         icon.hidden = true
         label.hidden = false
+        xScale = 1.0
+        yScale = 1.0
         
         count = seconds
         updateText()

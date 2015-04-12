@@ -44,11 +44,14 @@ class TimerBar : SKNode {
     func start() {
         stop()
         reset()
-        timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: Selector("tick:"), userInfo: nil, repeats: true)
     }
     
     func reset() {
         current = 0
+        bar.removeAllActions()
+        bar.runAction(SKAction.scaleXTo(1.0, duration: 1.0), completion: {()
+            self.timer = NSTimer.scheduledTimerWithTimeInterval(self.interval, target: self, selector: Selector("tick:"), userInfo: nil, repeats: true)
+        })
     }
     
     func stop() {

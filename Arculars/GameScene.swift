@@ -23,8 +23,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     var gameMode : GameMode!
     
-    private var powerupHandler : PowerupHandler!
-    
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
     private var circles = [Circle]()
@@ -38,6 +36,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     private var isGameOver = false
     private var multiplicator = 1
     private var powerupMultiplicator = 1
+    
+    private var powerupTimer = NSTimer()
+    private var currentPowerup : Powerup!
     
     private var healthBar : HealthBar!
     private var timerBar : TimerBar!
@@ -160,6 +161,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         isTimerBarExpired = false
         
         score?.reset()
+        currentPowerup = nil;
+        startPowerupTimer()
         
         healthBar?.removeFromParent()
         timerBar?.removeFromParent()
@@ -178,8 +181,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         resetCircleColors()
         resetCircleSpeed()
         resetAvailableColors()
-        
-        powerupHandler = PowerupHandler(gameMode: gameMode, difficulty: SettingsHandler.getDifficulty())
         
         isGameOver = false
     }
@@ -341,20 +342,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
                 healthBar?.decrement()
             }
         }
-        
-        checkForPowerup()
-    }
-    
-    private func checkForPowerup() {
-        if (powerupHandler.checkForNewPowerup(score.getScore()) && powerupHandler.currentPowerup == nil) {
-            var type = powerupHandler.randomPowerupType()
-            var powerup = Powerup(radius: ballRadius * 2, type: type)
-            powerup.position = circlePosition
-            powerup.delegate = self
-            powerupHandler.currentPowerup = powerup
-            rootNode.addChild(powerup)
-            powerup.fadeIn()
-        }
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
@@ -379,6 +366,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         }
         
         timerBar?.stop()
+        currentPowerup?.stop()
+        powerupTimer.invalidate()
         
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_firedballs)
@@ -438,8 +427,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     // MARK: - HANDLING POWERUPS
+    private func startPowerupTimer() {
+        var interval = NSTimeInterval(arc4random_uniform(20) + 10)
+        powerupTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: Selector("powerupTimerTick:"), userInfo: nil, repeats: true)
+    }
+    
+    @objc func powerupTimerTick(timer: NSTimer) {
+        powerupTimer.invalidate()
+        
+        var type = randomPowerupType()
+        currentPowerup = Powerup(radius: ballRadius * 2, type: type)
+        currentPowerup.position = circlePosition
+        currentPowerup.delegate = self
+        rootNode.addChild(currentPowerup)
+        currentPowerup.fadeIn()
+    }
+    
     private func handlePowerup() {
-        var type = powerupHandler.currentPowerup.powerupType!
+        var type = currentPowerup.powerupType!
         powerupDescription.text = type.description.uppercaseString
         
         switch type {
@@ -447,19 +452,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             break
         case .DoublePoints:
             powerupMultiplicator = 2
-            powerupHandler.currentPowerup.startWith(30)
+            currentPowerup.startWith(30)
             break
         case .TriplePoints:
             powerupMultiplicator = 3
-            powerupHandler.currentPowerup.startWith(15)
+            currentPowerup.startWith(15)
             break
         case .FullLifes:
             healthBar?.reset()
-            powerupExpired()
+            powerupZero()
             break
         case .FullTime:
-            timerBar?.reset()
-            powerupExpired()
+            timerBar?.start()
+            powerupZero()
             break
         case .Unicolor:
             for circle in circles {
@@ -468,27 +473,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             nextBall?.setColor(Colors.PowerupColor)
             availableColors.removeAll()
             availableColors.append(Colors.PowerupColor)
-            powerupHandler.currentPowerup.startWith(5)
+            currentPowerup.startWith(5)
             break
         case .ExtraPoints10:
             score.increaseByWithColor(10, color: Colors.PowerupColor)
-            checkForPowerup()
-            powerupExpired()
+            powerupZero()
             break
         case .ExtraPoints30:
             score.increaseByWithColor(30, color: Colors.PowerupColor)
-            checkForPowerup()
-            powerupExpired()
+            powerupZero()
             break
         case .ExtraPoints50:
             score.increaseByWithColor(50, color: Colors.PowerupColor)
-            checkForPowerup()
-            powerupExpired()
+            powerupZero()
             break
         case .ExtraPoints100:
             score.increaseByWithColor(100, color: Colors.PowerupColor)
-            checkForPowerup()
-            powerupExpired()
+            powerupZero()
             break
         default:
             break
@@ -496,15 +497,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     func powerupExpired() {
+        currentPowerup.removeFromParent()
+        currentPowerup.stop()
+        currentPowerup = nil
+        startPowerupTimer()
+    }
+    
+    func powerupZero() {
         powerupMultiplicator = 1
-        powerupHandler.currentPowerup.stop()
-        powerupHandler.currentPowerup.fadeOut()
-        powerupHandler.currentPowerup = nil
-
+        currentPowerup.stop()
+        currentPowerup.fadeOut()
+        
+        if (currentPowerup.powerupType == PowerupType.Unicolor) {
+            resetCircleColors()
+            resetAvailableColors()
+        }
+        
+        currentPowerup = nil
         powerupDescription.text = ""
         
-        resetCircleColors()
-        resetAvailableColors()
+        startPowerupTimer()
+    }
+    
+    
+    func randomPowerupType() -> PowerupType {
+        var powerups : [PowerupType : UInt32]!
+        if gameMode == GameMode.Endless { powerups = PowerupsEndless }
+        else if gameMode == GameMode.Timed { powerups = PowerupsTimed }
+        else { return PowerupType.None }
+        
+        var maxOccurence : UInt32 = 0
+        for occurence in powerups.values {
+            maxOccurence = maxOccurence + occurence
+        }
+        
+        var current : UInt32 = 1
+        var result : UInt32 = arc4random_uniform(maxOccurence) + 1
+        for (powerupType, occurence) in powerups {
+            if result >= current && result < (current + occurence) {
+                return powerupType
+            }
+            current = current + occurence
+        }
+        return PowerupType.None
     }
     
     // MARK: - HELPER FUNCTIONS
