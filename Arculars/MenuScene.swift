@@ -427,7 +427,7 @@ class MenuScene: SKScene {
             } else if (btnPlayTimed.containsPoint(location)) {
                 runAction(TIMEDaction)
             } else {
-                easteregg(location)
+                createRandomBall(location)
             }
         }
     }
@@ -438,14 +438,13 @@ class MenuScene: SKScene {
             
             var random = Int(arc4random_uniform(6));
             if random == 3 {
-                easteregg(location)
+                createRandomBall(location)
             }
         }
     }
     
-    // MARK: - CREATE RANDOM BALLS (EASTEREGG)
-    func easteregg(position: CGPoint) {
-        // Just a little 'easteregg' ;)
+    // MARK: - CREATE RANDOM BALLS
+    func createRandomBall(position: CGPoint) {
         var ball = SKShapeNode(circleOfRadius: frame.height / 64)
         ball.fillColor = Colors.AppColorThree
         ball.lineWidth = 1
