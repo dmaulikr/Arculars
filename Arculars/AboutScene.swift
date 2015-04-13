@@ -44,11 +44,11 @@ class AboutScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         runAction(SKAction.fadeInWithDuration(0.1))
-        randomBallTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("randomBallTimerTick:"), userInfo: nil, repeats: true)
+        startRandomBallTimer()
     }
     
     override func willMoveFromView(view: SKView) {
-        randomBallTimer.invalidate()
+        stopRandomBallTimer()
     }
     
     deinit {
@@ -168,6 +168,14 @@ class AboutScene: SKScene {
     }
     
     // MARK: - CREATE RANDOM BALLS
+    func startRandomBallTimer() {
+        randomBallTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("randomBallTimerTick:"), userInfo: nil, repeats: true)
+    }
+    
+    func stopRandomBallTimer() {
+        randomBallTimer.invalidate()
+    }
+    
     @objc func randomBallTimerTick(timer: NSTimer) {
         createRandomBall(randomPoint())
     }
