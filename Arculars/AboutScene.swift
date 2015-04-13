@@ -16,6 +16,8 @@ class AboutScene: SKScene {
     
     private var rootNode = SKNode()
     
+    private var randomBallTimer = NSTimer()
+    
     private var btnWeb : SKShapeNode!
     private var btnMail : SKShapeNode!
     private var btnToMenu : SKShapeNode!
@@ -42,6 +44,11 @@ class AboutScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         runAction(SKAction.fadeInWithDuration(0.1))
+        randomBallTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("randomBallTimerTick:"), userInfo: nil, repeats: true)
+    }
+    
+    override func willMoveFromView(view: SKView) {
+        randomBallTimer.invalidate()
     }
     
     deinit {
@@ -158,5 +165,36 @@ class AboutScene: SKScene {
         let version = dictionary["CFBundleShortVersionString"] as! String
         let build = dictionary["CFBundleVersion"] as! String
         return "\(version) build \(build)"
+    }
+    
+    // MARK: - CREATE RANDOM BALLS
+    @objc func randomBallTimerTick(timer: NSTimer) {
+        createRandomBall(randomPoint())
+    }
+    
+    func randomPoint() -> CGPoint {
+        // x coordinate between MinX (left) and MaxX (right):
+        let randomX = randomInRange(-Int(self.size.width / 2), hi: Int(self.size.width / 2))
+        // y coordinate between MinY (top) and MidY (middle):
+        let randomY = randomInRange(-Int(self.size.height / 2), hi: Int(self.size.height / 2))
+        return CGPoint(x: randomX, y: randomY)
+    }
+    
+    func randomInRange(lo: Int, hi : Int) -> Int {
+        return lo + Int(arc4random_uniform(UInt32(hi - lo + 1)))
+    }
+    
+    func createRandomBall(position: CGPoint) {
+        var ball = SKShapeNode(circleOfRadius: frame.height / 64)
+        ball.fillColor = Colors.randomAppColor()
+        ball.lineWidth = 1
+        ball.strokeColor = ball.fillColor
+        ball.antialiased = true
+        ball.position = position
+        ball.zPosition = -10
+        rootNode.addChild(ball)
+        ball.runAction(SKAction.scaleTo(0.0, duration: NSTimeInterval((arc4random_uniform(5) + 1))), completion: {()
+            ball.removeFromParent()
+        })
     }
 }

@@ -262,9 +262,9 @@ class MenuScene: SKScene {
             ])
             
             var flyin = SKAction.sequence([
-                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 6) * 2) - 10), duration: 0.1),
-                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 6) * 2) + 10), duration: 0.1),
-                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 6) * 2), duration: 0.1)
+                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 7) * 2) - 10), duration: 0.1),
+                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 7) * 2) + 10), duration: 0.1),
+                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 7) * 2), duration: 0.1)
             ])
             
             self.title.runAction(flyin)
@@ -446,9 +446,9 @@ class MenuScene: SKScene {
     // MARK: - CREATE RANDOM BALLS
     func createRandomBall(position: CGPoint) {
         var ball = SKShapeNode(circleOfRadius: frame.height / 64)
-        ball.fillColor = Colors.AppColorThree
+        ball.fillColor = Colors.randomAppColor()
         ball.lineWidth = 1
-        ball.strokeColor = Colors.AppColorThree
+        ball.strokeColor = ball.fillColor
         ball.antialiased = true
         ball.position = position
         ball.zPosition = -10
