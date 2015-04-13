@@ -19,6 +19,8 @@ let STATS_PLAYEDGAMES                   = "stats_playedgames"
 let STATS_FIREDBALLS                    = "stats_firedballs"
 let STATS_TOTALPOINTS                   = "stats_totalpoints"
 let STATS_CORRECT_COLLISIONS            = "stats_correct_collisions"
+let STATS_COLLECTEDPOWERUPS             = "stats_collectedpowerups"
+let STATS_NOCOLLISIONS                  = "stats_nocollisions"
 
 class StatsHandler {
     
@@ -58,6 +60,14 @@ class StatsHandler {
     
     class func getCorrectCollisions() -> Int {
         return NSUserDefaults.standardUserDefaults().integerForKey(STATS_CORRECT_COLLISIONS)
+    }
+    
+    class func getCollectedPowerups() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_COLLECTEDPOWERUPS)
+    }
+    
+    class func getNoCollisions() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_NOCOLLISIONS)
     }
     
     class func getPrecision() -> Float {
@@ -127,6 +137,18 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
+    class func updateCollectedPowerupsBy(delta: Int) {
+        var current = getCollectedPowerups()
+        NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_COLLECTEDPOWERUPS)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    class func updateNoCollisionsBy(delta: Int) {
+        var current = getNoCollisions()
+        NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_NOCOLLISIONS)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
     class func incrementPlayedGames() {
         var current = getPlayedGames()
         NSUserDefaults.standardUserDefaults().setInteger(current + 1, forKey: STATS_PLAYEDGAMES)
@@ -144,6 +166,8 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_TOTALPOINTS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_CORRECT_COLLISIONS)
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_COLLECTEDPOWERUPS)
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_NOCOLLISIONS)
         
         NSUserDefaults.standardUserDefaults().synchronize()
     }

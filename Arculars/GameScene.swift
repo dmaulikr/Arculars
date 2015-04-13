@@ -49,6 +49,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     private var stats_starttime : NSDate!
     private var stats_firedballs = 0
     private var stats_correct_collisions = 0
+    private var stats_collectedpowerups = 0
+    private var stats_nocollisions = 0
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
@@ -173,6 +175,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             initHealthBar()
         }
         
+        stats_nocollisions = 0
+        stats_collectedpowerups = 0
         stats_correct_collisions = 0
         stats_firedballs = 0
         stats_starttime = NSDate()
@@ -344,11 +348,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
+        stats_nocollisions++
         activeBalls.removeLast()
         ball.removeFromParent()
     }
     
     private func ballDidCollideWithPowerup(ball: Ball) {
+        stats_collectedpowerups++
         activeBalls.removeLast()
         ball.removeFromParent()
         handlePowerup()
@@ -371,6 +377,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_firedballs)
         StatsHandler.updateCorrectCollisionsBy(stats_correct_collisions)
+        StatsHandler.updateCollectedPowerupsBy(stats_collectedpowerups)
+        StatsHandler.updateNoCollisionsBy(stats_nocollisions)
         StatsHandler.incrementPlayedGames()
         
         var endScore = score.getScore()
