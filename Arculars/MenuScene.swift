@@ -20,7 +20,9 @@ class MenuScene: SKScene {
     
     private var distance : CGFloat!
     
-    private var title : SKLabelNode!
+    private var title : SKNode!
+    private var lblArculars : SKLabelNode!
+    private var btnAbout : SKSpriteNode!
     private var btnStats : SKShapeNode!
     private var btnHelp : SKShapeNode!
     private var btnSettings : SKShapeNode!
@@ -84,11 +86,26 @@ class MenuScene: SKScene {
         initButtons()
         initActions()
         
-        title = SKLabelNode(text: "ARCULARS")
-        title.fontName = Fonts.FontNameBold
-        title.fontSize = size.height / 16
-        title.fontColor = Colors.FontColor
-        title.position = CGPoint(x: 0, y: self.size.height / 2)
+        // INIT TITLE
+        title = SKNode()
+        title.position = CGPoint(x: 0, y: size.height / 2)
+        
+        lblArculars = SKLabelNode(text: "ARCULARS")
+        lblArculars.fontName = Fonts.FontNameBold
+        lblArculars.fontSize = size.height / 16
+        lblArculars.fontColor = Colors.FontColor
+        lblArculars.position = CGPoint(x: 0, y: 0)
+        lblArculars.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        lblArculars.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        title.addChild(lblArculars)
+        
+        btnAbout = SKSpriteNode(imageNamed: "icon-arculars")
+        btnAbout.colorBlendFactor = 1
+        btnAbout.color = Colors.FontColor
+        btnAbout.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        btnAbout.position = CGPoint(x: 0, y: lblArculars.frame.height + (btnAbout.frame.height / 2))
+        title.addChild(btnAbout)
+        
         rootNode.addChild(title)
     }
     
