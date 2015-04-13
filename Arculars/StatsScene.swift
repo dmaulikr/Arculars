@@ -18,7 +18,7 @@ class StatsScene: SKScene {
     
     private var label_playedtime            : SKLabelNode!
     private var label_playedgames           : SKLabelNode!
-    private var label_overallpoints         : SKLabelNode!
+    private var label_totalpoints           : SKLabelNode!
     private var label_highscore_endless     : SKLabelNode!
     private var label_highscore_timed       : SKLabelNode!
     private var label_firedballs            : SKLabelNode!
@@ -90,9 +90,9 @@ class StatsScene: SKScene {
         rootNode.addChild(pgn)
         
         // INIT OVERALL POINTS NODE
-        var opn = createRow("OVERALL POINTS")
+        var opn = createRow("TOTAL POINTS")
         opn.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 4))
-        label_overallpoints = (opn.childNodeWithName("stats_label") as! SKLabelNode)
+        label_totalpoints = (opn.childNodeWithName("stats_label") as! SKLabelNode)
         rootNode.addChild(opn)
         
         // INIT HIGHSCORE ENDLESS NODE
@@ -160,7 +160,7 @@ class StatsScene: SKScene {
     private func getStats() {
         label_playedtime.text = stringFromSeconds(StatsHandler.getPlayedTime())
         label_playedgames.text = "\(StatsHandler.getPlayedGames())"
-        label_overallpoints.text = "\(StatsHandler.getOverallPoints())"
+        label_totalpoints.text = "\(StatsHandler.getTotalPoints())"
         label_highscore_endless.text = "\(StatsHandler.getHighscore(GameMode.Endless))"
         label_highscore_timed.text = "\(StatsHandler.getHighscore(GameMode.Timed))"
         label_firedballs.text = "\(StatsHandler.getFiredBalls())"

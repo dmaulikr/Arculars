@@ -376,7 +376,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var endScore = score.getScore()
         StatsHandler.updateLastscore(endScore, gameMode: gameMode)
         StatsHandler.updateHighscore(endScore, gameMode: gameMode)
-        StatsHandler.updateOverallPointsBy(endScore)
+        StatsHandler.updateTotalPointsBy(endScore)
         
         reportLeaderboardScore(endScore)
         

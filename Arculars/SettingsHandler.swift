@@ -59,4 +59,10 @@ class SettingsHandler {
         }
         return Difficulty(rawValue: difficulty)!
     }
+    
+    class func reset() {
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_VIBRATION)
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_SOUND)
+        NSUserDefaults.standardUserDefaults().setInteger(Difficulty.Normal.rawValue, forKey: SETTINGS_DIFFICULTY)
+    }
 }

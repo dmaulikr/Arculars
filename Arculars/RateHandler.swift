@@ -25,4 +25,8 @@ class RateHandler {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: RATE_DONTSHOWAGAIN)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
+    
+    class func reset() {
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: RATE_DONTSHOWAGAIN)
+    }
 }

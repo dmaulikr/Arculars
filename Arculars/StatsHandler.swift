@@ -17,7 +17,7 @@ let GAME_LASTSCORE_TIMED                = "game_lastscore_timed"
 let STATS_PLAYEDTIME                    = "stats_playedtime"
 let STATS_PLAYEDGAMES                   = "stats_playedgames"
 let STATS_FIREDBALLS                    = "stats_firedballs"
-let STATS_OVERALLPOINTS                 = "stats_overallpoints"
+let STATS_TOTALPOINTS                   = "stats_totalpoints"
 let STATS_CORRECT_COLLISIONS            = "stats_correct_collisions"
 
 class StatsHandler {
@@ -52,8 +52,8 @@ class StatsHandler {
         return NSUserDefaults.standardUserDefaults().integerForKey(STATS_FIREDBALLS)
     }
     
-    class func getOverallPoints() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_OVERALLPOINTS)
+    class func getTotalPoints() -> Int {
+        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_TOTALPOINTS)
     }
     
     class func getCorrectCollisions() -> Int {
@@ -113,11 +113,11 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
-    class func updateOverallPointsBy(delta: Int) {
+    class func updateTotalPointsBy(delta: Int) {
         if (delta < 0) { return }
         
-        var points = getOverallPoints()
-        NSUserDefaults.standardUserDefaults().setInteger(points + delta, forKey: STATS_OVERALLPOINTS)
+        var points = getTotalPoints()
+        NSUserDefaults.standardUserDefaults().setInteger(points + delta, forKey: STATS_TOTALPOINTS)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
@@ -142,7 +142,7 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDGAMES)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDTIME)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_OVERALLPOINTS)
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_TOTALPOINTS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_CORRECT_COLLISIONS)
         
         NSUserDefaults.standardUserDefaults().synchronize()
