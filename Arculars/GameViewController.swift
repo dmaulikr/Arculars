@@ -31,7 +31,7 @@ class GameViewController: UIViewController, SceneDelegate {
         #endif
         
         // Init Easy Game Center Singleton
-        let eaysGameCenter = GCHandler.sharedInstance {
+        let gamecenter = GCHandler.sharedInstance {
             (resultPlayerAuthentified) -> Void in
             if resultPlayerAuthentified {
                 // When player is authentified to Game Center
