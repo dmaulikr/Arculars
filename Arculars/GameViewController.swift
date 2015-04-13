@@ -44,6 +44,7 @@ class GameViewController: UIViewController, SceneDelegate {
         
         // Present the initial scene.
         if !NSUserDefaults.standardUserDefaults().boolForKey("hasPerformedFirstLaunch") {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: RATE_DONTSHOWAGAIN)
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_VIBRATION)
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_SOUND)
             NSUserDefaults.standardUserDefaults().setInteger(Difficulty.Normal.rawValue, forKey: SETTINGS_DIFFICULTY)
@@ -184,5 +185,23 @@ class GameViewController: UIViewController, SceneDelegate {
                 self.showMenuScene()
             })
         }
+    }
+    
+    func presentRateOnAppStore() {
+        var refreshAlert = UIAlertController(title: "Rate Arculars", message: "If you enjoy using Arculars, would you mind taking a moment to rate it? It won't take more than a minute. Thanks for your support!", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Rate Arculars", style: .Default, handler: { (action: UIAlertAction!) in
+            RateHandler.dontShowAgain()
+            let url = NSURL(string: "\(Strings.ArcularsAppStore)")
+            UIApplication.sharedApplication().openURL(url!)
+        }))
+        refreshAlert.addAction(UIAlertAction(title: "Remind me later", style: .Default, handler: { (action: UIAlertAction!) in
+            
+        }))
+        refreshAlert.addAction(UIAlertAction(title: "No, thanks", style: UIAlertActionStyle.Cancel, handler: { (action: UIAlertAction!) in
+            RateHandler.dontShowAgain()
+        }))
+        
+        self.presentViewController(refreshAlert, animated: true, completion: nil)
     }
 }

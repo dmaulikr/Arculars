@@ -9,15 +9,15 @@
 protocol SceneDelegate : class {
     
     func showGameScene(gameType: GameMode)
-    
     func showMenuScene()
     func showGameoverScene(gameType: GameMode)
-    
     func showAboutScene()
     func showHelpScene()
-    func presentGameCenter()
     func showStatsScene()
     func showSettingsScene()
+    
+    func presentGameCenter()
+    func presentRateOnAppStore()
     
     func shareOnOther()
     func shareOnTwitter()

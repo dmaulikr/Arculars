@@ -53,6 +53,9 @@ class GameoverScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         getScores()
+        if (RateHandler.checkIfRate(StatsHandler.getPlayedGames())) {
+            sceneDelegate?.presentRateOnAppStore()
+        }
     }
     
     deinit {
