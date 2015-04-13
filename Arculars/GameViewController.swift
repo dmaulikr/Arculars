@@ -122,9 +122,14 @@ class GameViewController: UIViewController, SceneDelegate {
     
     func shareOnOther() {
         let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my highscore? Download on http://arculars.rmnblm.io"
-        let myWebsite = "http://arculars.rmnblm.io"
-        let objectsToShare = [textToShare, myWebsite]
+        let objectsToShare = [textToShare]
         let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        
+        // For iPad only
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: -(view.frame.width / 2) + ((view.frame.width / 5) * 4), y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
+        //
+        
         activityViewController.excludedActivityTypes = [UIActivityTypeAirDrop, UIActivityTypeAddToReadingList]
         self.presentViewController(activityViewController, animated: true, completion: nil)
     }
