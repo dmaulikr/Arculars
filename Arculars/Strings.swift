@@ -10,4 +10,7 @@ struct Strings {
     static let ArcularsEmail      = "arculars@rmnblm.io"
     static let ArcularsWebsite    = "http://arculars.rmnblm.io"
     static let ArcularsAppStore   = "http://appstore.com/arculars"
+    
+    static let LeaderboardEndless = "leaderboard.endless"
+    static let LeaderboardTimed   = "leaderboard.timed"
 }

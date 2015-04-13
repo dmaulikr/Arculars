@@ -401,10 +401,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         if (newScore > 0) {
             switch gameMode.rawValue {
             case GameMode.Endless.rawValue:
-                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: "arculars_endless", score: newScore, completion: nil)
+                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: Strings.LeaderboardEndless, score: newScore, completion: nil)
                 break
             case GameMode.Timed.rawValue:
-                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: "arculars_timed", score: newScore, completion: nil)
+                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: Strings.LeaderboardTimed, score: newScore, completion: nil)
                 break
             default:
                 return
