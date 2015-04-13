@@ -145,7 +145,7 @@ class AboutScene: SKScene {
             let location = touch.locationInNode(self)
             for object in nodesAtPoint(location) {
                 if (btnToMenu == object as? SKShapeNode) {
-                    sceneDelegate!.showMenu()
+                    sceneDelegate!.showMenuScene()
                 } else if (btnMail == object as? SKShapeNode) {
                     let url = NSURL(string: "mailto:\(Strings.ArcularsEmail)")
                     UIApplication.sharedApplication().openURL(url!)

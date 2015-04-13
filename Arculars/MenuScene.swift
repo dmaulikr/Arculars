@@ -370,7 +370,7 @@ class MenuScene: SKScene {
             ENDLESSmove.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayEndless.zPosition = 0
             self.btnPlayEndless.runAction(SKAction.sequence([ENDLESSwait, ENDLESSmove, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.startGame(GameMode.Endless)
+                self.sceneDelegate!.showGameScene(GameMode.Endless)
             })
         })
         
@@ -390,7 +390,7 @@ class MenuScene: SKScene {
             TIMEDmove.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayTimed.zPosition = 0
             self.btnPlayTimed.runAction(SKAction.sequence([TIMEDwait, TIMEDmove, SKAction.waitForDuration(0.1)]), completion: {()
-                self.sceneDelegate!.startGame(GameMode.Timed)
+                self.sceneDelegate!.showGameScene(GameMode.Timed)
             })
         })
         
@@ -404,24 +404,24 @@ class MenuScene: SKScene {
             
             if (title.containsPoint(location)) {
                 self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
-                    self.sceneDelegate!.showAbout()
+                    self.sceneDelegate!.showAboutScene()
                 })
             } else if (btnGo.containsPoint(location)) {
                 runAction(GOaction)
             } else if (btnHelp.containsPoint(location)) {
                 self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
-                    self.sceneDelegate!.showHelp()
+                    self.sceneDelegate!.showHelpScene()
                 })
             } else if (btnSettings.containsPoint(location)) {
                 self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
-                    self.sceneDelegate!.showSettings()
+                    self.sceneDelegate!.showSettingsScene()
                 })
             } else if (btnStats.containsPoint(location)) {
                 self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
-                    self.sceneDelegate!.showStatistics()
+                    self.sceneDelegate!.showStatsScene()
                 })
             } else if (btnGamecenter.containsPoint(location)) {
-                self.sceneDelegate!.showGamecenter()
+                self.sceneDelegate!.presentGameCenter()
             } else if (btnPlayEndless.containsPoint(location)) {
                 runAction(ENDLESSaction)
             } else if (btnPlayTimed.containsPoint(location)) {

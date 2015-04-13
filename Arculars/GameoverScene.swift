@@ -181,7 +181,7 @@ class GameoverScene: SKScene {
             let location = touch.locationInNode(rootNode)
             
             if (tomenu.containsPoint(location)) {
-                self.sceneDelegate!.showMenu()
+                self.sceneDelegate!.showMenuScene()
             } else if (twitter.containsPoint(location)) {
                 sceneDelegate!.shareOnTwitter()
             } else if (facebook.containsPoint(location)) {
@@ -191,7 +191,7 @@ class GameoverScene: SKScene {
             } else if (shareother.containsPoint(location)) {
                 sceneDelegate!.shareOnOther()
             } else {
-                sceneDelegate!.startGame(gameMode)
+                sceneDelegate!.showGameScene(gameMode)
             }
         }
     }

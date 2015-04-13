@@ -380,7 +380,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         reportLeaderboardScore(endScore)
         
-        sceneDelegate!.showGameover(gameMode)
+        sceneDelegate!.showGameoverScene(gameMode)
     }
     
     // MARK: - GAMECENTER INTEGRATION

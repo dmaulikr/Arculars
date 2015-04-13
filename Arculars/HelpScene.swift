@@ -94,7 +94,7 @@ class HelpScene: SKScene {
             let location = touch.locationInNode(self)
             for object in nodesAtPoint(location) {
                 if (btnToMenu == object as? SKShapeNode) {
-                    sceneDelegate!.showMenu()
+                    sceneDelegate!.showMenuScene()
                 }
             }
         }
