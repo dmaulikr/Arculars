@@ -22,12 +22,6 @@ class GameViewController: UIViewController, SceneDelegate {
         let skView = view as! SKView
         skView.multipleTouchEnabled = false
         
-        // Add observer to know when the app enters background
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didEnterBackground:"), name:UIApplicationDidEnterBackgroundNotification, object: nil)
-        
-        // Add observer to know when the app gets active
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didBecomActive:"), name:UIApplicationDidBecomeActiveNotification, object: nil)
-        
         #if DEBUG
             /*
             skView.showsDrawCount = true
@@ -71,18 +65,6 @@ class GameViewController: UIViewController, SceneDelegate {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
-    }
-    
-    func didEnterBackground(notification : NSNotification) {
-        #if DEBUG
-            println("Arculars did enter background")
-        #endif
-    }
-    
-    func didBecomActive(notification : NSNotification) {
-        #if DEBUG
-            println("Arculars did become active")
-        #endif
     }
     
     func shareOnTwitter() {
