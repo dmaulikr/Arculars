@@ -18,7 +18,7 @@ let STATS_PLAYEDTIME                    = "stats_playedtime"
 let STATS_PLAYEDGAMES                   = "stats_playedgames"
 let STATS_FIREDBALLS                    = "stats_firedballs"
 let STATS_TOTALPOINTS                   = "stats_totalpoints"
-let STATS_CORRECT_COLLISIONS            = "stats_correct_collisions"
+let STATS_CORRECTCOLLISIONS             = "stats_correctcollisions"
 let STATS_COLLECTEDPOWERUPS             = "stats_collectedpowerups"
 let STATS_NOCOLLISIONS                  = "stats_nocollisions"
 
@@ -59,7 +59,7 @@ class StatsHandler {
     }
     
     class func getCorrectCollisions() -> Int {
-        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_CORRECT_COLLISIONS)
+        return NSUserDefaults.standardUserDefaults().integerForKey(STATS_CORRECTCOLLISIONS)
     }
     
     class func getCollectedPowerups() -> Int {
@@ -133,7 +133,7 @@ class StatsHandler {
     
     class func updateCorrectCollisionsBy(delta: Int) {
         var current = getCorrectCollisions()
-        NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_CORRECT_COLLISIONS)
+        NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_CORRECTCOLLISIONS)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
@@ -165,7 +165,7 @@ class StatsHandler {
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_PLAYEDTIME)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_FIREDBALLS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_TOTALPOINTS)
-        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_CORRECT_COLLISIONS)
+        NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_CORRECTCOLLISIONS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_COLLECTEDPOWERUPS)
         NSUserDefaults.standardUserDefaults().setInteger(0, forKey: STATS_NOCOLLISIONS)
         

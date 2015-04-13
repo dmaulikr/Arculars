@@ -48,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     // Variables for Stats
     private var stats_starttime : NSDate!
     private var stats_firedballs = 0
-    private var stats_correct_collisions = 0
+    private var stats_correctcollisions = 0
     private var stats_collectedpowerups = 0
     private var stats_nocollisions = 0
     
@@ -177,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         stats_nocollisions = 0
         stats_collectedpowerups = 0
-        stats_correct_collisions = 0
+        stats_correctcollisions = 0
         stats_firedballs = 0
         stats_starttime = NSDate()
         
@@ -329,7 +329,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         ball.removeFromParent()
         
         if (ball.nodeColor == circle.nodeColor) {
-            stats_correct_collisions++
+            stats_correctcollisions++
             runSound()
             var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
             score.increaseByWithColor(points, color: ball.nodeColor)
@@ -377,7 +377,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var playedtime = Int(NSDate().timeIntervalSinceDate(stats_starttime))
         StatsHandler.updatePlayedTimeBy(playedtime)
         StatsHandler.updateFiredBallsBy(stats_firedballs)
-        StatsHandler.updateCorrectCollisionsBy(stats_correct_collisions)
+        StatsHandler.updateCorrectCollisionsBy(stats_correctcollisions)
         StatsHandler.updateCollectedPowerupsBy(stats_collectedpowerups)
         StatsHandler.updateNoCollisionsBy(stats_nocollisions)
         
