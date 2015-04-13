@@ -34,7 +34,7 @@
 		305BCAF41AC973A8004F68E6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF31AC973A8004F68E6 /* HelpScene.swift */; };
 		306B28381ADAF76F000D683A /* PowerupType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B28371ADAF76F000D683A /* PowerupType.swift */; };
 		30740F3A1ADBD48600B7D965 /* RateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30740F391ADBD48600B7D965 /* RateHandler.swift */; };
-		30740F3C1ADC0FF100B7D965 /* AchievementsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30740F3B1ADC0FF100B7D965 /* AchievementsHandler.swift */; };
+		30740F3E1ADC699600B7D965 /* AchievementsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30740F3D1ADC699600B7D965 /* AchievementsHandler.swift */; };
 		308F5EB21AC2171D004E40EC /* SettingsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 308F5EB11AC2171D004E40EC /* SettingsHandler.swift */; };
 		3091AC1C1ACA84D300E25F13 /* GCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3091AC1B1ACA84D300E25F13 /* GCHandler.swift */; };
 		3091AC1E1ACA84E000E25F13 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */; };
@@ -89,7 +89,7 @@
 		305BCAF31AC973A8004F68E6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		306B28371ADAF76F000D683A /* PowerupType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupType.swift; sourceTree = "<group>"; };
 		30740F391ADBD48600B7D965 /* RateHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateHandler.swift; sourceTree = "<group>"; };
-		30740F3B1ADC0FF100B7D965 /* AchievementsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementsHandler.swift; sourceTree = "<group>"; };
+		30740F3D1ADC699600B7D965 /* AchievementsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementsHandler.swift; sourceTree = "<group>"; };
 		308F5EB11AC2171D004E40EC /* SettingsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsHandler.swift; sourceTree = "<group>"; };
 		3091AC1B1ACA84D300E25F13 /* GCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCHandler.swift; sourceTree = "<group>"; };
 		3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -238,7 +238,7 @@
 				30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */,
 				3091AC1B1ACA84D300E25F13 /* GCHandler.swift */,
 				30740F391ADBD48600B7D965 /* RateHandler.swift */,
-				30740F3B1ADC0FF100B7D965 /* AchievementsHandler.swift */,
+				30740F3D1ADC699600B7D965 /* AchievementsHandler.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -394,7 +394,7 @@
 				3091AC1C1ACA84D300E25F13 /* GCHandler.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,
-				30740F3C1ADC0FF100B7D965 /* AchievementsHandler.swift in Sources */,
+				30740F3E1ADC699600B7D965 /* AchievementsHandler.swift in Sources */,
 				30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */,
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
 				305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */,

@@ -90,10 +90,14 @@ class StatsHandler {
         case .Endless:
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_ENDLESS)
             NSUserDefaults.standardUserDefaults().synchronize()
+            GCHandler.reportScoreLeaderboard(leaderboardIdentifier: Strings.LeaderboardEndless, score: score, completion: nil)
+            AchievementsHandler.checkHighscoreEndless()
             break
         case .Timed:
             NSUserDefaults.standardUserDefaults().setInteger(score, forKey: GAME_HIGHSCORE_TIMED)
             NSUserDefaults.standardUserDefaults().synchronize()
+            GCHandler.reportScoreLeaderboard(leaderboardIdentifier: Strings.LeaderboardTimed, score: score, completion: nil)
+            AchievementsHandler.checkHighscoreTimed()
             break
         }
     }

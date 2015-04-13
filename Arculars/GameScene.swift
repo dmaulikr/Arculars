@@ -47,10 +47,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     // Variables for Stats
     private var stats_starttime : NSDate!
-    private var stats_firedballs = 0
-    private var stats_correctcollisions = 0
-    private var stats_collectedpowerups = 0
-    private var stats_nocollisions = 0
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
@@ -175,10 +171,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             initHealthBar()
         }
         
-        stats_nocollisions = 0
-        stats_collectedpowerups = 0
-        stats_correctcollisions = 0
-        stats_firedballs = 0
         stats_starttime = NSDate()
         
         resetCircleColors()
@@ -256,7 +248,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
                 gameover()
             } else {
                 if !isGameOver && !isTimerBarExpired {
-                    stats_firedballs++
+                    StatsHandler.updateFiredBallsBy(1)
                     shootBall()
                     addBall()
                 }
@@ -329,10 +321,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         ball.removeFromParent()
         
         if (ball.nodeColor == circle.nodeColor) {
-            stats_correctcollisions++
+            StatsHandler.updateCorrectCollisionsBy(1)
             runSound()
             var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
-            score.increaseByWithColor(points, color: ball.nodeColor)
+            updateScoreBy(points, color: ball.nodeColor)
             
             if gameMode == GameMode.Timed {
                 timerBar?.addTime(Double(circle.pointsPerHit))
@@ -348,13 +340,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
     
     private func ballDidCollideWithBorder(ball: Ball) {
-        stats_nocollisions++
+        StatsHandler.updateNoCollisionsBy(1)
         activeBalls.removeLast()
         ball.removeFromParent()
     }
     
     private func ballDidCollideWithPowerup(ball: Ball) {
-        stats_collectedpowerups++
+        StatsHandler.updateCollectedPowerupsBy(1)
         activeBalls.removeLast()
         ball.removeFromParent()
         handlePowerup()
@@ -376,40 +368,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         var playedtime = Int(NSDate().timeIntervalSinceDate(stats_starttime))
         StatsHandler.updatePlayedTimeBy(playedtime)
-        StatsHandler.updateFiredBallsBy(stats_firedballs)
-        StatsHandler.updateCorrectCollisionsBy(stats_correctcollisions)
-        StatsHandler.updateCollectedPowerupsBy(stats_collectedpowerups)
-        StatsHandler.updateNoCollisionsBy(stats_nocollisions)
-        
-        // increment played games only if the user played longer than 5s
-        if playedtime > 5 {
+        if playedtime > 3 {
             StatsHandler.incrementPlayedGames()
         }
         
-        var endScore = score.getScore()
-        StatsHandler.updateLastscore(endScore, gameMode: gameMode)
-        StatsHandler.updateHighscore(endScore, gameMode: gameMode)
-        StatsHandler.updateTotalPointsBy(endScore)
-        
-        reportLeaderboardScore(endScore)
-        
         sceneDelegate!.showGameoverScene(gameMode)
-    }
-    
-    // MARK: - GAMECENTER INTEGRATION
-    private func reportLeaderboardScore(newScore: Int) {
-        if (newScore > 0) {
-            switch gameMode.rawValue {
-            case GameMode.Endless.rawValue:
-                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: Strings.LeaderboardEndless, score: newScore, completion: nil)
-                break
-            case GameMode.Timed.rawValue:
-                GCHandler.reportScoreLeaderboard(leaderboardIdentifier: Strings.LeaderboardTimed, score: newScore, completion: nil)
-                break
-            default:
-                return
-            }
-        }
     }
     
     // MARK: - TIMERBAR DELEGATE    
@@ -496,19 +459,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             currentPowerup.startWith(5)
             break
         case .ExtraPoints10:
-            score.increaseByWithColor(10, color: Colors.PowerupColor)
+            updateScoreBy(10, color: Colors.PowerupColor)
             powerupZero()
             break
         case .ExtraPoints30:
-            score.increaseByWithColor(30, color: Colors.PowerupColor)
+            updateScoreBy(30, color: Colors.PowerupColor)
             powerupZero()
             break
         case .ExtraPoints50:
-            score.increaseByWithColor(50, color: Colors.PowerupColor)
+            updateScoreBy(50, color: Colors.PowerupColor)
             powerupZero()
             break
         case .ExtraPoints100:
-            score.increaseByWithColor(100, color: Colors.PowerupColor)
+            updateScoreBy(100, color: Colors.PowerupColor)
             powerupZero()
             break
         default:
@@ -567,5 +530,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var random = Int(arc4random_uniform(UInt32(availableColors.count)));
         var color = availableColors[random]
         return color
+    }
+    
+    private func updateScoreBy(score: Int, color: UIColor) {
+        self.score.increaseByWithColor(score, color: color)
+        
+        StatsHandler.updateTotalPointsBy(score)
+        StatsHandler.updateLastscore(self.score.getScore(), gameMode: gameMode)
+        StatsHandler.updateHighscore(self.score.getScore(), gameMode: gameMode)
     }
 }
