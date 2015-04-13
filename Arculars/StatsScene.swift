@@ -181,7 +181,7 @@ class StatsScene: SKScene {
                         StatsHandler.reset()
                         self.getStats()
                     }))
-                    refreshAlert.addAction(UIAlertAction(title: "No", style: .Default, handler: nil))
+                    refreshAlert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
                     
                     view?.window?.rootViewController?.presentViewController(refreshAlert, animated: true, completion: nil)
                 }
