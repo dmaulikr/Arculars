@@ -38,7 +38,7 @@ protocol PowerupDelegate : class {
 
 class Powerup : SKShapeNode {
     
-    var delegate : PowerupDelegate!
+    weak var delegate : PowerupDelegate!
     var powerupType : PowerupType!
     
     private var timer = NSTimer()
