@@ -171,7 +171,7 @@ class AboutScene: SKScene {
         var run = SKAction.runBlock({
             self.randomBallTimerTick()
         })
-        runAction(SKAction.repeatActionForever(SKAction.sequence([run, wait])), withKey: "actionTimer")
+        runAction(SKAction.repeatActionForever(SKAction.sequence([wait, run])), withKey: "actionTimer")
     }
     
     private func stopRandomBallTimer() {
