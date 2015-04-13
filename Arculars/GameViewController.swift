@@ -42,6 +42,9 @@ class GameViewController: UIViewController, SceneDelegate {
         
         // Present the initial scene.
         if !NSUserDefaults.standardUserDefaults().boolForKey("hasPerformedFirstLaunch") {
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_VIBRATION)
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_SOUND)
+            NSUserDefaults.standardUserDefaults().setInteger(Difficulty.Normal.rawValue, forKey: SETTINGS_DIFFICULTY)
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasPerformedFirstLaunch")
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelp()
