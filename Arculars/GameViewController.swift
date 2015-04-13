@@ -71,7 +71,7 @@ class GameViewController: UIViewController, SceneDelegate {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
             var twitterSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             twitterSheet.setInitialText("Check out my score in Arculars! #ARCULARS")
-            twitterSheet.addURL(NSURL(fileURLWithPath: "http://arculars.rmnblm.io"))
+            twitterSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
             self.presentViewController(twitterSheet, animated: true, completion: nil)
         } else {
             var alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -84,7 +84,7 @@ class GameViewController: UIViewController, SceneDelegate {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
             var facebookSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             facebookSheet.setInitialText("Check out my score in Arculars! #ARCULARS")
-            facebookSheet.addURL(NSURL(fileURLWithPath: "http://arculars.rmnblm.io"))
+            facebookSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
             self.presentViewController(facebookSheet, animated: true, completion: nil)
         } else {
             var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -94,7 +94,7 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func shareOnWhatsApp() {
-        var text = "Check out Arculars, an addictive App for iOS! Can you beat my highscore? Download on http://arculars.rmnblm.io"
+        var text = "Check out Arculars, an addictive App for iOS! Can you beat my highscore? Download on " + Strings.ArcularsAppStore
         var escapedString = "whatsapp://send?text=" + text.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         var whatsappURL : NSURL? = NSURL(string: escapedString)
         if (UIApplication.sharedApplication().canOpenURL(whatsappURL!)) {
@@ -103,7 +103,7 @@ class GameViewController: UIViewController, SceneDelegate {
     }
     
     func shareOnOther() {
-        let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my highscore? Download on http://arculars.rmnblm.io"
+        let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my highscore? Download on " + Strings.ArcularsAppStore
         let objectsToShare = [textToShare]
         let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         
