@@ -374,12 +374,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         currentPowerup?.stop()
         stopPowerupTimer()
         
-        StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
+        var playedtime = Int(NSDate().timeIntervalSinceDate(stats_starttime))
+        StatsHandler.updatePlayedTimeBy(playedtime)
         StatsHandler.updateFiredBallsBy(stats_firedballs)
         StatsHandler.updateCorrectCollisionsBy(stats_correct_collisions)
         StatsHandler.updateCollectedPowerupsBy(stats_collectedpowerups)
         StatsHandler.updateNoCollisionsBy(stats_nocollisions)
-        StatsHandler.incrementPlayedGames()
+        
+        // increment played games only if the user played longer than 5s
+        if playedtime > 5 {
+            StatsHandler.incrementPlayedGames()
+        }
         
         var endScore = score.getScore()
         StatsHandler.updateLastscore(endScore, gameMode: gameMode)
