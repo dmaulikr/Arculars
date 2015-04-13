@@ -44,6 +44,7 @@ class Powerup : SKShapeNode {
     private var label : SKLabelNode!
     private var icon : SKSpriteNode!
     private var count : Int!
+    private var expirationTime = 6.0
     
     init(radius: CGFloat, type: PowerupType) {
         super.init()
@@ -99,7 +100,7 @@ class Powerup : SKShapeNode {
                 ]), completion: {()
                     self.physicsBody = temp
                     
-                    var scaleAction = SKAction.scaleTo(0.0, duration: 6.0)
+                    var scaleAction = SKAction.scaleTo(0.0, duration: self.expirationTime)
                     scaleAction.timingMode = SKActionTimingMode.EaseIn
                     self.runAction(scaleAction, completion: {()
                         self.delegate.powerupExpired()
