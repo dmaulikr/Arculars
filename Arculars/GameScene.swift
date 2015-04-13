@@ -37,7 +37,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     private var multiplicator = 1
     private var powerupMultiplicator = 1
     
-    private var powerupTimer = NSTimer()
     private var currentPowerup : Powerup!
     
     private var healthBar : HealthBar!
@@ -367,7 +366,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         timerBar?.stop()
         currentPowerup?.stop()
-        powerupTimer.invalidate()
+        stopPowerupTimer()
         
         StatsHandler.updatePlayedTimeBy(Int(NSDate().timeIntervalSinceDate(stats_starttime)))
         StatsHandler.updateFiredBallsBy(stats_firedballs)
@@ -429,11 +428,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     // MARK: - HANDLING POWERUPS
     private func startPowerupTimer() {
         var interval = NSTimeInterval(arc4random_uniform(20) + 10)
-        powerupTimer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: Selector("powerupTimerTick:"), userInfo: nil, repeats: true)
+        var wait = SKAction.waitForDuration(interval)
+        var run = SKAction.runBlock({
+            self.powerupTimerTick()
+        })
+        runAction(SKAction.repeatActionForever(SKAction.sequence([wait, run])), withKey: "powerupExpirationTimer")
     }
     
-    @objc func powerupTimerTick(timer: NSTimer) {
-        powerupTimer.invalidate()
+    private func stopPowerupTimer() {
+        removeActionForKey("powerupExpirationTimer")
+    }
+    
+    private func powerupTimerTick() {
+        stopPowerupTimer()
         
         var type = randomPowerupType()
         currentPowerup = Powerup(radius: ballRadius * 2, type: type)

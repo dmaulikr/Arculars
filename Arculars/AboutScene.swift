@@ -16,8 +16,6 @@ class AboutScene: SKScene {
     
     private var rootNode = SKNode()
     
-    private var randomBallTimer = NSTimer()
-    
     private var btnWeb : SKShapeNode!
     private var btnMail : SKShapeNode!
     private var btnToMenu : SKShapeNode!
@@ -160,7 +158,7 @@ class AboutScene: SKScene {
     }
     
     // MARK: - HELPER FUNCTIONS
-    func version() -> String {
+    private func version() -> String {
         let dictionary = NSBundle.mainBundle().infoDictionary!
         let version = dictionary["CFBundleShortVersionString"] as! String
         let build = dictionary["CFBundleVersion"] as! String
@@ -168,19 +166,23 @@ class AboutScene: SKScene {
     }
     
     // MARK: - CREATE RANDOM BALLS
-    func startRandomBallTimer() {
-        randomBallTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("randomBallTimerTick:"), userInfo: nil, repeats: true)
+    private func startRandomBallTimer() {
+        var wait = SKAction.waitForDuration(1.0)
+        var run = SKAction.runBlock({
+            self.randomBallTimerTick()
+        })
+        runAction(SKAction.repeatActionForever(SKAction.sequence([run, wait])), withKey: "actionTimer")
     }
     
-    func stopRandomBallTimer() {
-        randomBallTimer.invalidate()
+    private func stopRandomBallTimer() {
+        removeActionForKey("actionTimer")
     }
     
-    @objc func randomBallTimerTick(timer: NSTimer) {
+    private func randomBallTimerTick() {
         createRandomBall(randomPoint())
     }
     
-    func randomPoint() -> CGPoint {
+    private func randomPoint() -> CGPoint {
         // x coordinate between MinX (left) and MaxX (right):
         let randomX = randomInRange(-Int(self.size.width / 2), hi: Int(self.size.width / 2))
         // y coordinate between MinY (top) and MidY (middle):
@@ -188,11 +190,11 @@ class AboutScene: SKScene {
         return CGPoint(x: randomX, y: randomY)
     }
     
-    func randomInRange(lo: Int, hi : Int) -> Int {
+    private func randomInRange(lo: Int, hi : Int) -> Int {
         return lo + Int(arc4random_uniform(UInt32(hi - lo + 1)))
     }
     
-    func createRandomBall(position: CGPoint) {
+    private func createRandomBall(position: CGPoint) {
         var ball = SKShapeNode(circleOfRadius: frame.height / 64)
         ball.fillColor = Colors.randomAppColor()
         ball.lineWidth = 1

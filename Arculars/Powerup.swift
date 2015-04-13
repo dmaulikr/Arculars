@@ -41,8 +41,6 @@ class Powerup : SKShapeNode {
     weak var delegate : PowerupDelegate!
     var powerupType : PowerupType!
     
-    private var timer = NSTimer()
-    
     private var label : SKLabelNode!
     private var icon : SKSpriteNode!
     private var count : Int!
@@ -141,18 +139,23 @@ class Powerup : SKShapeNode {
         count = seconds
         updateText()
         fillColor = UIColor.clearColor()
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("tick:"), userInfo: nil, repeats: true)
+        
+        var wait = SKAction.waitForDuration(1.0)
+        var run = SKAction.runBlock({
+            self.powerupTimerTick()
+        })
+        runAction(SKAction.repeatActionForever(SKAction.sequence([run, wait])), withKey: "powerupTimer")
     }
     
     func stop() {
-        timer.invalidate()
+        removeActionForKey("powerupTimer")
     }
     
     private func updateText() {
         label.text = "\(count)"
     }
     
-    @objc func tick(timer: NSTimer) {
+    func powerupTimerTick() {
         decrement()
     }
 }
