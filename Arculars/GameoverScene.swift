@@ -24,10 +24,10 @@ class GameoverScene: SKScene {
     private var replay : SKShapeNode!
     private var tomenu : SKShapeNode!
     
-    private var facebook : SKShapeNode!
-    private var twitter : SKShapeNode!
-    private var whatsapp : SKShapeNode!
-    private var shareother : SKShapeNode!
+    private var facebook : SKSpriteNode!
+    private var twitter : SKSpriteNode!
+    private var whatsapp : SKSpriteNode!
+    private var shareother : SKSpriteNode!
     
     private var ttpLabel : SKLabelNode!
     private var score : SKLabelNode!
@@ -78,7 +78,6 @@ class GameoverScene: SKScene {
     
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
-        var radius = size.height / 21
         
         ttpLabel = SKLabelNode(text: "TAP TO PLAY")
         ttpLabel.fontName = Fonts.FontNameNormal
@@ -128,50 +127,44 @@ class GameoverScene: SKScene {
         
         rootNode.addChild(hscoreLabel)
         
-        facebook = SKShapeNode(circleOfRadius: radius)
-        facebook.fillColor = Colors.FacebookBlue
-        facebook.strokeColor = Colors.FacebookBlue
-        facebook.antialiased = true
-        facebook.lineWidth = 1
-        facebook.zPosition = 3
+        var radius = size.height / 24
+        
+        var shareLabel = SKLabelNode(text: "SHARE YOUR SCORE")
+        shareLabel.position = CGPoint(x: 0, y: -(size.height / 6))
+        shareLabel.fontName = Fonts.FontNameNormal
+        shareLabel.fontSize = size.height / 48
+        shareLabel.fontColor = Colors.DisabledColor
+        shareLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        shareLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        rootNode.addChild(shareLabel)
+        
+        facebook = SKSpriteNode(imageNamed: "icon-facebook")
         facebook.position = CGPoint(x: -(size.width / 2) + (size.width / 5), y: -(size.height / 4))
-        facebook.addChild(SKSpriteNode(imageNamed: "icon-facebook"))
+        var arFacebook = facebook.size.width / facebook.size.height
+        facebook.size = CGSize(width: 2 * radius, height: (2 * radius) / arFacebook)
         rootNode.addChild(facebook)
         
-        twitter = SKShapeNode(circleOfRadius: radius)
-        twitter.fillColor = Colors.TwitterBlue
-        twitter.strokeColor = Colors.TwitterBlue
-        twitter.antialiased = true
-        twitter.lineWidth = 1
-        twitter.zPosition = 4
+        twitter = SKSpriteNode(imageNamed: "icon-twitter")
         twitter.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 2), y: -(size.height / 4))
-        var twitterSprite = SKSpriteNode(imageNamed: "icon-twitter")
-        twitter.addChild(twitterSprite)
+        var arTwitter = twitter.size.width / twitter.size.height
+        twitter.size = CGSize(width: 2 * radius, height: (2 * radius) / arTwitter)
         rootNode.addChild(twitter)
         
-        whatsapp = SKShapeNode(circleOfRadius: radius)
-        whatsapp.fillColor = Colors.WhatsAppGreen
-        whatsapp.strokeColor = Colors.WhatsAppGreen
-        whatsapp.antialiased = true
-        whatsapp.lineWidth = 1
-        whatsapp.zPosition = 2
+        whatsapp = SKSpriteNode(imageNamed: "icon-whatsapp")
         whatsapp.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 3), y: -(size.height / 4))
-        whatsapp.addChild(SKSpriteNode(imageNamed: "icon-whatsapp"))
+        var arWhatsapp = whatsapp.size.width / whatsapp.size.height
+        whatsapp.size = CGSize(width: 2 * radius, height: (2 * radius) / arWhatsapp)
         rootNode.addChild(whatsapp)
         
-        shareother = SKShapeNode(circleOfRadius: radius)
-        shareother.fillColor = Colors.SharingGray
-        shareother.strokeColor = Colors.SharingGray
-        shareother.antialiased = true
-        shareother.lineWidth = 1
-        shareother.zPosition = 1
+        shareother = SKSpriteNode(imageNamed: "icon-share")
         shareother.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 4), y: -(size.height / 4))
-        shareother.addChild(SKSpriteNode(imageNamed: "icon-share"))
+        var arShare = shareother.size.width / shareother.size.height
+        shareother.size = CGSize(width: 2 * radius, height: (2 * radius) / arShare)
         rootNode.addChild(shareother)
         
         var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
         tomenuLabel.fontName = Fonts.FontNameNormal
-        tomenuLabel.fontColor = Colors.FontColor
+        tomenuLabel.fontColor = Colors.DisabledColor
         tomenuLabel.fontSize = size.height / 32
         tomenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tomenuLabel.frame.height * 4))
         tomenu.lineWidth = 0

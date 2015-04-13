@@ -197,6 +197,8 @@ class MenuScene: SKScene {
         btnPlayTimed.zPosition = -1
         var clockIcon = SKSpriteNode(imageNamed: "icon-clock")
         clockIcon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        var aspectRatioClock = clockIcon.size.width / clockIcon.size.height
+        clockIcon.size = CGSize(width: radius, height: radius / aspectRatioClock)
         btnPlayTimed.addChild(clockIcon)
         btnGo.addChild(btnPlayTimed)
         
@@ -220,6 +222,8 @@ class MenuScene: SKScene {
         btnPlayEndless.zPosition = -1
         var iconInfinity = SKSpriteNode(imageNamed: "icon-infinity")
         iconInfinity.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        var aspectRatioInfinity = iconInfinity.size.width / iconInfinity.size.height
+        iconInfinity.size = CGSize(width: radius, height: radius / aspectRatioInfinity)
         btnPlayEndless.addChild(iconInfinity)
         btnGo.addChild(btnPlayEndless)
         
