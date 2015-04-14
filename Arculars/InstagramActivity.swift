@@ -74,6 +74,10 @@ class InstagramActivity : UIActivity, UIDocumentInteractionControllerDelegate {
         
         docController = UIDocumentInteractionController(URL: imageURL!)
         docController.delegate = self
+        
+        var annotationDict : NSMutableDictionary = [:]
+        annotationDict["InstagramCaption"] = self.text
+        docController.annotation = annotationDict
         docController.UTI = "com.instagram.exclusivegram"
         
         docController.presentOpenInMenuFromRect(CGRectZero, inView: parent.view, animated: true)
