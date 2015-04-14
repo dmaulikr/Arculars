@@ -68,11 +68,12 @@ class GameViewController: UIViewController, SceneDelegate {
         return UIStatusBarStyle.LightContent
     }
     
-    func shareOnTwitter() {
+    func shareScoreOnTwitter(score: Int, gameType: GameMode) {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
             var twitterSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            twitterSheet.setInitialText("Check out my score in Arculars! #ARCULARS")
+            twitterSheet.setInitialText("Check out my score in #ARCULARS! Download on " + Strings.ArcularsAppStore)
             twitterSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
+            twitterSheet.addImage(getShareImage(score, gameMode: gameType))
             twitterSheet.completionHandler = {
                 result -> Void in
                 
@@ -105,11 +106,12 @@ class GameViewController: UIViewController, SceneDelegate {
         }
     }
     
-    func shareOnFacebook() {
+    func shareScoreOnFacebook(score: Int, gameType: GameMode) {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
             var facebookSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            facebookSheet.setInitialText("Check out my score in Arculars! #ARCULARS")
+            facebookSheet.setInitialText("Check out my score in #ARCULARS! Download on " + Strings.ArcularsAppStore)
             facebookSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
+            facebookSheet.addImage(getShareImage(score, gameMode: gameType))
             facebookSheet.completionHandler = {
                 result -> Void in
                 
@@ -142,17 +144,18 @@ class GameViewController: UIViewController, SceneDelegate {
         }
     }
     
-    func shareOnWhatsApp() {
-        var text = "Check out Arculars, an addictive App for iOS! Can you beat my highscore? Download on " + Strings.ArcularsAppStore
-        var escapedString = "whatsapp://send?text=" + text.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
+    func shareScoreOnWhatsApp(score: Int, gameType: GameMode) {
+        let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my high score? Download on " + Strings.ArcularsAppStore
+        var escapedString = "whatsapp://send?text=" + textToShare.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
         var whatsappURL : NSURL? = NSURL(string: escapedString)
         if (UIApplication.sharedApplication().canOpenURL(whatsappURL!)) {
             UIApplication.sharedApplication().openURL(whatsappURL!)
         }
     }
     
-    func shareOnOther() {
-        let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my highscore? Download on " + Strings.ArcularsAppStore
+    func shareScoreOnOther(score: Int, gameType: GameMode) {
+        let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my high score? Download on " + Strings.ArcularsAppStore
+        let imageToShare = getShareImage(score, gameMode: gameType)
         let objectsToShare = [textToShare]
         let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         
@@ -251,5 +254,14 @@ class GameViewController: UIViewController, SceneDelegate {
         }))
         
         self.presentViewController(refreshAlert, animated: true, completion: nil)
+    }
+    
+    // MARK: - HELPER FUNCTIONS
+    private func getShareImage(score: Int, gameMode: GameMode) -> UIImage {
+        switch gameMode {
+        case GameMode.Endless: return ShareImageHelper.createImage(score, image: "shareimage-endless")
+        case GameMode.Endless: return ShareImageHelper.createImage(score, image: "shareimage-timed")
+        default: return UIImage()
+        }
     }
 }

@@ -186,13 +186,13 @@ class GameoverScene: SKScene {
             if (tomenu.containsPoint(location)) {
                 self.sceneDelegate!.showMenuScene()
             } else if (twitter.containsPoint(location)) {
-                sceneDelegate!.shareOnTwitter()
+                sceneDelegate!.shareScoreOnTwitter(StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else if (facebook.containsPoint(location)) {
-                sceneDelegate!.shareOnFacebook()
+                sceneDelegate!.shareScoreOnFacebook(StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else if (whatsapp.containsPoint(location)) {
-                sceneDelegate!.shareOnWhatsApp()
+                sceneDelegate!.shareScoreOnWhatsApp(StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else if (shareother.containsPoint(location)) {
-                sceneDelegate!.shareOnOther()
+                sceneDelegate!.shareScoreOnOther(StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else {
                 sceneDelegate!.showGameScene(gameMode)
             }

@@ -158,6 +158,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         isTimerBarExpired = false
         
         score?.reset()
+        StatsHandler.updateLastscore(0, gameMode: gameMode)
+        
         currentPowerup = nil;
         startPowerupTimer()
         
@@ -532,11 +534,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         return color
     }
     
-    private func updateScoreBy(score: Int, color: UIColor) {
-        self.score.increaseByWithColor(score, color: color)
+    private func updateScoreBy(delta: Int, color: UIColor) {
+        score.increaseByWithColor(delta, color: color)
+        StatsHandler.updateTotalPointsBy(delta)
         
-        StatsHandler.updateTotalPointsBy(score)
-        StatsHandler.updateLastscore(self.score.getScore(), gameMode: gameMode)
-        StatsHandler.updateHighscore(self.score.getScore(), gameMode: gameMode)
+        StatsHandler.updateLastscore(score.getScore(), gameMode: gameMode)
+        StatsHandler.updateHighscore(score.getScore(), gameMode: gameMode)
     }
 }

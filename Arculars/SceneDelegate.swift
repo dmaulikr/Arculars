@@ -19,8 +19,8 @@ protocol SceneDelegate : class {
     func presentGameCenter()
     func presentRateOnAppStore()
     
-    func shareOnOther()
-    func shareOnTwitter()
-    func shareOnFacebook()
-    func shareOnWhatsApp()
+    func shareScoreOnOther(score: Int, gameType: GameMode)
+    func shareScoreOnTwitter(score: Int, gameType: GameMode)
+    func shareScoreOnFacebook(score: Int, gameType: GameMode)
+    func shareScoreOnWhatsApp(score: Int, gameType: GameMode)
 }
