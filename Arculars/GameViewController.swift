@@ -73,6 +73,30 @@ class GameViewController: UIViewController, SceneDelegate {
             var twitterSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
             twitterSheet.setInitialText("Check out my score in Arculars! #ARCULARS")
             twitterSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
+            twitterSheet.completionHandler = {
+                result -> Void in
+                
+                var getResult = result as SLComposeViewControllerResult
+                switch(getResult) {
+                    case SLComposeViewControllerResult.Cancelled:
+                        #if DEBUG
+                            println("Sharing on Twitter cancelled.")
+                        #endif
+                    break
+                    case SLComposeViewControllerResult.Done:
+                        #if DEBUG
+                            println("Sharing on Twitter successful.")
+                        #endif
+                        GCHandler.reportAchievements(progress: 100.0, achievementIdentifier: "achievement.socialize.twitter", showBannnerIfCompleted: true)
+                    break
+                    default:
+                        #if DEBUG
+                            println("Error while sharing on Twitter.")
+                        #endif
+                    break
+                }
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
             self.presentViewController(twitterSheet, animated: true, completion: nil)
         } else {
             var alert = UIAlertController(title: "Accounts", message: "Please login to a Twitter account to share.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -86,6 +110,30 @@ class GameViewController: UIViewController, SceneDelegate {
             var facebookSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
             facebookSheet.setInitialText("Check out my score in Arculars! #ARCULARS")
             facebookSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
+            facebookSheet.completionHandler = {
+                result -> Void in
+                
+                var getResult = result as SLComposeViewControllerResult
+                switch(getResult) {
+                case SLComposeViewControllerResult.Cancelled:
+                    #if DEBUG
+                        println("Sharing on Facebook cancelled.")
+                    #endif
+                    break
+                case SLComposeViewControllerResult.Done:
+                    #if DEBUG
+                        println("Sharing on Facebook successful.")
+                    #endif
+                    GCHandler.reportAchievements(progress: 100.0, achievementIdentifier: "achievement.socialize.facebook", showBannnerIfCompleted: true)
+                    break
+                default:
+                    #if DEBUG
+                        println("Error while sharing on Facebook.")
+                    #endif
+                    break
+                }
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
             self.presentViewController(facebookSheet, animated: true, completion: nil)
         } else {
             var alert = UIAlertController(title: "Accounts", message: "Please login to a Facebook account to share.", preferredStyle: UIAlertControllerStyle.Alert)
