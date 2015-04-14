@@ -71,7 +71,7 @@ class GameViewController: UIViewController, SceneDelegate {
     func shareScoreOnTwitter(score: Int, gameType: GameMode) {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeTwitter){
             var twitterSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeTwitter)
-            twitterSheet.setInitialText("Check out my score in #ARCULARS! Download on " + Strings.ArcularsAppStore)
+            twitterSheet.setInitialText(Strings.SharingText)
             twitterSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
             twitterSheet.addImage(getShareImage(score, gameMode: gameType))
             twitterSheet.completionHandler = {
@@ -109,7 +109,7 @@ class GameViewController: UIViewController, SceneDelegate {
     func shareScoreOnFacebook(score: Int, gameType: GameMode) {
         if SLComposeViewController.isAvailableForServiceType(SLServiceTypeFacebook){
             var facebookSheet : SLComposeViewController = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
-            facebookSheet.setInitialText("Check out my score in #ARCULARS! Download on " + Strings.ArcularsAppStore)
+            facebookSheet.setInitialText(Strings.SharingText)
             facebookSheet.addURL(NSURL(fileURLWithPath: Strings.ArcularsAppStore))
             facebookSheet.addImage(getShareImage(score, gameMode: gameType))
             facebookSheet.completionHandler = {
@@ -154,7 +154,7 @@ class GameViewController: UIViewController, SceneDelegate {
         }
         
         
-        let textToShare = "Check out my score in #ARCULARS! Download on " + Strings.ArcularsAppStore
+        let textToShare = Strings.SharingText
         let imageToShare = getShareImage(score, gameMode: gameType)
         let objectsToShare = [textToShare, imageToShare]
         let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: [WhatsAppActivity(parent: self), InstagramActivity(parent: self)])

@@ -12,6 +12,7 @@ class WhatsAppActivity : UIActivity, UIDocumentInteractionControllerDelegate {
     
     private var docController : UIDocumentInteractionController!
     private var parent : UIViewController!
+    private var text : String?
     private var image : UIImage?
     
     init(parent: UIViewController) {
@@ -54,6 +55,8 @@ class WhatsAppActivity : UIActivity, UIDocumentInteractionControllerDelegate {
             if (activityItem.isKindOfClass(UIImage))
             {
                 self.image = activityItem as? UIImage
+            } else if (activityItem.isKindOfClass(NSString)) {
+                self.text = activityItem as? String
             }
         }
     }
@@ -67,6 +70,10 @@ class WhatsAppActivity : UIActivity, UIDocumentInteractionControllerDelegate {
         
         docController = UIDocumentInteractionController(URL: imageURL!)
         docController.delegate = self
+        
+        var annotationDict : NSMutableDictionary = [:]
+        annotationDict["text"] = self.text
+        docController.annotation = annotationDict
         docController.UTI = "net.whatsapp.image"
         
         docController.presentOpenInMenuFromRect(CGRectZero, inView: parent.view, animated: true)
