@@ -79,21 +79,21 @@ class GameViewController: UIViewController, SceneDelegate {
                 
                 var getResult = result as SLComposeViewControllerResult
                 switch(getResult) {
-                    case SLComposeViewControllerResult.Cancelled:
-                        #if DEBUG
-                            println("Sharing on Twitter cancelled.")
-                        #endif
+                case SLComposeViewControllerResult.Cancelled:
+                    #if DEBUG
+                        println("Sharing on Twitter cancelled.")
+                    #endif
                     break
-                    case SLComposeViewControllerResult.Done:
-                        #if DEBUG
-                            println("Sharing on Twitter successful.")
-                        #endif
-                        GCHandler.reportAchievements(progress: 100.0, achievementIdentifier: "achievement.socialize.twitter", showBannnerIfCompleted: true)
+                case SLComposeViewControllerResult.Done:
+                    #if DEBUG
+                        println("Sharing on Twitter successful.")
+                    #endif
+                    GCHandler.reportAchievements(progress: 100.0, achievementIdentifier: "achievement.socialize.twitter", showBannnerIfCompleted: true)
                     break
-                    default:
-                        #if DEBUG
-                            println("Error while sharing on Twitter.")
-                        #endif
+                default:
+                    #if DEBUG
+                        println("Error while sharing on Twitter.")
+                    #endif
                     break
                 }
                 self.dismissViewControllerAnimated(true, completion: nil)
@@ -144,27 +144,37 @@ class GameViewController: UIViewController, SceneDelegate {
         }
     }
     
-    func shareScoreOnWhatsApp(score: Int, gameType: GameMode) {
-        let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my high score? Download on " + Strings.ArcularsAppStore
-        var escapedString = "whatsapp://send?text=" + textToShare.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())!
-        var whatsappURL : NSURL? = NSURL(string: escapedString)
-        if (UIApplication.sharedApplication().canOpenURL(whatsappURL!)) {
-            UIApplication.sharedApplication().openURL(whatsappURL!)
+    func shareScore(destination: String, score: Int, gameType: GameMode) {
+        if destination == "facebook" {
+            shareScoreOnFacebook(score, gameType: gameType)
+            return
+        } else if destination == "twitter" {
+            shareScoreOnTwitter(score, gameType: gameType)
+            return
         }
-    }
-    
-    func shareScoreOnOther(score: Int, gameType: GameMode) {
-        let textToShare = "Check out Arculars, an addictive App for iOS! Can you beat my high score? Download on " + Strings.ArcularsAppStore
+        
+        
+        let textToShare = "Check out my score in #ARCULARS! Download on " + Strings.ArcularsAppStore
         let imageToShare = getShareImage(score, gameMode: gameType)
-        let objectsToShare = [textToShare]
-        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        let objectsToShare = [textToShare, imageToShare]
+        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: [WhatsAppActivity(parent: self), InstagramActivity(parent: self)])
         
         // For iPad only
         activityViewController.popoverPresentationController?.sourceView = self.view
-        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: -(view.frame.width / 2) + ((view.frame.width / 5) * 4), y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 0, y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
         //
         
-        activityViewController.excludedActivityTypes = [UIActivityTypeAirDrop, UIActivityTypeAddToReadingList]
+        activityViewController.excludedActivityTypes = [
+            UIActivityTypeAirDrop,
+            UIActivityTypePostToWeibo,
+            UIActivityTypePrint,
+            UIActivityTypeAssignToContact,
+            UIActivityTypeAddToReadingList,
+            UIActivityTypePostToFlickr,
+            UIActivityTypePostToVimeo,
+            UIActivityTypePostToTencentWeibo
+        ]
+        
         self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     

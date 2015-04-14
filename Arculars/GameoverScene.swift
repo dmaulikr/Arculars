@@ -24,10 +24,9 @@ class GameoverScene: SKScene {
     private var replay : SKShapeNode!
     private var tomenu : SKShapeNode!
     
-    private var facebook : SKSpriteNode!
-    private var twitter : SKSpriteNode!
-    private var whatsapp : SKSpriteNode!
-    private var shareother : SKSpriteNode!
+    private var btnShareOnFacebook : SKShapeNode!
+    private var btnShareOnTwitter : SKShapeNode!
+    private var btnShare : SKShapeNode!
     
     private var ttpLabel : SKLabelNode!
     private var score : SKLabelNode!
@@ -130,9 +129,8 @@ class GameoverScene: SKScene {
         
         rootNode.addChild(hscoreLabel)
         
-        var radius = size.height / 24
-        
-        var shareLabel = SKLabelNode(text: "SHARE YOUR SCORE")
+        // Add sharing buttons
+        var shareLabel = SKLabelNode(text: "SHARE ON")
         shareLabel.position = CGPoint(x: 0, y: -(size.height / 6))
         shareLabel.fontName = Fonts.FontNameNormal
         shareLabel.fontSize = size.height / 48
@@ -141,29 +139,51 @@ class GameoverScene: SKScene {
         shareLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rootNode.addChild(shareLabel)
         
-        facebook = SKSpriteNode(imageNamed: "icon-facebook")
-        facebook.position = CGPoint(x: -(size.width / 2) + (size.width / 5), y: -(size.height / 4))
-        var arFacebook = facebook.size.width / facebook.size.height
-        facebook.size = CGSize(width: 2 * radius, height: (2 * radius) / arFacebook)
-        rootNode.addChild(facebook)
+        var radius = size.height / 20
         
-        twitter = SKSpriteNode(imageNamed: "icon-twitter")
-        twitter.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 2), y: -(size.height / 4))
-        var arTwitter = twitter.size.width / twitter.size.height
-        twitter.size = CGSize(width: 2 * radius, height: (2 * radius) / arTwitter)
-        rootNode.addChild(twitter)
+        btnShareOnFacebook = SKShapeNode(circleOfRadius: radius)
+        btnShareOnFacebook.position = CGPoint(x: -(size.width / 4), y: -(size.height / 4))
+        btnShareOnFacebook.lineWidth = 1
+        btnShareOnFacebook.strokeColor = Colors.AppColorOne
+        btnShareOnFacebook.fillColor = btnShareOnFacebook.strokeColor
+        var sfl = SKLabelNode(text: "FACEBOOK")
+        sfl.userInteractionEnabled = false
+        sfl.fontSize = radius / 3
+        sfl.fontName = Fonts.FontNameNormal
+        sfl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        sfl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnShareOnFacebook.addChild(sfl)
+        rootNode.addChild(btnShareOnFacebook)
         
-        whatsapp = SKSpriteNode(imageNamed: "icon-whatsapp")
-        whatsapp.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 3), y: -(size.height / 4))
-        var arWhatsapp = whatsapp.size.width / whatsapp.size.height
-        whatsapp.size = CGSize(width: 2 * radius, height: (2 * radius) / arWhatsapp)
-        rootNode.addChild(whatsapp)
+        btnShareOnTwitter = SKShapeNode(circleOfRadius: radius)
+        btnShareOnTwitter.position = CGPoint(x: 0, y: -(size.height / 4))
+        btnShareOnTwitter.lineWidth = 1
+        btnShareOnTwitter.strokeColor = Colors.AppColorTwo
+        btnShareOnTwitter.fillColor = btnShareOnTwitter.strokeColor
+        var stl = SKLabelNode(text: "TWITTER")
+        stl.userInteractionEnabled = false
+        stl.fontSize = radius / 3
+        stl.fontName = Fonts.FontNameNormal
+        stl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        stl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnShareOnTwitter.addChild(stl)
+        rootNode.addChild(btnShareOnTwitter)
         
-        shareother = SKSpriteNode(imageNamed: "icon-share")
-        shareother.position = CGPoint(x: -(size.width / 2) + ((size.width / 5) * 4), y: -(size.height / 4))
-        var arShare = shareother.size.width / shareother.size.height
-        shareother.size = CGSize(width: 2 * radius, height: (2 * radius) / arShare)
-        rootNode.addChild(shareother)
+        btnShare = SKShapeNode(circleOfRadius: radius)
+        btnShare.position = CGPoint(x: (size.width / 4), y: -(size.height / 4))
+        btnShare.lineWidth = 1
+        btnShare.strokeColor = Colors.AppColorThree
+        btnShare.fillColor = btnShare.strokeColor
+        var shl = SKLabelNode(text: "...")
+        shl.userInteractionEnabled = false
+        shl.fontSize = size.height / 24
+        shl.fontName = Fonts.FontNameNormal
+        shl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        shl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnShare.addChild(shl)
+        rootNode.addChild(btnShare)
+        //
+        
         
         var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
         tomenuLabel.fontName = Fonts.FontNameNormal
@@ -185,14 +205,12 @@ class GameoverScene: SKScene {
             
             if (tomenu.containsPoint(location)) {
                 self.sceneDelegate!.showMenuScene()
-            } else if (twitter.containsPoint(location)) {
-                sceneDelegate!.shareScoreOnTwitter(StatsHandler.getLastscore(gameMode), gameType: gameMode)
-            } else if (facebook.containsPoint(location)) {
-                sceneDelegate!.shareScoreOnFacebook(StatsHandler.getLastscore(gameMode), gameType: gameMode)
-            } else if (whatsapp.containsPoint(location)) {
-                sceneDelegate!.shareScoreOnWhatsApp(StatsHandler.getLastscore(gameMode), gameType: gameMode)
-            } else if (shareother.containsPoint(location)) {
-                sceneDelegate!.shareScoreOnOther(StatsHandler.getLastscore(gameMode), gameType: gameMode)
+            } else if (btnShareOnFacebook.containsPoint(location)) {
+                sceneDelegate!.shareScore("facebook", score: StatsHandler.getLastscore(gameMode), gameType: gameMode)
+            } else if (btnShareOnTwitter.containsPoint(location)) {
+                sceneDelegate!.shareScore("twitter", score: StatsHandler.getLastscore(gameMode), gameType: gameMode)
+            } else if (btnShare.containsPoint(location)) {
+                sceneDelegate!.shareScore("", score: StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else {
                 sceneDelegate!.showGameScene(gameMode)
             }

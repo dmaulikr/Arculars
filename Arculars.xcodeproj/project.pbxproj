@@ -31,6 +31,8 @@
 		305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414B91AC04BFE00636047 /* StatsScene.swift */; };
 		305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305414BB1AC0A05000636047 /* SettingsScene.swift */; };
 		305B663F1ADD224B00F314C3 /* ShareImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305B663E1ADD224B00F314C3 /* ShareImageHelper.swift */; };
+		305B66471ADD6B1B00F314C3 /* WhatsAppActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305B66461ADD6B1B00F314C3 /* WhatsAppActivity.swift */; };
+		305B66491ADD6BFC00F314C3 /* InstagramActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305B66481ADD6BFC00F314C3 /* InstagramActivity.swift */; };
 		305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF11AC9727D004F68E6 /* AboutScene.swift */; };
 		305BCAF41AC973A8004F68E6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF31AC973A8004F68E6 /* HelpScene.swift */; };
 		306B28381ADAF76F000D683A /* PowerupType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B28371ADAF76F000D683A /* PowerupType.swift */; };
@@ -87,6 +89,8 @@
 		305414B91AC04BFE00636047 /* StatsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsScene.swift; sourceTree = "<group>"; };
 		305414BB1AC0A05000636047 /* SettingsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScene.swift; sourceTree = "<group>"; };
 		305B663E1ADD224B00F314C3 /* ShareImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareImageHelper.swift; sourceTree = "<group>"; };
+		305B66461ADD6B1B00F314C3 /* WhatsAppActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhatsAppActivity.swift; sourceTree = "<group>"; };
+		305B66481ADD6BFC00F314C3 /* InstagramActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramActivity.swift; sourceTree = "<group>"; };
 		305BCAF11AC9727D004F68E6 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		305BCAF31AC973A8004F68E6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
 		306B28371ADAF76F000D683A /* PowerupType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupType.swift; sourceTree = "<group>"; };
@@ -208,6 +212,15 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		305B66451ADD6B0C00F314C3 /* Activities */ = {
+			isa = PBXGroup;
+			children = (
+				305B66461ADD6B1B00F314C3 /* WhatsAppActivity.swift */,
+				305B66481ADD6BFC00F314C3 /* InstagramActivity.swift */,
+			);
+			name = Activities;
+			sourceTree = "<group>";
+		};
 		306002111ACB22CC00F74A7B /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +283,7 @@
 		30DDDBEA1ABB08AD00BB11EE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				305B66451ADD6B0C00F314C3 /* Activities */,
 				30456F4F1AAF8EA3008F070C /* UIColorExtension.swift */,
 				30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */,
 			);
@@ -399,6 +413,7 @@
 				305BCAF41AC973A8004F68E6 /* HelpScene.swift in Sources */,
 				305B663F1ADD224B00F314C3 /* ShareImageHelper.swift in Sources */,
 				308F5EB21AC2171D004E40EC /* SettingsHandler.swift in Sources */,
+				305B66471ADD6B1B00F314C3 /* WhatsAppActivity.swift in Sources */,
 				3034C8CE1AD43AEF00577E51 /* Strings.swift in Sources */,
 				30964D121AC6AAD000937D8D /* Difficulty.swift in Sources */,
 				305414BC1AC0A05000636047 /* SettingsScene.swift in Sources */,
@@ -406,6 +421,7 @@
 				3091AC1C1ACA84D300E25F13 /* GCHandler.swift in Sources */,
 				303FCDED1AAE349900A59347 /* Circle.swift in Sources */,
 				30500B351AAE3010009F4C26 /* GameViewController.swift in Sources */,
+				305B66491ADD6BFC00F314C3 /* InstagramActivity.swift in Sources */,
 				30740F3E1ADC699600B7D965 /* AchievementsHandler.swift in Sources */,
 				30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */,
 				3098F5251AAF8AB800829428 /* Colors.swift in Sources */,
