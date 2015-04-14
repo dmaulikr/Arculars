@@ -555,8 +555,11 @@ class GCHandler: NSObject, GKGameCenterControllerDelegate {
     class func reportAchievements( #progress : Double, achievementIdentifier : String, showBannnerIfCompleted : Bool) {
         
         if let achievement = GCHandler.achievementForIndetifier(identifierAchievement: achievementIdentifier) {
-            //if !achievement.completed {
-            achievement.percentComplete = progress
+            if !achievement.completed {
+                if progress > 100.0 {
+                    achievement.percentComplete = 100.0
+                }
+                achievement.percentComplete = progress
             
             /* show banner only if achievement is fully granted (progress is 100%) */
             if achievement.completed && showBannnerIfCompleted {
@@ -584,6 +587,7 @@ class GCHandler: NSObject, GKGameCenterControllerDelegate {
                     validation = true
                 }
             })
+            }
         }
     }
     

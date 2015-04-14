@@ -81,6 +81,7 @@ class StatsHandler {
     }
     
     class func updateHighscore(score: Int, gameMode: GameMode) {
+        if score <= 0 { return }
         var highscore = StatsHandler.getHighscore(gameMode)
         if score <= highscore {
             return
@@ -116,6 +117,7 @@ class StatsHandler {
     }
     
     class func updatePlayedTimeBy(delta: Int) {
+        if delta <= 0 { return }
         var time = getPlayedTime()
         NSUserDefaults.standardUserDefaults().setInteger(time + delta, forKey: STATS_PLAYEDTIME)
         NSUserDefaults.standardUserDefaults().synchronize()
@@ -128,35 +130,42 @@ class StatsHandler {
     }
     
     class func updateTotalPointsBy(delta: Int) {
-        if (delta < 0) { return }
+        if (delta <= 0) { return }
         
         var points = getTotalPoints()
         NSUserDefaults.standardUserDefaults().setInteger(points + delta, forKey: STATS_TOTALPOINTS)
         NSUserDefaults.standardUserDefaults().synchronize()
+        AchievementsHandler.checkTotalScore()
     }
     
     class func updateCorrectCollisionsBy(delta: Int) {
+        if delta <= 0 { return }
         var current = getCorrectCollisions()
         NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_CORRECTCOLLISIONS)
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     class func updateCollectedPowerupsBy(delta: Int) {
+        if delta <= 0 { return }
         var current = getCollectedPowerups()
         NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_COLLECTEDPOWERUPS)
         NSUserDefaults.standardUserDefaults().synchronize()
+        AchievementsHandler.checkCollectedPowerups()
     }
     
     class func updateNoCollisionsBy(delta: Int) {
+        if delta <= 0 { return }
         var current = getNoCollisions()
         NSUserDefaults.standardUserDefaults().setInteger(current + delta, forKey: STATS_NOCOLLISIONS)
         NSUserDefaults.standardUserDefaults().synchronize()
+        AchievementsHandler.checkNoCollisions()
     }
     
     class func incrementPlayedGames() {
         var current = getPlayedGames()
         NSUserDefaults.standardUserDefaults().setInteger(current + 1, forKey: STATS_PLAYEDGAMES)
         NSUserDefaults.standardUserDefaults().synchronize()
+        AchievementsHandler.checkPlayedGames()
     }
     
     class func reset() {

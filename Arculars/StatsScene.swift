@@ -175,15 +175,22 @@ class StatsScene: SKScene {
                 if (btnToMenu == object as? SKShapeNode) {
                     sceneDelegate!.showMenuScene()
                 } else if (btnReset == object as? SKShapeNode) {
-                    var refreshAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats? This will not reset your Game Center scores.", preferredStyle: UIAlertControllerStyle.Alert)
+                    var resetAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats? This will also reset your Game Center achievement and scores.", preferredStyle: UIAlertControllerStyle.Alert)
                     
-                    refreshAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
-                        StatsHandler.reset()
-                        self.getStats()
+                    resetAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
+                        var confirmResetAlert = UIAlertController(title: "Reset Stats", message: "Are you really sure?", preferredStyle: UIAlertControllerStyle.Alert)
+                        
+                        confirmResetAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
+                            StatsHandler.reset()
+                            GCHandler.resetAllAchievements(nil)
+                            self.getStats()
+                        }))
+                        confirmResetAlert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
+                        self.view?.window?.rootViewController?.presentViewController(confirmResetAlert, animated: true, completion: nil)
                     }))
-                    refreshAlert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
+                    resetAlert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
                     
-                    view?.window?.rootViewController?.presentViewController(refreshAlert, animated: true, completion: nil)
+                    view?.window?.rootViewController?.presentViewController(resetAlert, animated: true, completion: nil)
                 }
             }
         }
