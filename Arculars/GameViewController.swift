@@ -43,6 +43,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
             StatsHandler.reset()
             RateHandler.reset()
             
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "hasAdsRemoved")
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasPerformedFirstLaunch")
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelpScene()
@@ -72,7 +73,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
             shareScoreOnTwitter(score, gameType: gameType)
             return
         }
-        
         
         let textToShare = Strings.SharingText
         let imageToShare = getShareImage(score, gameMode: gameType)

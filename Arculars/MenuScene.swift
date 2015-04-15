@@ -15,9 +15,9 @@ class MenuScene: SKScene {
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
     
-    // Node and all it's descendants
-    private var rootNode = SKNode()
+    var hasAdsRemoved = false
     
+    private var rootNode = SKNode()
     private var distance : CGFloat!
     
     private var title : SKNode!
@@ -31,6 +31,7 @@ class MenuScene: SKScene {
     private var btnGo : SKShapeNode!
     private var btnPlayEndless: SKShapeNode!
     private var btnPlayTimed : SKShapeNode!
+    private var btnRemoveAds : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
     // Actions
@@ -41,6 +42,7 @@ class MenuScene: SKScene {
     private var GOaction_reverse : SKAction!
     private var ENDLESSaction : SKAction!
     private var TIMEDaction : SKAction!
+    private var REMOVEADSaction : SKAction!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
@@ -49,6 +51,8 @@ class MenuScene: SKScene {
     
     override init(size: CGSize) {
         super.init(size: size)
+        
+        hasAdsRemoved = NSUserDefaults.standardUserDefaults().boolForKey("hasAdsRemoved")
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -73,6 +77,7 @@ class MenuScene: SKScene {
         GOaction_reverse    = nil
         ENDLESSaction       = nil
         TIMEDaction         = nil
+        REMOVEADSaction     = nil
     }
     
     deinit {
@@ -223,8 +228,10 @@ class MenuScene: SKScene {
         playtLabel.name = "label"
         playtLabel.fontName = Fonts.FontNameLight
         playtLabel.fontSize = size.height / 40
-        playtLabel.position = CGPoint(x: 0, y: (1.25 * radius))
+        playtLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         playtLabel.alpha = 0.0
+        playtLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        playtLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         btnPlayTimed.addChild(playtLabel)
         
         // INIT ENDLESS GAME BUTTON
@@ -248,9 +255,39 @@ class MenuScene: SKScene {
         playeLabel.name = "label"
         playeLabel.fontName = Fonts.FontNameLight
         playeLabel.fontSize = size.height / 40
-        playeLabel.position = CGPoint(x: 0, y: (1.25 * radius))
+        playeLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         playeLabel.alpha = 0.0
+        playeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        playeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         btnPlayEndless.addChild(playeLabel)
+        
+        // INIT REMOVE ADS BUTTON
+        btnRemoveAds = SKShapeNode(circleOfRadius: radius)
+        btnRemoveAds.fillColor = Colors.AppColorThree
+        btnRemoveAds.strokeColor = Colors.AppColorThree
+        btnRemoveAds.lineWidth = 1
+        btnRemoveAds.antialiased = true
+        btnRemoveAds.position = CGPoint(x: 0, y: 0)
+        btnRemoveAds.xScale = 0.0
+        btnRemoveAds.yScale = 0.0
+        btnRemoveAds.zPosition = -1
+        var iconRemoveAds = SKSpriteNode(imageNamed: "icon-infinity")
+        iconRemoveAds.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        var aspectRatioRemoveAds = iconRemoveAds.size.width / iconRemoveAds.size.height
+        iconRemoveAds.size = CGSize(width: radius, height: radius / aspectRatioRemoveAds)
+        btnRemoveAds.addChild(iconRemoveAds)
+        if !hasAdsRemoved {  btnGo.addChild(btnRemoveAds) }
+        
+        var remadslabel = SKLabelNode(text: "Remove Ads")
+        remadslabel.name = "label"
+        remadslabel.fontName = Fonts.FontNameLight
+        remadslabel.fontSize = size.height / 40
+        remadslabel.position = CGPoint(x: 0, y: -(1.5 * radius))
+        remadslabel.alpha = 0.0
+        remadslabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        remadslabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        btnRemoveAds.addChild(remadslabel)
+        
     }
     
     private func initActions() {
@@ -313,6 +350,15 @@ class MenuScene: SKScene {
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
+            var REMOVEADSendpoint = CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y - self.distance)
+            var REMOVEADSmove = SKAction.moveTo(REMOVEADSendpoint, duration: 0.2)
+            REMOVEADSmove.timingMode = SKActionTimingMode.EaseIn
+            var REMOVEADSscale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnRemoveAds.runAction(SKAction.group([REMOVEADSmove, REMOVEADSscale]), completion: {()
+                var label = self.btnRemoveAds.childNodeWithName("label") as! SKLabelNode
+                label.runAction(SKAction.fadeInWithDuration(0.1))
+            })
+            
             var dashedcircle_scale = SKAction.scaleTo(1.0, duration: 0.2)
             var dashedcircle_rotate = SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(2 * M_PI), duration: 10.0))
             self.dashedCircle.runAction(SKAction.group([dashedcircle_scale, dashedcircle_rotate]), withKey: "rotating")
@@ -342,6 +388,14 @@ class MenuScene: SKScene {
                 label.alpha = 0.0
             })
             
+            var REMOVEADSmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            REMOVEADSmove.timingMode = SKActionTimingMode.EaseIn
+            var REMOVEADSscale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnRemoveAds.runAction(SKAction.group([REMOVEADSmove, REMOVEADSscale]), completion: {()
+                var label = self.btnRemoveAds.childNodeWithName("label") as! SKLabelNode
+                label.alpha = 0.0
+            })
+            
             var dashedcircle_scale = SKAction.scaleTo(0.0, duration: 0.2)
             self.dashedCircle.runAction(dashedcircle_scale, completion: { ()
             })
@@ -365,6 +419,14 @@ class MenuScene: SKScene {
             self.btnPlayTimed.zPosition = -2
             self.btnPlayTimed.runAction(SKAction.group([TIMEDmove, TIMEDscale]))
             
+            var REMOVEADSpath = CGPathCreateMutable()
+            CGPathMoveToPoint(REMOVEADSpath, nil, self.btnRemoveAds.position.x, self.btnRemoveAds.position.y)
+            CGPathAddArc(REMOVEADSpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 2), -CGFloat(M_PI), true)
+            var REMOVEADSmove = SKAction.followPath(REMOVEADSpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var REMOVEADSscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnRemoveAds.zPosition = -2
+            self.btnRemoveAds.runAction(SKAction.group([REMOVEADSmove, REMOVEADSscale]))
+            
             var ENDLESSwait = SKAction.waitForDuration(2 * single_duration)
             var ENDLESSmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             ENDLESSmove.timingMode = SKActionTimingMode.EaseInEaseOut
@@ -385,12 +447,48 @@ class MenuScene: SKScene {
             self.btnPlayEndless.zPosition = -2
             self.btnPlayEndless.runAction(SKAction.group([ENDLESSmove, ENDLESSscale]))
             
+            var REMOVEADSpath = CGPathCreateMutable()
+            CGPathMoveToPoint(REMOVEADSpath, nil, self.btnRemoveAds.position.x, self.btnRemoveAds.position.y)
+            CGPathAddArc(REMOVEADSpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI / 2), 0, false)
+            var REMOVEADSmove = SKAction.followPath(REMOVEADSpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var REMOVEADSscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnRemoveAds.zPosition = -2
+            self.btnRemoveAds.runAction(SKAction.group([REMOVEADSmove, REMOVEADSscale]))
+            
             var TIMEDwait = SKAction.waitForDuration(2 * single_duration)
             var TIMEDmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             TIMEDmove.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnPlayTimed.zPosition = 0
             self.btnPlayTimed.runAction(SKAction.sequence([TIMEDwait, TIMEDmove, SKAction.waitForDuration(0.1)]), completion: {()
                 self.sceneDelegate!.showGameScene(GameMode.Timed)
+            })
+        })
+        
+        REMOVEADSaction = SKAction.runBlock({
+            var single_duration = 0.2
+            
+            var ENDLESSpath = CGPathCreateMutable()
+            CGPathMoveToPoint(ENDLESSpath, nil, self.btnPlayEndless.position.x, self.btnPlayEndless.position.y)
+            CGPathAddArc(ENDLESSpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, -CGFloat(M_PI), -CGFloat(M_PI / 2), false)
+            var ENDLESSmove = SKAction.followPath(ENDLESSpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var ENDLESSscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnPlayEndless.zPosition = -2
+            self.btnPlayEndless.runAction(SKAction.group([ENDLESSmove, ENDLESSscale]))
+            
+            var TIMEDpath = CGPathCreateMutable()
+            CGPathMoveToPoint(TIMEDpath, nil, self.btnPlayTimed.position.x, self.btnPlayTimed.position.y)
+            CGPathAddArc(TIMEDpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, 0, -CGFloat(M_PI / 2), true)
+            var TIMEDmove = SKAction.followPath(TIMEDpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var TIMEDscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnPlayTimed.zPosition = -2
+            self.btnPlayTimed.runAction(SKAction.group([TIMEDmove, TIMEDscale]))
+            
+            var REMOVEADSwait = SKAction.waitForDuration(2 * single_duration)
+            var REMOVEADSmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            REMOVEADSmove.timingMode = SKActionTimingMode.EaseInEaseOut
+            self.btnRemoveAds.zPosition = 0
+            self.btnRemoveAds.runAction(SKAction.sequence([REMOVEADSwait, REMOVEADSmove, SKAction.waitForDuration(0.1)]), completion: {()
+                
             })
         })
         
@@ -426,6 +524,8 @@ class MenuScene: SKScene {
                 runAction(ENDLESSaction)
             } else if (btnPlayTimed.containsPoint(location)) {
                 runAction(TIMEDaction)
+            } else if (btnRemoveAds.containsPoint(location)) {
+                runAction(REMOVEADSaction)
             } else {
                 createRandomBall(location)
             }
