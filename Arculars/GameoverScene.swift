@@ -185,16 +185,18 @@ class GameoverScene: SKScene {
         //
         
         
-        var tomenuLabel = SKLabelNode(text: "BACK TO MENU")
-        tomenuLabel.fontName = Fonts.FontNameNormal
-        tomenuLabel.fontColor = Colors.DisabledColor
-        tomenuLabel.fontSize = size.height / 32
-        tomenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tomenuLabel.frame.height * 4))
+        var tml = SKLabelNode(text: "BACK TO MENU")
+        tml.fontName = Fonts.FontNameLight
+        tml.fontColor = Colors.DisabledColor
+        tml.fontSize = size.height / 32
+        tml.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        tml.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        tomenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tml.frame.height * 4))
         tomenu.lineWidth = 0
         tomenu.fillColor = UIColor.clearColor()
         tomenu.strokeColor = UIColor.clearColor()
-        tomenuLabel.position = CGPoint(x: 0, y: -(size.height / 2) + (tomenuLabel.frame.height * 1.5))
-        tomenu.addChild(tomenuLabel)
+        tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
+        tomenu.addChild(tml)
         rootNode.addChild(tomenu)
     }
     

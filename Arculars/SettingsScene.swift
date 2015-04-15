@@ -101,7 +101,7 @@ class SettingsScene : SKScene {
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "CLOSE")
         tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
-        tml.fontName = Fonts.FontNameNormal
+        tml.fontName = Fonts.FontNameLight
         tml.fontColor = Colors.DisabledColor
         tml.fontSize = size.height / 32
         tml.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center

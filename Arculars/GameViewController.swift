@@ -10,25 +10,20 @@ import UIKit
 import SpriteKit
 import GameKit
 import Social
+import iAd
 
-class GameViewController: UIViewController, SceneDelegate {
+class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate {
+    
+    var bannerView : ADBannerView?
     
     private var currentScene : SKScene!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Configure the view.
-        let skView = view as! SKView
-        skView.multipleTouchEnabled = false
-        
-        #if DEBUG
-            /*
-            skView.showsDrawCount = true
-            skView.showsFPS = true
-            skView.showsPhysics = true
-            */
-        #endif
+        self.canDisplayBannerAds = true
+        self.bannerView?.delegate = self
+        self.bannerView?.hidden = true
         
         // Init Easy Game Center Singleton
         let gamecenter = GCHandler.sharedInstance {
@@ -66,6 +61,41 @@ class GameViewController: UIViewController, SceneDelegate {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    // MARK: - SCENEDELEGATE IMPLEMENTATION
+    func shareScore(destination: String, score: Int, gameType: GameMode) {
+        if destination == "facebook" {
+            shareScoreOnFacebook(score, gameType: gameType)
+            return
+        } else if destination == "twitter" {
+            shareScoreOnTwitter(score, gameType: gameType)
+            return
+        }
+        
+        
+        let textToShare = Strings.SharingText
+        let imageToShare = getShareImage(score, gameMode: gameType)
+        let objectsToShare = [textToShare, imageToShare]
+        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: [WhatsAppActivity(parent: self), InstagramActivity(parent: self)])
+        
+        // For iPad only
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 0, y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
+        //
+        
+        activityViewController.excludedActivityTypes = [
+            UIActivityTypeAirDrop,
+            UIActivityTypePostToWeibo,
+            UIActivityTypePrint,
+            UIActivityTypeAssignToContact,
+            UIActivityTypeAddToReadingList,
+            UIActivityTypePostToFlickr,
+            UIActivityTypePostToVimeo,
+            UIActivityTypePostToTencentWeibo
+        ]
+        
+        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
     func shareScoreOnTwitter(score: Int, gameType: GameMode) {
@@ -144,46 +174,12 @@ class GameViewController: UIViewController, SceneDelegate {
         }
     }
     
-    func shareScore(destination: String, score: Int, gameType: GameMode) {
-        if destination == "facebook" {
-            shareScoreOnFacebook(score, gameType: gameType)
-            return
-        } else if destination == "twitter" {
-            shareScoreOnTwitter(score, gameType: gameType)
-            return
-        }
-        
-        
-        let textToShare = Strings.SharingText
-        let imageToShare = getShareImage(score, gameMode: gameType)
-        let objectsToShare = [textToShare, imageToShare]
-        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: [WhatsAppActivity(parent: self), InstagramActivity(parent: self)])
-        
-        // For iPad only
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 0, y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
-        //
-        
-        activityViewController.excludedActivityTypes = [
-            UIActivityTypeAirDrop,
-            UIActivityTypePostToWeibo,
-            UIActivityTypePrint,
-            UIActivityTypeAssignToContact,
-            UIActivityTypeAddToReadingList,
-            UIActivityTypePostToFlickr,
-            UIActivityTypePostToVimeo,
-            UIActivityTypePostToTencentWeibo
-        ]
-        
-        self.presentViewController(activityViewController, animated: true, completion: nil)
-    }
-    
     func showMenuScene() {
         // Create and configure the menu scene.
         var scene = MenuScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showGameScene(gameMode: GameMode) {
@@ -192,7 +188,7 @@ class GameViewController: UIViewController, SceneDelegate {
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showStatsScene() {
@@ -200,7 +196,7 @@ class GameViewController: UIViewController, SceneDelegate {
         var scene = StatsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showSettingsScene() {
@@ -208,7 +204,7 @@ class GameViewController: UIViewController, SceneDelegate {
         var scene = SettingsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showGameoverScene(gameMode: GameMode) {
@@ -217,21 +213,21 @@ class GameViewController: UIViewController, SceneDelegate {
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showAboutScene() {
         var scene = AboutScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showHelpScene() {
         var scene = HelpScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func presentGameCenter() {
@@ -264,6 +260,19 @@ class GameViewController: UIViewController, SceneDelegate {
         }))
         
         self.presentViewController(refreshAlert, animated: true, completion: nil)
+    }
+    
+    // MARK: - BANNERVIEWDELEGATE IMPLEMENTATION
+    func bannerViewDidLoadAd(banner: ADBannerView!) {
+        self.bannerView?.hidden = false
+    }
+    
+    func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
+        return willLeave
+    }
+    
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+        self.bannerView?.hidden = true
     }
     
     // MARK: - HELPER FUNCTIONS
