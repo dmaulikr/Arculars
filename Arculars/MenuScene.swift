@@ -172,7 +172,7 @@ class MenuScene: SKScene {
         // INIT GO BUTTON
         btnGo = SKShapeNode(circleOfRadius: radius)
         btnGo.strokeColor = Colors.AppColorThree
-        btnGo.lineWidth = 2
+        btnGo.lineWidth = 1
         btnGo.antialiased = true
         btnGo.position = CGPoint(x: 0, y: 0)
         
@@ -211,7 +211,7 @@ class MenuScene: SKScene {
         btnPlayTimed = SKShapeNode(circleOfRadius: radius)
         btnPlayTimed.fillColor = Colors.AppColorThree
         btnPlayTimed.strokeColor = Colors.AppColorThree
-        btnPlayTimed.lineWidth = 1
+        btnPlayTimed.lineWidth = 3
         btnPlayTimed.antialiased = true
         btnPlayTimed.position = CGPoint(x: 0, y: 0)
         btnPlayTimed.xScale = 0.0
@@ -238,7 +238,7 @@ class MenuScene: SKScene {
         btnPlayEndless = SKShapeNode(circleOfRadius: radius)
         btnPlayEndless.fillColor = Colors.AppColorThree
         btnPlayEndless.strokeColor = Colors.AppColorThree
-        btnPlayEndless.lineWidth = 1
+        btnPlayEndless.lineWidth = 3
         btnPlayEndless.antialiased = true
         btnPlayEndless.position = CGPoint(x: 0, y: 0)
         btnPlayEndless.xScale = 0.0
@@ -263,15 +263,15 @@ class MenuScene: SKScene {
         
         // INIT REMOVE ADS BUTTON
         btnRemoveAds = SKShapeNode(circleOfRadius: radius)
-        btnRemoveAds.fillColor = Colors.AppColorThree
-        btnRemoveAds.strokeColor = Colors.AppColorThree
-        btnRemoveAds.lineWidth = 1
+        btnRemoveAds.fillColor = Colors.AppColorOne
+        btnRemoveAds.strokeColor = Colors.AppColorOne
+        btnRemoveAds.lineWidth = 3
         btnRemoveAds.antialiased = true
         btnRemoveAds.position = CGPoint(x: 0, y: 0)
         btnRemoveAds.xScale = 0.0
         btnRemoveAds.yScale = 0.0
         btnRemoveAds.zPosition = -1
-        var iconRemoveAds = SKSpriteNode(imageNamed: "icon-infinity")
+        var iconRemoveAds = SKSpriteNode(imageNamed: "icon-noads")
         iconRemoveAds.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         var aspectRatioRemoveAds = iconRemoveAds.size.width / iconRemoveAds.size.height
         iconRemoveAds.size = CGSize(width: radius, height: radius / aspectRatioRemoveAds)
