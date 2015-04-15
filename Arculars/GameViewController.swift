@@ -341,6 +341,9 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
                 switch prodID {
                 case productRemoveAdsID:
                     removeAds()
+                    var alert = UIAlertController(title: "Purchase successful", message: "Thank you for your support.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
                     break
                 default:
                     break
@@ -349,6 +352,9 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
                 showMenuScene()
                 break
             case .Failed:
+                var alert = UIAlertController(title: "Purchase failed", message: "Please try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
                 SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 showMenuScene()
                 break
