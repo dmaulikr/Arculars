@@ -24,6 +24,7 @@ class SettingsScene : SKScene {
     private var dStateLabel : SKLabelNode!
     private var dInfoLabel : SKLabelNode!
     private var btnDifficulty : SKShapeNode!
+    private var btnRestorePurchases : SKShapeNode!
     private var btnToMenu : SKShapeNode!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
@@ -74,21 +75,23 @@ class SettingsScene : SKScene {
         title.addChild(titleLabel)
         rootNode.addChild(title)
         
+        var rowheight = size.height / 8
+        
         // INIT TOGGLE VIBRATION BUTTON
         btnToggleVibration = createButton("VIBRATION")
-        btnToggleVibration.position = CGPoint(x: 0, y: size.height / 6)
+        btnToggleVibration.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 2))
         vStateLabel = (btnToggleVibration.childNodeWithName("label") as! SKLabelNode)
         rootNode.addChild(btnToggleVibration)
         
         // INIT TOGGLE SOUND BUTTON
         btnToggleSound = createButton("SOUND")
-        btnToggleSound.position = CGPoint(x: 0, y: 0)
+        btnToggleSound.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 3))
         sStateLabel = (btnToggleSound.childNodeWithName("label") as! SKLabelNode)
         rootNode.addChild(btnToggleSound)
         
         // INIT DIFFICULTY BUTTON
         btnDifficulty = createButton("DIFFICULTY")
-        btnDifficulty.position = CGPoint(x: 0, y: -size.height / 6)
+        btnDifficulty.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 4))
         dStateLabel = (btnDifficulty.childNodeWithName("label") as! SKLabelNode)
         dInfoLabel = SKLabelNode(text: "")
         dInfoLabel.fontColor = UIColor.grayColor()
@@ -97,6 +100,26 @@ class SettingsScene : SKScene {
         dInfoLabel.position = CGPoint(x: 0, y: -btnDifficulty.calculateAccumulatedFrame().height / 2)
         btnDifficulty.addChild(dInfoLabel)
         rootNode.addChild(btnDifficulty)
+        
+        // INIT RESTORE PURCHASES BUTTON
+        btnRestorePurchases = SKShapeNode(circleOfRadius: size.height / 16)
+        btnRestorePurchases.position = CGPoint(x: 0, y: -(size.height / 4))
+        btnRestorePurchases.lineWidth = 1
+        btnRestorePurchases.strokeColor = Colors.AppColorOne
+        btnRestorePurchases.fillColor = Colors.AppColorOne
+        var rel1 = SKLabelNode(text: "RESTORE")
+        rel1.position = CGPoint(x: 0, y: rel1.frame.height / 4)
+        rel1.userInteractionEnabled = false
+        rel1.fontSize = size.height / 56
+        rel1.fontName = Fonts.FontNameNormal
+        rel1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        rel1.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        var rel2 = rel1.copy() as! SKLabelNode
+        rel2.text = "PURCHASES"
+        rel2.position = CGPoint(x: 0, y: -(rel1.frame.height * 1.25))
+        rel1.addChild(rel2)
+        btnRestorePurchases.addChild(rel1)
+        rootNode.addChild(btnRestorePurchases)
         
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "CLOSE")
@@ -154,6 +177,8 @@ class SettingsScene : SKScene {
             } else if (btnDifficulty.containsPoint(location)) {
                 SettingsHandler.toggleDifficulty()
                 getSettings()
+            } else if (btnRestorePurchases.containsPoint(location)) {
+                self.sceneDelegate!.restorePurchases()
             }
         }
     }

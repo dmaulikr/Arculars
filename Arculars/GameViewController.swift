@@ -17,8 +17,9 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     
     var bannerView : ADBannerView?
     
-    var productRemoveAds : SKProduct?
-    var removeAdsID = "io.rmnblm.arculars.removeads"
+    var products = [SKProduct]()
+    var currentProduct = SKProduct()
+    var productRemoveAdsID = "io.rmnblm.arculars.removeads"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -272,16 +273,27 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     }
     
     func purchaseRemoveAds() {
-        let payment = SKPayment(product: productRemoveAds)
-        SKPaymentQueue.defaultQueue().addPayment(payment)
+        for p in products {
+            if (p.productIdentifier == productRemoveAdsID) {
+                currentProduct = p
+                let payment = SKPayment(product: p)
+                SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+                SKPaymentQueue.defaultQueue().addPayment(payment)
+            }
+        }
+    }
+    
+    func restorePurchases() {
+        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
     }
     
     // MARK: - STOREKIT IMPLEMENTATION
     func getProductInfo()
     {
         if SKPaymentQueue.canMakePayments() {
-            var productID:NSSet = NSSet(objects: removeAdsID, removeAdsID)
-            var request: SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>)
+            var productID : NSSet = NSSet(objects: productRemoveAdsID, productRemoveAdsID)
+            var request : SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>)
             request.delegate = self
             request.start()
         } else {
@@ -292,38 +304,54 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     }
     
     func productsRequest(request: SKProductsRequest!, didReceiveResponse response: SKProductsResponse!) {
-        
-        var products = response.products
-        for product in products {
-            var skProduct = product as? SKProduct
-            if (skProduct != nil) && (skProduct?.productIdentifier == removeAdsID) {
-                productRemoveAds = skProduct
-            }
+        var responseProducts = response.products
+        for product in responseProducts {
+            products.append(product as! SKProduct)
         }
-        
-        products = response.invalidProductIdentifiers
-        for product in products
-        {
-            #if DEBUG
-                println("Product not found: \(product)")
-            #endif
+    }
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue!) {
+        var purchasedItemIDS = []
+        for transaction in queue.transactions {
+            var t: SKPaymentTransaction = transaction as! SKPaymentTransaction
+            
+            let prodID = t.payment.productIdentifier as String
+            
+            switch prodID {
+            case productRemoveAdsID:
+                removeAds()
+                var alert = UIAlertController(title: "Restore successful", message: "Your previous purchases have been restored successfully.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+                break
+            default:
+                break
+            }
+            
         }
     }
     
     func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!) {
-        
         for transaction in transactions as! [SKPaymentTransaction] {
-            
             switch transaction.transactionState {
+            case .Purchased:
                 
-            case SKPaymentTransactionState.Purchased:
-                self.removeAds()
+                let prodID = currentProduct.productIdentifier as String
+                
+                switch prodID {
+                case productRemoveAdsID:
+                    removeAds()
+                    break
+                default:
+                    break
+                }
                 SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 showMenuScene()
-                
-            case SKPaymentTransactionState.Failed:
+                break
+            case .Failed:
                 SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 showMenuScene()
+                break
             default:
                 break
             }
