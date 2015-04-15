@@ -382,7 +382,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     private func getShareImage(score: Int, gameMode: GameMode) -> UIImage {
         switch gameMode {
         case GameMode.Endless: return ShareImageHelper.createImage(score, image: "shareimage-endless")
-        case GameMode.Endless: return ShareImageHelper.createImage(score, image: "shareimage-timed")
+        case GameMode.Timed: return ShareImageHelper.createImage(score, image: "shareimage-timed")
         default: return UIImage()
         }
     }
