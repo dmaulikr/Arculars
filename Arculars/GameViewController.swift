@@ -26,7 +26,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         self.bannerView?.hidden = true
 
         // Configure the view.
-        let skView = self.view as! SKView
+        let skView = self.originalContentView as! SKView
         skView.multipleTouchEnabled = false
         
         #if DEBUG
@@ -191,7 +191,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         var scene = MenuScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showGameScene(gameMode: GameMode) {
@@ -200,7 +200,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showStatsScene() {
@@ -208,7 +208,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         var scene = StatsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showSettingsScene() {
@@ -216,7 +216,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         var scene = SettingsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showGameoverScene(gameMode: GameMode) {
@@ -225,21 +225,21 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showAboutScene() {
         var scene = AboutScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showHelpScene() {
         var scene = HelpScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.view as! SKView).presentScene(scene)
+        (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func presentGameCenter() {
