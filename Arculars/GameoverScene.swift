@@ -204,10 +204,8 @@ class GameoverScene: SKScene {
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
-            
-            if (tomenu.containsPoint(location)) {
-                self.sceneDelegate!.showMenuScene()
-            } else if (btnShareOnFacebook.containsPoint(location)) {
+            if (tomenu.containsPoint(location)) { }
+            else if (btnShareOnFacebook.containsPoint(location)) {
                 sceneDelegate!.shareScore("facebook", score: StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else if (btnShareOnTwitter.containsPoint(location)) {
                 sceneDelegate!.shareScore("twitter", score: StatsHandler.getLastscore(gameMode), gameType: gameMode)
@@ -215,6 +213,15 @@ class GameoverScene: SKScene {
                 sceneDelegate!.shareScore("", score: StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else {
                 sceneDelegate!.showGameScene(gameMode)
+            }
+        }
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(rootNode)
+            if (tomenu.containsPoint(location)) {
+                self.sceneDelegate!.showMenuScene()
             }
         }
     }

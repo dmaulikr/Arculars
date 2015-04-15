@@ -246,14 +246,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
-            if (btnStop.containsPoint(location)) {
-                gameover()
-            } else {
+            if (!btnStop.containsPoint(location)) {
                 if !isGameOver && !isTimerBarExpired {
                     StatsHandler.updateFiredBallsBy(1)
                     shootBall()
                     addBall()
                 }
+            }
+        }
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(rootNode)
+            if (btnStop.containsPoint(location)) {
+                gameover()
             }
         }
     }
