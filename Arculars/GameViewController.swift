@@ -186,7 +186,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     
     func showMenuScene() {
         // Create and configure the menu scene.
-        var scene = MenuScene(size: self.view.bounds.size)
+        var scene = MenuScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
@@ -194,7 +194,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     
     func showGameScene(gameMode: GameMode) {
         // Create and configure the game scene.
-        var scene = GameScene(size: self.view.bounds.size)
+        var scene = GameScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
@@ -203,7 +203,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     
     func showStatsScene() {
         // Create and configure the stats scene.
-        var scene = StatsScene(size: self.view.bounds.size)
+        var scene = StatsScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
@@ -211,7 +211,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     
     func showSettingsScene() {
         // Create and configure the settings scene.
-        var scene = SettingsScene(size: self.view.bounds.size)
+        var scene = SettingsScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
@@ -219,7 +219,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     
     func showGameoverScene(gameMode: GameMode) {
         // Create and configure the gameover scene.
-        var scene = GameoverScene(size: self.view.bounds.size)
+        var scene = GameoverScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
@@ -227,14 +227,14 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     }
     
     func showAboutScene() {
-        var scene = AboutScene(size: self.view.bounds.size)
+        var scene = AboutScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showHelpScene() {
-        var scene = HelpScene(size: self.view.bounds.size)
+        var scene = HelpScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
