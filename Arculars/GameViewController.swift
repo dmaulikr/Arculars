@@ -24,18 +24,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         self.canDisplayBannerAds = true
         self.bannerView?.delegate = self
         self.bannerView?.hidden = true
-
-        // Configure the view.
-        let skView = self.originalContentView as! SKView
-        skView.multipleTouchEnabled = false
-        
-        #if DEBUG
-            /*
-            skView.showsDrawCount = true
-            skView.showsFPS = true
-            skView.showsPhysics = true
-            */
-        #endif
         
         // Init Easy Game Center Singleton
         let gamecenter = GCHandler.sharedInstance {
