@@ -14,6 +14,8 @@ class RateHandler {
     static let RATE_DONTSHOWAGAIN = "rate_dontshowagain"
     
     class func checkIfRate(playedgames: Int) -> Bool {
+        if (playedgames == 0) { return false }
+        
         var dontshowagain = NSUserDefaults.standardUserDefaults().boolForKey(RATE_DONTSHOWAGAIN)
         if (playedgames % RATE_INTERVAL) == 0 && (!dontshowagain) {
             return true
