@@ -11,19 +11,28 @@ import SpriteKit
 import GameKit
 import Social
 import iAd
+import StoreKit
 
-class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate {
+class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
     
     var bannerView : ADBannerView?
     
-    private var currentScene : SKScene!
+    var productRemoveAds : SKProduct?
+    var removeAdsID = "io.rmnblm.arculars.removeads"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.canDisplayBannerAds = true
-        self.bannerView?.delegate = self
-        self.bannerView?.hidden = true
+        // Setup iAD
+        if !PurchaseHandler.hasRemovedAds() {
+            self.canDisplayBannerAds = true
+            self.bannerView?.delegate = self
+            self.bannerView?.hidden = true
+        }
+        
+        // Setup StoreKit
+        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        getProductInfo()
         
         // Init Easy Game Center Singleton
         let gamecenter = GCHandler.sharedInstance {
@@ -42,8 +51,8 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
             SettingsHandler.reset()
             StatsHandler.reset()
             RateHandler.reset()
+            PurchaseHandler.reset()
             
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "hasAdsRemoved")
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasPerformedFirstLaunch")
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelpScene()
@@ -262,7 +271,73 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         self.presentViewController(refreshAlert, animated: true, completion: nil)
     }
     
-    // MARK: - BANNERVIEWDELEGATE IMPLEMENTATION
+    func purchaseRemoveAds() {
+        let payment = SKPayment(product: productRemoveAds)
+        SKPaymentQueue.defaultQueue().addPayment(payment)
+    }
+    
+    // MARK: - STOREKIT IMPLEMENTATION
+    func getProductInfo()
+    {
+        if SKPaymentQueue.canMakePayments() {
+            var productID:NSSet = NSSet(objects: removeAdsID, removeAdsID)
+            var request: SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>)
+            request.delegate = self
+            request.start()
+        } else {
+            #if DEBUG
+                println("Please enable In-App Purchases")
+            #endif
+        }
+    }
+    
+    func productsRequest(request: SKProductsRequest!, didReceiveResponse response: SKProductsResponse!) {
+        
+        var products = response.products
+        for product in products {
+            var skProduct = product as? SKProduct
+            if (skProduct != nil) && (skProduct?.productIdentifier == removeAdsID) {
+                productRemoveAds = skProduct
+            }
+        }
+        
+        products = response.invalidProductIdentifiers
+        for product in products
+        {
+            #if DEBUG
+                println("Product not found: \(product)")
+            #endif
+        }
+    }
+    
+    func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!) {
+        
+        for transaction in transactions as! [SKPaymentTransaction] {
+            
+            switch transaction.transactionState {
+                
+            case SKPaymentTransactionState.Purchased:
+                self.removeAds()
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                showMenuScene()
+                
+            case SKPaymentTransactionState.Failed:
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                showMenuScene()
+            default:
+                break
+            }
+        }
+        
+    }
+    
+    func removeAds() {
+        PurchaseHandler.removeAds()
+        canDisplayBannerAds = false
+        bannerView?.removeFromSuperview()
+    }
+    
+    // MARK: - IAD IMPLEMENTATION
     func bannerViewDidLoadAd(banner: ADBannerView!) {
         self.bannerView?.hidden = false
     }

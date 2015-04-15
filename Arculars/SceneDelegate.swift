@@ -20,4 +20,6 @@ protocol SceneDelegate : class {
     func presentRateOnAppStore()
     
     func shareScore(destination: String, score: Int, gameType: GameMode)
+    
+    func purchaseRemoveAds()
 }

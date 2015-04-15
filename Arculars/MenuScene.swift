@@ -15,8 +15,6 @@ class MenuScene: SKScene {
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
     
-    var hasAdsRemoved = false
-    
     private var rootNode = SKNode()
     private var distance : CGFloat!
     
@@ -51,8 +49,6 @@ class MenuScene: SKScene {
     
     override init(size: CGSize) {
         super.init(size: size)
-        
-        hasAdsRemoved = NSUserDefaults.standardUserDefaults().boolForKey("hasAdsRemoved")
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -276,7 +272,7 @@ class MenuScene: SKScene {
         var aspectRatioRemoveAds = iconRemoveAds.size.width / iconRemoveAds.size.height
         iconRemoveAds.size = CGSize(width: radius, height: radius / aspectRatioRemoveAds)
         btnRemoveAds.addChild(iconRemoveAds)
-        if !hasAdsRemoved {  btnGo.addChild(btnRemoveAds) }
+        if !PurchaseHandler.hasRemovedAds() {  btnGo.addChild(btnRemoveAds) }
         
         var remadslabel = SKLabelNode(text: "Remove Ads")
         remadslabel.name = "label"
@@ -488,7 +484,7 @@ class MenuScene: SKScene {
             REMOVEADSmove.timingMode = SKActionTimingMode.EaseInEaseOut
             self.btnRemoveAds.zPosition = 0
             self.btnRemoveAds.runAction(SKAction.sequence([REMOVEADSwait, REMOVEADSmove, SKAction.waitForDuration(0.1)]), completion: {()
-                
+                self.sceneDelegate!.purchaseRemoveAds()
             })
         })
         
