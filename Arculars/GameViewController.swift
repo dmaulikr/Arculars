@@ -10,16 +10,23 @@ import UIKit
 import SpriteKit
 import GameKit
 import Social
+import iAd
 
-class GameViewController: UIViewController, SceneDelegate {
+class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate {
+    
+    var bannerView : ADBannerView?
     
     private var currentScene : SKScene!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.canDisplayBannerAds = true
+        self.bannerView?.delegate = self
+        self.bannerView?.hidden = true
+
         // Configure the view.
-        let skView = view as! SKView
+        let skView = self.view as! SKView
         skView.multipleTouchEnabled = false
         
         #if DEBUG
@@ -66,6 +73,41 @@ class GameViewController: UIViewController, SceneDelegate {
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent
+    }
+    
+    // MARK: - SCENEDELEGATE IMPLEMENTATION
+    func shareScore(destination: String, score: Int, gameType: GameMode) {
+        if destination == "facebook" {
+            shareScoreOnFacebook(score, gameType: gameType)
+            return
+        } else if destination == "twitter" {
+            shareScoreOnTwitter(score, gameType: gameType)
+            return
+        }
+        
+        
+        let textToShare = Strings.SharingText
+        let imageToShare = getShareImage(score, gameMode: gameType)
+        let objectsToShare = [textToShare, imageToShare]
+        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: [WhatsAppActivity(parent: self), InstagramActivity(parent: self)])
+        
+        // For iPad only
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 0, y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
+        //
+        
+        activityViewController.excludedActivityTypes = [
+            UIActivityTypeAirDrop,
+            UIActivityTypePostToWeibo,
+            UIActivityTypePrint,
+            UIActivityTypeAssignToContact,
+            UIActivityTypeAddToReadingList,
+            UIActivityTypePostToFlickr,
+            UIActivityTypePostToVimeo,
+            UIActivityTypePostToTencentWeibo
+        ]
+        
+        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
     func shareScoreOnTwitter(score: Int, gameType: GameMode) {
@@ -142,40 +184,6 @@ class GameViewController: UIViewController, SceneDelegate {
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
-    }
-    
-    func shareScore(destination: String, score: Int, gameType: GameMode) {
-        if destination == "facebook" {
-            shareScoreOnFacebook(score, gameType: gameType)
-            return
-        } else if destination == "twitter" {
-            shareScoreOnTwitter(score, gameType: gameType)
-            return
-        }
-        
-        
-        let textToShare = Strings.SharingText
-        let imageToShare = getShareImage(score, gameMode: gameType)
-        let objectsToShare = [textToShare, imageToShare]
-        let activityViewController : UIActivityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: [WhatsAppActivity(parent: self), InstagramActivity(parent: self)])
-        
-        // For iPad only
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 0, y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
-        //
-        
-        activityViewController.excludedActivityTypes = [
-            UIActivityTypeAirDrop,
-            UIActivityTypePostToWeibo,
-            UIActivityTypePrint,
-            UIActivityTypeAssignToContact,
-            UIActivityTypeAddToReadingList,
-            UIActivityTypePostToFlickr,
-            UIActivityTypePostToVimeo,
-            UIActivityTypePostToTencentWeibo
-        ]
-        
-        self.presentViewController(activityViewController, animated: true, completion: nil)
     }
     
     func showMenuScene() {
@@ -264,6 +272,19 @@ class GameViewController: UIViewController, SceneDelegate {
         }))
         
         self.presentViewController(refreshAlert, animated: true, completion: nil)
+    }
+    
+    // MARK: - BANNERVIEWDELEGATE IMPLEMENTATION
+    func bannerViewDidLoadAd(banner: ADBannerView!) {
+        self.bannerView?.hidden = false
+    }
+    
+    func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
+        return willLeave
+    }
+    
+    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
+        self.bannerView?.hidden = true
     }
     
     // MARK: - HELPER FUNCTIONS

@@ -35,6 +35,7 @@
 		305B66491ADD6BFC00F314C3 /* InstagramActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305B66481ADD6BFC00F314C3 /* InstagramActivity.swift */; };
 		305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF11AC9727D004F68E6 /* AboutScene.swift */; };
 		305BCAF41AC973A8004F68E6 /* HelpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 305BCAF31AC973A8004F68E6 /* HelpScene.swift */; };
+		3063E1101ADECCF900407F05 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3063E10F1ADECCF900407F05 /* iAd.framework */; };
 		306B28381ADAF76F000D683A /* PowerupType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306B28371ADAF76F000D683A /* PowerupType.swift */; };
 		30740F3A1ADBD48600B7D965 /* RateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30740F391ADBD48600B7D965 /* RateHandler.swift */; };
 		30740F3E1ADC699600B7D965 /* AchievementsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30740F3D1ADC699600B7D965 /* AchievementsHandler.swift */; };
@@ -93,6 +94,7 @@
 		305B66481ADD6BFC00F314C3 /* InstagramActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramActivity.swift; sourceTree = "<group>"; };
 		305BCAF11AC9727D004F68E6 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		305BCAF31AC973A8004F68E6 /* HelpScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpScene.swift; sourceTree = "<group>"; };
+		3063E10F1ADECCF900407F05 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		306B28371ADAF76F000D683A /* PowerupType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupType.swift; sourceTree = "<group>"; };
 		30740F391ADBD48600B7D965 /* RateHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateHandler.swift; sourceTree = "<group>"; };
 		30740F3D1ADC699600B7D965 /* AchievementsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementsHandler.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3063E1101ADECCF900407F05 /* iAd.framework in Frameworks */,
 				3091AC1E1ACA84E000E25F13 /* SystemConfiguration.framework in Frameworks */,
 				3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */,
 			);
@@ -141,6 +144,7 @@
 		30500B201AAE3010009F4C26 = {
 			isa = PBXGroup;
 			children = (
+				3063E10F1ADECCF900407F05 /* iAd.framework */,
 				3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */,
 				3038F8071ABA0BA100741BEE /* GameKit.framework */,
 				30500B2B1AAE3010009F4C26 /* Arculars */,
