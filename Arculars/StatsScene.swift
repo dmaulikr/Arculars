@@ -173,15 +173,9 @@ class StatsScene: SKScene {
                     var resetAlert = UIAlertController(title: "Reset Stats", message: "Do you really want to reset your stats? This will also reset your Game Center achievements.", preferredStyle: UIAlertControllerStyle.Alert)
                     
                     resetAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
-                        var confirmResetAlert = UIAlertController(title: "Reset Confirmation", message: "Are you really sure?", preferredStyle: UIAlertControllerStyle.Alert)
-                        
-                        confirmResetAlert.addAction(UIAlertAction(title: "Yes", style: .Default, handler: { (action: UIAlertAction!) in
-                            StatsHandler.reset()
-                            GCHandler.resetAllAchievements(nil)
-                            self.getStats()
-                        }))
-                        confirmResetAlert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
-                        self.view?.window?.rootViewController?.presentViewController(confirmResetAlert, animated: true, completion: nil)
+                        StatsHandler.reset()
+                        GCHandler.resetAllAchievements(nil)
+                        self.getStats()
                     }))
                     resetAlert.addAction(UIAlertAction(title: "No", style: .Cancel, handler: nil))
                     
