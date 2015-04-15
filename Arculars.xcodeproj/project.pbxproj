@@ -10,6 +10,8 @@
 		300FBC0B1AD316F400152297 /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FBC0A1AD316F400152297 /* Powerup.swift */; };
 		301C00871AB4576D00A635FC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301C00861AB4576D00A635FC /* Score.swift */; };
 		302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302197721AB306B400769D2F /* PhysicsCategory.swift */; };
+		3026D5411ADEEA960096D181 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3026D5401ADEEA960096D181 /* StoreKit.framework */; };
+		3026D5431ADEFE980096D181 /* PurchaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3026D5421ADEFE980096D181 /* PurchaseHandler.swift */; };
 		302D81481AC857DA00FDF44D /* hit2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 302D81461AC857DA00FDF44D /* hit2.wav */; };
 		302D81491AC857DA00FDF44D /* hit1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 302D81471AC857DA00FDF44D /* hit1.wav */; };
 		302D814D1AC93E6A00FDF44D /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302D814C1AC93E6A00FDF44D /* Fonts.swift */; };
@@ -65,6 +67,8 @@
 		300FBC0A1AD316F400152297 /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
 		301C00861AB4576D00A635FC /* Score.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		302197721AB306B400769D2F /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
+		3026D5401ADEEA960096D181 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		3026D5421ADEFE980096D181 /* PurchaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseHandler.swift; sourceTree = "<group>"; };
 		302D81461AC857DA00FDF44D /* hit2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit2.wav; sourceTree = "<group>"; };
 		302D81471AC857DA00FDF44D /* hit1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hit1.wav; sourceTree = "<group>"; };
 		302D814C1AC93E6A00FDF44D /* Fonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 				3063E1101ADECCF900407F05 /* iAd.framework in Frameworks */,
 				3091AC1E1ACA84E000E25F13 /* SystemConfiguration.framework in Frameworks */,
 				3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */,
+				3026D5411ADEEA960096D181 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +149,7 @@
 		30500B201AAE3010009F4C26 = {
 			isa = PBXGroup;
 			children = (
+				3026D5401ADEEA960096D181 /* StoreKit.framework */,
 				3063E10F1ADECCF900407F05 /* iAd.framework */,
 				3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */,
 				3038F8071ABA0BA100741BEE /* GameKit.framework */,
@@ -267,6 +273,7 @@
 				3091AC1B1ACA84D300E25F13 /* GCHandler.swift */,
 				30740F391ADBD48600B7D965 /* RateHandler.swift */,
 				30740F3D1ADC699600B7D965 /* AchievementsHandler.swift */,
+				3026D5421ADEFE980096D181 /* PurchaseHandler.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -357,6 +364,9 @@
 							com.apple.GameCenter = {
 								enabled = 1;
 							};
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
 						};
 					};
 					30500B411AAE3010009F4C26 = {
@@ -440,6 +450,7 @@
 				30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */,
 				301C00871AB4576D00A635FC /* Score.swift in Sources */,
 				300FBC0B1AD316F400152297 /* Powerup.swift in Sources */,
+				3026D5431ADEFE980096D181 /* PurchaseHandler.swift in Sources */,
 				306B28381ADAF76F000D683A /* PowerupType.swift in Sources */,
 				302D814F1AC93E9600FDF44D /* GameMode.swift in Sources */,
 				302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */,

@@ -11,19 +11,29 @@ import SpriteKit
 import GameKit
 import Social
 import iAd
+import StoreKit
 
-class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate {
+class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
     
     var bannerView : ADBannerView?
     
-    private var currentScene : SKScene!
+    var products = [SKProduct]()
+    var currentProduct = SKProduct()
+    var productRemoveAdsID = "io.rmnblm.arculars.removeads"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.canDisplayBannerAds = true
-        self.bannerView?.delegate = self
-        self.bannerView?.hidden = true
+        // Setup iAD
+        if !PurchaseHandler.hasRemovedAds() {
+            self.canDisplayBannerAds = true
+            self.bannerView?.delegate = self
+            self.bannerView?.hidden = true
+        }
+        
+        // Setup StoreKit
+        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        getProductInfo()
         
         // Init Easy Game Center Singleton
         let gamecenter = GCHandler.sharedInstance {
@@ -42,6 +52,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
             SettingsHandler.reset()
             StatsHandler.reset()
             RateHandler.reset()
+            PurchaseHandler.reset()
             
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasPerformedFirstLaunch")
             NSUserDefaults.standardUserDefaults().synchronize()
@@ -72,7 +83,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
             shareScoreOnTwitter(score, gameType: gameType)
             return
         }
-        
         
         let textToShare = Strings.SharingText
         let imageToShare = getShareImage(score, gameMode: gameType)
@@ -176,7 +186,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
     
     func showMenuScene() {
         // Create and configure the menu scene.
-        var scene = MenuScene(size: self.view.bounds.size)
+        var scene = MenuScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
@@ -184,7 +194,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
     
     func showGameScene(gameMode: GameMode) {
         // Create and configure the game scene.
-        var scene = GameScene(size: self.view.bounds.size)
+        var scene = GameScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
@@ -193,7 +203,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
     
     func showStatsScene() {
         // Create and configure the stats scene.
-        var scene = StatsScene(size: self.view.bounds.size)
+        var scene = StatsScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
@@ -201,7 +211,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
     
     func showSettingsScene() {
         // Create and configure the settings scene.
-        var scene = SettingsScene(size: self.view.bounds.size)
+        var scene = SettingsScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
@@ -209,7 +219,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
     
     func showGameoverScene(gameMode: GameMode) {
         // Create and configure the gameover scene.
-        var scene = GameoverScene(size: self.view.bounds.size)
+        var scene = GameoverScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
@@ -217,14 +227,14 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
     }
     
     func showAboutScene() {
-        var scene = AboutScene(size: self.view.bounds.size)
+        var scene = AboutScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
     }
     
     func showHelpScene() {
-        var scene = HelpScene(size: self.view.bounds.size)
+        var scene = HelpScene(size: self.originalContentView.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)
@@ -262,7 +272,100 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SceneDelegate 
         self.presentViewController(refreshAlert, animated: true, completion: nil)
     }
     
-    // MARK: - BANNERVIEWDELEGATE IMPLEMENTATION
+    func purchaseRemoveAds() {
+        for p in products {
+            if (p.productIdentifier == productRemoveAdsID) {
+                currentProduct = p
+                let payment = SKPayment(product: p)
+                SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+                SKPaymentQueue.defaultQueue().addPayment(payment)
+            }
+        }
+    }
+    
+    func restorePurchases() {
+        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
+    }
+    
+    // MARK: - STOREKIT IMPLEMENTATION
+    func getProductInfo()
+    {
+        if SKPaymentQueue.canMakePayments() {
+            var productID : NSSet = NSSet(objects: productRemoveAdsID, productRemoveAdsID)
+            var request : SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>)
+            request.delegate = self
+            request.start()
+        } else {
+            #if DEBUG
+                println("Please enable In-App Purchases")
+            #endif
+        }
+    }
+    
+    func productsRequest(request: SKProductsRequest!, didReceiveResponse response: SKProductsResponse!) {
+        var responseProducts = response.products
+        for product in responseProducts {
+            products.append(product as! SKProduct)
+        }
+    }
+    
+    func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue!) {
+        var purchasedItemIDS = []
+        for transaction in queue.transactions {
+            var t: SKPaymentTransaction = transaction as! SKPaymentTransaction
+            
+            let prodID = t.payment.productIdentifier as String
+            
+            switch prodID {
+            case productRemoveAdsID:
+                removeAds()
+                var alert = UIAlertController(title: "Restore successful", message: "Your previous purchases have been restored successfully.", preferredStyle: UIAlertControllerStyle.Alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+                break
+            default:
+                break
+            }
+            
+        }
+    }
+    
+    func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!) {
+        for transaction in transactions as! [SKPaymentTransaction] {
+            switch transaction.transactionState {
+            case .Purchased:
+                
+                let prodID = currentProduct.productIdentifier as String
+                
+                switch prodID {
+                case productRemoveAdsID:
+                    removeAds()
+                    break
+                default:
+                    break
+                }
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                showMenuScene()
+                break
+            case .Failed:
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
+                showMenuScene()
+                break
+            default:
+                break
+            }
+        }
+        
+    }
+    
+    func removeAds() {
+        PurchaseHandler.removeAds()
+        canDisplayBannerAds = false
+        bannerView?.removeFromSuperview()
+    }
+    
+    // MARK: - IAD IMPLEMENTATION
     func bannerViewDidLoadAd(banner: ADBannerView!) {
         self.bannerView?.hidden = false
     }

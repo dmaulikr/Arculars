@@ -60,7 +60,7 @@ class StatsScene: SKScene {
     
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
-        var rowheight = size.height / 12
+        var rowheight = size.height / 14
         
         // INIT TITLE
         var title = SKShapeNode(rectOfSize: CGSize(width: size.width / 3, height: rowheight))
@@ -120,15 +120,11 @@ class StatsScene: SKScene {
         rootNode.addChild(prn)
         
         // INIT RESET BUTTON
-        var btns = SKShapeNode(rectOfSize: CGSize(width: size.width, height: 2 * rowheight))
-        btns.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 9.5))
-        btns.lineWidth = 0
-        
-        btnReset = SKShapeNode(circleOfRadius: rowheight * 0.75)
-        btnReset.position = CGPoint(x: 0, y: 0)
+        btnReset = SKShapeNode(circleOfRadius: size.height / 16)
+        btnReset.position = CGPoint(x: 0, y: -(size.height / 4))
         btnReset.lineWidth = 1
-        btnReset.strokeColor = Colors.AppColorOne
-        btnReset.fillColor = Colors.AppColorOne
+        btnReset.strokeColor = Colors.AppColorTwo
+        btnReset.fillColor = Colors.AppColorTwo
         var rel = SKLabelNode(text: "RESET")
         rel.userInteractionEnabled = false
         rel.fontSize = size.height / 48
@@ -136,8 +132,7 @@ class StatsScene: SKScene {
         rel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         btnReset.addChild(rel)
-        btns.addChild(btnReset)
-        rootNode.addChild(btns)
+        rootNode.addChild(btnReset)
         
         // INIT TO MENU BUTTON
         var tml = SKLabelNode(text: "CLOSE")
