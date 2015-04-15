@@ -8,10 +8,10 @@
 
 import Foundation
 
-let RATE_INTERVAL   = 50 // after played games
-let RATE_DONTSHOWAGAIN = "rate_dontshowagain"
-
 class RateHandler {
+    
+    static let RATE_INTERVAL   = 50 // after played games
+    static let RATE_DONTSHOWAGAIN = "rate_dontshowagain"
     
     class func checkIfRate(playedgames: Int) -> Bool {
         var dontshowagain = NSUserDefaults.standardUserDefaults().boolForKey(RATE_DONTSHOWAGAIN)

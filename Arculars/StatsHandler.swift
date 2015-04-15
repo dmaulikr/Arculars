@@ -8,22 +8,22 @@
 
 import Foundation
 
-let GAME_HIGHSCORE_ENDLESS              = "game_highscore_endless"
-let GAME_HIGHSCORE_TIMED                = "game_highscore_timed"
-
-let GAME_LASTSCORE_ENDLESS              = "game_lastscore_endless"
-let GAME_LASTSCORE_TIMED                = "game_lastscore_timed"
-
-let STATS_PLAYEDTIME                    = "stats_playedtime"
-let STATS_PLAYEDGAMES                   = "stats_playedgames"
-let STATS_FIREDBALLS                    = "stats_firedballs"
-let STATS_TOTALPOINTS                   = "stats_totalpoints"
-let STATS_CORRECTCOLLISIONS             = "stats_correctcollisions"
-let STATS_COLLECTEDPOWERUPS             = "stats_collectedpowerups"
-let STATS_NOCOLLISIONS                  = "stats_nocollisions"
-
 class StatsHandler {
     
+    static let GAME_HIGHSCORE_ENDLESS              = "game_highscore_endless"
+    static let GAME_HIGHSCORE_TIMED                = "game_highscore_timed"
+    
+    static let GAME_LASTSCORE_ENDLESS              = "game_lastscore_endless"
+    static let GAME_LASTSCORE_TIMED                = "game_lastscore_timed"
+    
+    static let STATS_PLAYEDTIME                    = "stats_playedtime"
+    static let STATS_PLAYEDGAMES                   = "stats_playedgames"
+    static let STATS_FIREDBALLS                    = "stats_firedballs"
+    static let STATS_TOTALPOINTS                   = "stats_totalpoints"
+    static let STATS_CORRECTCOLLISIONS             = "stats_correctcollisions"
+    static let STATS_COLLECTEDPOWERUPS             = "stats_collectedpowerups"
+    static let STATS_NOCOLLISIONS                  = "stats_nocollisions"
+
     class func getHighscore(gameMode: GameMode) -> Int {
         switch gameMode {
         case .Endless:
