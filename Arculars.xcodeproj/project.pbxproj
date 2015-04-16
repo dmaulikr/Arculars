@@ -136,6 +136,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		301E5C9B1ADFCE4A0086846E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3026D5401ADEEA960096D181 /* StoreKit.framework */,
+				3063E10F1ADECCF900407F05 /* iAd.framework */,
+				3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */,
+				3038F8071ABA0BA100741BEE /* GameKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3034C8CF1AD43AFC00577E51 /* Globals */ = {
 			isa = PBXGroup;
 			children = (
@@ -149,13 +160,10 @@
 		30500B201AAE3010009F4C26 = {
 			isa = PBXGroup;
 			children = (
-				3026D5401ADEEA960096D181 /* StoreKit.framework */,
-				3063E10F1ADECCF900407F05 /* iAd.framework */,
-				3091AC1D1ACA84E000E25F13 /* SystemConfiguration.framework */,
-				3038F8071ABA0BA100741BEE /* GameKit.framework */,
 				30500B2B1AAE3010009F4C26 /* Arculars */,
 				30500B451AAE3010009F4C26 /* ArcularsTests */,
 				30500B2A1AAE3010009F4C26 /* Products */,
+				301E5C9B1ADFCE4A0086846E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
