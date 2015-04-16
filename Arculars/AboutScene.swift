@@ -83,7 +83,7 @@ class AboutScene: SKScene {
         versionInfo.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rootNode.addChild(versionInfo)
         
-        var madeWithLove = SKLabelNode(text: "Made with love in Switzerland. :)")
+        var madeWithLove = SKLabelNode(text: "Made with love in Switzerland.")
         madeWithLove.fontSize = size.height / 42
         madeWithLove.fontColor = Colors.FontColor
         madeWithLove.fontName = Fonts.FontNameLight
