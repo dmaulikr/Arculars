@@ -15,7 +15,7 @@ import StoreKit
 
 class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
     
-    var bannerView : ADBannerView?
+    var iAdView : ADBannerView?
     
     var products = [SKProduct]()
     var currentProduct = SKProduct()
@@ -27,8 +27,8 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
         // Setup iAD
         if !PurchaseHandler.hasRemovedAds() {
             self.canDisplayBannerAds = true
-            self.bannerView?.delegate = self
-            self.bannerView?.hidden = true
+            self.iAdView?.delegate = self
+            self.iAdView?.hidden = true
         }
         
         // Setup StoreKit
@@ -368,12 +368,12 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     func removeAds() {
         PurchaseHandler.removeAds()
         canDisplayBannerAds = false
-        bannerView?.removeFromSuperview()
+        iAdView?.removeFromSuperview()
     }
     
     // MARK: - IAD IMPLEMENTATION
     func bannerViewDidLoadAd(banner: ADBannerView!) {
-        self.bannerView?.hidden = false
+        self.iAdView?.hidden = false
     }
     
     func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
@@ -381,7 +381,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, SKProductsRequ
     }
     
     func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
-        self.bannerView?.hidden = true
+        self.iAdView?.hidden = true
     }
     
     // MARK: - HELPER FUNCTIONS
