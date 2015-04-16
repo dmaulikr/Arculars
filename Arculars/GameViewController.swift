@@ -92,7 +92,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
         
         // For iPad only
         activityViewController.popoverPresentationController?.sourceView = self.view
-        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 0, y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
+        activityViewController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: (view.frame.size.width / 4), y: -(view.frame.height / 4)), size: CGSize(width: view.frame.width, height: view.frame.height))
         //
         
         activityViewController.excludedActivityTypes = [
