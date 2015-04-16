@@ -186,7 +186,7 @@ class GameoverScene: SKScene {
         
         
         // INIT CLOSE BUTTON
-        btnClose = Nodes.getBottomButton(frame.size, content: "CLOSE")
+        btnClose = Nodes.getBottomButton(frame.size, content: "BACK TO MENU")
         rootNode.addChild(btnClose)
     }
     
