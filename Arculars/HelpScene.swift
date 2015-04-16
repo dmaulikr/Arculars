@@ -51,19 +51,7 @@ class HelpScene: SKScene {
     // MARK: - INITIALIZATION FUNCTIONS
     private func initScene() {
         // INIT TITLE
-        var title = SKShapeNode(rectOfSize: CGSize(width: size.width / 3, height: size.height / 12))
-        title.position = CGPoint(x: 0, y: (size.height / 2) - (size.height / 12))
-        title.lineWidth = 0
-        title.strokeColor = UIColor.clearColor()
-        title.fillColor = UIColor.clearColor()
-        var titleLabel = SKLabelNode(text: "HOW TO PLAY")
-        titleLabel.fontSize = size.height / 32
-        titleLabel.fontName = Fonts.FontNameBold
-        titleLabel.fontColor = Colors.FontColor
-        titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        title.addChild(titleLabel)
-        rootNode.addChild(title)
+        rootNode.addChild(Nodes.getSceneTitle(frame.size, content: "HOW TO PLAY"))
         
         // TUTORIAL IMAGE
         var image = SKSpriteNode(imageNamed: "tutorial-image")

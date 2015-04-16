@@ -25,4 +25,20 @@ class Nodes {
         btnClose.addChild(closeLabel)
         return btnClose
     }
+    
+    class func getSceneTitle(size: CGSize, content: String) -> SKShapeNode {
+        var title = SKShapeNode(rectOfSize: CGSize(width: size.width / 3, height: size.height / 12))
+        title.position = CGPoint(x: 0, y: (size.height / 2) - (size.height / 12))
+        title.lineWidth = 0
+        title.strokeColor = UIColor.clearColor()
+        title.fillColor = UIColor.clearColor()
+        var titleLabel = SKLabelNode(text: content)
+        titleLabel.fontSize = size.height / 32
+        titleLabel.fontName = Fonts.FontNameBold
+        titleLabel.fontColor = Colors.FontColor
+        titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        title.addChild(titleLabel)
+        return title
+    }
 }

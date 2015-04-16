@@ -63,19 +63,7 @@ class StatsScene: SKScene {
         var rowheight = size.height / 14
         
         // INIT TITLE
-        var title = SKShapeNode(rectOfSize: CGSize(width: size.width / 3, height: rowheight))
-        title.position = CGPoint(x: 0, y: (size.height / 2) - rowheight)
-        title.lineWidth = 0
-        title.strokeColor = UIColor.clearColor()
-        title.fillColor = UIColor.clearColor()
-        var titleLabel = SKLabelNode(text: "STATS")
-        titleLabel.fontSize = size.height / 32
-        titleLabel.fontName = Fonts.FontNameBold
-        titleLabel.fontColor = Colors.FontColor
-        titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        title.addChild(titleLabel)
-        rootNode.addChild(title)
+        rootNode.addChild(Nodes.getSceneTitle(frame.size, content: "STATS"))
         
         // INIT PLAYED TIME NODE
         var ptn = createRow("PLAYED TIME")
