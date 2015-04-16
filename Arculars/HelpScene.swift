@@ -16,7 +16,7 @@ class HelpScene: SKScene {
     
     private var rootNode = SKNode()
     
-    private var btnToMenu : SKShapeNode!
+    private var btnClose : SKShapeNode!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
     required init?(coder aDecoder: NSCoder) {
@@ -72,20 +72,9 @@ class HelpScene: SKScene {
         image.position = CGPoint(x: 0, y: 0)
         rootNode.addChild(image)
         
-        // INIT TO MENU BUTTON
-        var tml = SKLabelNode(text: "CLOSE")
-        tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
-        tml.fontName = Fonts.FontNameLight
-        tml.fontColor = Colors.DisabledColor
-        tml.fontSize = size.height / 32
-        tml.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        tml.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        btnToMenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tml.frame.height * 4))
-        btnToMenu.lineWidth = 0
-        btnToMenu.fillColor = UIColor.clearColor()
-        btnToMenu.strokeColor = UIColor.clearColor()
-        btnToMenu.addChild(tml)
-        rootNode.addChild(btnToMenu)
+        // INIT CLOSE BUTTON
+        btnClose = Nodes.getBottomButton(frame.size, content: "CLOSE")
+        rootNode.addChild(btnClose)
     }
     
     // MARK: - TOUCH FUNCTIONS
@@ -93,7 +82,7 @@ class HelpScene: SKScene {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(self)
             for object in nodesAtPoint(location) {
-                if (btnToMenu == object as? SKShapeNode) {
+                if (btnClose == object as? SKShapeNode) {
                     sceneDelegate!.showMenuScene()
                 }
             }

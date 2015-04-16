@@ -22,7 +22,7 @@ class GameoverScene: SKScene {
     private var rootNode = SKNode()
     
     private var replay : SKShapeNode!
-    private var tomenu : SKShapeNode!
+    private var btnClose : SKShapeNode!
     
     private var btnShareOnFacebook : SKShapeNode!
     private var btnShareOnTwitter : SKShapeNode!
@@ -185,26 +185,16 @@ class GameoverScene: SKScene {
         //
         
         
-        var tml = SKLabelNode(text: "BACK TO MENU")
-        tml.fontName = Fonts.FontNameLight
-        tml.fontColor = Colors.DisabledColor
-        tml.fontSize = size.height / 32
-        tml.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        tml.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        tomenu = SKShapeNode(rect: CGRect(x: -(size.width / 2), y: -(size.height / 2), width: size.width, height: tml.frame.height * 4))
-        tomenu.lineWidth = 0
-        tomenu.fillColor = UIColor.clearColor()
-        tomenu.strokeColor = UIColor.clearColor()
-        tml.position = CGPoint(x: 0, y: -(size.height / 2) + (size.height / 12))
-        tomenu.addChild(tml)
-        rootNode.addChild(tomenu)
+        // INIT CLOSE BUTTON
+        btnClose = Nodes.getBottomButton(frame.size, content: "CLOSE")
+        rootNode.addChild(btnClose)
     }
     
     // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
-            if (tomenu.containsPoint(location)) { }
+            if (btnClose.containsPoint(location)) { }
             else if (btnShareOnFacebook.containsPoint(location)) {
                 sceneDelegate!.shareScore("facebook", score: StatsHandler.getLastscore(gameMode), gameType: gameMode)
             } else if (btnShareOnTwitter.containsPoint(location)) {
@@ -220,7 +210,7 @@ class GameoverScene: SKScene {
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
-            if (tomenu.containsPoint(location)) {
+            if (btnClose.containsPoint(location)) {
                 self.sceneDelegate!.showMenuScene()
             }
         }
