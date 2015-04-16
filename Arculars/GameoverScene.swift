@@ -141,52 +141,19 @@ class GameoverScene: SKScene {
         
         var radius = size.height / 20
         
-        btnShareOnFacebook = SKShapeNode(circleOfRadius: radius)
-        btnShareOnFacebook.position = CGPoint(x: -(size.width / 4), y: -(size.height / 4))
-        btnShareOnFacebook.lineWidth = 1
-        btnShareOnFacebook.strokeColor = Colors.AppColorOne
-        btnShareOnFacebook.fillColor = btnShareOnFacebook.strokeColor
-        var sfl = SKLabelNode(text: "FACEBOOK")
-        sfl.userInteractionEnabled = false
-        sfl.fontSize = radius / 3
-        sfl.fontName = Fonts.FontNameNormal
-        sfl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        sfl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnShareOnFacebook.addChild(sfl)
+        btnShareOnFacebook = Nodes.getCircleButton(CGPoint(x: -(size.width / 4), y: -(size.height / 4)), radius: radius, color: Colors.AppColorOne, content1: "FACEBOOK")
         rootNode.addChild(btnShareOnFacebook)
         
-        btnShareOnTwitter = SKShapeNode(circleOfRadius: radius)
-        btnShareOnTwitter.position = CGPoint(x: 0, y: -(size.height / 4))
-        btnShareOnTwitter.lineWidth = 1
-        btnShareOnTwitter.strokeColor = Colors.AppColorTwo
-        btnShareOnTwitter.fillColor = btnShareOnTwitter.strokeColor
-        var stl = SKLabelNode(text: "TWITTER")
-        stl.userInteractionEnabled = false
-        stl.fontSize = radius / 3
-        stl.fontName = Fonts.FontNameNormal
-        stl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        stl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnShareOnTwitter.addChild(stl)
+        btnShareOnTwitter = Nodes.getCircleButton(CGPoint(x: 0, y: -(size.height / 4)), radius: radius, color: Colors.AppColorTwo, content1: "TWITTER")
         rootNode.addChild(btnShareOnTwitter)
         
-        btnShare = SKShapeNode(circleOfRadius: radius)
-        btnShare.position = CGPoint(x: (size.width / 4), y: -(size.height / 4))
-        btnShare.lineWidth = 1
-        btnShare.strokeColor = Colors.AppColorThree
-        btnShare.fillColor = btnShare.strokeColor
-        var shl = SKLabelNode(text: "...")
-        shl.userInteractionEnabled = false
-        shl.fontSize = size.height / 24
-        shl.fontName = Fonts.FontNameNormal
-        shl.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        shl.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnShare.addChild(shl)
+        btnShare = Nodes.getCircleButton(CGPoint(x: (size.width / 4), y: -(size.height / 4)), radius: radius, color: Colors.PowerupColor, content1: "...")
         rootNode.addChild(btnShare)
         //
         
         
         // INIT CLOSE BUTTON
-        btnClose = Nodes.getBottomButton(frame.size, content: "BACK TO MENU")
+        btnClose = Nodes.getTextButton(frame.size, content: "BACK TO MENU")
         rootNode.addChild(btnClose)
     }
     

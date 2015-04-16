@@ -11,7 +11,7 @@ import SpriteKit
 import UIKit
 
 class Nodes {
-    class func getBottomButton(size: CGSize, content: String) -> SKShapeNode {
+    class func getTextButton(size: CGSize, content: String) -> SKShapeNode {
         // INIT CLOSE BUTTON
         var closeLabel = SKLabelNode(text: content)
         closeLabel.position = Positions.getBottomPosition(size)
@@ -40,5 +40,37 @@ class Nodes {
         titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         title.addChild(titleLabel)
         return title
+    }
+    
+    class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, content1: String) -> SKShapeNode {
+        return Nodes.getCircleButton(position, radius: radius, color: color, content1: content1, content2: "")
+    }
+    class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, content1: String, content2: String) -> SKShapeNode {
+        
+        var button = SKShapeNode(circleOfRadius: radius)
+        button.position = position
+        button.lineWidth = 1
+        button.strokeColor = color
+        button.fillColor = button.strokeColor
+        
+        var label = SKLabelNode(text: content1)
+        label.userInteractionEnabled = false
+        label.fontSize = radius / 3
+        label.fontName = Fonts.FontNameLight
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        
+        if (content2 == "") {
+            label.position = CGPoint(x: 0, y: 0)
+        } else {
+            var label2 = label.copy() as! SKLabelNode
+            label2.text = content2
+            label2.position = CGPoint(x: 0, y: -(label.frame.height))
+            label.addChild(label2)
+            label.position = CGPoint(x: 0, y: label.calculateAccumulatedFrame().height / 4)
+        }
+        
+        button.addChild(label)
+        return button
     }
 }

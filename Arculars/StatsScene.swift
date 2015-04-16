@@ -108,22 +108,11 @@ class StatsScene: SKScene {
         rootNode.addChild(prn)
         
         // INIT RESET BUTTON
-        btnReset = SKShapeNode(circleOfRadius: size.height / 16)
-        btnReset.position = CGPoint(x: 0, y: -(size.height / 4))
-        btnReset.lineWidth = 1
-        btnReset.strokeColor = Colors.AppColorTwo
-        btnReset.fillColor = Colors.AppColorTwo
-        var rel = SKLabelNode(text: "RESET")
-        rel.userInteractionEnabled = false
-        rel.fontSize = size.height / 48
-        rel.fontName = Fonts.FontNameNormal
-        rel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        rel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnReset.addChild(rel)
+        btnReset = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: Colors.AppColorTwo, content1: "RESET")
         rootNode.addChild(btnReset)
         
         // INIT CLOSE BUTTON
-        btnClose = Nodes.getBottomButton(frame.size, content: "CLOSE")
+        btnClose = Nodes.getTextButton(frame.size, content: "CLOSE")
         rootNode.addChild(btnClose)
     }
     

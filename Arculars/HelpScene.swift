@@ -61,7 +61,7 @@ class HelpScene: SKScene {
         rootNode.addChild(image)
         
         // INIT CLOSE BUTTON
-        btnClose = Nodes.getBottomButton(frame.size, content: "CLOSE")
+        btnClose = Nodes.getTextButton(frame.size, content: "CLOSE")
         rootNode.addChild(btnClose)
     }
     

@@ -80,37 +80,15 @@ class AboutScene: SKScene {
         rootNode.addChild(madeWithLove)
         
         // INIT MAIL BUTTON
-        btnMail = SKShapeNode(circleOfRadius: size.height / 16)
-        btnMail.position = CGPoint(x: size.width / 6, y: 0)
-        btnMail.lineWidth = 1
-        btnMail.strokeColor = Colors.AppColorOne
-        btnMail.fillColor = Colors.AppColorOne
-        var email = SKLabelNode(text: "EMAIL")
-        email.userInteractionEnabled = false
-        email.fontSize = size.height / 48
-        email.fontName = Fonts.FontNameNormal
-        email.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        email.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnMail.addChild(email)
+        btnMail = Nodes.getCircleButton(CGPoint(x: size.width / 6, y: 0), radius: size.height / 16, color: Colors.AppColorOne, content1: "EMAIL")
         rootNode.addChild(btnMail)
         
         // INIT WEB BUTTON
-        btnWeb = SKShapeNode(circleOfRadius: size.height / 16)
-        btnWeb.position = CGPoint(x: -size.width / 6, y: 0)
-        btnWeb.lineWidth = 1
-        btnWeb.strokeColor = Colors.AppColorTwo
-        btnWeb.fillColor = Colors.AppColorTwo
-        var web = SKLabelNode(text: "WEB")
-        web.userInteractionEnabled = false
-        web.fontSize = size.height / 48
-        web.fontName = Fonts.FontNameNormal
-        web.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        web.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnWeb.addChild(web)
+        btnWeb = Nodes.getCircleButton(CGPoint(x: -size.width / 6, y: 0), radius: size.height / 16, color: Colors.AppColorTwo, content1: "WEB")
         rootNode.addChild(btnWeb)
         
         // INIT CLOSE BUTTON
-        btnClose = Nodes.getBottomButton(frame.size, content: "CLOSE")
+        btnClose = Nodes.getTextButton(frame.size, content: "CLOSE")
         rootNode.addChild(btnClose)
     }
     

@@ -90,27 +90,11 @@ class SettingsScene : SKScene {
         rootNode.addChild(btnDifficulty)
         
         // INIT RESTORE PURCHASES BUTTON
-        btnRestorePurchases = SKShapeNode(circleOfRadius: size.height / 16)
-        btnRestorePurchases.position = CGPoint(x: 0, y: -(size.height / 4))
-        btnRestorePurchases.lineWidth = 1
-        btnRestorePurchases.strokeColor = Colors.AppColorOne
-        btnRestorePurchases.fillColor = Colors.AppColorOne
-        var rel1 = SKLabelNode(text: "RESTORE")
-        rel1.position = CGPoint(x: 0, y: rel1.frame.height / 4)
-        rel1.userInteractionEnabled = false
-        rel1.fontSize = size.height / 56
-        rel1.fontName = Fonts.FontNameNormal
-        rel1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        rel1.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        var rel2 = rel1.copy() as! SKLabelNode
-        rel2.text = "PURCHASES"
-        rel2.position = CGPoint(x: 0, y: -(rel1.frame.height * 1.25))
-        rel1.addChild(rel2)
-        btnRestorePurchases.addChild(rel1)
+        btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: Colors.AppColorOne, content1: "RESTORE", content2: "PURCHASES")
         rootNode.addChild(btnRestorePurchases)
         
         // INIT CLOSE BUTTON
-        btnClose = Nodes.getBottomButton(frame.size, content: "CLOSE")
+        btnClose = Nodes.getTextButton(frame.size, content: "CLOSE")
         rootNode.addChild(btnClose)
     }
     
