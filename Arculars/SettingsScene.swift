@@ -90,7 +90,7 @@ class SettingsScene : SKScene {
         rootNode.addChild(btnDifficulty)
         
         // INIT RESTORE PURCHASES BUTTON
-        btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: Colors.AppColorOne, content1: "RESTORE", content2: "PURCHASES")
+        btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: Colors.AppColorOne, fontSize: frame.height / 64, content1: "RESTORE", content2: "PURCHASES")
         rootNode.addChild(btnRestorePurchases)
         
         // INIT CLOSE BUTTON
