@@ -120,7 +120,7 @@ class AboutScene: SKScene {
     
     // MARK: - CREATE RANDOM BALLS
     private func startRandomBallTimer() {
-        var wait = SKAction.waitForDuration(1.0)
+        var wait = SKAction.waitForDuration(0.8)
         var run = SKAction.runBlock({
             self.randomBallTimerTick()
         })
@@ -132,19 +132,7 @@ class AboutScene: SKScene {
     }
     
     private func randomBallTimerTick() {
-        createRandomBall(randomPoint())
-    }
-    
-    private func randomPoint() -> CGPoint {
-        // x coordinate between MinX (left) and MaxX (right):
-        let randomX = randomInRange(-Int(self.size.width / 2), hi: Int(self.size.width / 2))
-        // y coordinate between MinY (top) and MidY (middle):
-        let randomY = randomInRange(-Int(self.size.height / 2), hi: Int(self.size.height / 2))
-        return CGPoint(x: randomX, y: randomY)
-    }
-    
-    private func randomInRange(lo: Int, hi : Int) -> Int {
-        return lo + Int(arc4random_uniform(UInt32(hi - lo + 1)))
+        createRandomBall(Positions.randomPoint(frame.size))
     }
     
     private func createRandomBall(position: CGPoint) {
