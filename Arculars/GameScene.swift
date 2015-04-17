@@ -14,6 +14,28 @@ import AudioToolbox
 
 class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarDelegate, PowerupDelegate {
     
+    // MARK: - GAME SETTINGS
+    let initMultiplicatorEasy = 1
+    let initMultiplicatorNormal = 2
+    let initMultiplicatorHard = 4
+    
+    let initEndlessHealthEasy = 3
+    let initEndlessHealthNormal = 3
+    let initEndlessHealthHard = 3
+    
+    let initTimedTimeEasy = 25.0
+    let initTimedTimeNormal = 20.0
+    let initTimedTimeHard = 15.0
+    
+    let initEndlessDecrementIntervalEasy = 0.0
+    let initEndlessDecrementIntervalNormal = 2.0
+    let initEndlessDecrementIntervalHard = 2.0
+    
+    let initPointsCircleOne = 4
+    let initPointsCircleTwo = 3
+    let initPointsCircleThree = 2
+    let initPointsCircleFour = 1
+    
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
     
@@ -34,16 +56,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     private var score : Score!
     private var powerupDescription : SKLabelNode!
     private var isGameOver = false
-    private var multiplicator = 1
-    private var powerupMultiplicator = 1
-    
     private var currentPowerup : Powerup!
-    
     private var healthBar : HealthBar!
     private var timerBar : TimerBar!
     private var isTimerBarExpired = false
-    
     private var btnStop : SKShapeNode!
+    
+    private var endlessHealth = 0
+    private var timedTime = 0.0
+    private var multiplicator = 1
+    private var powerupMultiplicator = 1
     
     // Variables for Stats
     private var stats_starttime : NSDate!
@@ -128,10 +150,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         hitSounds.append(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
         hitSounds.append(SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false))
         
-        addCircle(Colors.AppColorOne, clockwise: false, points: 4)
-        addCircle(Colors.AppColorTwo, clockwise: true, points: 3)
-        addCircle(Colors.AppColorThree, clockwise: false, points: 2)
-        addCircle(Colors.AppColorFour, clockwise: true, points: 1)
+        addCircle(Colors.AppColorOne, clockwise: false, points: initPointsCircleOne)
+        addCircle(Colors.AppColorTwo, clockwise: true, points: initPointsCircleTwo)
+        addCircle(Colors.AppColorThree, clockwise: false, points: initPointsCircleThree)
+        addCircle(Colors.AppColorFour, clockwise: true, points: initPointsCircleFour)
     }
     
     private func addCircle(color: UIColor, clockwise: Bool, points: Int) {
@@ -154,6 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         rootNode.addChild(c)
     }
     
+    // MARK: - RESET FUNCTIONS
     private func reset() {
         isTimerBarExpired = false
         
@@ -166,23 +189,90 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         healthBar?.removeFromParent()
         timerBar?.removeFromParent()
         
+        ///////
+        var difficulty = SettingsHandler.getDifficulty()
         if gameMode == GameMode.Timed {
+            
+            switch difficulty {
+            case .Easy:
+                circles[0].setSpeed(4.0, max: 4.4)
+                circles[1].setSpeed(3.2, max: 3.6)
+                circles[2].setSpeed(2.4, max: 2.8)
+                circles[3].setSpeed(2.0, max: 2.4)
+                multiplicator = initMultiplicatorEasy
+                timedTime = initTimedTimeEasy
+                break
+            case .Normal:
+                circles[0].setSpeed(3.0, max: 3.4)
+                circles[1].setSpeed(2.4, max: 2.8)
+                circles[2].setSpeed(1.8, max: 2.2)
+                circles[3].setSpeed(1.6, max: 2.0)
+                multiplicator = initMultiplicatorNormal
+                timedTime = initTimedTimeNormal
+                break
+            case .Hard:
+                circles[0].setSpeed(2.4, max: 2.8)
+                circles[1].setSpeed(1.8, max: 2.2)
+                circles[2].setSpeed(1.4, max: 1.8)
+                circles[3].setSpeed(1.2, max: 1.6)
+                multiplicator = initMultiplicatorHard
+                timedTime = initTimedTimeHard
+                break
+            }
+            
             initTimerBar()
             timerBar?.start()
+            
         } else if gameMode == GameMode.Endless {
+            
+            switch difficulty {
+            case .Easy:
+                circles[0].setSpeed(4.0, max: 4.4)
+                circles[1].setSpeed(3.2, max: 3.6)
+                circles[2].setSpeed(2.4, max: 2.8)
+                circles[3].setSpeed(2.0, max: 2.4)
+                multiplicator = initMultiplicatorEasy
+                endlessHealth = initEndlessHealthEasy
+                score.startDecremtTimer(initEndlessDecrementIntervalEasy)
+                break
+            case .Normal:
+                circles[0].setSpeed(3.0, max: 3.4)
+                circles[1].setSpeed(2.4, max: 2.8)
+                circles[2].setSpeed(1.8, max: 2.2)
+                circles[3].setSpeed(1.6, max: 2.0)
+                multiplicator = initMultiplicatorNormal
+                endlessHealth = initEndlessHealthNormal
+                score.startDecremtTimer(initEndlessDecrementIntervalNormal)
+                break
+            case .Hard:
+                circles[0].setSpeed(2.4, max: 2.8)
+                circles[1].setSpeed(1.8, max: 2.2)
+                circles[2].setSpeed(1.4, max: 1.8)
+                circles[3].setSpeed(1.2, max: 1.6)
+                multiplicator = initMultiplicatorHard
+                endlessHealth = initEndlessHealthHard
+                score.startDecremtTimer(initEndlessDecrementIntervalHard)
+                break
+            }
+            
             initHealthBar()
+            
         }
+        ///////
         
         stats_starttime = NSDate()
         
         resetCircleColors()
-        resetCircleSpeed()
-        resetAvailableColors()
         
         isGameOver = false
     }
     
-    private func resetAvailableColors() {
+    private func resetCircleColors() {
+        circles[0].setColor(Colors.AppColorOne)
+        circles[1].setColor(Colors.AppColorTwo)
+        circles[2].setColor(Colors.AppColorThree)
+        circles[3].setColor(Colors.AppColorFour)
+        
         availableColors.removeAll()
         for circle in circles {
             availableColors.append(circle.nodeColor)
@@ -192,43 +282,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         addBall()
     }
     
-    private func resetCircleSpeed() {
-        switch SettingsHandler.getDifficulty() {
-        case .Easy:
-            circles[0].setSpeed(4.0, max: 4.4)
-            circles[1].setSpeed(3.2, max: 3.6)
-            circles[2].setSpeed(2.4, max: 2.8)
-            circles[3].setSpeed(2.0, max: 2.4)
-            multiplicator = 1
-            break
-        case .Normal:
-            circles[0].setSpeed(3.0, max: 3.4)
-            circles[1].setSpeed(2.4, max: 2.8)
-            circles[2].setSpeed(1.8, max: 2.2)
-            circles[3].setSpeed(1.6, max: 2.0)
-            multiplicator = 2
-            break
-        case .Hard:
-            circles[0].setSpeed(2.4, max: 2.8)
-            circles[1].setSpeed(1.8, max: 2.2)
-            circles[2].setSpeed(1.4, max: 1.8)
-            circles[3].setSpeed(1.2, max: 1.6)
-            multiplicator = 4
-            break
-        }
-        
-    }
-    
-    private func resetCircleColors() {
-        circles[0].setColor(Colors.AppColorOne)
-        circles[1].setColor(Colors.AppColorTwo)
-        circles[2].setColor(Colors.AppColorThree)
-        circles[3].setColor(Colors.AppColorFour)
-    }
-    
     private func initTimerBar() {
         var barHeight = size.height / 48
-        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 20)
+        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: timedTime)
         timerBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         timerBar.delegate = self
         rootNode.addChild(timerBar)
@@ -236,7 +292,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func initHealthBar() {
         var barHeight = size.height / 48
-        healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: 3)
+        healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: endlessHealth)
         healthBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         healthBar.delegate = self
         rootNode.addChild(healthBar)
@@ -333,7 +389,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             StatsHandler.updateCorrectCollisionsBy(1)
             runSound()
             var points = circle.pointsPerHit * multiplicator * powerupMultiplicator
-            updateScoreBy(points, color: ball.nodeColor)
+            score.increaseByWithColor(points, color: ball.nodeColor)
             
             if gameMode == GameMode.Timed {
                 timerBar?.addTime(Double(circle.pointsPerHit))
@@ -341,7 +397,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         } else {
             runVibration()
             if gameMode == GameMode.Timed {
-                timerBar?.addTime(Double(-circle.pointsPerHit))
+                timerBar?.addTime(-Double(circle.pointsPerHit))
             } else if gameMode == GameMode.Endless {
                 healthBar?.decrement()
             }
@@ -364,6 +420,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     // MARK: - GAMEOVER FUNCTIONS
     private func gameover() {
         isGameOver = true
+        var endScore = score.getScore()
+        
         runVibration()
         
         nextBall?.removeFromParent()
@@ -373,10 +431,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         timerBar?.stop()
         currentPowerup?.stop()
+        score?.stopDecremtTimer()
         stopPowerupTimer()
         
         var playedtime = Int(NSDate().timeIntervalSinceDate(stats_starttime))
         StatsHandler.updatePlayedTimeBy(playedtime)
+        StatsHandler.updateTotalPointsBy(endScore)
+        StatsHandler.updateLastscore(endScore, gameMode: gameMode)
+        StatsHandler.updateHighscore(endScore, gameMode: gameMode)
+        
         if playedtime > 3 {
             StatsHandler.incrementPlayedGames()
         }
@@ -468,19 +531,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             currentPowerup.startWith(5)
             break
         case .ExtraPoints10:
-            updateScoreBy(10, color: Colors.PowerupColor)
+            score.increaseByWithColor(10, color: Colors.PowerupColor)
             powerupZero()
             break
         case .ExtraPoints30:
-            updateScoreBy(30, color: Colors.PowerupColor)
+            score.increaseByWithColor(30, color: Colors.PowerupColor)
             powerupZero()
             break
         case .ExtraPoints50:
-            updateScoreBy(50, color: Colors.PowerupColor)
+            score.increaseByWithColor(50, color: Colors.PowerupColor)
             powerupZero()
             break
         case .ExtraPoints100:
-            updateScoreBy(100, color: Colors.PowerupColor)
+            score.increaseByWithColor(100, color: Colors.PowerupColor)
             powerupZero()
             break
         default:
@@ -502,7 +565,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         if (currentPowerup.powerupType == PowerupType.Unicolor) {
             resetCircleColors()
-            resetAvailableColors()
         }
         
         currentPowerup = nil
@@ -539,13 +601,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var random = Int(arc4random_uniform(UInt32(availableColors.count)));
         var color = availableColors[random]
         return color
-    }
-    
-    private func updateScoreBy(delta: Int, color: UIColor) {
-        score.increaseByWithColor(delta, color: color)
-        StatsHandler.updateTotalPointsBy(delta)
-        
-        StatsHandler.updateLastscore(score.getScore(), gameMode: gameMode)
-        StatsHandler.updateHighscore(score.getScore(), gameMode: gameMode)
     }
 }
