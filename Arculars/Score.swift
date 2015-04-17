@@ -28,6 +28,25 @@ class Score : SKLabelNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func startDecremtTimer(interval: NSTimeInterval) {
+        var wait = SKAction.waitForDuration(interval)
+        var run = SKAction.runBlock({
+            self.decrement()
+        })
+        runAction(SKAction.repeatActionForever(SKAction.sequence([wait, run])), withKey: "decrementTimer")
+    }
+    
+    func stopDecremtTimer() {
+        removeActionForKey("decrementTimer")
+    }
+    
+    private func decrement() {
+        if currentScore > 0 {
+            currentScore = currentScore - 1
+        }
+        updateText()
+    }
+    
     private func updateText() {
         self.text = "SCORE \(currentScore)"
     }
