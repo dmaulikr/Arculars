@@ -76,8 +76,8 @@ class TimerBar : SKNode {
     func timerBarTick() {
         current = current + interval
         var scale = 1.0 - (CGFloat(1.0 / CGFloat(max)) * CGFloat(current))
-        bar.runAction(SKAction.scaleXTo(scale, duration: 1.0), completion: {()
-            if scale <= 0 {
+        bar.runAction(SKAction.scaleXTo(scale, duration: 0.5), completion: {()
+            if scale < 0 {
                 self.delegate.timerBarZero()
             }
         })
