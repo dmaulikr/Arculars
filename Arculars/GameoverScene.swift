@@ -51,11 +51,17 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
+        startRandomBallTimer()
         getScores()
         if (RateHandler.checkIfRate(StatsHandler.getPlayedGames())) {
             sceneDelegate?.presentRateOnAppStore()
         }
     }
+    
+    override func willMoveFromView(view: SKView) {
+        stopRandomBallTimer()
+    }
+    
     
     deinit {
         #if DEBUG
@@ -181,5 +187,36 @@ class GameoverScene: SKScene {
                 self.sceneDelegate!.showMenuScene()
             }
         }
+    }
+    
+    // MARK: - CREATE RANDOM BALLS
+    private func startRandomBallTimer() {
+        var wait = SKAction.waitForDuration(0.8)
+        var run = SKAction.runBlock({
+            self.randomBallTimerTick()
+        })
+        runAction(SKAction.repeatActionForever(SKAction.sequence([wait, run])), withKey: "actionTimer")
+    }
+    
+    private func stopRandomBallTimer() {
+        removeActionForKey("actionTimer")
+    }
+    
+    private func randomBallTimerTick() {
+        createRandomBall(Positions.randomPoint(frame.size))
+    }
+    
+    private func createRandomBall(position: CGPoint) {
+        var ball = SKShapeNode(circleOfRadius: frame.height / 64)
+        ball.fillColor = Colors.randomAppColor()
+        ball.lineWidth = 1
+        ball.strokeColor = ball.fillColor
+        ball.antialiased = true
+        ball.position = position
+        ball.zPosition = -10
+        rootNode.addChild(ball)
+        ball.runAction(SKAction.scaleTo(0.0, duration: NSTimeInterval((arc4random_uniform(5) + 1))), completion: {()
+            ball.removeFromParent()
+        })
     }
 }
