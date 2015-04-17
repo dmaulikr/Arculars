@@ -43,9 +43,15 @@ class Nodes {
     }
     
     class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, content1: String) -> SKShapeNode {
-        return Nodes.getCircleButton(position, radius: radius, color: color, content1: content1, content2: "")
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, content1: content1, content2: "")
+    }
+    class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, fontSize: CGFloat, content1: String) -> SKShapeNode {
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: fontSize, content1: content1, content2: "")
     }
     class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, content1: String, content2: String) -> SKShapeNode {
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, content1: content1, content2: content2)
+    }
+    class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, fontSize: CGFloat, content1: String, content2: String) -> SKShapeNode {
         
         var button = SKShapeNode(circleOfRadius: radius)
         button.position = position
@@ -55,7 +61,7 @@ class Nodes {
         
         var label = SKLabelNode(text: content1)
         label.userInteractionEnabled = false
-        label.fontSize = radius / 3
+        label.fontSize = fontSize
         label.fontName = Fonts.FontNameLight
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
