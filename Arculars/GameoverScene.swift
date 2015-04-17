@@ -153,7 +153,7 @@ class GameoverScene: SKScene {
         btnShareOnTwitter = Nodes.getCircleButton(CGPoint(x: 0, y: -(size.height / 4)), radius: radius, color: Colors.AppColorTwo, content1: "TWITTER")
         rootNode.addChild(btnShareOnTwitter)
         
-        btnShare = Nodes.getCircleButton(CGPoint(x: (size.width / 4), y: -(size.height / 4)), radius: radius, color: Colors.PowerupColor, content1: "...")
+        btnShare = Nodes.getCircleButton(CGPoint(x: (size.width / 4), y: -(size.height / 4)), radius: radius, color: Colors.DisabledColor, fontSize: radius, content1: "...")
         rootNode.addChild(btnShare)
         //
         
