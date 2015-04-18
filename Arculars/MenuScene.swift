@@ -105,7 +105,7 @@ class MenuScene: SKScene {
         btnAbout.colorBlendFactor = 1
         btnAbout.color = Colors.FontColor
         btnAbout.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        btnAbout.position = CGPoint(x: 0, y: lblArculars.frame.height + (btnAbout.frame.height / 2))
+        btnAbout.position = CGPoint(x: 0, y: lblArculars.frame.height)
         title.addChild(btnAbout)
         
         rootNode.addChild(title)
