@@ -136,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         var stopLabel = SKLabelNode(text: "X")
         stopLabel.fontSize = size.height / 20
-        stopLabel.fontName = "Gill Sans"
+        stopLabel.fontName = "GillSans-Light"
         stopLabel.fontColor = Colors.ScoreColor
         stopLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
