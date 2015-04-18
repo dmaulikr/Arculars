@@ -20,7 +20,7 @@ class Nodes {
         closeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         closeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         var btnClose = SKShapeNode(rect: CGRect(x: closeLabel.position.x - closeLabel.frame.width, y: closeLabel.position.y - (closeLabel.frame.height * 2), width: closeLabel.frame.width * 2, height: closeLabel.frame.height * 4))
-        btnClose.lineWidth = 1
+        btnClose.lineWidth = 0
         btnClose.addChild(closeLabel)
         return btnClose
     }
