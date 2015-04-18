@@ -12,7 +12,6 @@ import UIKit
 
 class Nodes {
     class func getTextButton(size: CGSize, content: String) -> SKShapeNode {
-        // INIT CLOSE BUTTON
         var closeLabel = SKLabelNode(text: content)
         closeLabel.position = Positions.getBottomPosition(size)
         closeLabel.fontName = Fonts.FontNameLight
@@ -20,8 +19,8 @@ class Nodes {
         closeLabel.fontSize = size.height / 32
         closeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         closeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        var btnClose = SKShapeNode(rect: CGRect(x: closeLabel.position.x - closeLabel.frame.width, y: closeLabel.position.y - closeLabel.frame.height, width: closeLabel.frame.width * 2, height: closeLabel.frame.height * 2))
-        btnClose.lineWidth = 0
+        var btnClose = SKShapeNode(rect: CGRect(x: closeLabel.position.x - closeLabel.frame.width, y: closeLabel.position.y - (closeLabel.frame.height * 2), width: closeLabel.frame.width * 2, height: closeLabel.frame.height * 4))
+        btnClose.lineWidth = 1
         btnClose.addChild(closeLabel)
         return btnClose
     }
