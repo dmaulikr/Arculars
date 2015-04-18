@@ -121,22 +121,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     private func initScene() {
         ballRadius = size.height / 64
         
-        var stopLabel = SKLabelNode(text: "STOP")
-        stopLabel.fontSize = size.height / 28
-        stopLabel.fontName = Fonts.FontNameLight
-        stopLabel.fontColor = UIColor.grayColor()
-        stopLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        btnStop = SKShapeNode(rectOfSize: CGSize(width: stopLabel.frame.width * 1.5, height: stopLabel.frame.height * 2))
-        btnStop.addChild(stopLabel)
-        btnStop.position = Positions.getBottomPosition(frame.size)
-        btnStop.lineWidth = 0
-        rootNode.addChild(btnStop)
-        
         score = Score(position: scorePosition)
         score.fontSize = size.height / 20
         rootNode.addChild(score)
-        
         
         powerupDescription = SKLabelNode()
         powerupDescription.fontColor = Colors.PowerupColor
@@ -146,6 +133,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         powerupDescription.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         powerupDescription.position = CGPoint(x: scorePosition.x, y: scorePosition.y - score.frame.height)
         addChild(powerupDescription)
+        
+        var stopLabel = SKLabelNode(text: "X")
+        stopLabel.fontSize = size.height / 20
+        stopLabel.fontName = "Gill Sans"
+        stopLabel.fontColor = Colors.ScoreColor
+        stopLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnStop = SKShapeNode(rectOfSize: CGSize(width: stopLabel.frame.width * 1.5, height: stopLabel.frame.height * 2))
+        btnStop.addChild(stopLabel)
+        btnStop.position = CGPoint(x: (size.width / 2) - 30, y: scorePosition.y)
+        btnStop.lineWidth = 0
+        rootNode.addChild(btnStop)
         
         hitSounds.append(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
         hitSounds.append(SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false))
