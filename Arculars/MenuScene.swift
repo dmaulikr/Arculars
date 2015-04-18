@@ -30,6 +30,7 @@ class MenuScene: SKScene {
     private var btnPlayEndless: SKShapeNode!
     private var btnPlayTimed : SKShapeNode!
     private var btnRemoveAds : SKShapeNode!
+    private var btnDifficulty : SKShapeNode!
     private var dashedCircle : SKShapeNode!
     
     // Actions
@@ -220,7 +221,7 @@ class MenuScene: SKScene {
         btnPlayTimed.addChild(clockIcon)
         btnGo.addChild(btnPlayTimed)
         
-        var playtLabel = SKLabelNode(text: "Timed")
+        var playtLabel = SKLabelNode(text: "Play Timed")
         playtLabel.name = "label"
         playtLabel.fontName = Fonts.FontNameLight
         playtLabel.fontSize = size.height / 40
@@ -247,7 +248,7 @@ class MenuScene: SKScene {
         btnPlayEndless.addChild(iconInfinity)
         btnGo.addChild(btnPlayEndless)
         
-        var playeLabel = SKLabelNode(text: "Endless")
+        var playeLabel = SKLabelNode(text: "Play Endless")
         playeLabel.name = "label"
         playeLabel.fontName = Fonts.FontNameLight
         playeLabel.fontSize = size.height / 40
@@ -284,6 +285,36 @@ class MenuScene: SKScene {
         remadslabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         btnRemoveAds.addChild(remadslabel)
         
+        // INIT REMOVE ADS BUTTON
+        btnDifficulty = SKShapeNode(circleOfRadius: radius)
+        btnDifficulty.fillColor = Colors.AppColorThree
+        btnDifficulty.strokeColor = Colors.AppColorThree
+        btnDifficulty.lineWidth = 3
+        btnDifficulty.antialiased = true
+        btnDifficulty.position = CGPoint(x: 0, y: 0)
+        btnDifficulty.xScale = 0.0
+        btnDifficulty.yScale = 0.0
+        btnDifficulty.zPosition = -1
+        var currentDiff = SKLabelNode(text: SettingsHandler.getDifficulty().description.uppercaseString)
+        currentDiff.name = "current"
+        currentDiff.userInteractionEnabled = false
+        currentDiff.fontSize = radius / 3
+        currentDiff.fontName = Fonts.FontNameBold
+        currentDiff.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        currentDiff.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        btnDifficulty.addChild(currentDiff)
+        btnGo.addChild(btnDifficulty)
+        
+        var diffLabel = SKLabelNode(text: "Difficulty")
+        diffLabel.name = "label"
+        diffLabel.fontName = Fonts.FontNameLight
+        diffLabel.fontSize = size.height / 40
+        diffLabel.position = CGPoint(x: 0, y: (1.5 * radius))
+        diffLabel.alpha = 0.0
+        diffLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        diffLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        btnDifficulty.addChild(diffLabel)
+        
     }
     
     private func initActions() {
@@ -295,9 +326,9 @@ class MenuScene: SKScene {
             ])
             
             var flyin = SKAction.sequence([
-                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 7) * 2) - 10), duration: 0.1),
-                SKAction.moveTo(CGPoint(x: 0, y: ((self.size.height / 7) * 2) + 10), duration: 0.1),
-                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 7) * 2), duration: 0.1)
+                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 3) - 10), duration: 0.1),
+                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 3) + 10), duration: 0.1),
+                SKAction.moveTo(CGPoint(x: 0, y: (self.size.height / 3)), duration: 0.1)
             ])
             
             self.title.runAction(flyin)
@@ -355,6 +386,16 @@ class MenuScene: SKScene {
                 label.runAction(SKAction.fadeInWithDuration(0.1))
             })
             
+            
+            var DIFFICULTYendpoint = CGPoint(x: self.btnGo.position.x, y: self.btnGo.position.y + self.distance)
+            var DIFFICULTYmove = SKAction.moveTo(DIFFICULTYendpoint, duration: 0.2)
+            DIFFICULTYmove.timingMode = SKActionTimingMode.EaseIn
+            var DIFFICULTYscale = SKAction.scaleTo(1.0, duration: 0.2)
+            self.btnDifficulty.runAction(SKAction.group([DIFFICULTYmove, DIFFICULTYscale]), completion: {()
+                var label = self.btnDifficulty.childNodeWithName("label") as! SKLabelNode
+                label.runAction(SKAction.fadeInWithDuration(0.1))
+            })
+            
             var dashedcircle_scale = SKAction.scaleTo(1.0, duration: 0.2)
             var dashedcircle_rotate = SKAction.repeatActionForever(SKAction.rotateByAngle(CGFloat(2 * M_PI), duration: 10.0))
             self.dashedCircle.runAction(SKAction.group([dashedcircle_scale, dashedcircle_rotate]), withKey: "rotating")
@@ -392,6 +433,15 @@ class MenuScene: SKScene {
                 label.alpha = 0.0
             })
             
+            
+            var DIFFICULTYmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
+            DIFFICULTYmove.timingMode = SKActionTimingMode.EaseIn
+            var DIFFICULTYscale = SKAction.scaleTo(0.0, duration: 0.2)
+            self.btnDifficulty.runAction(SKAction.group([DIFFICULTYmove, DIFFICULTYscale]), completion: {()
+                var label = self.btnDifficulty.childNodeWithName("label") as! SKLabelNode
+                label.alpha = 0.0
+            })
+            
             var dashedcircle_scale = SKAction.scaleTo(0.0, duration: 0.2)
             self.dashedCircle.runAction(dashedcircle_scale, completion: { ()
             })
@@ -423,6 +473,14 @@ class MenuScene: SKScene {
             self.btnRemoveAds.zPosition = -2
             self.btnRemoveAds.runAction(SKAction.group([REMOVEADSmove, REMOVEADSscale]))
             
+            var DIFFICULTYpath = CGPathCreateMutable()
+            CGPathMoveToPoint(DIFFICULTYpath, nil, self.btnDifficulty.position.x, self.btnDifficulty.position.y)
+            CGPathAddArc(DIFFICULTYpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 2), CGFloat(M_PI), false)
+            var DIFFICULTYmove = SKAction.followPath(DIFFICULTYpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var DIFFICULTYscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnDifficulty.zPosition = -2
+            self.btnDifficulty.runAction(SKAction.group([DIFFICULTYmove, DIFFICULTYscale]))
+            
             var ENDLESSwait = SKAction.waitForDuration(2 * single_duration)
             var ENDLESSmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             ENDLESSmove.timingMode = SKActionTimingMode.EaseInEaseOut
@@ -451,6 +509,14 @@ class MenuScene: SKScene {
             self.btnRemoveAds.zPosition = -2
             self.btnRemoveAds.runAction(SKAction.group([REMOVEADSmove, REMOVEADSscale]))
             
+            var DIFFICULTYpath = CGPathCreateMutable()
+            CGPathMoveToPoint(DIFFICULTYpath, nil, self.btnDifficulty.position.x, self.btnDifficulty.position.y)
+            CGPathAddArc(DIFFICULTYpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 2), 0, true)
+            var DIFFICULTYmove = SKAction.followPath(DIFFICULTYpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var DIFFICULTYscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnDifficulty.zPosition = -2
+            self.btnDifficulty.runAction(SKAction.group([DIFFICULTYmove, DIFFICULTYscale]))
+            
             var TIMEDwait = SKAction.waitForDuration(2 * single_duration)
             var TIMEDmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
             TIMEDmove.timingMode = SKActionTimingMode.EaseInEaseOut
@@ -478,6 +544,14 @@ class MenuScene: SKScene {
             var TIMEDscale = SKAction.scaleTo(0.0, duration: single_duration)
             self.btnPlayTimed.zPosition = -2
             self.btnPlayTimed.runAction(SKAction.group([TIMEDmove, TIMEDscale]))
+            
+            var DIFFICULTYpath = CGPathCreateMutable()
+            CGPathMoveToPoint(DIFFICULTYpath, nil, self.btnDifficulty.position.x, self.btnDifficulty.position.y)
+            CGPathAddArc(DIFFICULTYpath, nil, self.btnGo.position.x, self.btnGo.position.y, self.distance, CGFloat(M_PI / 2), -CGFloat(M_PI / 2), true)
+            var DIFFICULTYmove = SKAction.followPath(DIFFICULTYpath, asOffset: false, orientToPath: false, duration: single_duration)
+            var DIFFICULTYscale = SKAction.scaleTo(0.0, duration: single_duration)
+            self.btnDifficulty.zPosition = -2
+            self.btnDifficulty.runAction(SKAction.group([DIFFICULTYmove, DIFFICULTYscale]))
             
             var REMOVEADSwait = SKAction.waitForDuration(2 * single_duration)
             var REMOVEADSmove = SKAction.moveTo(self.btnGo.position, duration: 0.2)
@@ -522,6 +596,34 @@ class MenuScene: SKScene {
                 runAction(TIMEDaction)
             } else if (btnRemoveAds.containsPoint(location)) {
                 runAction(REMOVEADSaction)
+            } else if (btnDifficulty.containsPoint(location)) {
+                SettingsHandler.toggleDifficulty()
+                
+                var label = btnDifficulty.childNodeWithName("current") as! SKLabelNode
+                label.name = "old"
+                
+                var newLabel : SKLabelNode = label.copy() as! SKLabelNode
+                newLabel.text = SettingsHandler.getDifficulty().description.uppercaseString
+                newLabel.name = "current"
+                newLabel.alpha = 0.0
+                newLabel.position = CGPoint(x: label.position.x - (btnDifficulty.frame.width / 5), y: label.position.y)
+                btnDifficulty.addChild(newLabel)
+                
+                var fadeOut = SKAction.group([
+                        SKAction.moveByX(btnDifficulty.frame.width / 5, y: 0, duration: 0.1),
+                        SKAction.fadeAlphaTo(0.0, duration: 0.1)
+                    ])
+                
+                var fadeIn = SKAction.group([
+                        SKAction.moveByX(btnDifficulty.frame.width / 5, y: 0, duration: 0.1),
+                        SKAction.fadeAlphaTo(1.0, duration: 0.1)
+                    ])
+                
+                label.runAction(fadeOut, completion: {()
+                    label.removeFromParent()
+                })
+                newLabel.runAction(fadeIn)
+                
             } else {
                 createRandomBall(location)
             }
