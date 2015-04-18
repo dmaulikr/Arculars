@@ -54,7 +54,7 @@ class HelpScene: SKScene {
         rootNode.addChild(Nodes.getSceneTitle(frame.size, content: "HOW TO PLAY"))
         
         // TUTORIAL IMAGE
-        var image = SKSpriteNode(imageNamed: "tutorial-image")
+        var image = SKSpriteNode(imageNamed: "image-tutorial")
         var aspectRatio = image.size.width / image.size.height
         image.size = CGSize(width: size.width, height: size.width / aspectRatio)
         image.position = CGPoint(x: 0, y: 0)
