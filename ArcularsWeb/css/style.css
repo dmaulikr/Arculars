@@ -127,183 +127,12 @@ and (max-device-width : 1024px) {
 	}
 }
 
-/* Section 1
-* ------------------------------------------------------------------------------------------------------ */
-#section1 {
-	background: #121F21;
-}
-
-
-.section1 {
-	width:100%;
-	max-width: 760px;
-	margin: 0px auto;
-}
-
-.text {
-	max-width: 360px;
-	float: right;
-	margin-top: 140px;
-}
-
-.section1 .text h3 {
-font-size: 40px;
-line-height: 52px;
-color: #F0F0F0;
-font-weight: 300;
-letter-spacing: 0.2px;
-text-align: left;
-}
-
-.section1 .text p {
-	font-size: 20px;
-	line-height: 28px;
-	color: #888888;
-	font-weight: 300;
-	letter-spacing: 0.2px;
-	text-align: left;
-}
-
-.iphone {
-	width: 50%;
-	height: 100%;
-
-}
-
-.iphone-photo {
-	background: url(../img/iphone1.png) no-repeat;
-	max-width:380px;
-	min-height: 640px;
-	background-size: 100%;
-	margin-top: 100px;
-}
-
-.section1 .video {
-	position: absolute;
-	margin-left: 60px;
-	margin-top: 73px;
-	width: 260px;
-	height: 446px;
-}
-
-@media screen and (max-width: 760px) {
-	#section1 {
-		padding: 20px;
-	}
-	.text {
-		max-width: 100%;
-		float: none;
-		margin-top: 0px;
-	}
-	.section1 .text h3 {
-		font-size: 30px;
-		line-height: 40px;
-		text-align: center;
-	}
-	.section1 .text p {
-		font-size: 16px;
-		line-height: 24px;
-		text-align: center;
-	}
-	.iphone {
-		float: none;
-		width: 100%;
-	}
-	.iphone-photo {
-		background: url(../img/iphone1.png) no-repeat;
-		max-width:380px;
-		min-height: 640px;
-		background-size: 100%;
-		margin-top: 50px;
-	}
-	.section1 .video {
-		display: none;
-		visibility: hidden;
-	}
-}
-
-
-/* iPads (portrait and landscape) ----------- */
-@media only screen
-and (min-device-width : 768px)
-and (max-device-width : 1024px) {
-	#section1 {
-		padding: 20px;
-	}
-	.iphone-photo {
-		background: url(../img/iphone1.png) no-repeat;
-		max-width:380px;
-		min-height: 640px;
-		background-size: 100%;
-		margin-top: 30px;
-	}
-	.section1 .video {
-		display: none;
-		visibility: hidden;
-	}
-}
-
-/* for high resolution display */
-
-@media only screen and (min--moz-device-pixel-ratio: 2),
-only screen and (-o-min-device-pixel-ratio: 2/1),
-only screen and (-webkit-min-device-pixel-ratio: 2),
-only screen and (min-device-pixel-ratio: 2) {
-	.iphone-photo {
-		background: url(../img/iphone1@2x.png) no-repeat;
-		background-size: 100% 100%;
-		background-position: center;
-		 -webkit-background-size: contain;
-		 -moz-background-size: contain;
-		 -o-background-size: contain;
-		 background-size: contain;
-	}
- }
-
-
-
-@media only screen and (min-width : 1824px) {
-	.section1 {
-		width:100%;
-		max-width: 960px;
-	}
-
-	.text {
-		max-width: 460px;
-		margin-top: 250px;
-	}
-	.section1 .text h3 {
-		font-size: 50px;
-		line-height: 62px;
-	}
-
-	.section1 .text p {
-		font-size: 28px;
-		line-height: 40px;
-		font-weight: 300;
-	}
-	.iphone {
-		width: 50%;
-		height: 100%;
-	}
-	.iphone-photo {
-		background: url(../img/iphone.png) no-repeat;
-		max-width:500px;
-		min-height: 842px;
-		background-size: 100%;
-	}
-	.section1 .video {
-		margin-left:82px;
-		margin-top: 92px;
-		width: 316px;
-		height: 563px;
-
-	}
-}
-
-
 /* Section 4
 * ------------------------------------------------------------------------------------------------------ */
+
+#section4 {
+	background: #121F21;
+}
 
 .section4 {
 	width:100%;
@@ -325,7 +154,7 @@ only screen and (min-device-pixel-ratio: 2) {
 .section4 h3 {
 	font-size: 40px;
 	line-height: 52px;
-	color: #343434;
+	color: #F0F0F0;
 	font-weight: 300;
 	letter-spacing: 0.2px;
 	text-align: center;
@@ -487,14 +316,6 @@ only screen and (min-device-pixel-ratio: 2) {
 	}
 	.section4 .app-store-btn {
 		margin-top: 50px;
-	}
-	 .section4 .facebook{
-		 background: url(../img/facebook@2x.png) no-repeat;
-		 background-size: 100% 100%;
-	}
-	.section4 .twitter {
-		background: url(../img/twitter@2x.png) no-repeat;
-		background-size: 100% 100%;
 	}
  }
 
