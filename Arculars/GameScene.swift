@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     // MARK: - GAME SETTINGS
     let initMultiplicatorEasy = 1
     let initMultiplicatorNormal = 2
-    let initMultiplicatorHard = 4
+    let initMultiplicatorHard = 3
     
     let initEndlessHealthEasy = 3
     let initEndlessHealthNormal = 3
@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     let initTimedTimeNormal = 20.0
     let initTimedTimeHard = 15.0
     
+    let initPointsCircleZero = 5
     let initPointsCircleOne = 4
     let initPointsCircleTwo = 3
     let initPointsCircleThree = 2
@@ -101,10 +102,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     }
 
     override func didMoveToView(view: SKView) {
+        reset()
         for circle in circles {
             circle.fadeIn()
         }
-        reset()
     }
     
     deinit {
@@ -144,31 +145,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         hitSounds.append(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
         hitSounds.append(SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false))
-        
-        addCircle(Colors.AppColorOne, clockwise: false, points: initPointsCircleOne)
-        addCircle(Colors.AppColorTwo, clockwise: true, points: initPointsCircleTwo)
-        addCircle(Colors.AppColorThree, clockwise: false, points: initPointsCircleThree)
-        addCircle(Colors.AppColorFour, clockwise: true, points: initPointsCircleFour)
-    }
-    
-    private func addCircle(color: UIColor, clockwise: Bool, points: Int) {
-        var radius : CGFloat!
-        var thickness : CGFloat!
-        
-        if circles.count == 0 {
-            radius = size.height / 16
-            thickness = size.height / 32
-        }
-        else {
-            var lastradius = circles.last!.radius
-            var lastthickness = circles.last!.thickness
-            
-            radius = lastradius + lastthickness
-            thickness = lastthickness
-        }
-        var c = Circle(position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, pointsPerHit: points)
-        circles.append(c)
-        rootNode.addChild(c)
     }
     
     // MARK: - RESET FUNCTIONS
@@ -179,94 +155,63 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         StatsHandler.updateLastscore(0, gameMode: gameMode)
         
         currentPowerup = nil;
-        startPowerupTimer()
-        
         healthBar?.removeFromParent()
         timerBar?.removeFromParent()
         
         ///////
+        var randclockwise = getRandomBoolean()
         var difficulty = SettingsHandler.getDifficulty()
+        switch difficulty {
+        case .Easy:
+            addCircle(Colors.AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.9, max: 2.3)
+            addCircle(Colors.AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.7, max: 2.1)
+            addCircle(Colors.AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.5, max: 1.9)
+            
+            multiplicator = initMultiplicatorEasy
+            timedTime = initTimedTimeEasy
+            endlessHealth = initEndlessHealthEasy
+            break
+        case .Normal:
+            addCircle(Colors.AppColorOne, clockwise: randclockwise, points: initPointsCircleOne).setSpeed(2.2, max: 2.6)
+            addCircle(Colors.AppColorTwo, clockwise: !randclockwise, points: initPointsCircleTwo).setSpeed(2.0, max: 2.4)
+            addCircle(Colors.AppColorThree, clockwise: randclockwise, points: initPointsCircleThree).setSpeed(1.8, max: 2.2)
+            addCircle(Colors.AppColorFour, clockwise: !randclockwise, points: initPointsCircleFour).setSpeed(1.6, max: 2.0)
+            
+            multiplicator = initMultiplicatorNormal
+            timedTime = initTimedTimeNormal
+            endlessHealth = initEndlessHealthNormal
+            break
+        case .Hard:
+            addCircle(Colors.DisabledColor, clockwise: randclockwise, points: initPointsCircleZero).setSpeed(2.1, max: 2.8)
+            addCircle(Colors.AppColorOne, clockwise: !randclockwise, points: initPointsCircleOne).setSpeed(1.9, max: 2.5)
+            addCircle(Colors.AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.7, max: 2.3)
+            addCircle(Colors.AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.5, max: 2.1)
+            addCircle(Colors.AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.3, max: 1.9)
+            
+            multiplicator = initMultiplicatorHard
+            timedTime = initTimedTimeHard
+            endlessHealth = initEndlessHealthHard
+            break
+        }
+        
         if gameMode == GameMode.Timed {
-            
-            switch difficulty {
-            case .Easy:
-                circles[0].setSpeed(4.0, max: 4.4)
-                circles[1].setSpeed(3.2, max: 3.6)
-                circles[2].setSpeed(2.4, max: 2.8)
-                circles[3].setSpeed(2.0, max: 2.4)
-                multiplicator = initMultiplicatorEasy
-                timedTime = initTimedTimeEasy
-                break
-            case .Normal:
-                circles[0].setSpeed(3.0, max: 3.4)
-                circles[1].setSpeed(2.4, max: 2.8)
-                circles[2].setSpeed(1.8, max: 2.2)
-                circles[3].setSpeed(1.6, max: 2.0)
-                multiplicator = initMultiplicatorNormal
-                timedTime = initTimedTimeNormal
-                break
-            case .Hard:
-                circles[0].setSpeed(2.4, max: 2.8)
-                circles[1].setSpeed(1.8, max: 2.2)
-                circles[2].setSpeed(1.4, max: 1.8)
-                circles[3].setSpeed(1.2, max: 1.6)
-                multiplicator = initMultiplicatorHard
-                timedTime = initTimedTimeHard
-                break
-            }
-            
             initTimerBar()
             timerBar?.start()
-            
         } else if gameMode == GameMode.Endless {
-            
-            switch difficulty {
-            case .Easy:
-                circles[0].setSpeed(4.0, max: 4.4)
-                circles[1].setSpeed(3.2, max: 3.6)
-                circles[2].setSpeed(2.4, max: 2.8)
-                circles[3].setSpeed(2.0, max: 2.4)
-                multiplicator = initMultiplicatorEasy
-                endlessHealth = initEndlessHealthEasy
-                break
-            case .Normal:
-                circles[0].setSpeed(3.0, max: 3.4)
-                circles[1].setSpeed(2.4, max: 2.8)
-                circles[2].setSpeed(1.8, max: 2.2)
-                circles[3].setSpeed(1.6, max: 2.0)
-                multiplicator = initMultiplicatorNormal
-                endlessHealth = initEndlessHealthNormal
-                break
-            case .Hard:
-                circles[0].setSpeed(2.4, max: 2.8)
-                circles[1].setSpeed(1.8, max: 2.2)
-                circles[2].setSpeed(1.4, max: 1.8)
-                circles[3].setSpeed(1.2, max: 1.6)
-                multiplicator = initMultiplicatorHard
-                endlessHealth = initEndlessHealthHard
-                break
-            }
-            
             initHealthBar()
-            
         }
         ///////
         
-        stats_starttime = NSDate()
-        
         resetCircleColors()
-        
+        stats_starttime = NSDate()
+        startPowerupTimer()
         isGameOver = false
     }
     
     private func resetCircleColors() {
-        circles[0].setColor(Colors.AppColorOne)
-        circles[1].setColor(Colors.AppColorTwo)
-        circles[2].setColor(Colors.AppColorThree)
-        circles[3].setColor(Colors.AppColorFour)
-        
         availableColors.removeAll()
         for circle in circles {
+            circle.resetColor()
             availableColors.append(circle.nodeColor)
         }
         
@@ -533,10 +478,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             score.increaseByWithColor(50, color: Colors.PowerupColor)
             powerupZero()
             break
-        case .ExtraPoints100:
-            score.increaseByWithColor(100, color: Colors.PowerupColor)
-            powerupZero()
-            break
         default:
             break
         }
@@ -592,5 +533,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var random = Int(arc4random_uniform(UInt32(availableColors.count)));
         var color = availableColors[random]
         return color
+    }
+    
+    private func getRandomBoolean() -> Bool {
+        var random = arc4random_uniform(9)
+        return (random % 2) == 0
+    }
+    
+    private func addCircle(color: UIColor, clockwise: Bool, points: Int) -> Circle {
+        var radius : CGFloat!
+        var thickness : CGFloat!
+        
+        if circles.count == 0 {
+            radius = size.height / 16
+            thickness = size.height / 32
+        }
+        else {
+            var lastradius = circles.last!.radius
+            var lastthickness = circles.last!.thickness
+            
+            radius = lastradius + lastthickness
+            thickness = lastthickness
+        }
+        var c = Circle(position: circlePosition, radius: radius, thickness: thickness, clockwise: clockwise, pointsPerHit: points, color: color)
+        circles.append(c)
+        rootNode.addChild(c)
+        return c
     }
 }
