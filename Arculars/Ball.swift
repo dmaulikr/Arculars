@@ -70,6 +70,8 @@ class Ball : SKShapeNode {
     }
     
     func shoot(range: CGFloat) {
-        runAction(SKAction.moveTo(CGPoint(x: 0, y:range), duration: ballSpeed))
+        runAction(SKAction.moveTo(CGPoint(x: 0, y:range), duration: ballSpeed), completion: {()
+            self.removeFromParent()
+        })
     }
 }

@@ -66,6 +66,7 @@ class Score : SKLabelNode {
         var x = (self.frame.width / 2) + (label.frame.width / 2) + 8 
         
         label.position = CGPoint(x: x, y: 0)
+        label.fontSize = fontSize
         label.fontColor = color
         label.fontName = Fonts.FontNameBold
         label.xScale = 0.0
