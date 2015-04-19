@@ -14,10 +14,8 @@ let PowerupsTimed : [PowerupType : UInt32] = [
     PowerupType.TriplePoints    : 2,
     PowerupType.FullTime        : 1,
     PowerupType.Unicolor        : 3,
-    PowerupType.ExtraPoints10   : 4,
     PowerupType.ExtraPoints30   : 3,
-    PowerupType.ExtraPoints50   : 2,
-    PowerupType.ExtraPoints100  : 1
+    PowerupType.ExtraPoints50   : 2
 ]
 
 let PowerupsEndless : [PowerupType : UInt32] = [
@@ -25,10 +23,8 @@ let PowerupsEndless : [PowerupType : UInt32] = [
     PowerupType.TriplePoints    : 2,
     PowerupType.FullLifes       : 1,
     PowerupType.Unicolor        : 3,
-    PowerupType.ExtraPoints10   : 4,
     PowerupType.ExtraPoints30   : 3,
-    PowerupType.ExtraPoints50   : 2,
-    PowerupType.ExtraPoints100  : 1
+    PowerupType.ExtraPoints50   : 2
 ]
 
 protocol PowerupDelegate : class {
