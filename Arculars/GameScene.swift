@@ -44,6 +44,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
+    
+    private var shootArea : SKShapeNode!
+    
     private var circles = [Circle]()
     private var availableColors = [UIColor]()
     private var activeBalls = [Ball]()
@@ -87,6 +90,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         // Add Root Node
         addChild(rootNode)
+        
+        // Init Shoot Area:
+        // This is to prevent unattended shooting when opening notification or control center
+        shootArea = SKShapeNode(rect: CGRect(x: -frame.width / 2, y: -(frame.height / 2) + 30, width: frame.width, height: frame.height - 60))
+        shootArea.lineWidth = 0
+        addChild(shootArea)
         
         // Setup Scene Physics
         physicsWorld.contactDelegate = self
@@ -239,7 +248,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
-            if (!btnStop.containsPoint(location)) {
+            if (!btnStop.containsPoint(location)) && (shootArea.containsPoint(location)) {
                 if !isGameOver && !isTimerBarExpired {
                     StatsHandler.updateFiredBallsBy(1)
                     shootBall()
