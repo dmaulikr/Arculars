@@ -72,6 +72,8 @@ class Powerup : SKShapeNode {
         
         icon = SKSpriteNode(imageNamed: "icon-star")
         icon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        icon.colorBlendFactor = 1.0
+        icon.color = ThemeHandler.Instance.getCurrentColors().BackgroundColor
         icon.size = CGSize(width: radius, height: radius)
         addChild(icon)
         
