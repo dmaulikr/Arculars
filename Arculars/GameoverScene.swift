@@ -89,6 +89,7 @@ class GameoverScene: SKScene {
         
         ttpLabel = SKLabelNode(text: "TAP TO PLAY")
         ttpLabel.fontName = Fonts.FontNameNormal
+        ttpLabel.fontColor = Colors.FontColor
         ttpLabel.fontSize = size.height / 32
         ttpLabel.position = CGPoint(x: 0, y: 0)
         

@@ -102,7 +102,6 @@ class MenuScene: SKScene {
         title.addChild(lblArculars)
         
         btnAbout = SKSpriteNode(imageNamed: "icon-arculars")
-        btnAbout.colorBlendFactor = 1
         btnAbout.color = Colors.FontColor
         btnAbout.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnAbout.position = CGPoint(x: 0, y: lblArculars.frame.height)
@@ -224,6 +223,7 @@ class MenuScene: SKScene {
         var playtLabel = SKLabelNode(text: "Play Timed")
         playtLabel.name = "label"
         playtLabel.fontName = Fonts.FontNameLight
+        playtLabel.fontColor = Colors.FontColor
         playtLabel.fontSize = size.height / 40
         playtLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         playtLabel.alpha = 0.0
@@ -251,6 +251,7 @@ class MenuScene: SKScene {
         var playeLabel = SKLabelNode(text: "Play Endless")
         playeLabel.name = "label"
         playeLabel.fontName = Fonts.FontNameLight
+        playeLabel.fontColor = Colors.FontColor
         playeLabel.fontSize = size.height / 40
         playeLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         playeLabel.alpha = 0.0
@@ -278,6 +279,7 @@ class MenuScene: SKScene {
         var remadslabel = SKLabelNode(text: "Remove Ads")
         remadslabel.name = "label"
         remadslabel.fontName = Fonts.FontNameLight
+        remadslabel.fontColor = Colors.FontColor
         remadslabel.fontSize = size.height / 40
         remadslabel.position = CGPoint(x: 0, y: -(1.5 * radius))
         remadslabel.alpha = 0.0
@@ -308,6 +310,7 @@ class MenuScene: SKScene {
         var diffLabel = SKLabelNode(text: "Difficulty")
         diffLabel.name = "label"
         diffLabel.fontName = Fonts.FontNameLight
+        diffLabel.fontColor = Colors.FontColor
         diffLabel.fontSize = size.height / 40
         diffLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         diffLabel.alpha = 0.0
