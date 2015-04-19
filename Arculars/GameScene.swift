@@ -182,11 +182,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             endlessHealth = initEndlessHealthNormal
             break
         case .Hard:
-            addCircle(ThemeHandler.Instance.getCurrentColors().DisabledColor, clockwise: randclockwise, points: initPointsCircleZero).setSpeed(2.1, max: 2.8)
-            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorOne, clockwise: !randclockwise, points: initPointsCircleOne).setSpeed(1.9, max: 2.5)
-            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.7, max: 2.3)
-            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.5, max: 2.1)
-            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.3, max: 1.9)
+            addCircle(ThemeHandler.Instance.getCurrentColors().DisabledColor, clockwise: randclockwise, points: initPointsCircleZero).setSpeed(2.3, max: 2.8)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorOne, clockwise: !randclockwise, points: initPointsCircleOne).setSpeed(2.0, max: 2.5)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.8, max: 2.3)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.6, max: 2.1)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.4, max: 1.9)
             
             multiplicator = initMultiplicatorHard
             timedTime = initTimedTimeHard
