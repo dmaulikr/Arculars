@@ -27,10 +27,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     let initTimedTimeNormal = 20.0
     let initTimedTimeHard = 15.0
     
-    let initEndlessDecrementIntervalEasy = 0.0
-    let initEndlessDecrementIntervalNormal = 2.0
-    let initEndlessDecrementIntervalHard = 2.0
-    
     let initPointsCircleOne = 4
     let initPointsCircleTwo = 3
     let initPointsCircleThree = 2
@@ -232,7 +228,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
                 circles[3].setSpeed(2.0, max: 2.4)
                 multiplicator = initMultiplicatorEasy
                 endlessHealth = initEndlessHealthEasy
-                score.startDecremtTimer(initEndlessDecrementIntervalEasy)
                 break
             case .Normal:
                 circles[0].setSpeed(3.0, max: 3.4)
@@ -241,7 +236,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
                 circles[3].setSpeed(1.6, max: 2.0)
                 multiplicator = initMultiplicatorNormal
                 endlessHealth = initEndlessHealthNormal
-                score.startDecremtTimer(initEndlessDecrementIntervalNormal)
                 break
             case .Hard:
                 circles[0].setSpeed(2.4, max: 2.8)
@@ -250,7 +244,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
                 circles[3].setSpeed(1.2, max: 1.6)
                 multiplicator = initMultiplicatorHard
                 endlessHealth = initEndlessHealthHard
-                score.startDecremtTimer(initEndlessDecrementIntervalHard)
                 break
             }
             
@@ -430,7 +423,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         timerBar?.stop()
         currentPowerup?.stop()
-        score?.stopDecremtTimer()
         stopPowerupTimer()
         
         var playedtime = Int(NSDate().timeIntervalSinceDate(stats_starttime))
