@@ -42,7 +42,7 @@ class GameoverScene: SKScene {
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = Colors.BackgroundColor
+        backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
         
         // Add Root Node
         addChild(rootNode)
@@ -89,7 +89,7 @@ class GameoverScene: SKScene {
         
         ttpLabel = SKLabelNode(text: "TAP TO PLAY")
         ttpLabel.fontName = Fonts.FontNameNormal
-        ttpLabel.fontColor = Colors.FontColor
+        ttpLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         ttpLabel.fontSize = size.height / 32
         ttpLabel.position = CGPoint(x: 0, y: 0)
         
@@ -97,20 +97,20 @@ class GameoverScene: SKScene {
         
         var gameoverLabel = SKLabelNode(text: "GAME OVER!")
         gameoverLabel.fontName = Fonts.FontNameBold
-        gameoverLabel.fontColor = Colors.FontColor
+        gameoverLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         gameoverLabel.fontSize = size.height / 20
         gameoverLabel.position = CGPoint(x: 0, y: (size.height / 2) - (size.height / 5))
         rootNode.addChild(gameoverLabel)
         
         var scoreLabel = SKLabelNode(text: "YOUR SCORE")
         scoreLabel.fontName = Fonts.FontNameLight
-        scoreLabel.fontColor = Colors.AppColorThree
+        scoreLabel.fontColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         scoreLabel.fontSize = size.height / 48
         scoreLabel.position = CGPoint(x: -size.width / 6, y: size.height / 4)
         
         score = SKLabelNode()
         score.fontName = Fonts.FontNameNormal
-        score.fontColor = Colors.AppColorThree
+        score.fontColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         score.fontSize = size.height / 20
         score.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         score.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -122,12 +122,12 @@ class GameoverScene: SKScene {
         var hscoreLabel = SKLabelNode(text: "HIGH SCORE")
         hscoreLabel.fontName = Fonts.FontNameLight
         hscoreLabel.fontSize = size.height / 48
-        hscoreLabel.fontColor = Colors.FontColor
+        hscoreLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         hscoreLabel.position = CGPoint(x: size.width / 6, y: size.height / 4)
         
         hscore = SKLabelNode()
         hscore.fontName = Fonts.FontNameNormal
-        hscore.fontColor = Colors.FontColor
+        hscore.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         hscore.fontSize = size.height / 20
         hscore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         hscore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -141,20 +141,20 @@ class GameoverScene: SKScene {
         shareLabel.position = CGPoint(x: 0, y: -(size.height / 6))
         shareLabel.fontName = Fonts.FontNameNormal
         shareLabel.fontSize = size.height / 48
-        shareLabel.fontColor = Colors.DisabledColor
+        shareLabel.fontColor = ThemeHandler.Instance.getCurrentColors().DisabledColor
         shareLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         shareLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         rootNode.addChild(shareLabel)
         
         var radius = size.height / 20
         
-        btnShareOnFacebook = Nodes.getCircleButton(CGPoint(x: -(size.width / 4), y: -(size.height / 4)), radius: radius, color: Colors.AppColorOne, content1: "FACEBOOK")
+        btnShareOnFacebook = Nodes.getCircleButton(CGPoint(x: -(size.width / 4), y: -(size.height / 4)), radius: radius, color: ThemeHandler.Instance.getCurrentColors().AppColorOne, content1: "FACEBOOK")
         rootNode.addChild(btnShareOnFacebook)
         
-        btnShareOnTwitter = Nodes.getCircleButton(CGPoint(x: 0, y: -(size.height / 4)), radius: radius, color: Colors.AppColorTwo, content1: "TWITTER")
+        btnShareOnTwitter = Nodes.getCircleButton(CGPoint(x: 0, y: -(size.height / 4)), radius: radius, color: ThemeHandler.Instance.getCurrentColors().AppColorTwo, content1: "TWITTER")
         rootNode.addChild(btnShareOnTwitter)
         
-        btnShare = Nodes.getCircleButton(CGPoint(x: (size.width / 4), y: -(size.height / 4)), radius: radius, color: Colors.DisabledColor, fontSize: radius, content1: "...")
+        btnShare = Nodes.getCircleButton(CGPoint(x: (size.width / 4), y: -(size.height / 4)), radius: radius, color: ThemeHandler.Instance.getCurrentColors().DisabledColor, fontSize: radius, content1: "...")
         rootNode.addChild(btnShare)
         //
         
@@ -209,7 +209,7 @@ class GameoverScene: SKScene {
     
     private func createRandomBall(position: CGPoint) {
         var ball = SKShapeNode(circleOfRadius: frame.height / 64)
-        ball.fillColor = Colors.randomAppColor()
+        ball.fillColor = ThemeHandler.Instance.getCurrentColors().randomAppColor()
         ball.lineWidth = 1
         ball.strokeColor = ball.fillColor
         ball.antialiased = true

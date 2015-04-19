@@ -37,7 +37,7 @@ class ShareImageHelper {
     
     private class func drawScore(context: CGContextRef, text: NSString, fontSize: CGFloat, x: CGFloat, y: CGFloat) -> CGSize {
         let font = CTFontCreateWithName(Fonts.FontNameBold, fontSize, nil) as UIFont
-        let fontColor = Colors.PowerupColor.CGColor
+        let fontColor = ThemeHandler.Instance.getCurrentColors().PowerupColor.CGColor
         
         var textAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName : fontColor,

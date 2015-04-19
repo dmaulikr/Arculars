@@ -83,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = Colors.BackgroundColor
+        backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
         
         // Add Root Node
         addChild(rootNode)
@@ -123,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         rootNode.addChild(score)
         
         powerupDescription = SKLabelNode()
-        powerupDescription.fontColor = Colors.PowerupColor
+        powerupDescription.fontColor = ThemeHandler.Instance.getCurrentColors().PowerupColor
         powerupDescription.fontName = Fonts.FontNameLight
         powerupDescription.fontSize = size.height / 64
         powerupDescription.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -134,7 +134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var stopLabel = SKLabelNode(text: "X")
         stopLabel.fontSize = size.height / 20
         stopLabel.fontName = "GillSans-Light"
-        stopLabel.fontColor = Colors.ScoreColor
+        stopLabel.fontColor = ThemeHandler.Instance.getCurrentColors().ScoreColor
         stopLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         btnStop = SKShapeNode(rectOfSize: CGSize(width: stopLabel.frame.width * 1.5, height: stopLabel.frame.height * 2))
@@ -163,30 +163,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var difficulty = SettingsHandler.getDifficulty()
         switch difficulty {
         case .Easy:
-            addCircle(Colors.AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.9, max: 2.3)
-            addCircle(Colors.AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.7, max: 2.1)
-            addCircle(Colors.AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.5, max: 1.9)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.9, max: 2.3)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.7, max: 2.1)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.5, max: 1.9)
             
             multiplicator = initMultiplicatorEasy
             timedTime = initTimedTimeEasy
             endlessHealth = initEndlessHealthEasy
             break
         case .Normal:
-            addCircle(Colors.AppColorOne, clockwise: randclockwise, points: initPointsCircleOne).setSpeed(2.2, max: 2.6)
-            addCircle(Colors.AppColorTwo, clockwise: !randclockwise, points: initPointsCircleTwo).setSpeed(2.0, max: 2.4)
-            addCircle(Colors.AppColorThree, clockwise: randclockwise, points: initPointsCircleThree).setSpeed(1.8, max: 2.2)
-            addCircle(Colors.AppColorFour, clockwise: !randclockwise, points: initPointsCircleFour).setSpeed(1.6, max: 2.0)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorOne, clockwise: randclockwise, points: initPointsCircleOne).setSpeed(2.2, max: 2.6)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorTwo, clockwise: !randclockwise, points: initPointsCircleTwo).setSpeed(2.0, max: 2.4)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorThree, clockwise: randclockwise, points: initPointsCircleThree).setSpeed(1.8, max: 2.2)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorFour, clockwise: !randclockwise, points: initPointsCircleFour).setSpeed(1.6, max: 2.0)
             
             multiplicator = initMultiplicatorNormal
             timedTime = initTimedTimeNormal
             endlessHealth = initEndlessHealthNormal
             break
         case .Hard:
-            addCircle(Colors.DisabledColor, clockwise: randclockwise, points: initPointsCircleZero).setSpeed(2.1, max: 2.8)
-            addCircle(Colors.AppColorOne, clockwise: !randclockwise, points: initPointsCircleOne).setSpeed(1.9, max: 2.5)
-            addCircle(Colors.AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.7, max: 2.3)
-            addCircle(Colors.AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.5, max: 2.1)
-            addCircle(Colors.AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.3, max: 1.9)
+            addCircle(ThemeHandler.Instance.getCurrentColors().DisabledColor, clockwise: randclockwise, points: initPointsCircleZero).setSpeed(2.1, max: 2.8)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorOne, clockwise: !randclockwise, points: initPointsCircleOne).setSpeed(1.9, max: 2.5)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorTwo, clockwise: randclockwise, points: initPointsCircleTwo).setSpeed(1.7, max: 2.3)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorThree, clockwise: !randclockwise, points: initPointsCircleThree).setSpeed(1.5, max: 2.1)
+            addCircle(ThemeHandler.Instance.getCurrentColors().AppColorFour, clockwise: randclockwise, points: initPointsCircleFour).setSpeed(1.3, max: 1.9)
             
             multiplicator = initMultiplicatorHard
             timedTime = initTimedTimeHard
@@ -221,7 +221,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func initTimerBar() {
         var barHeight = size.height / 48
-        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: timedTime)
+        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: ThemeHandler.Instance.getCurrentColors().AppColorThree, max: timedTime)
         timerBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         timerBar.delegate = self
         rootNode.addChild(timerBar)
@@ -229,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func initHealthBar() {
         var barHeight = size.height / 48
-        healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: Colors.AppColorThree, max: endlessHealth)
+        healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: ThemeHandler.Instance.getCurrentColors().AppColorThree, max: endlessHealth)
         healthBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         healthBar.delegate = self
         rootNode.addChild(healthBar)
@@ -459,23 +459,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             break
         case .Unicolor:
             for circle in circles {
-                circle.setColor(Colors.PowerupColor)
+                circle.setColor(ThemeHandler.Instance.getCurrentColors().PowerupColor)
             }
-            nextBall?.setColor(Colors.PowerupColor)
+            nextBall?.setColor(ThemeHandler.Instance.getCurrentColors().PowerupColor)
             availableColors.removeAll()
-            availableColors.append(Colors.PowerupColor)
+            availableColors.append(ThemeHandler.Instance.getCurrentColors().PowerupColor)
             currentPowerup.startWith(5)
             break
         case .ExtraPoints10:
-            score.increaseByWithColor(10, color: Colors.PowerupColor)
+            score.increaseByWithColor(10, color: ThemeHandler.Instance.getCurrentColors().PowerupColor)
             powerupZero()
             break
         case .ExtraPoints30:
-            score.increaseByWithColor(30, color: Colors.PowerupColor)
+            score.increaseByWithColor(30, color: ThemeHandler.Instance.getCurrentColors().PowerupColor)
             powerupZero()
             break
         case .ExtraPoints50:
-            score.increaseByWithColor(50, color: Colors.PowerupColor)
+            score.increaseByWithColor(50, color: ThemeHandler.Instance.getCurrentColors().PowerupColor)
             powerupZero()
             break
         default:

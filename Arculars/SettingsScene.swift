@@ -17,6 +17,9 @@ class SettingsScene : SKScene {
     
     private var rootNode = SKNode()
     
+    private var btnDarkTheme : SKShapeNode!
+    private var btnLightTheme : SKShapeNode!
+    
     private var btnToggleVibration : SKShapeNode!
     private var vStateLabel : SKLabelNode!
     private var btnToggleSound : SKShapeNode!
@@ -34,7 +37,7 @@ class SettingsScene : SKScene {
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = Colors.BackgroundColor
+        backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
         
         // Add Root Node
         addChild(rootNode)
@@ -62,20 +65,36 @@ class SettingsScene : SKScene {
         
         var rowheight = size.height / 8
         
+        // INIT THEMES
+        var themeLabel = SKLabelNode(text: "THEME")
+        themeLabel.position = CGPoint(x: 0, y: size.height / 3)
+        themeLabel.fontSize = size.height / 48
+        themeLabel.fontName = Fonts.FontNameNormal
+        themeLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
+        themeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        themeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        rootNode.addChild(themeLabel)
+        
+        btnDarkTheme = Nodes.getCircleButton(CGPoint(x: -size.width / 5, y: size.height / 5), radius: size.height / 16, color: Colors.BackgroundColor, fontColor: Colors.FontColor, content1: "DARK")
+        rootNode.addChild(btnDarkTheme)
+        
+        btnLightTheme = Nodes.getCircleButton(CGPoint(x: size.width / 5, y: size.height / 5), radius: size.height / 16, color: Colors.FontColor, fontColor: Colors.BackgroundColor, content1: "LIGHT")
+        rootNode.addChild(btnLightTheme)
+        
         // INIT TOGGLE VIBRATION BUTTON
         btnToggleVibration = createButton("VIBRATION")
-        btnToggleVibration.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 2))
+        btnToggleVibration.position = CGPoint(x: (frame.width / 5), y: 0)
         vStateLabel = (btnToggleVibration.childNodeWithName("label") as! SKLabelNode)
         rootNode.addChild(btnToggleVibration)
         
         // INIT TOGGLE SOUND BUTTON
         btnToggleSound = createButton("SOUND")
-        btnToggleSound.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 3))
+        btnToggleSound.position = CGPoint(x: -(frame.width / 5), y: 0)
         sStateLabel = (btnToggleSound.childNodeWithName("label") as! SKLabelNode)
         rootNode.addChild(btnToggleSound)
         
         // INIT RESTORE PURCHASES BUTTON
-        btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: Colors.AppColorOne, fontSize: frame.height / 64, content1: "RESTORE", content2: "PURCHASES")
+        btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorOne, fontSize: frame.height / 56, content1: "RESTORE", content2: "PURCHASES")
         rootNode.addChild(btnRestorePurchases)
         
         // INIT CLOSE BUTTON
@@ -106,6 +125,12 @@ class SettingsScene : SKScene {
                     runAction(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
                 }
                 getSettings()
+            } else if (btnDarkTheme.containsPoint(location)) {
+                SettingsHandler.setTheme(Theme.Dark)
+                self.sceneDelegate?.showSettingsScene()
+            } else if (btnLightTheme.containsPoint(location)) {
+                SettingsHandler.setTheme(Theme.Light)
+                self.sceneDelegate?.showSettingsScene()
             } else if (btnRestorePurchases.containsPoint(location)) {
                 self.sceneDelegate!.restorePurchases()
             }
@@ -117,7 +142,7 @@ class SettingsScene : SKScene {
         var vLabel = SKLabelNode(text: labelText as String)
         vLabel.fontSize = size.height / 48
         vLabel.fontName = Fonts.FontNameNormal
-        vLabel.fontColor = Colors.FontColor
+        vLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         vLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         vLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         var button = SKShapeNode(rectOfSize: CGSize(width: size.width / 4, height: size.height / 12))
@@ -127,7 +152,7 @@ class SettingsScene : SKScene {
         label.zPosition = -1
         label.fontSize = size.height / 24
         label.fontName = Fonts.FontNameBold
-        label.fontColor = Colors.FontColor
+        label.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         vLabel.position = CGPoint(x: 0, y: button.calculateAccumulatedFrame().height * 0.5)

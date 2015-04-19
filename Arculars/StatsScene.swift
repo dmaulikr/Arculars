@@ -37,7 +37,7 @@ class StatsScene: SKScene {
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = Colors.BackgroundColor
+        backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
         
         // Add Root Node
         addChild(rootNode)
@@ -108,7 +108,7 @@ class StatsScene: SKScene {
         rootNode.addChild(prn)
         
         // INIT RESET BUTTON
-        btnReset = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: Colors.AppColorTwo, content1: "RESET")
+        btnReset = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorTwo, content1: "RESET")
         rootNode.addChild(btnReset)
         
         // INIT CLOSE BUTTON
@@ -164,7 +164,7 @@ class StatsScene: SKScene {
         label.position = CGPoint(x: gap, y: 0)
         label.fontSize = labelFontSize
         label.fontName = Fonts.FontNameNormal
-        label.fontColor = Colors.FontColor
+        label.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         row.addChild(label)
@@ -173,7 +173,7 @@ class StatsScene: SKScene {
         stats_label.position = CGPoint(x: -gap, y: 0)
         stats_label.fontSize = statsFontSize
         stats_label.fontName = statsFontName
-        stats_label.fontColor = Colors.FontColor
+        stats_label.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         stats_label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Right
         stats_label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         row.addChild(stats_label)

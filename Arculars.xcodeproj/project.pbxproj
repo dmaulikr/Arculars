@@ -21,6 +21,8 @@
 		301E5CAF1ADFDBA30086846E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301E5CA61ADFDBA30086846E /* MessageUI.framework */; };
 		301E5CB11AE03DD50086846E /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301E5CB01AE03DD50086846E /* Positions.swift */; };
 		301E5CB51AE041A60086846E /* Nodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301E5CB41AE041A60086846E /* Nodes.swift */; };
+		3020CAA61AE441E500EBAF59 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3020CAA51AE441E500EBAF59 /* Theme.swift */; };
+		3020CAA81AE4452C00EBAF59 /* ThemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3020CAA71AE4452C00EBAF59 /* ThemeHandler.swift */; };
 		302197731AB306B400769D2F /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302197721AB306B400769D2F /* PhysicsCategory.swift */; };
 		3026D5411ADEEA960096D181 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3026D5401ADEEA960096D181 /* StoreKit.framework */; };
 		3026D5431ADEFE980096D181 /* PurchaseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3026D5421ADEFE980096D181 /* PurchaseHandler.swift */; };
@@ -90,6 +92,8 @@
 		301E5CA61ADFDBA30086846E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		301E5CB01AE03DD50086846E /* Positions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Positions.swift; sourceTree = "<group>"; };
 		301E5CB41AE041A60086846E /* Nodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Nodes.swift; sourceTree = "<group>"; };
+		3020CAA51AE441E500EBAF59 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		3020CAA71AE4452C00EBAF59 /* ThemeHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeHandler.swift; sourceTree = "<group>"; };
 		302197721AB306B400769D2F /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		3026D5401ADEEA960096D181 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		3026D5421ADEFE980096D181 /* PurchaseHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseHandler.swift; sourceTree = "<group>"; };
@@ -300,6 +304,7 @@
 				302D814E1AC93E9600FDF44D /* GameMode.swift */,
 				302197721AB306B400769D2F /* PhysicsCategory.swift */,
 				306B28371ADAF76F000D683A /* PowerupType.swift */,
+				3020CAA51AE441E500EBAF59 /* Theme.swift */,
 			);
 			name = Enums;
 			sourceTree = "<group>";
@@ -328,6 +333,7 @@
 				30740F391ADBD48600B7D965 /* RateHandler.swift */,
 				30740F3D1ADC699600B7D965 /* AchievementsHandler.swift */,
 				3026D5421ADEFE980096D181 /* PurchaseHandler.swift */,
+				3020CAA71AE4452C00EBAF59 /* ThemeHandler.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -497,9 +503,11 @@
 				301E5CB51AE041A60086846E /* Nodes.swift in Sources */,
 				305BCAF21AC9727D004F68E6 /* AboutScene.swift in Sources */,
 				30500B2F1AAE3010009F4C26 /* AppDelegate.swift in Sources */,
+				3020CAA81AE4452C00EBAF59 /* ThemeHandler.swift in Sources */,
 				302D814D1AC93E6A00FDF44D /* Fonts.swift in Sources */,
 				305414BA1AC04BFE00636047 /* StatsScene.swift in Sources */,
 				30E95DF31ACC962A003FACEC /* HealthBar.swift in Sources */,
+				3020CAA61AE441E500EBAF59 /* Theme.swift in Sources */,
 				30456F501AAF8EA3008F070C /* UIColorExtension.swift in Sources */,
 				3038F80E1ABA1F0600741BEE /* SceneDelegate.swift in Sources */,
 				309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */,

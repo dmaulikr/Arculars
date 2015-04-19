@@ -30,7 +30,7 @@ class AboutScene: SKScene {
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = Colors.BackgroundColor
+        backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
         
         // Add Root Node
         addChild(rootNode)
@@ -63,7 +63,7 @@ class AboutScene: SKScene {
         // LABELS
         var versionInfo = SKLabelNode(text: "Arculars v\(version())")
         versionInfo.fontSize = size.height / 32
-        versionInfo.fontColor = Colors.FontColor
+        versionInfo.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         versionInfo.fontName = Fonts.FontNameNormal
         versionInfo.position = CGPoint(x: 0, y: size.height / 4)
         versionInfo.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -72,7 +72,7 @@ class AboutScene: SKScene {
         
         var madeWithLove = SKLabelNode(text: "Made with love in Glarus, Switzerland.")
         madeWithLove.fontSize = size.height / 42
-        madeWithLove.fontColor = Colors.FontColor
+        madeWithLove.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         madeWithLove.fontName = Fonts.FontNameLight
         madeWithLove.position = CGPoint(x: 0, y: versionInfo.position.y - (versionInfo.frame.height * 1.5))
         madeWithLove.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -80,11 +80,11 @@ class AboutScene: SKScene {
         rootNode.addChild(madeWithLove)
         
         // INIT MAIL BUTTON
-        btnMail = Nodes.getCircleButton(CGPoint(x: size.width / 6, y: 0), radius: size.height / 16, color: Colors.AppColorOne, content1: "EMAIL")
+        btnMail = Nodes.getCircleButton(CGPoint(x: size.width / 6, y: 0), radius: size.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorOne, content1: "EMAIL")
         rootNode.addChild(btnMail)
         
         // INIT WEB BUTTON
-        btnWeb = Nodes.getCircleButton(CGPoint(x: -size.width / 6, y: 0), radius: size.height / 16, color: Colors.AppColorTwo, content1: "WEB")
+        btnWeb = Nodes.getCircleButton(CGPoint(x: -size.width / 6, y: 0), radius: size.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorTwo, content1: "WEB")
         rootNode.addChild(btnWeb)
         
         // INIT CLOSE BUTTON
@@ -137,7 +137,7 @@ class AboutScene: SKScene {
     
     private func createRandomBall(position: CGPoint) {
         var ball = SKShapeNode(circleOfRadius: frame.height / 64)
-        ball.fillColor = Colors.randomAppColor()
+        ball.fillColor = ThemeHandler.Instance.getCurrentColors().randomAppColor()
         ball.lineWidth = 1
         ball.strokeColor = ball.fillColor
         ball.antialiased = true

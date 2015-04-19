@@ -52,8 +52,8 @@ class Powerup : SKShapeNode {
         var circlepath = CGPathCreateMutable()
         CGPathAddArc(circlepath, nil, 0, 0, radius - 1, CGFloat(M_PI * 2), 0, true)
         path = circlepath
-        fillColor = Colors.PowerupColor
-        strokeColor = Colors.PowerupColor
+        fillColor = ThemeHandler.Instance.getCurrentColors().PowerupColor
+        strokeColor = ThemeHandler.Instance.getCurrentColors().PowerupColor
         lineWidth = 1
         
         physicsBody = SKPhysicsBody(circleOfRadius: radius)
@@ -67,12 +67,10 @@ class Powerup : SKShapeNode {
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         label.fontSize = frame.height / 2
         label.fontName = Fonts.FontNameBold
-        label.fontColor = Colors.PowerupColor
+        label.fontColor = ThemeHandler.Instance.getCurrentColors().PowerupColor
         label.hidden = true
         
         icon = SKSpriteNode(imageNamed: "icon-star")
-        icon.colorBlendFactor = 1.0
-        icon.color = Colors.BackgroundColor
         icon.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         icon.size = CGSize(width: radius, height: radius)
         addChild(icon)

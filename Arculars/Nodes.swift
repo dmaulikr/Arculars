@@ -15,7 +15,7 @@ class Nodes {
         var closeLabel = SKLabelNode(text: content)
         closeLabel.position = Positions.getBottomPosition(size)
         closeLabel.fontName = Fonts.FontNameLight
-        closeLabel.fontColor = Colors.DisabledColor
+        closeLabel.fontColor = ThemeHandler.Instance.getCurrentColors().DisabledColor
         closeLabel.fontSize = size.height / 32
         closeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         closeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -34,7 +34,7 @@ class Nodes {
         var titleLabel = SKLabelNode(text: content)
         titleLabel.fontSize = size.height / 32
         titleLabel.fontName = Fonts.FontNameBold
-        titleLabel.fontColor = Colors.FontColor
+        titleLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         titleLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         titleLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         title.addChild(titleLabel)
@@ -42,25 +42,35 @@ class Nodes {
     }
     
     class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, content1: String) -> SKShapeNode {
-        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, content1: content1, content2: "")
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, fontColor: UIColor.whiteColor(), strokeColor: color, content1: content1, content2: "")
+    }
+    class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, fontColor: UIColor, content1: String) -> SKShapeNode {
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, fontColor: fontColor, strokeColor: color, content1: content1, content2: "")
+    }
+    class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, fontColor: UIColor, strokeColor: UIColor, content1: String) -> SKShapeNode {
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, fontColor: fontColor, strokeColor: strokeColor, content1: content1, content2: "")
     }
     class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, fontSize: CGFloat, content1: String) -> SKShapeNode {
-        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: fontSize, content1: content1, content2: "")
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: fontSize, fontColor: UIColor.whiteColor(), strokeColor: color, content1: content1, content2: "")
     }
     class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, content1: String, content2: String) -> SKShapeNode {
-        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, content1: content1, content2: content2)
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: radius / 3, fontColor: UIColor.whiteColor(), strokeColor: color, content1: content1, content2: content2)
     }
     class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, fontSize: CGFloat, content1: String, content2: String) -> SKShapeNode {
+        return Nodes.getCircleButton(position, radius: radius, color: color, fontSize: fontSize, fontColor: UIColor.whiteColor(), strokeColor: color, content1: content1, content2: content2)
+    }
+    class func getCircleButton(position: CGPoint, radius: CGFloat, color: UIColor, fontSize: CGFloat, fontColor: UIColor, strokeColor: UIColor, content1: String, content2: String) -> SKShapeNode {
         
         var button = SKShapeNode(circleOfRadius: radius)
         button.position = position
         button.lineWidth = 1
-        button.strokeColor = color
-        button.fillColor = button.strokeColor
+        button.strokeColor = strokeColor
+        button.fillColor = color
         
         var label = SKLabelNode(text: content1)
         label.userInteractionEnabled = false
         label.fontSize = fontSize
+        label.fontColor = fontColor
         label.fontName = Fonts.FontNameLight
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center

@@ -17,7 +17,7 @@ class Score : SKLabelNode {
         
         self.zPosition = 2
         self.fontName = Fonts.FontNameBold
-        self.fontColor = Colors.ScoreColor
+        self.fontColor = ThemeHandler.Instance.getCurrentColors().ScoreColor
         self.position = position
         self.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center

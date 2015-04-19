@@ -8,7 +8,8 @@
 
 import UIKit
 
-struct Colors {
+class Colors {
+    
     static let ScoreColor       = UIColor(rgba: "#283233")
     static let FontColor        = UIColor(rgba: "#F0F0F0")
     static let DisabledColor    = UIColor.grayColor()
@@ -19,10 +20,24 @@ struct Colors {
     static let AppColorFour     = UIColor(rgba: "#2DFB7D")
     static let PowerupColor     = UIColor(rgba: "#FCDA0A")
     
-    static let AppColors = [AppColorOne, AppColorTwo, AppColorThree, AppColorFour]
-    static func randomAppColor() -> UIColor {
-        var random = Int(arc4random_uniform(UInt32(AppColors.count)));
-        var color = AppColors[random]
+    var ScoreColor : UIColor!
+    var BackgroundColor : UIColor!
+    var FontColor : UIColor!
+    var DisabledColor : UIColor!
+    var AppColorOne : UIColor!
+    var AppColorTwo : UIColor!
+    var AppColorThree : UIColor!
+    var AppColorFour : UIColor!
+    var PowerupColor : UIColor!
+    
+    init() {
+        
+    }
+    
+    func randomAppColor() -> UIColor {
+        var appColors = [AppColorOne, AppColorTwo, AppColorThree, AppColorFour]
+        var random = Int(arc4random_uniform(UInt32(appColors.count)));
+        var color = appColors[random]
         return color
     }
 }

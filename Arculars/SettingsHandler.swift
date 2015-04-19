@@ -11,6 +11,7 @@ import Foundation
 let SETTINGS_VIBRATION          = "settings_vibration"
 let SETTINGS_SOUND              = "settings_sound"
 let SETTINGS_DIFFICULTY         = "settings_difficulty"
+let SETTINGS_THEME              = "settings_theme"
 
 class SettingsHandler {
     
@@ -60,9 +61,24 @@ class SettingsHandler {
         return Difficulty(rawValue: difficulty)!
     }
     
+    class func setTheme(theme: Theme) {
+        NSUserDefaults.standardUserDefaults().setInteger(theme.rawValue, forKey: SETTINGS_THEME)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    class func getTheme() -> Theme {
+        var theme = NSUserDefaults.standardUserDefaults().integerForKey(SETTINGS_THEME)
+        if (Theme(rawValue: theme) == nil) {
+            setTheme(Theme.Dark)
+            return Theme.Dark
+        }
+        return Theme(rawValue: theme)!
+    }
+    
     class func reset() {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_VIBRATION)
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_SOUND)
         NSUserDefaults.standardUserDefaults().setInteger(Difficulty.Normal.rawValue, forKey: SETTINGS_DIFFICULTY)
+        NSUserDefaults.standardUserDefaults().setInteger(Theme.Dark.rawValue, forKey: SETTINGS_THEME)
     }
 }

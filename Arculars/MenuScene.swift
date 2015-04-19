@@ -53,7 +53,7 @@ class MenuScene: SKScene {
         
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        backgroundColor = Colors.BackgroundColor
+        backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
         
         // Add Root Node
         addChild(rootNode)
@@ -95,14 +95,14 @@ class MenuScene: SKScene {
         lblArculars = SKLabelNode(text: "ARCULARS")
         lblArculars.fontName = Fonts.FontNameBold
         lblArculars.fontSize = size.height / 16
-        lblArculars.fontColor = Colors.FontColor
+        lblArculars.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         lblArculars.position = CGPoint(x: 0, y: 0)
         lblArculars.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         lblArculars.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         title.addChild(lblArculars)
         
         btnAbout = SKSpriteNode(imageNamed: "icon-arculars")
-        btnAbout.color = Colors.FontColor
+        btnAbout.color = ThemeHandler.Instance.getCurrentColors().FontColor
         btnAbout.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnAbout.position = CGPoint(x: 0, y: lblArculars.frame.height)
         title.addChild(btnAbout)
@@ -116,7 +116,7 @@ class MenuScene: SKScene {
         // INIT HELP BUTTON
         var helpSprite = SKSpriteNode(imageNamed: "icon-help")
         helpSprite.colorBlendFactor = 1
-        helpSprite.color = Colors.DisabledColor
+        helpSprite.color = ThemeHandler.Instance.getCurrentColors().DisabledColor
         helpSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnHelp = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnHelp.position = CGPoint(x: -helpSprite.frame.width * 3, y: Positions.getBottomPosition(frame.size).y)
@@ -129,7 +129,7 @@ class MenuScene: SKScene {
         // INIT ABOUT BUTTON
         var statsSprite = SKSpriteNode(imageNamed: "icon-statistics")
         statsSprite.colorBlendFactor = 1
-        statsSprite.color = Colors.DisabledColor
+        statsSprite.color = ThemeHandler.Instance.getCurrentColors().DisabledColor
         statsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnStats = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnStats.position = CGPoint(x: -statsSprite.frame.width, y: Positions.getBottomPosition(frame.size).y)
@@ -142,7 +142,7 @@ class MenuScene: SKScene {
         // INIT SETTINGS BUTTON
         var settingsSprite = SKSpriteNode(imageNamed: "icon-settings")
         settingsSprite.colorBlendFactor = 1
-        settingsSprite.color = Colors.DisabledColor
+        settingsSprite.color = ThemeHandler.Instance.getCurrentColors().DisabledColor
         settingsSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnSettings = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnSettings.position = CGPoint(x: settingsSprite.frame.width, y: Positions.getBottomPosition(frame.size).y)
@@ -155,7 +155,7 @@ class MenuScene: SKScene {
         // INIT GAMECENTER BUTTON
         var gamecenterSprite = SKSpriteNode(imageNamed: "icon-achievement")
         gamecenterSprite.colorBlendFactor = 1
-        gamecenterSprite.color = Colors.DisabledColor
+        gamecenterSprite.color = ThemeHandler.Instance.getCurrentColors().DisabledColor
         gamecenterSprite.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         btnGamecenter = SKShapeNode(rectOfSize: CGSize(width: size.width / 8, height: size.width / 8))
         btnGamecenter.position = CGPoint(x: gamecenterSprite.frame.width * 3, y: Positions.getBottomPosition(frame.size).y)
@@ -167,7 +167,7 @@ class MenuScene: SKScene {
         
         // INIT GO BUTTON
         btnGo = SKShapeNode(circleOfRadius: radius)
-        btnGo.strokeColor = Colors.AppColorThree
+        btnGo.strokeColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         btnGo.lineWidth = 1
         btnGo.antialiased = true
         btnGo.position = CGPoint(x: 0, y: 0)
@@ -175,8 +175,8 @@ class MenuScene: SKScene {
         distance = (radius * 3)
         
         var goContent = SKShapeNode(circleOfRadius: radius)
-        goContent.fillColor = Colors.AppColorThree
-        goContent.strokeColor = Colors.AppColorThree
+        goContent.fillColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
+        goContent.strokeColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         goContent.lineWidth = 1
         goContent.antialiased = true
         goContent.name = "content"
@@ -197,7 +197,7 @@ class MenuScene: SKScene {
         dashedCircle.position = btnGo.position
         dashedCircle.fillColor = UIColor.clearColor()
         dashedCircle.lineWidth = 1
-        dashedCircle.strokeColor = Colors.DisabledColor
+        dashedCircle.strokeColor = ThemeHandler.Instance.getCurrentColors().DisabledColor
         dashedCircle.zPosition = -10
         dashedCircle.xScale = 0.0
         dashedCircle.yScale = 0.0
@@ -205,8 +205,8 @@ class MenuScene: SKScene {
         
         // INIT TIMED GAME BUTTON
         btnPlayTimed = SKShapeNode(circleOfRadius: radius)
-        btnPlayTimed.fillColor = Colors.AppColorThree
-        btnPlayTimed.strokeColor = Colors.AppColorThree
+        btnPlayTimed.fillColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
+        btnPlayTimed.strokeColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         btnPlayTimed.lineWidth = 3
         btnPlayTimed.antialiased = true
         btnPlayTimed.position = CGPoint(x: 0, y: 0)
@@ -223,7 +223,7 @@ class MenuScene: SKScene {
         var playtLabel = SKLabelNode(text: "Play Timed")
         playtLabel.name = "label"
         playtLabel.fontName = Fonts.FontNameLight
-        playtLabel.fontColor = Colors.FontColor
+        playtLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         playtLabel.fontSize = size.height / 40
         playtLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         playtLabel.alpha = 0.0
@@ -233,8 +233,8 @@ class MenuScene: SKScene {
         
         // INIT ENDLESS GAME BUTTON
         btnPlayEndless = SKShapeNode(circleOfRadius: radius)
-        btnPlayEndless.fillColor = Colors.AppColorThree
-        btnPlayEndless.strokeColor = Colors.AppColorThree
+        btnPlayEndless.fillColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
+        btnPlayEndless.strokeColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         btnPlayEndless.lineWidth = 3
         btnPlayEndless.antialiased = true
         btnPlayEndless.position = CGPoint(x: 0, y: 0)
@@ -251,7 +251,7 @@ class MenuScene: SKScene {
         var playeLabel = SKLabelNode(text: "Play Endless")
         playeLabel.name = "label"
         playeLabel.fontName = Fonts.FontNameLight
-        playeLabel.fontColor = Colors.FontColor
+        playeLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         playeLabel.fontSize = size.height / 40
         playeLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         playeLabel.alpha = 0.0
@@ -261,8 +261,8 @@ class MenuScene: SKScene {
         
         // INIT REMOVE ADS BUTTON
         btnRemoveAds = SKShapeNode(circleOfRadius: radius)
-        btnRemoveAds.fillColor = Colors.AppColorOne
-        btnRemoveAds.strokeColor = Colors.AppColorOne
+        btnRemoveAds.fillColor = ThemeHandler.Instance.getCurrentColors().AppColorOne
+        btnRemoveAds.strokeColor = ThemeHandler.Instance.getCurrentColors().AppColorOne
         btnRemoveAds.lineWidth = 3
         btnRemoveAds.antialiased = true
         btnRemoveAds.position = CGPoint(x: 0, y: 0)
@@ -279,7 +279,7 @@ class MenuScene: SKScene {
         var remadslabel = SKLabelNode(text: "Remove Ads")
         remadslabel.name = "label"
         remadslabel.fontName = Fonts.FontNameLight
-        remadslabel.fontColor = Colors.FontColor
+        remadslabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         remadslabel.fontSize = size.height / 40
         remadslabel.position = CGPoint(x: 0, y: -(1.5 * radius))
         remadslabel.alpha = 0.0
@@ -289,8 +289,8 @@ class MenuScene: SKScene {
         
         // INIT REMOVE ADS BUTTON
         btnDifficulty = SKShapeNode(circleOfRadius: radius)
-        btnDifficulty.fillColor = Colors.AppColorThree
-        btnDifficulty.strokeColor = Colors.AppColorThree
+        btnDifficulty.fillColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
+        btnDifficulty.strokeColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         btnDifficulty.lineWidth = 3
         btnDifficulty.antialiased = true
         btnDifficulty.position = CGPoint(x: 0, y: 0)
@@ -310,7 +310,7 @@ class MenuScene: SKScene {
         var diffLabel = SKLabelNode(text: "Difficulty")
         diffLabel.name = "label"
         diffLabel.fontName = Fonts.FontNameLight
-        diffLabel.fontColor = Colors.FontColor
+        diffLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         diffLabel.fontSize = size.height / 40
         diffLabel.position = CGPoint(x: 0, y: (1.5 * radius))
         diffLabel.alpha = 0.0
@@ -647,7 +647,7 @@ class MenuScene: SKScene {
     // MARK: - CREATE RANDOM BALLS
     func createRandomBall(position: CGPoint) {
         var ball = SKShapeNode(circleOfRadius: frame.height / 64)
-        ball.fillColor = Colors.randomAppColor()
+        ball.fillColor = ThemeHandler.Instance.getCurrentColors().randomAppColor()
         ball.lineWidth = 1
         ball.strokeColor = ball.fillColor
         ball.antialiased = true
