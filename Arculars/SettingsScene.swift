@@ -21,9 +21,6 @@ class SettingsScene : SKScene {
     private var vStateLabel : SKLabelNode!
     private var btnToggleSound : SKShapeNode!
     private var sStateLabel : SKLabelNode!
-    private var dStateLabel : SKLabelNode!
-    private var dInfoLabel : SKLabelNode!
-    private var btnDifficulty : SKShapeNode!
     private var btnRestorePurchases : SKShapeNode!
     private var btnClose : SKShapeNode!
     
@@ -77,18 +74,6 @@ class SettingsScene : SKScene {
         sStateLabel = (btnToggleSound.childNodeWithName("label") as! SKLabelNode)
         rootNode.addChild(btnToggleSound)
         
-        // INIT DIFFICULTY BUTTON
-        btnDifficulty = createButton("DIFFICULTY")
-        btnDifficulty.position = CGPoint(x: 0, y: (size.height / 2) - (rowheight * 4))
-        dStateLabel = (btnDifficulty.childNodeWithName("label") as! SKLabelNode)
-        dInfoLabel = SKLabelNode(text: "")
-        dInfoLabel.fontColor = UIColor.grayColor()
-        dInfoLabel.fontSize = size.height / 64
-        dInfoLabel.fontName = Fonts.FontNameNormal
-        dInfoLabel.position = CGPoint(x: 0, y: -btnDifficulty.calculateAccumulatedFrame().height / 2)
-        btnDifficulty.addChild(dInfoLabel)
-        rootNode.addChild(btnDifficulty)
-        
         // INIT RESTORE PURCHASES BUTTON
         btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: Colors.AppColorOne, fontSize: frame.height / 64, content1: "RESTORE", content2: "PURCHASES")
         rootNode.addChild(btnRestorePurchases)
@@ -102,20 +87,6 @@ class SettingsScene : SKScene {
     func getSettings() {
         if (SettingsHandler.getVibrationSetting()) { vStateLabel.text = "ON" } else { vStateLabel.text = "OFF" }
         if (SettingsHandler.getSoundSetting()) { sStateLabel.text = "ON" } else { sStateLabel.text = "OFF" }
-        
-        var difficulty = SettingsHandler.getDifficulty()
-        dStateLabel.text = difficulty.description.uppercaseString
-        switch difficulty {
-        case .Easy:
-            dInfoLabel.text = "Slow circle speed - Points x 1".uppercaseString
-            break
-        case .Normal:
-            dInfoLabel.text = "Normal circle speed - Points x 2".uppercaseString
-            break
-        case .Hard:
-            dInfoLabel.text = "Fast circle speed - Points x 4".uppercaseString
-            break
-        }
     }
     
     // MARK: TOUCH FUNCTIONS
@@ -134,9 +105,6 @@ class SettingsScene : SKScene {
                 if SettingsHandler.toggleSound() {
                     runAction(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
                 }
-                getSettings()
-            } else if (btnDifficulty.containsPoint(location)) {
-                SettingsHandler.toggleDifficulty()
                 getSettings()
             } else if (btnRestorePurchases.containsPoint(location)) {
                 self.sceneDelegate!.restorePurchases()
