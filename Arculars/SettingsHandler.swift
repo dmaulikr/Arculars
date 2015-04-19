@@ -61,20 +61,6 @@ class SettingsHandler {
         return Difficulty(rawValue: difficulty)!
     }
     
-    class func setTheme(theme: Theme) {
-        NSUserDefaults.standardUserDefaults().setInteger(theme.rawValue, forKey: SETTINGS_THEME)
-        NSUserDefaults.standardUserDefaults().synchronize()
-    }
-    
-    class func getTheme() -> Theme {
-        var theme = NSUserDefaults.standardUserDefaults().integerForKey(SETTINGS_THEME)
-        if (Theme(rawValue: theme) == nil) {
-            setTheme(Theme.Dark)
-            return Theme.Dark
-        }
-        return Theme(rawValue: theme)!
-    }
-    
     class func reset() {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_VIBRATION)
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: SETTINGS_SOUND)

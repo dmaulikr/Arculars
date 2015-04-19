@@ -10,6 +10,7 @@ import UIKit
 
 class ThemeHandler {
     
+    private var current : Colors!
     var darkColors : Colors
     var lightColors : Colors
     
@@ -36,14 +37,36 @@ class ThemeHandler {
         lightColors.AppColorThree = Colors.AppColorThree
         lightColors.AppColorFour = Colors.AppColorFour
         lightColors.PowerupColor = Colors.PowerupColor
+        
+        updateCurrent()
+    }
+    
+    private func updateCurrent() {
+        switch getTheme() {
+        case .Dark:
+            current = darkColors
+        case .Light:
+            current = lightColors
+        }
+    }
+    
+    func setTheme(theme: Theme) {
+        NSUserDefaults.standardUserDefaults().setInteger(theme.rawValue, forKey: SETTINGS_THEME)
+        NSUserDefaults.standardUserDefaults().synchronize()
+        
+        updateCurrent()
+    }
+    
+    func getTheme() -> Theme {
+        var theme = NSUserDefaults.standardUserDefaults().integerForKey(SETTINGS_THEME)
+        if (Theme(rawValue: theme) == nil) {
+            setTheme(Theme.Dark)
+            return Theme.Dark
+        }
+        return Theme(rawValue: theme)!
     }
     
     func getCurrentColors() -> Colors {
-        switch SettingsHandler.getTheme() {
-        case .Dark:
-            return darkColors
-        case .Light:
-            return lightColors
-        }
+        return current
     }
 }
