@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -10,21 +10,69 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="ARCULARS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPO-Tc-TSO">
-                    <rect key="frame" x="126" y="213" width="229" height="54"/>
-                    <fontDescription key="fontDescription" name="Avenir-Black" family="Avenir" pointSize="40"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image-launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="ZKm-Rg-IAa">
+                    <rect key="frame" x="176" y="176" width="128" height="128"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="128" id="9Wn-IE-Hag"/>
+                        <constraint firstAttribute="height" constant="180" id="JEL-VM-a8m"/>
+                        <constraint firstAttribute="width" constant="180" id="K9b-2I-yJV"/>
+                        <constraint firstAttribute="width" constant="128" id="N4m-B1-Nr7"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="JEL-VM-a8m"/>
+                            <exclude reference="K9b-2I-yJV"/>
+                        </mask>
+                    </variation>
+                </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.22352941176470589" green="0.8784313725490196" blue="0.72941176470588232" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.070588235294117646" green="0.12156862745098039" blue="0.12941176470588237" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="SPO-Tc-TSO" secondAttribute="centerY" id="MwZ-Ay-fB0"/>
-                <constraint firstAttribute="centerX" secondItem="SPO-Tc-TSO" secondAttribute="centerX" id="XMa-gu-w6k"/>
+                <constraint firstAttribute="bottom" secondItem="ZKm-Rg-IAa" secondAttribute="bottom" constant="80" id="3qA-8j-Fyd"/>
+                <constraint firstItem="ZKm-Rg-IAa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="6gz-CN-h8Y"/>
+                <constraint firstAttribute="centerY" secondItem="ZKm-Rg-IAa" secondAttribute="centerY" id="81R-Dk-iGi"/>
+                <constraint firstItem="ZKm-Rg-IAa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="80" id="B5q-WG-JKU"/>
+                <constraint firstAttribute="trailing" secondItem="ZKm-Rg-IAa" secondAttribute="trailing" constant="80" id="EOd-hI-Rte"/>
+                <constraint firstItem="ZKm-Rg-IAa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="150" id="H4p-R7-SjP"/>
+                <constraint firstAttribute="centerX" secondItem="ZKm-Rg-IAa" secondAttribute="centerX" id="N9s-5m-2vf"/>
+                <constraint firstItem="ZKm-Rg-IAa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="NCI-cC-UxL"/>
+                <constraint firstAttribute="centerX" secondItem="ZKm-Rg-IAa" secondAttribute="centerX" id="Ndk-Vm-qCG"/>
+                <constraint firstAttribute="centerY" secondItem="ZKm-Rg-IAa" secondAttribute="centerY" id="Okg-zZ-kr1"/>
+                <constraint firstItem="ZKm-Rg-IAa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="80" id="RKf-tw-5mj"/>
+                <constraint firstAttribute="bottom" secondItem="ZKm-Rg-IAa" secondAttribute="bottom" constant="150" id="bbf-Jf-qdm"/>
+                <constraint firstAttribute="trailing" secondItem="ZKm-Rg-IAa" secondAttribute="trailing" constant="80" id="fq8-Cy-ErI"/>
+                <constraint firstAttribute="centerY" secondItem="ZKm-Rg-IAa" secondAttribute="centerY" id="ghM-p5-Ez5"/>
+                <constraint firstAttribute="bottom" secondItem="ZKm-Rg-IAa" secondAttribute="bottom" constant="80" id="h1O-la-54R"/>
+                <constraint firstAttribute="trailing" secondItem="ZKm-Rg-IAa" secondAttribute="trailing" constant="150" id="ofx-w9-kOE"/>
+                <constraint firstAttribute="centerX" secondItem="ZKm-Rg-IAa" secondAttribute="centerX" id="prG-S9-09m"/>
+                <constraint firstItem="ZKm-Rg-IAa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="150" id="yw6-QH-gNO"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="3qA-8j-Fyd"/>
+                    <exclude reference="6gz-CN-h8Y"/>
+                    <exclude reference="B5q-WG-JKU"/>
+                    <exclude reference="EOd-hI-Rte"/>
+                    <exclude reference="H4p-R7-SjP"/>
+                    <exclude reference="N9s-5m-2vf"/>
+                    <exclude reference="NCI-cC-UxL"/>
+                    <exclude reference="Ndk-Vm-qCG"/>
+                    <exclude reference="Okg-zZ-kr1"/>
+                    <exclude reference="RKf-tw-5mj"/>
+                    <exclude reference="bbf-Jf-qdm"/>
+                    <exclude reference="fq8-Cy-ErI"/>
+                    <exclude reference="ghM-p5-Ez5"/>
+                    <exclude reference="h1O-la-54R"/>
+                    <exclude reference="ofx-w9-kOE"/>
+                    <exclude reference="yw6-QH-gNO"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="548" y="455"/>
         </view>
     </objects>
+    <resources>
+        <image name="image-launchscreen" width="1024" height="1024"/>
+    </resources>
 </document>
