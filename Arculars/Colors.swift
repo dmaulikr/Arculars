@@ -19,11 +19,6 @@ struct Colors {
     static let AppColorFour     = UIColor(rgba: "#2DFB7D")
     static let PowerupColor     = UIColor(rgba: "#FCDA0A")
     
-    static let WhatsAppGreen    = UIColor(rgba: "#71BA5B")
-    static let FacebookBlue     = UIColor(rgba: "#6274A5")
-    static let TwitterBlue      = UIColor(rgba: "#6EC7E3")
-    static let SharingGray      = UIColor(rgba: "#6B838B")
-    
     static let AppColors = [AppColorOne, AppColorTwo, AppColorThree, AppColorFour]
     static func randomAppColor() -> UIColor {
         var random = Int(arc4random_uniform(UInt32(AppColors.count)));
