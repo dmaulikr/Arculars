@@ -16,16 +16,20 @@ class Circle : SKShapeNode {
     
     let thickness : CGFloat!
     let radius : CGFloat!
+    
+    private var initColor : UIColor!
     var nodeColor : UIColor!
+    
     let pointsPerHit : Int!
     
     var minSpeed : NSTimeInterval!
     var maxSpeed : NSTimeInterval!
     
-    init(position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, pointsPerHit: Int) {
+    init(position: CGPoint, radius: CGFloat, thickness: CGFloat, clockwise: Bool, pointsPerHit: Int, color: UIColor) {
         self.pointsPerHit = pointsPerHit
         self.radius = radius
         self.thickness = thickness
+        self.initColor = color
         
         super.init()
         
@@ -107,6 +111,10 @@ class Circle : SKShapeNode {
         arc.strokeColor = color
         strokeColor = color.colorWithAlphaComponent(0.2)
         nodeColor = color
+    }
+    
+    func resetColor() {
+        setColor(initColor)
     }
     
     func setSpeed(min: NSTimeInterval, max: NSTimeInterval) {
