@@ -405,9 +405,9 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     
     // MARK: - ADMOB IMPLEMENTATION
     private func loadAdMob() {
-        var x = (view.frame.width - CGSizeFromGADAdSize(kGADAdSizeSmartBannerPortrait).width) / 2
-        var y = view.frame.height - CGSizeFromGADAdSize(kGADAdSizeSmartBannerPortrait).height
-        adMobView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint(x: x, y: y))
+        var x = (view.frame.width - CGSizeFromGADAdSize(kGADAdSizeBanner).width) / 2
+        var y = view.frame.height - CGSizeFromGADAdSize(kGADAdSizeBanner).height
+        adMobView = GADBannerView(adSize: kGADAdSizeBanner, origin: CGPoint(x: x, y: y))
         adMobView?.adUnitID = adUnitID
         adMobView?.delegate = self
         adMobView?.hidden = true
