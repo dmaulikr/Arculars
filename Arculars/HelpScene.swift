@@ -20,17 +20,18 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     private var currentPage = 1
     
     private var ballRadius : CGFloat
-    private var nextBall : Ball?
-    private var score : Score!
     
     // PAGE ONE
     private var btnGotoPage2 : SKShapeNode!
-    private let p1SkipShoot = 2
-    private var p1SkipCurrent = 2
+    private var p1Ball : Ball!
+    private var p1Score : Score!
     
     // PAGE TWO
     private var btnGotoPage3 : SKShapeNode!
+    private var p2Ball : Ball!
+    private var p2Score : Score!
     private var p2Powerup : Powerup!
+    private var p2Circles = [Circle]()
     
     // PAGE THREE
     private var btnGotoPage4 : SKShapeNode!
@@ -63,7 +64,6 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
 
         current = initPageOne()
         addChild(current!)
-        addBall()
         
         alpha = 0.0
     }
@@ -83,33 +83,6 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         var page = SKNode()
         page.addChild(Nodes.getSceneTitle(frame.size, content: "HOW TO PLAY"))
         
-        var radius = size.height / 24
-        var thickness = size.height / 40
-        
-        var c1 = Circle(position: CGPoint(x: 0, y: (size.height / 4)), radius: radius, thickness: thickness, clockwise: false, pointsPerHit: 2, color: ThemeHandler.Instance.getCurrentColors().AppColorOne)
-        c1.setSpeed(3.0, max: 3.0)
-        page.addChild(c1)
-        
-        var c2 = Circle(position: CGPoint(x: 0, y: (size.height / 4)), radius: radius + thickness, thickness: thickness, clockwise: true, pointsPerHit: 1, color: ThemeHandler.Instance.getCurrentColors().AppColorThree)
-        c2.setSpeed(2.0, max: 2.0)
-        page.addChild(c2)
-        
-        score = Score(position: CGPoint(x: 0, y: (size.height / 4) + radius + (3 * thickness)))
-        score.fontSize = size.height / 40
-        page.addChild(score)
-        
-        var wait = SKAction.waitForDuration(2.0)
-        var shoot = SKAction.runBlock({()
-            if (self.p1SkipCurrent < self.p1SkipShoot) {
-                self.p1SkipCurrent++
-                self.shootBall()
-                self.addBall()
-            } else {
-                self.p1SkipCurrent = 0
-            }
-        })
-        runAction(SKAction.repeatActionForever(SKAction.sequence([shoot, wait])))
-        
         var pageLabel_1 = createLabel("Hit the arc matching")
         pageLabel_1.position = CGPoint(x: 0, y: -size.height / 6)
         page.addChild(pageLabel_1)
@@ -120,27 +93,43 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         btnGotoPage2 = Nodes.getTextButton(frame.size, content: "NEXT")
         page.addChild(btnGotoPage2)
         
+        var sub = SKNode()
+        page.addChild(sub)
+        var create = SKAction.runBlock({()
+            sub.removeAllChildren()
+            
+            var radius = self.size.height / 24
+            var thickness = self.size.height / 40
+            
+            var c1 = Circle(position: CGPoint(x: 0, y: (self.size.height / 4)), radius: radius, thickness: thickness, clockwise: false, pointsPerHit: 2, color: ThemeHandler.Instance.getCurrentColors().AppColorOne)
+            c1.setSpeed(3.0, max: 3.0)
+            sub.addChild(c1)
+            
+            var c2 = Circle(position: CGPoint(x: 0, y: (self.size.height / 4)), radius: radius + thickness, thickness: thickness, clockwise: true, pointsPerHit: 1, color: ThemeHandler.Instance.getCurrentColors().AppColorThree)
+            c2.setSpeed(2.0, max: 2.0)
+            sub.addChild(c2)
+            
+            self.p1Score = Score(position: CGPoint(x: 0, y: (self.size.height / 4) + radius + (3 * thickness)))
+            self.p1Score.fontSize = self.size.height / 40
+            sub.addChild(self.p1Score)
+            
+        })
+        var add = SKAction.runBlock({()
+            self.p1Ball = Ball(color: ThemeHandler.Instance.getCurrentColors().AppColorOne, position: CGPoint(x: 0, y: 0), radius: self.ballRadius)
+            sub.addChild(self.p1Ball.fadeIn())
+        })
+        var wait = SKAction.waitForDuration(2.0)
+        var shoot = SKAction.runBlock({()
+            self.p1Ball.shoot(self.size.height)
+        })
+        runAction(SKAction.repeatActionForever(SKAction.sequence([create, add, wait, shoot, add, wait, shoot, add, wait])))
+        
         return page
     }
     
     private func initPageTwo() -> SKNode {
         var page = SKNode()
         page.addChild(Nodes.getSceneTitle(frame.size, content: "POWERUPS"))
-        
-        var radius = size.height / 24
-        var thickness = size.height / 40
-        
-        var c1 = Circle(position: CGPoint(x: 0, y: (size.height / 4)), radius: radius, thickness: thickness, clockwise: false, pointsPerHit: 2, color: ThemeHandler.Instance.getCurrentColors().AppColorOne)
-        c1.setSpeed(3.0, max: 3.0)
-        page.addChild(c1)
-        
-        var c2 = Circle(position: CGPoint(x: 0, y: (size.height / 4)), radius: radius + thickness, thickness: thickness, clockwise: true, pointsPerHit: 1, color: ThemeHandler.Instance.getCurrentColors().AppColorThree)
-        c2.setSpeed(2.0, max: 2.0)
-        page.addChild(c2)
-        
-        p2Powerup = Powerup(radius: ballRadius * 2, type: PowerupType.Unicolor)
-        p2Powerup.position = c1.position
-        page.addChild(p2Powerup)
         
         var pageLabel_1 = createLabel("Collect Powerups")
         pageLabel_1.position = CGPoint(x: 0, y: -size.height / 6)
@@ -152,12 +141,48 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         btnGotoPage3 = Nodes.getTextButton(frame.size, content: "NEXT")
         page.addChild(btnGotoPage3)
         
+        var sub = SKNode()
+        page.addChild(sub)
+        var create = SKAction.runBlock({()
+            sub.removeAllChildren()
+            
+            var radius = self.size.height / 24
+            var thickness = self.size.height / 40
+            
+            self.p2Score = Score(position: CGPoint(x: 0, y: (self.size.height / 4) + radius + (3 * thickness)))
+            self.p2Score.fontSize = self.size.height / 40
+            sub.addChild(self.p2Score)
+            
+            var c1 = Circle(position: CGPoint(x: 0, y: (self.size.height / 4)), radius: radius, thickness: thickness, clockwise: false, pointsPerHit: 2, color: ThemeHandler.Instance.getCurrentColors().AppColorOne)
+            c1.setSpeed(3.0, max: 3.0)
+            self.p2Circles.append(c1)
+            sub.addChild(c1)
+            
+            var c2 = Circle(position: CGPoint(x: 0, y: (self.size.height / 4)), radius: radius + thickness, thickness: thickness, clockwise: true, pointsPerHit: 1, color: ThemeHandler.Instance.getCurrentColors().AppColorThree)
+            c2.setSpeed(2.0, max: 2.0)
+            self.p2Circles.append(c2)
+            sub.addChild(c2)
+            
+            self.p2Powerup = Powerup(radius: self.ballRadius * 2, type: PowerupType.Unicolor)
+            self.p2Powerup.position = c1.position
+            sub.addChild(self.p2Powerup)
+            
+            self.p2Ball = Ball(color: ThemeHandler.Instance.getCurrentColors().AppColorOne, position: CGPoint(x: 0, y: 0), radius: self.ballRadius)
+            sub.addChild(self.p2Ball.fadeIn())
+        })
+        var wait1 = SKAction.waitForDuration(2.0)
+        var shoot = SKAction.runBlock({()
+            self.p2Ball.shoot(self.size.height)
+        })
+        var wait2 = SKAction.waitForDuration(4.0)
+        runAction(SKAction.repeatActionForever(SKAction.sequence([create, wait1, shoot, wait2])))
+        
         return page
     }
     
     private func initPageThree() -> SKNode {
         var page = SKNode()
-        page.addChild(Nodes.getSceneTitle(frame.size, content: "STATS"))
+        page.addChild(Nodes.getSceneTitle(frame.size, content: "GAME CENTER"))
         
         btnGotoPage4 = Nodes.getTextButton(frame.size, content: "NEXT")
         page.addChild(btnGotoPage4)
@@ -169,7 +194,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         var page = SKNode()
         page.addChild(Nodes.getSceneTitle(frame.size, content: "SETTINGS"))
         
-        btnClose = Nodes.getTextButton(frame.size, content: "CLOSE")
+        btnClose = Nodes.getTextButton(frame.size, content: "LET'S GO")
         page.addChild(btnClose)
         
         return page
@@ -225,7 +250,11 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
             
             if (ball.nodeColor == circle.nodeColor) {
                 runAction(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
-                score.increaseByWithColor(circle.pointsPerHit, color: circle.nodeColor)
+                if (currentPage == 1) {
+                    p1Score.increaseByWithColor(circle.pointsPerHit, color: circle.nodeColor)
+                } else if (currentPage == 2) {
+                    p2Score.increaseByWithColor(circle.pointsPerHit, color: circle.nodeColor)
+                }
             } else {
                 AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             }
@@ -249,6 +278,23 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
                 ball = contact.bodyB.node as! Ball
             }
             
+            ball.removeFromParent()
+            p2Ball?.removeFromParent()
+            p2Powerup.removeFromParent()
+            
+            for circle in p2Circles {
+                circle.setColor(ThemeHandler.Instance.getCurrentColors().PowerupColor)
+            }
+            var create = SKAction.runBlock({()
+                self.p2Ball = Ball(color: ThemeHandler.Instance.getCurrentColors().PowerupColor, position: CGPoint(x: 0, y: 0), radius: self.ballRadius)
+                self.current!.addChild(self.p2Ball.fadeIn())
+            })
+            var wait = SKAction.waitForDuration(0.3)
+            var shoot = SKAction.runBlock({()
+                self.p2Ball.shoot(self.size.height)
+            })
+            runAction(SKAction.repeatAction(SKAction.sequence([create, wait, shoot]), count: 10))
+            
             break
         default:
             return
@@ -257,6 +303,8 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - HELPER FUNCTIONS
     private func pageSwitch(left: SKNode, right: SKNode) {
+        isPageSwitching = true
+        
         right.position = CGPoint(x: size.width, y: 0)
         addChild(right)
         
@@ -267,9 +315,9 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         
         left.runAction(fadeOut)
         right.runAction(fadeIn, completion: {()
-            self.current = right
             left.removeFromParent()
             self.isPageSwitching = false
+            self.current = right
         })
     }
     
@@ -282,14 +330,4 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         return label
     }
-    
-    private func addBall() {
-        nextBall = Ball(color: ThemeHandler.Instance.getCurrentColors().AppColorOne, position: CGPoint(x: 0, y: 0), radius: ballRadius)
-        current?.addChild(nextBall!.fadeIn())
-    }
-    
-    private func shootBall() {
-        nextBall?.shoot(size.height)
-    }
-    
 }
