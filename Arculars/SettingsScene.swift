@@ -17,6 +17,8 @@ class SettingsScene : SKScene {
     
     private var rootNode = SKNode()
     
+    private let hit1Sound = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
+    
     private var btnDarkTheme : SKShapeNode!
     private var btnLightTheme : SKShapeNode!
     
@@ -122,7 +124,7 @@ class SettingsScene : SKScene {
                 getSettings()
             } else if (btnToggleSound.containsPoint(location)) {
                 if SettingsHandler.toggleSound() {
-                    runAction(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
+                    runAction(hit1Sound)
                 }
                 getSettings()
             } else if (btnDarkTheme.containsPoint(location)) {

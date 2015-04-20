@@ -42,6 +42,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     var gameMode : GameMode!
     
+    private let hit1 = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
+    private let hit2 = SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false)
+    
     // Node and all it's descendants while playing
     private var rootNode = SKNode()
     
@@ -108,8 +111,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         physicsBody?.dynamic = true
         
         // Preload sounds
-        let hit1 = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
-        let hit2 = SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false)
         hitSounds.append(hit1)
         hitSounds.append(hit2)
         

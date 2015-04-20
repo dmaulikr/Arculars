@@ -20,7 +20,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     private var currentPage = 1
     
     private var ballRadius : CGFloat
-    private var hit1Sound : SKAction
+    private let hit1Sound = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
     
     // PAGE ONE
     private var btnGotoPage2 : SKShapeNode!
@@ -46,7 +46,6 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override init(size: CGSize) {
-        hit1Sound = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
         ballRadius = size.height / 80
         super.init(size: size)
         
