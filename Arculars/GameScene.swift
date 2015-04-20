@@ -148,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         stopLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         btnStop = SKShapeNode(rectOfSize: CGSize(width: stopLabel.frame.width * 1.5, height: stopLabel.frame.height * 2))
         btnStop.addChild(stopLabel)
-        btnStop.position = CGPoint(x: (size.width / 2) - 30, y: scorePosition.y)
+        btnStop.position = CGPoint(x: (size.width / 2) - (size.width / 16), y: scorePosition.y)
         btnStop.lineWidth = 0
         rootNode.addChild(btnStop)
         
