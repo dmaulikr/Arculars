@@ -107,6 +107,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         physicsBody?.collisionBitMask = 0
         physicsBody?.dynamic = true
         
+        // Preload sounds
+        let hit1 = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
+        let hit2 = SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false)
+        hitSounds.append(hit1)
+        hitSounds.append(hit2)
+        
         initScene()
     }
 
@@ -151,9 +157,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         btnStop.position = CGPoint(x: (size.width / 2) - (size.width / 16), y: scorePosition.y)
         btnStop.lineWidth = 0
         rootNode.addChild(btnStop)
-        
-        hitSounds.append(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
-        hitSounds.append(SKAction.playSoundFileNamed("hit2.wav", waitForCompletion: false))
     }
     
     // MARK: - RESET FUNCTIONS
