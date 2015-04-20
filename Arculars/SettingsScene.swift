@@ -94,7 +94,7 @@ class SettingsScene : SKScene {
         rootNode.addChild(btnToggleSound)
         
         // INIT RESTORE PURCHASES BUTTON
-        btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorOne, fontSize: frame.height / 56, content1: "RESTORE", content2: "PURCHASES")
+        btnRestorePurchases = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 5)), radius: frame.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorOne, fontSize: frame.height / 56, content1: "RESTORE", content2: "PURCHASES")
         rootNode.addChild(btnRestorePurchases)
         
         // INIT CLOSE BUTTON

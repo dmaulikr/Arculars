@@ -108,7 +108,7 @@ class StatsScene: SKScene {
         rootNode.addChild(prn)
         
         // INIT RESET BUTTON
-        btnReset = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 4)), radius: frame.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorTwo, content1: "RESET")
+        btnReset = Nodes.getCircleButton(CGPoint(x: 0, y: -(frame.height / 5)), radius: frame.height / 16, color: ThemeHandler.Instance.getCurrentColors().AppColorTwo, content1: "RESET")
         rootNode.addChild(btnReset)
         
         // INIT CLOSE BUTTON
