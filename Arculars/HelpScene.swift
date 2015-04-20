@@ -242,8 +242,14 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         var rowheight = size.height / 8
         
         // INIT THEMES
+        btnDarkTheme = Nodes.getCircleButton(CGPoint(x: -size.width / 5, y: size.height / 8), radius: size.height / 16, color: Colors.BackgroundColor, fontColor: Colors.FontColor, content1: "DARK")
+        page.addChild(btnDarkTheme)
+        
+        btnLightTheme = Nodes.getCircleButton(CGPoint(x: size.width / 5, y: size.height / 8), radius: size.height / 16, color: Colors.FontColor, fontColor: Colors.BackgroundColor, content1: "LIGHT")
+        page.addChild(btnLightTheme)
+        
         var themeLabel = SKLabelNode(text: "THEME")
-        themeLabel.position = CGPoint(x: 0, y: size.height / 3)
+        themeLabel.position = CGPoint(x: 0, y: btnDarkTheme.position.y + (btnDarkTheme.frame.height / 2) + themeLabel.frame.height)
         themeLabel.fontSize = size.height / 48
         themeLabel.fontName = Fonts.FontNameNormal
         themeLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
@@ -251,21 +257,15 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         themeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         page.addChild(themeLabel)
         
-        btnDarkTheme = Nodes.getCircleButton(CGPoint(x: -size.width / 5, y: size.height / 5), radius: size.height / 16, color: Colors.BackgroundColor, fontColor: Colors.FontColor, content1: "DARK")
-        page.addChild(btnDarkTheme)
-        
-        btnLightTheme = Nodes.getCircleButton(CGPoint(x: size.width / 5, y: size.height / 5), radius: size.height / 16, color: Colors.FontColor, fontColor: Colors.BackgroundColor, content1: "LIGHT")
-        page.addChild(btnLightTheme)
-        
         // INIT TOGGLE VIBRATION BUTTON
         btnToggleVibration = createButton("VIBRATION")
-        btnToggleVibration.position = CGPoint(x: (frame.width / 5), y: 0)
+        btnToggleVibration.position = CGPoint(x: (frame.width / 5), y: -size.height / 8)
         vStateLabel = (btnToggleVibration.childNodeWithName("label") as! SKLabelNode)
         page.addChild(btnToggleVibration)
         
         // INIT TOGGLE SOUND BUTTON
         btnToggleSound = createButton("SOUND")
-        btnToggleSound.position = CGPoint(x: -(frame.width / 5), y: 0)
+        btnToggleSound.position = CGPoint(x: -(frame.width / 5), y: -size.height / 8)
         sStateLabel = (btnToggleSound.childNodeWithName("label") as! SKLabelNode)
         page.addChild(btnToggleSound)
         
