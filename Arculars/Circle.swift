@@ -80,6 +80,7 @@ class Circle : SKShapeNode {
         rotateAction = SKAction.rotateByAngle(rotationangle, duration: 0.0)
         
         addChild(arc)
+        resetColor()
     }
 
     required init?(coder aDecoder: NSCoder) {
