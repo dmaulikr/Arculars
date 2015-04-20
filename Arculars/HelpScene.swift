@@ -20,6 +20,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     private var currentPage = 1
     
     private var ballRadius : CGFloat
+    private var hit1Sound : SKAction
     
     // PAGE ONE
     private var btnGotoPage2 : SKShapeNode!
@@ -45,6 +46,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override init(size: CGSize) {
+        hit1Sound = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
         ballRadius = size.height / 80
         super.init(size: size)
         
@@ -249,7 +251,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
             ball.removeFromParent()
             
             if (ball.nodeColor == circle.nodeColor) {
-                runAction(SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false))
+                runAction(hit1Sound)
                 if (currentPage == 1) {
                     p1Score.increaseByWithColor(circle.pointsPerHit, color: circle.nodeColor)
                 } else if (currentPage == 2) {
