@@ -581,7 +581,7 @@ class MenuScene: SKScene {
                 runAction(GOaction)
             } else if (btnHelp.containsPoint(location)) {
                 self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()
-                    self.sceneDelegate!.showHelpScene()
+                    self.sceneDelegate!.showHelpScene(1)
                 })
             } else if (btnSettings.containsPoint(location)) {
                 self.runAction(SKAction.sequence([FADEOUTaction, SKAction.waitForDuration(0.1)]), completion: {()

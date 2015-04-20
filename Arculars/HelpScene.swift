@@ -17,7 +17,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     
     private var isPageSwitching = false
     private var current : SKNode?
-    private var currentPage = 1
+    private var currentPage : Int!
     
     private var ballRadius : CGFloat
     private let hit1Sound = SKAction.playSoundFileNamed("hit1.wav", waitForCompletion: false)
@@ -38,6 +38,13 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
     private var btnGotoPage4 : SKShapeNode!
     
     // PAGE FOUR
+    private var btnDarkTheme : SKShapeNode!
+    private var btnLightTheme : SKShapeNode!
+    private var btnToggleVibration : SKShapeNode!
+    private var vStateLabel : SKLabelNode!
+    private var btnToggleSound : SKShapeNode!
+    private var sStateLabel : SKLabelNode!
+    
     private var btnClose : SKShapeNode!
     
     // MARK: - SCENE SPECIFIC FUNCTIONS
@@ -45,7 +52,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override init(size: CGSize) {
+    init(size: CGSize, page: Int) {
         ballRadius = size.height / 80
         super.init(size: size)
         
@@ -63,7 +70,24 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         physicsBody?.collisionBitMask = 0
         physicsBody?.dynamic = true
 
-        current = initPageOne()
+        switch page {
+        case 1:
+            current = initPageOne()
+            break
+        case 2:
+            current = initPageTwo()
+            break
+        case 3:
+            current = initPageThree()
+            break
+        case 4:
+            current = initPageFour()
+            break
+        default:
+            break
+        }
+        
+        currentPage = page
         addChild(current!)
         
         alpha = 0.0
@@ -138,6 +162,10 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         var pageLabel_2 = createLabel("to boost your score")
         pageLabel_2.position = CGPoint(x: 0, y: pageLabel_1.position.y - (pageLabel_1.frame.height))
         page.addChild(pageLabel_2)
+        var pageLabel_3 = createLabel("There are various powerups in the game")
+        pageLabel_3.fontSize = size.height / 48
+        pageLabel_3.position = CGPoint(x: 0, y: pageLabel_1.position.y - (2 * pageLabel_1.frame.height))
+        page.addChild(pageLabel_3)
         
         btnGotoPage3 = Nodes.getTextButton(frame.size, content: "NEXT")
         page.addChild(btnGotoPage3)
@@ -185,6 +213,22 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         var page = SKNode()
         page.addChild(Nodes.getSceneTitle(frame.size, content: "GAME CENTER"))
         
+        var icon = SKSpriteNode(imageNamed: "icon-trophy")
+        icon.colorBlendFactor = 1.0
+        icon.color = ThemeHandler.Instance.getCurrentColors().PowerupColor
+        icon.position = CGPoint(x: 0, y: size.height / 6)
+        page.addChild(icon)
+        
+        var pageLabel_1 = createLabel("Log in to Game Center")
+        pageLabel_1.position = CGPoint(x: 0, y: 0)
+        page.addChild(pageLabel_1)
+        var pageLabel_2 = createLabel("to earn achievements and")
+        pageLabel_2.position = CGPoint(x: 0, y: pageLabel_1.position.y - (pageLabel_1.frame.height))
+        page.addChild(pageLabel_2)
+        var pageLabel_3 = createLabel("rank in leaderboards")
+        pageLabel_3.position = CGPoint(x: 0, y: pageLabel_1.position.y - (2 * pageLabel_1.frame.height))
+        page.addChild(pageLabel_3)
+        
         btnGotoPage4 = Nodes.getTextButton(frame.size, content: "NEXT")
         page.addChild(btnGotoPage4)
         
@@ -195,38 +239,101 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         var page = SKNode()
         page.addChild(Nodes.getSceneTitle(frame.size, content: "SETTINGS"))
         
+        var rowheight = size.height / 8
+        
+        // INIT THEMES
+        var themeLabel = SKLabelNode(text: "THEME")
+        themeLabel.position = CGPoint(x: 0, y: size.height / 3)
+        themeLabel.fontSize = size.height / 48
+        themeLabel.fontName = Fonts.FontNameNormal
+        themeLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
+        themeLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        themeLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        page.addChild(themeLabel)
+        
+        btnDarkTheme = Nodes.getCircleButton(CGPoint(x: -size.width / 5, y: size.height / 5), radius: size.height / 16, color: Colors.BackgroundColor, fontColor: Colors.FontColor, content1: "DARK")
+        page.addChild(btnDarkTheme)
+        
+        btnLightTheme = Nodes.getCircleButton(CGPoint(x: size.width / 5, y: size.height / 5), radius: size.height / 16, color: Colors.FontColor, fontColor: Colors.BackgroundColor, content1: "LIGHT")
+        page.addChild(btnLightTheme)
+        
+        // INIT TOGGLE VIBRATION BUTTON
+        btnToggleVibration = createButton("VIBRATION")
+        btnToggleVibration.position = CGPoint(x: (frame.width / 5), y: 0)
+        vStateLabel = (btnToggleVibration.childNodeWithName("label") as! SKLabelNode)
+        page.addChild(btnToggleVibration)
+        
+        // INIT TOGGLE SOUND BUTTON
+        btnToggleSound = createButton("SOUND")
+        btnToggleSound.position = CGPoint(x: -(frame.width / 5), y: 0)
+        sStateLabel = (btnToggleSound.childNodeWithName("label") as! SKLabelNode)
+        page.addChild(btnToggleSound)
+        
+        getSettings()
+        
         btnClose = Nodes.getTextButton(frame.size, content: "LET'S GO")
         page.addChild(btnClose)
         
         return page
     }
     
+    func getSettings() {
+        if (SettingsHandler.getVibrationSetting()) { vStateLabel.text = "ON" } else { vStateLabel.text = "OFF" }
+        if (SettingsHandler.getSoundSetting()) { sStateLabel.text = "ON" } else { sStateLabel.text = "OFF" }
+    }
+    
     // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         if (isPageSwitching) { return }
         
-        switch currentPage {
-        case 1:
-            self.removeAllActions()
-            currentPage = 2
-            pageSwitch(current!, right: initPageTwo())
-            break
-        case 2:
-            self.removeAllActions()
-            currentPage = 3
-            pageSwitch(current!, right: initPageThree())
-            break
-        case 3:
-            self.removeAllActions()
-            currentPage = 4
-            pageSwitch(current!, right: initPageFour())
-            break
-        case 4:
-            self.removeAllActions()
-            sceneDelegate?.showMenuScene()
-            break
-        default:
-            break
+        for touch: AnyObject in touches {
+            let location = touch.locationInNode(self)
+            
+            switch currentPage {
+            case 1:
+                self.removeAllActions()
+                currentPage = 2
+                pageSwitch(current!, right: initPageTwo())
+                break
+            case 2:
+                self.removeAllActions()
+                currentPage = 3
+                pageSwitch(current!, right: initPageThree())
+                break
+            case 3:
+                self.removeAllActions()
+                currentPage = 4
+                pageSwitch(current!, right: initPageFour())
+                break
+            case 4:
+                if (btnToggleVibration.containsPoint(location)) {
+                    if SettingsHandler.toggleVibration() {
+                        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                    }
+                    getSettings()
+                } else if (btnToggleSound.containsPoint(location)) {
+                    if SettingsHandler.toggleSound() {
+                        runAction(hit1Sound)
+                    }
+                    getSettings()
+                } else if (btnDarkTheme.containsPoint(location)) {
+                    if (ThemeHandler.Instance.getTheme() != Theme.Dark) {
+                        ThemeHandler.Instance.setTheme(Theme.Dark)
+                        self.sceneDelegate?.showHelpScene(4)
+                    }
+                } else if (btnLightTheme.containsPoint(location)) {
+                    if (ThemeHandler.Instance.getTheme() != Theme.Light) {
+                        ThemeHandler.Instance.setTheme(Theme.Light)
+                        self.sceneDelegate?.showHelpScene(4)
+                    }
+                } else {
+                    self.removeAllActions()
+                    sceneDelegate?.showMenuScene()
+                }
+                break
+            default:
+                break
+            }
         }
     }
     
@@ -290,7 +397,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
                 self.p2Ball = Ball(color: ThemeHandler.Instance.getCurrentColors().PowerupColor, position: CGPoint(x: 0, y: 0), radius: self.ballRadius)
                 self.current!.addChild(self.p2Ball.fadeIn())
             })
-            var wait = SKAction.waitForDuration(0.3)
+            var wait = SKAction.waitForDuration(0.25)
             var shoot = SKAction.runBlock({()
                 self.p2Ball.shoot(self.size.height)
             })
@@ -330,5 +437,29 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         return label
+    }
+    
+    private func createButton(labelText: NSString) -> SKShapeNode {
+        var vLabel = SKLabelNode(text: labelText as String)
+        vLabel.fontSize = size.height / 48
+        vLabel.fontName = Fonts.FontNameNormal
+        vLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
+        vLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        vLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        var button = SKShapeNode(rectOfSize: CGSize(width: size.width / 4, height: size.height / 12))
+        button.lineWidth = 0
+        var label = SKLabelNode(text: "NaN")
+        label.name = "label"
+        label.zPosition = -1
+        label.fontSize = size.height / 24
+        label.fontName = Fonts.FontNameBold
+        label.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        label.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        vLabel.position = CGPoint(x: 0, y: button.calculateAccumulatedFrame().height * 0.5)
+        button.addChild(vLabel)
+        button.addChild(label)
+        
+        return button
     }
 }

@@ -70,7 +70,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
             
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "hasPerformedFirstLaunch")
             NSUserDefaults.standardUserDefaults().synchronize()
-            showHelpScene()
+            showHelpScene(1)
         } else {
             showMenuScene()
         }
@@ -238,8 +238,8 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
         (self.originalContentView as! SKView).presentScene(scene)
     }
     
-    func showHelpScene() {
-        var scene = HelpScene(size: self.view.bounds.size)
+    func showHelpScene(page: Int) {
+        var scene = HelpScene(size: self.view.bounds.size, page: page)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         (self.originalContentView as! SKView).presentScene(scene)

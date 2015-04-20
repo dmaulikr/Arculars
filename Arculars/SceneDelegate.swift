@@ -12,7 +12,7 @@ protocol SceneDelegate : class {
     func showMenuScene()
     func showGameoverScene(gameType: GameMode)
     func showAboutScene()
-    func showHelpScene()
+    func showHelpScene(page: Int)
     func showStatsScene()
     func showSettingsScene()
     
