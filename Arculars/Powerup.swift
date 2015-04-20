@@ -124,7 +124,7 @@ class Powerup : SKShapeNode {
     func decrement() {
         count = count - 1
         updateText()
-        if count <= 0 {
+        if count <= 0 && delegate != nil {
             delegate.powerupZero()
         }
     }
