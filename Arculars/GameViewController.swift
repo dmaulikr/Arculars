@@ -30,6 +30,15 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        /*
+        #if DEBUG
+            let skView = view as! SKView
+            skView.showsDrawCount = true
+            skView.showsFPS = true
+            skView.showsPhysics = true
+        #endif
+        */
+        
         // Setup Advertisements
         if !PurchaseHandler.hasRemovedAds() {
             loadiAd()
@@ -186,7 +195,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     }
     
     func showMenuScene() {
-        // Create and configure the menu scene.
         var scene = MenuScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
@@ -194,7 +202,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     }
     
     func showGameScene(gameMode: GameMode) {
-        // Create and configure the game scene.
         var scene = GameScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
@@ -203,7 +210,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     }
     
     func showStatsScene() {
-        // Create and configure the stats scene.
         var scene = StatsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
@@ -211,7 +217,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     }
     
     func showSettingsScene() {
-        // Create and configure the settings scene.
         var scene = SettingsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
@@ -219,7 +224,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     }
     
     func showGameoverScene(gameMode: GameMode) {
-        // Create and configure the gameover scene.
         var scene = GameoverScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
