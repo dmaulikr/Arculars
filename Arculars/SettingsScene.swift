@@ -126,11 +126,15 @@ class SettingsScene : SKScene {
                 }
                 getSettings()
             } else if (btnDarkTheme.containsPoint(location)) {
-                ThemeHandler.Instance.setTheme(Theme.Dark)
-                self.sceneDelegate?.showSettingsScene()
+                if (ThemeHandler.Instance.getTheme() != Theme.Dark) {
+                    ThemeHandler.Instance.setTheme(Theme.Dark)
+                    self.sceneDelegate?.showSettingsScene()
+                }
             } else if (btnLightTheme.containsPoint(location)) {
-                ThemeHandler.Instance.setTheme(Theme.Light)
-                self.sceneDelegate?.showSettingsScene()
+                if (ThemeHandler.Instance.getTheme() != Theme.Light) {
+                    ThemeHandler.Instance.setTheme(Theme.Light)
+                    self.sceneDelegate?.showSettingsScene()
+                }
             } else if (btnRestorePurchases.containsPoint(location)) {
                 self.sceneDelegate!.restorePurchases()
             }
