@@ -73,6 +73,6 @@
         </view>
     </objects>
     <resources>
-        <image name="image-launchscreen" width="1024" height="1024"/>
+        <image name="image-launchscreen" width="512" height="512"/>
     </resources>
 </document>
