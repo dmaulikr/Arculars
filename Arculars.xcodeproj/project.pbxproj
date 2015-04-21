@@ -57,6 +57,8 @@
 		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
 		30E95DF31ACC962A003FACEC /* HealthBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E95DF21ACC962A003FACEC /* HealthBar.swift */; };
 		30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F02AC01ABF570300A0CF68 /* GameoverScene.swift */; };
+		30F794F91AE6E905006852B4 /* RevMobAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F794F81AE6E905006852B4 /* RevMobAds.framework */; };
+		30F794FD1AE6E97F006852B4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F794FC1AE6E97F006852B4 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,6 +129,9 @@
 		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		30E95DF21ACC962A003FACEC /* HealthBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthBar.swift; sourceTree = "<group>"; };
 		30F02AC01ABF570300A0CF68 /* GameoverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameoverScene.swift; sourceTree = "<group>"; };
+		30F794F81AE6E905006852B4 /* RevMobAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RevMobAds.framework; path = Arculars/External/RevMobAds.framework; sourceTree = "<group>"; };
+		30F794FA1AE6E971006852B4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		30F794FC1AE6E97F006852B4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +139,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30F794FD1AE6E97F006852B4 /* MediaPlayer.framework in Frameworks */,
+				30F794F91AE6E905006852B4 /* RevMobAds.framework in Frameworks */,
 				30277FFE1AE6CD1A004ED509 /* AdSupport.framework in Frameworks */,
 				30277FFC1AE69F5A004ED509 /* Chartboost.framework in Frameworks */,
 				301E5CAA1ADFDBA30086846E /* CoreGraphics.framework in Frameworks */,
@@ -156,6 +163,9 @@
 		301E5C9B1ADFCE4A0086846E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				30F794FC1AE6E97F006852B4 /* MediaPlayer.framework */,
+				30F794FA1AE6E971006852B4 /* CoreMedia.framework */,
+				30F794F81AE6E905006852B4 /* RevMobAds.framework */,
 				302780021AE6CE21004ED509 /* UIKit.framework */,
 				30277FFF1AE6CD46004ED509 /* Foundation.framework */,
 				30277FFB1AE69F5A004ED509 /* Chartboost.framework */,

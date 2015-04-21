@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate {
 
     var window: UIWindow?
     
-    // Chartboost
+    // Chartboost Ads
     let kChartboostAppID = "5536669104b01626d509c125";
     let kChartboostAppSignature = "93d0b7f5428c5ca7c08fae41cb0d988324d49c14";
     
@@ -27,7 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate {
         
         return true
     }
-
+    
+    func revmobAdDidFailWithError(error: NSError) {
+        #if DEBUG
+            println(error)
+        #endif
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

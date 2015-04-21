@@ -12,7 +12,10 @@ import GameKit
 import Social
 import StoreKit
 
-class GameViewController: UIViewController, ChartboostDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
+class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
+    
+    // RevMob Ads
+    let kRevMobAppID = "5536a69d255a4ebb1f5838ed"
     
     var products = [SKProduct]()
     var currentProduct = SKProduct()
@@ -35,6 +38,7 @@ class GameViewController: UIViewController, ChartboostDelegate, SKProductsReques
             // Setup Advertisements
             if !PurchaseHandler.hasRemovedAds() {
                 showInterstitial()
+                RevMobAds.startSessionWithAppID(kRevMobAppID, andDelegate: self)
             }
             
             // Setup StoreKit
@@ -364,7 +368,23 @@ class GameViewController: UIViewController, ChartboostDelegate, SKProductsReques
     }
     
     // MARK: - REVMOB IMPLEMENTATION
+    func revmobSessionIsStarted() {
+        RevMobAds.session().showBanner()
+    }
     
+    func revmobSessionNotStartedWithError(error: NSError) {
+        
+    }
+    
+    func revmobAdDidReceive() {
+        
+    }
+    
+    func revmobAdDidFailWithError(error: NSError) {
+        #if DEBUG
+            println(error)
+        #endif
+    }
     
     // MARK: - HELPER FUNCTIONS
     private func getShareImage(score: Int, gameMode: GameMode) -> UIImage {
