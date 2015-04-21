@@ -10,18 +10,9 @@ import UIKit
 import SpriteKit
 import GameKit
 import Social
-import iAd
 import StoreKit
-import GoogleMobileAds
 
-class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
-    
-    // Apple iAd
-    var iAdView : ADBannerView?
-    
-    // Google AdMob
-    let adUnitID = "ca-app-pub-6315531723758852/6739964922"
-    var adMobView : GADBannerView?
+class GameViewController: UIViewController, ChartboostDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
     
     var products = [SKProduct]()
     var currentProduct = SKProduct()
@@ -29,37 +20,6 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /*
-        #if DEBUG
-            let skView = view as! SKView
-            skView.showsDrawCount = true
-            skView.showsFPS = true
-            skView.showsPhysics = true
-        #endif
-        */
-        
-        // Setup Advertisements
-        if !PurchaseHandler.hasRemovedAds() {
-            loadiAd()
-            loadAdMob()
-        }
-        
-        // Setup StoreKit
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
-        getProductInfo()
-        
-        // Init Easy Game Center Singleton
-        let gamecenter = GCHandler.sharedInstance {
-            (resultPlayerAuthentified) -> Void in
-            if resultPlayerAuthentified {
-                // When player is authentified to Game Center
-            } else {
-                // Player not authentified to Game Center
-                // No connexion internet or not authentified to Game Center
-            }
-        }
-        GCHandler.delegate = self
         
         // Present the initial scene.
         if !NSUserDefaults.standardUserDefaults().boolForKey("hasPerformedFirstLaunch") {
@@ -72,6 +32,27 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelpScene(1)
         } else {
+            // Setup Advertisements
+            if !PurchaseHandler.hasRemovedAds() {
+                showInterstitial()
+            }
+            
+            // Setup StoreKit
+            SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+            getProductInfo()
+            
+            // Init Easy Game Center Singleton
+            let gamecenter = GCHandler.sharedInstance {
+                (resultPlayerAuthentified) -> Void in
+                if resultPlayerAuthentified {
+                    // When player is authentified to Game Center
+                } else {
+                    // Player not authentified to Game Center
+                    // No connexion internet or not authentified to Game Center
+                }
+            }
+            GCHandler.delegate = self
+            
             showMenuScene()
         }
     }
@@ -198,7 +179,7 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
         var scene = MenuScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.originalContentView as! SKView).presentScene(scene)
+        (self.view as! SKView).presentScene(scene)
     }
     
     func showGameScene(gameMode: GameMode) {
@@ -206,21 +187,21 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
-        (self.originalContentView as! SKView).presentScene(scene)
+        (self.view as! SKView).presentScene(scene)
     }
     
     func showStatsScene() {
         var scene = StatsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.originalContentView as! SKView).presentScene(scene)
+        (self.view as! SKView).presentScene(scene)
     }
     
     func showSettingsScene() {
         var scene = SettingsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.originalContentView as! SKView).presentScene(scene)
+        (self.view as! SKView).presentScene(scene)
     }
     
     func showGameoverScene(gameMode: GameMode) {
@@ -228,21 +209,21 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
-        (self.originalContentView as! SKView).presentScene(scene)
+        (self.view as! SKView).presentScene(scene)
     }
     
     func showAboutScene() {
         var scene = AboutScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.originalContentView as! SKView).presentScene(scene)
+        (self.view as! SKView).presentScene(scene)
     }
     
     func showHelpScene(page: Int) {
         var scene = HelpScene(size: self.view.bounds.size, page: page)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
-        (self.originalContentView as! SKView).presentScene(scene)
+        (self.view as! SKView).presentScene(scene)
     }
     
     func presentGameCenter() {
@@ -372,61 +353,18 @@ class GameViewController: UIViewController, ADBannerViewDelegate, GADBannerViewD
     
     func removeAds() {
         PurchaseHandler.removeAds()
-        canDisplayBannerAds = false
         
-        iAdView?.removeFromSuperview()
-        adMobView?.removeFromSuperview()
+        // Remove Banner
     }
     
-    // MARK: - IAD IMPLEMENTATION
-    private func loadiAd() {
-        iAdView = ADBannerView(adType: ADAdType.Banner)
-        var x = view.frame.width / 2
-        var y = view.frame.height - (iAdView!.frame.height / 2)
-        iAdView!.center = CGPoint(x: x, y: y)
-        iAdView!.delegate = self
-        iAdView!.hidden = true
-        view.addSubview(iAdView!)
+    
+    // MARK: - CHARTBOOST IMPLEMENTATION
+    func showInterstitial() {
+        Chartboost.showInterstitial(CBLocationHomeScreen)
     }
     
-    func bannerViewDidLoadAd(banner: ADBannerView!) {
-        iAdView?.hidden = false
-        adMobView?.hidden = true
-    }
+    // MARK: - REVMOB IMPLEMENTATION
     
-    func bannerViewActionShouldBegin(banner: ADBannerView!, willLeaveApplication willLeave: Bool) -> Bool {
-        return true
-    }
-    
-    func bannerView(banner: ADBannerView!, didFailToReceiveAdWithError error: NSError!) {
-        iAdView?.hidden = true
-        adMobView?.hidden = false
-    }
-    
-    // MARK: - ADMOB IMPLEMENTATION
-    private func loadAdMob() {
-        var x = (view.frame.width - CGSizeFromGADAdSize(kGADAdSizeSmartBannerPortrait).width) / 2
-        var y = view.frame.height - CGSizeFromGADAdSize(kGADAdSizeSmartBannerPortrait).height
-        adMobView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait, origin: CGPoint(x: x, y: y))
-        adMobView?.adUnitID = adUnitID
-        adMobView?.delegate = self
-        adMobView?.hidden = true
-        adMobView?.rootViewController = self
-        self.view.addSubview(adMobView!)
-        
-        var request : GADRequest = GADRequest()
-        adMobView?.loadRequest(request)
-    }
-    
-    func adViewDidReceiveAd(view: GADBannerView!) {
-        if (iAdView == nil) || (iAdView?.hidden == true) {
-            adMobView?.hidden = false
-        }
-    }
-    
-    func adView(view: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!) {
-        adMobView?.hidden = true
-    }
     
     // MARK: - HELPER FUNCTIONS
     private func getShareImage(score: Int, gameMode: GameMode) -> UIImage {

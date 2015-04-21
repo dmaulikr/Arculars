@@ -10,14 +10,21 @@ import UIKit
 import AVFoundation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate {
 
     var window: UIWindow?
-
-
+    
+    // Chartboost
+    let kChartboostAppID = "5536669104b01626d509c125";
+    let kChartboostAppSignature = "93d0b7f5428c5ca7c08fae41cb0d988324d49c14";
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, error: nil)
+        
+        Chartboost.startWithAppId(kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self);
+        Chartboost.cacheMoreApps(CBLocationHomeScreen)
+        
         return true
     }
 

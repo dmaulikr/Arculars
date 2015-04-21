@@ -388,10 +388,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         StatsHandler.updateTotalPointsBy(endScore)
         StatsHandler.updateLastscore(endScore, gameMode: gameMode)
         StatsHandler.updateHighscore(endScore, gameMode: gameMode)
-        
-        if playedtime > 3 {
-            StatsHandler.incrementPlayedGames()
-        }
+        StatsHandler.incrementPlayedGames()
         
         sceneDelegate!.showGameoverScene(gameMode)
     }

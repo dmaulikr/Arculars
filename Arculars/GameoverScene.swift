@@ -51,9 +51,15 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
+        var playedGames = StatsHandler.getPlayedGames()
+        
+        if (playedGames > 0 && playedGames % 6 == 0) {
+            sceneDelegate?.showInterstitial()
+        }
+        
         startRandomBallTimer()
         getScores()
-        if (RateHandler.checkIfRate(StatsHandler.getPlayedGames())) {
+        if (RateHandler.checkIfRate(playedGames)) {
             sceneDelegate?.presentRateOnAppStore()
         }
     }
