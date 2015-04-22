@@ -12,7 +12,11 @@ import GameKit
 import Social
 import StoreKit
 
-class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
+class GameViewController: UIViewController, ChartboostDelegate, RevMobAdsDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
+    
+    // Chartboost Ads
+    let kChartboostAppID = "5536669104b01626d509c125";
+    let kChartboostAppSignature = "93d0b7f5428c5ca7c08fae41cb0d988324d49c14";
     
     // RevMob Ads
     let kRevMobAppID = "5536a69d255a4ebb1f5838ed"
@@ -37,7 +41,10 @@ class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequest
         } else {
             // Setup Advertisements
             if !PurchaseHandler.hasRemovedAds() {
-                showInterstitial()
+                Chartboost.startWithAppId(kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self)
+                Chartboost.cacheInterstitial(CBLocationHomeScreen)
+                Chartboost.cacheInterstitial(CBLocationGameOver)
+                
                 RevMobAds.startSessionWithAppID(kRevMobAppID, andDelegate: self)
             }
             
@@ -278,6 +285,16 @@ class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequest
         SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
     }
     
+    func showInterstitial(location: String!) {
+        if (PurchaseHandler.hasRemovedAds()) { return }
+        
+        if (location == CBLocationHomeScreen) {
+            Chartboost.showInterstitial(CBLocationHomeScreen)
+        } else if (location == CBLocationGameOver) {
+            Chartboost.showInterstitial(CBLocationGameOver)
+        }
+    }
+    
     // MARK: - STOREKIT IMPLEMENTATION
     func getProductInfo()
     {
@@ -302,10 +319,8 @@ class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequest
     
     func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue!) {
         var purchasedItemIDS = []
-        for transaction in queue.transactions {
-            var t: SKPaymentTransaction = transaction as! SKPaymentTransaction
-            
-            let prodID = t.payment.productIdentifier as String
+        for transaction in queue.transactions as! [SKPaymentTransaction] {
+            let prodID = transaction.payment.productIdentifier as String
             
             switch prodID {
             case productRemoveAdsID:
@@ -313,6 +328,7 @@ class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequest
                 var alert = UIAlertController(title: "Restore successful", message: "Your previous purchases have been restored successfully.", preferredStyle: UIAlertControllerStyle.Alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
                 self.presentViewController(alert, animated: true, completion: nil)
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 break
             default:
                 break
@@ -357,14 +373,21 @@ class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequest
     
     func removeAds() {
         PurchaseHandler.removeAds()
-        
-        // Remove Banner
+        RevMobAds.session().hideBanner()
     }
     
     
     // MARK: - CHARTBOOST IMPLEMENTATION
-    func showInterstitial() {
-        Chartboost.showInterstitial(CBLocationHomeScreen)
+    func didDismissInterstitial(location: String!) {
+        if (location == CBLocationHomeScreen) {
+            Chartboost.cacheInterstitial(CBLocationHomeScreen)
+        } else if (location == CBLocationGameOver) {
+            Chartboost.cacheInterstitial(CBLocationGameOver)
+        }
+    }
+    
+    func didFailToLoadInterstitial(location: String!, withError error: CBLoadError) {
+        RevMobAds.session().showFullscreen()
     }
     
     // MARK: - REVMOB IMPLEMENTATION
@@ -381,9 +404,7 @@ class GameViewController: UIViewController, RevMobAdsDelegate, SKProductsRequest
     }
     
     func revmobAdDidFailWithError(error: NSError) {
-        #if DEBUG
-            println(error)
-        #endif
+        
     }
     
     // MARK: - HELPER FUNCTIONS

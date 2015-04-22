@@ -54,7 +54,7 @@ class GameoverScene: SKScene {
         var playedGames = StatsHandler.getPlayedGames()
         
         if (playedGames > 0 && playedGames % 6 == 0) {
-            sceneDelegate?.showInterstitial()
+            sceneDelegate?.showInterstitial(CBLocationGameOver)
         }
         
         startRandomBallTimer()
