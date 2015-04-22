@@ -6,17 +6,39 @@
 //  Copyright (c) 2015 RMNBLM. All rights reserved.
 //
 
+import AdSupport;
+import CoreTelephony;
+import MediaPlayer;
+import QuartzCore;
+import StoreKit;
+import iAd;
 import UIKit
 import AVFoundation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, RevMobAdsDelegate {
 
     var window: UIWindow?
     
+    // Chartboost Ads
+    let kChartboostAppID = "5536669104b01626d509c125";
+    let kChartboostAppSignature = "93d0b7f5428c5ca7c08fae41cb0d988324d49c14";
+    
+    // RevMob Ads
+    let kRevMobAppID = "5536a69d255a4ebb1f5838ed"
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Do not interrupt music
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, error: nil)
+        
+        // Start Chartboost
+        Chartboost.startWithAppId(kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self)
+        
+        // Start RevMob
+        RevMobAds.startSessionWithAppID(kRevMobAppID, andDelegate: self)
+        
         return true
     }
     
@@ -40,6 +62,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    // MARK: - ChartboostDelegate Implementation
+    func didDisplayInterstitial(location: String!) {
+        if (location == CBLocationStartup) {
+            Chartboost.cacheInterstitial(CBLocationStartup)
+        } else if (location == CBLocationGameOver) {
+            Chartboost.cacheInterstitial(CBLocationGameOver)
+        }
+    }
+    
+    func didFailToLoadInterstitial(location: String!, withError error: CBLoadError) {
+        RevMobAds.session().showFullscreen()
+    }
+    
+    // MARK: - RevMobAdsDelegate Implementation
+    func revmobSessionIsStarted() {
+        RevMobAds.session().showBanner()
+    }
+    
+    func revmobSessionNotStartedWithError(error: NSError) {
+        
+    }
+    
+    func revmobAdDidReceive() {
+        
+    }
+    
+    func revmobAdDidFailWithError(error: NSError) {
+        
     }
 }
 

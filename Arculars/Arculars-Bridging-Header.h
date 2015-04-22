@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 RMNBLM. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <Chartboost/Chartboost.h>
-#import <Chartboost/CBNewsfeed.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <AdSupport/AdSupport.h>
 #import <RevMobAds/RevMobAds.h>

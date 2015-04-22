@@ -12,14 +12,7 @@ import GameKit
 import Social
 import StoreKit
 
-class GameViewController: UIViewController, ChartboostDelegate, RevMobAdsDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
-    
-    // Chartboost Ads
-    let kChartboostAppID = "5536669104b01626d509c125";
-    let kChartboostAppSignature = "93d0b7f5428c5ca7c08fae41cb0d988324d49c14";
-    
-    // RevMob Ads
-    let kRevMobAppID = "5536a69d255a4ebb1f5838ed"
+class GameViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
     
     var products = [SKProduct]()
     var currentProduct = SKProduct()
@@ -39,15 +32,6 @@ class GameViewController: UIViewController, ChartboostDelegate, RevMobAdsDelegat
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelpScene(1)
         } else {
-            // Setup Advertisements
-            if !PurchaseHandler.hasRemovedAds() {
-                Chartboost.startWithAppId(kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self)
-                Chartboost.cacheInterstitial(CBLocationHomeScreen)
-                Chartboost.cacheInterstitial(CBLocationGameOver)
-                
-                RevMobAds.startSessionWithAppID(kRevMobAppID, andDelegate: self)
-            }
-            
             // Setup StoreKit
             SKPaymentQueue.defaultQueue().addTransactionObserver(self)
             getProductInfo()
@@ -63,6 +47,10 @@ class GameViewController: UIViewController, ChartboostDelegate, RevMobAdsDelegat
                 }
             }
             GCHandler.delegate = self
+            
+            if (!PurchaseHandler.hasRemovedAds()) {
+                Chartboost.showInterstitial(CBLocationStartup)
+            }
             
             showMenuScene()
         }
@@ -285,16 +273,6 @@ class GameViewController: UIViewController, ChartboostDelegate, RevMobAdsDelegat
         SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
     }
     
-    func showInterstitial(location: String!) {
-        if (PurchaseHandler.hasRemovedAds()) { return }
-        
-        if (location == CBLocationHomeScreen) {
-            Chartboost.showInterstitial(CBLocationHomeScreen)
-        } else if (location == CBLocationGameOver) {
-            Chartboost.showInterstitial(CBLocationGameOver)
-        }
-    }
-    
     // MARK: - STOREKIT IMPLEMENTATION
     func getProductInfo()
     {
@@ -373,38 +351,6 @@ class GameViewController: UIViewController, ChartboostDelegate, RevMobAdsDelegat
     
     func removeAds() {
         PurchaseHandler.removeAds()
-        RevMobAds.session().hideBanner()
-    }
-    
-    
-    // MARK: - CHARTBOOST IMPLEMENTATION
-    func didDismissInterstitial(location: String!) {
-        if (location == CBLocationHomeScreen) {
-            Chartboost.cacheInterstitial(CBLocationHomeScreen)
-        } else if (location == CBLocationGameOver) {
-            Chartboost.cacheInterstitial(CBLocationGameOver)
-        }
-    }
-    
-    func didFailToLoadInterstitial(location: String!, withError error: CBLoadError) {
-        RevMobAds.session().showFullscreen()
-    }
-    
-    // MARK: - REVMOB IMPLEMENTATION
-    func revmobSessionIsStarted() {
-        RevMobAds.session().showBanner()
-    }
-    
-    func revmobSessionNotStartedWithError(error: NSError) {
-        
-    }
-    
-    func revmobAdDidReceive() {
-        
-    }
-    
-    func revmobAdDidFailWithError(error: NSError) {
-        
     }
     
     // MARK: - HELPER FUNCTIONS

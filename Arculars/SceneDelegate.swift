@@ -23,6 +23,4 @@ protocol SceneDelegate : class {
 
     func restorePurchases()
     func purchaseRemoveAds()
-    
-    func showInterstitial(location: String!)
 }
