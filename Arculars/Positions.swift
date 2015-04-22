@@ -30,8 +30,8 @@ class Positions {
         }
         if (UIDevice.currentDevice().userInterfaceIdiom == .Pad)
         {
-            return CGPoint(x: 0, y: -(size.height / 2) + 90 + (size.height / 16))
+            return CGPoint(x: 0, y: -(size.height / 2) + 90 + (size.height / 20))
         }
-        return CGPoint(x: 0, y: -(size.height / 2) + 50 + (size.height / 16))
+        return CGPoint(x: 0, y: -(size.height / 2) + 50 + (size.height / 20))
     }
 }
