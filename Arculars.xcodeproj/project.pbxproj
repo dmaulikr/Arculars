@@ -10,7 +10,6 @@
 		3003D3791AE82E6200DF479E /* Chartboost.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3003D3781AE82E6200DF479E /* Chartboost.framework */; };
 		3003D37C1AE8340700DF479E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30277FFF1AE6CD46004ED509 /* Foundation.framework */; };
 		3003D37D1AE8340F00DF479E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 302780021AE6CE21004ED509 /* UIKit.framework */; };
-		3003D3861AE8442200DF479E /* RevMobAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3003D3851AE8442200DF479E /* RevMobAds.framework */; };
 		300FBC0B1AD316F400152297 /* Powerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 300FBC0A1AD316F400152297 /* Powerup.swift */; };
 		301C00871AB4576D00A635FC /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 301C00861AB4576D00A635FC /* Score.swift */; };
 		301E5CAA1ADFDBA30086846E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301E5CA11ADFDBA30086846E /* CoreGraphics.framework */; };
@@ -58,6 +57,10 @@
 		309ED2E71AB4939D007D7EC4 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 309ED2E61AB4939D007D7EC4 /* MenuScene.swift */; };
 		30A5F3FC1AC1557B004D7364 /* StatsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */; };
 		30A8FF981ABAAD4A002EB522 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */; };
+		30C206751AE8CD620012E6B3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C206741AE8CD620012E6B3 /* AVFoundation.framework */; };
+		30C206771AE8CD880012E6B3 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C206761AE8CD880012E6B3 /* CoreTelephony.framework */; };
+		30C206781AE8CD950012E6B3 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F794FA1AE6E971006852B4 /* CoreMedia.framework */; };
+		30C2068E1AE8CECD0012E6B3 /* libAppLovinSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C2067B1AE8CECD0012E6B3 /* libAppLovinSdk.a */; };
 		30E95DF31ACC962A003FACEC /* HealthBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30E95DF21ACC962A003FACEC /* HealthBar.swift */; };
 		30F02AC11ABF570300A0CF68 /* GameoverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F02AC01ABF570300A0CF68 /* GameoverScene.swift */; };
 		30F794FD1AE6E97F006852B4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30F794FC1AE6E97F006852B4 /* MediaPlayer.framework */; };
@@ -75,7 +78,6 @@
 
 /* Begin PBXFileReference section */
 		3003D3781AE82E6200DF479E /* Chartboost.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Chartboost.framework; sourceTree = "<group>"; };
-		3003D3851AE8442200DF479E /* RevMobAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RevMobAds.framework; sourceTree = "<group>"; };
 		300FBC0A1AD316F400152297 /* Powerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Powerup.swift; sourceTree = "<group>"; };
 		301C00861AB4576D00A635FC /* Score.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		301E5C9E1ADFDBA30086846E /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -130,6 +132,26 @@
 		309ED2E61AB4939D007D7EC4 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		30A5F3FB1AC1557B004D7364 /* StatsHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsHandler.swift; sourceTree = "<group>"; };
 		30A8FF971ABAAD4A002EB522 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		30C206741AE8CD620012E6B3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		30C206761AE8CD880012E6B3 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		30C2067B1AE8CECD0012E6B3 /* libAppLovinSdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppLovinSdk.a; sourceTree = "<group>"; };
+		30C2067D1AE8CECD0012E6B3 /* ALAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAd.h; sourceTree = "<group>"; };
+		30C2067E1AE8CECD0012E6B3 /* ALAdDisplayDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdDisplayDelegate.h; sourceTree = "<group>"; };
+		30C2067F1AE8CECD0012E6B3 /* ALAdLoadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdLoadDelegate.h; sourceTree = "<group>"; };
+		30C206801AE8CECD0012E6B3 /* ALAdRewardDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdRewardDelegate.h; sourceTree = "<group>"; };
+		30C206811AE8CECD0012E6B3 /* ALAdService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdService.h; sourceTree = "<group>"; };
+		30C206821AE8CECD0012E6B3 /* ALAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdSize.h; sourceTree = "<group>"; };
+		30C206831AE8CECD0012E6B3 /* ALAdType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdType.h; sourceTree = "<group>"; };
+		30C206841AE8CECD0012E6B3 /* ALAdUpdateDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdUpdateDelegate.h; sourceTree = "<group>"; };
+		30C206851AE8CECD0012E6B3 /* ALAdVideoPlaybackDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdVideoPlaybackDelegate.h; sourceTree = "<group>"; };
+		30C206861AE8CECD0012E6B3 /* ALAdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALAdView.h; sourceTree = "<group>"; };
+		30C206871AE8CECD0012E6B3 /* ALErrorCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALErrorCodes.h; sourceTree = "<group>"; };
+		30C206881AE8CECD0012E6B3 /* ALIncentivizedInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALIncentivizedInterstitialAd.h; sourceTree = "<group>"; };
+		30C206891AE8CECD0012E6B3 /* ALInterstitialAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALInterstitialAd.h; sourceTree = "<group>"; };
+		30C2068A1AE8CECD0012E6B3 /* ALSdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSdk.h; sourceTree = "<group>"; };
+		30C2068B1AE8CECD0012E6B3 /* ALSdkSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSdkSettings.h; sourceTree = "<group>"; };
+		30C2068C1AE8CECD0012E6B3 /* ALSwiftHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSwiftHeaders.h; sourceTree = "<group>"; };
+		30C2068D1AE8CECD0012E6B3 /* ALTargetingData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALTargetingData.h; sourceTree = "<group>"; };
 		30E95DF21ACC962A003FACEC /* HealthBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthBar.swift; sourceTree = "<group>"; };
 		30F02AC01ABF570300A0CF68 /* GameoverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameoverScene.swift; sourceTree = "<group>"; };
 		30F794FA1AE6E971006852B4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -141,16 +163,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3003D37D1AE8340F00DF479E /* UIKit.framework in Frameworks */,
-				3003D37C1AE8340700DF479E /* Foundation.framework in Frameworks */,
-				30F794FD1AE6E97F006852B4 /* MediaPlayer.framework in Frameworks */,
-				3003D3791AE82E6200DF479E /* Chartboost.framework in Frameworks */,
-				3003D3861AE8442200DF479E /* RevMobAds.framework in Frameworks */,
 				30277FFE1AE6CD1A004ED509 /* AdSupport.framework in Frameworks */,
+				30C206751AE8CD620012E6B3 /* AVFoundation.framework in Frameworks */,
+				3003D3791AE82E6200DF479E /* Chartboost.framework in Frameworks */,
 				301E5CAA1ADFDBA30086846E /* CoreGraphics.framework in Frameworks */,
+				30C206781AE8CD950012E6B3 /* CoreMedia.framework in Frameworks */,
+				30C206771AE8CD880012E6B3 /* CoreTelephony.framework in Frameworks */,
+				3003D37C1AE8340700DF479E /* Foundation.framework in Frameworks */,
+				30C2068E1AE8CECD0012E6B3 /* libAppLovinSdk.a in Frameworks */,
+				3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */,
+				30F794FD1AE6E97F006852B4 /* MediaPlayer.framework in Frameworks */,
 				3026D5411ADEEA960096D181 /* StoreKit.framework in Frameworks */,
 				3091AC1E1ACA84E000E25F13 /* SystemConfiguration.framework in Frameworks */,
-				3038F8081ABA0BA100741BEE /* GameKit.framework in Frameworks */,
+				3003D37D1AE8340F00DF479E /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,7 +192,10 @@
 		301E5C9B1ADFCE4A0086846E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3003D3851AE8442200DF479E /* RevMobAds.framework */,
+				30C2067B1AE8CECD0012E6B3 /* libAppLovinSdk.a */,
+				30C2067C1AE8CECD0012E6B3 /* headers */,
+				30C206761AE8CD880012E6B3 /* CoreTelephony.framework */,
+				30C206741AE8CD620012E6B3 /* AVFoundation.framework */,
 				3003D3781AE82E6200DF479E /* Chartboost.framework */,
 				30F794FC1AE6E97F006852B4 /* MediaPlayer.framework */,
 				30F794FA1AE6E971006852B4 /* CoreMedia.framework */,
@@ -310,6 +338,30 @@
 				305BCAF31AC973A8004F68E6 /* HelpScene.swift */,
 			);
 			name = Scenes;
+			sourceTree = "<group>";
+		};
+		30C2067C1AE8CECD0012E6B3 /* headers */ = {
+			isa = PBXGroup;
+			children = (
+				30C2067D1AE8CECD0012E6B3 /* ALAd.h */,
+				30C2067E1AE8CECD0012E6B3 /* ALAdDisplayDelegate.h */,
+				30C2067F1AE8CECD0012E6B3 /* ALAdLoadDelegate.h */,
+				30C206801AE8CECD0012E6B3 /* ALAdRewardDelegate.h */,
+				30C206811AE8CECD0012E6B3 /* ALAdService.h */,
+				30C206821AE8CECD0012E6B3 /* ALAdSize.h */,
+				30C206831AE8CECD0012E6B3 /* ALAdType.h */,
+				30C206841AE8CECD0012E6B3 /* ALAdUpdateDelegate.h */,
+				30C206851AE8CECD0012E6B3 /* ALAdVideoPlaybackDelegate.h */,
+				30C206861AE8CECD0012E6B3 /* ALAdView.h */,
+				30C206871AE8CECD0012E6B3 /* ALErrorCodes.h */,
+				30C206881AE8CECD0012E6B3 /* ALIncentivizedInterstitialAd.h */,
+				30C206891AE8CECD0012E6B3 /* ALInterstitialAd.h */,
+				30C2068A1AE8CECD0012E6B3 /* ALSdk.h */,
+				30C2068B1AE8CECD0012E6B3 /* ALSdkSettings.h */,
+				30C2068C1AE8CECD0012E6B3 /* ALSwiftHeaders.h */,
+				30C2068D1AE8CECD0012E6B3 /* ALTargetingData.h */,
+			);
+			path = headers;
 			sourceTree = "<group>";
 		};
 		30DDDBE61ABB087400BB11EE /* Handlers */ = {
@@ -642,6 +694,10 @@
 				INFOPLIST_FILE = Arculars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -666,6 +722,10 @@
 				INFOPLIST_FILE = Arculars/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

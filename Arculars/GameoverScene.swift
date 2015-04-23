@@ -51,19 +51,9 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        var playedGames = StatsHandler.getPlayedGames()
-        
-        if (playedGames > 0 && playedGames % 6 == 0) {
-            
-            if (!PurchaseHandler.hasRemovedAds()) {
-                Chartboost.showInterstitial(CBLocationGameOver)
-            }
-            
-        }
-        
         startRandomBallTimer()
         getScores()
-        if (RateHandler.checkIfRate(playedGames)) {
+        if (RateHandler.checkIfRate(StatsHandler.getPlayedGames())) {
             sceneDelegate?.presentRateOnAppStore()
         }
     }

@@ -372,6 +372,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         isGameOver = true
         var endScore = score.getScore()
         
+        var playedGames = StatsHandler.getPlayedGames()
+        if (playedGames > 0 && playedGames % 6 == 0) {
+            if (!PurchaseHandler.hasRemovedAds()) {
+                if (Chartboost.hasInterstitial(CBLocationGameOver)) {
+                    Chartboost.showInterstitial(CBLocationGameOver)
+                } else {
+                    ALInterstitialAd.showOver(view!.window)
+                }
+            }
+        }
+        
         runVibration()
         
         nextBall?.removeFromParent()

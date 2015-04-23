@@ -11,12 +11,11 @@ import CoreTelephony;
 import MediaPlayer;
 import QuartzCore;
 import StoreKit;
-import iAd;
 import UIKit
 import AVFoundation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, RevMobAdsDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, ALAdLoadDelegate {
 
     var window: UIWindow?
     
@@ -24,8 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, RevMo
     let kChartboostAppID = "5536669104b01626d509c125";
     let kChartboostAppSignature = "93d0b7f5428c5ca7c08fae41cb0d988324d49c14";
     
-    // RevMob Ads
-    let kRevMobAppID = "5536a69d255a4ebb1f5838ed"
+    // AppLovin Ads (SDK Key is in Info.plist)
+    let kAppLovinAppID = "uh60ZeEXLB3qaU39TgEpRl-bXlOVkACcsIcQxszH106bU9l1r-rGkqtFTFmGQyuGFUgBKeSLeZy8igAXf_pNpg"
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -36,8 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, RevMo
         // Start Chartboost
         Chartboost.startWithAppId(kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self)
         
-        // Start RevMob
-        RevMobAds.startSessionWithAppID(kRevMobAppID, andDelegate: self)
+        // Start AppLovin
+        ALSdk.initializeSdk()
         
         return true
     }
@@ -65,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, RevMo
     }
     
     // MARK: - ChartboostDelegate Implementation
-    func didDisplayInterstitial(location: String!) {
+    func didDismissInterstitial(location: String!) {
         if (location == CBLocationStartup) {
             Chartboost.cacheInterstitial(CBLocationStartup)
         } else if (location == CBLocationGameOver) {
@@ -74,24 +73,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, RevMo
     }
     
     func didFailToLoadInterstitial(location: String!, withError error: CBLoadError) {
-        RevMobAds.session().showFullscreen()
+        if (location == CBLocationStartup) {
+            ALInterstitialAd.showOver(window)
+        }
     }
     
-    // MARK: - RevMobAdsDelegate Implementation
-    func revmobSessionIsStarted() {
-        RevMobAds.session().showBanner()
-    }
-    
-    func revmobSessionNotStartedWithError(error: NSError) {
-        
-    }
-    
-    func revmobAdDidReceive() {
-        
-    }
-    
-    func revmobAdDidFailWithError(error: NSError) {
-        
-    }
+    // MARK: - AppLovinDelegate Implementation
+    func adService(adService: ALAdService, didLoadAd ad: ALAd) { }
+    func adService(adService: ALAdService!, didFailToLoadAdWithError code: Int32) { }
 }
 

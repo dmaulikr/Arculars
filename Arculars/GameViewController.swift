@@ -14,6 +14,8 @@ import StoreKit
 
 class GameViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
     
+    var alView : ALAdView?
+    
     var products = [SKProduct]()
     var currentProduct = SKProduct()
     let productRemoveAdsID = "io.rmnblm.arculars.removeads"
@@ -49,6 +51,16 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
             GCHandler.delegate = self
             
             if (!PurchaseHandler.hasRemovedAds()) {
+                alView = ALAdView(size: ALAdSize.sizeBanner())
+                alView!.frame = CGRectMake( 0, view.frame.size.height - alView!.frame.size.height, alView!.frame.size.width,                   alView!.frame.size.height)
+                alView!.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin  |
+                    UIViewAutoresizing.FlexibleTopMargin |
+                    UIViewAutoresizing.FlexibleWidth |
+                    UIViewAutoresizing.FlexibleRightMargin
+                alView!.parentController = self
+                view.addSubview(alView!)
+                alView!.loadNextAd()
+                
                 Chartboost.showInterstitial(CBLocationStartup)
             }
             
@@ -319,7 +331,6 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         for transaction in transactions as! [SKPaymentTransaction] {
             switch transaction.transactionState {
             case .Purchased:
-                
                 let prodID = currentProduct.productIdentifier as String
                 
                 switch prodID {
@@ -343,6 +354,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
                 showMenuScene()
                 break
             default:
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
                 break
             }
         }
@@ -351,6 +363,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
     
     func removeAds() {
         PurchaseHandler.removeAds()
+        alView?.removeFromSuperview()
     }
     
     // MARK: - HELPER FUNCTIONS

@@ -11,4 +11,20 @@
 #import <Chartboost/Chartboost.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <AdSupport/AdSupport.h>
-#import <RevMobAds/RevMobAds.h>
+
+#import "ALAd.h"
+#import "ALAdDisplayDelegate.h"
+#import "ALAdLoadDelegate.h"
+#import "ALAdRewardDelegate.h"
+#import "ALAdService.h"
+#import "ALAdSize.h"
+#import "ALAdType.h"
+#import "ALAdUpdateDelegate.h"
+#import "ALAdVideoPlaybackDelegate.h"
+#import "ALAdView.h"
+#import "ALErrorCodes.h"
+#import "ALIncentivizedInterstitialAd.h"
+#import "ALInterstitialAd.h"
+#import "ALSdk.h"
+#import "ALSdkSettings.h"
+#import "ALTargetingData.h"
