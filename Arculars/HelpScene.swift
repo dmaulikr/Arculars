@@ -248,7 +248,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         btnLightTheme = Nodes.getCircleButton(CGPoint(x: size.width / 5, y: size.height / 8), radius: size.height / 16, color: Colors.FontColor, fontColor: Colors.BackgroundColor, content1: "LIGHT")
         page.addChild(btnLightTheme)
         
-        var themeLabel = SKLabelNode(text: "THEME")
+        var themeLabel = SKLabelNode(text: "CHOOSE THEME")
         themeLabel.position = CGPoint(x: 0, y: btnDarkTheme.position.y + (btnDarkTheme.frame.height / 2) + themeLabel.frame.height)
         themeLabel.fontSize = size.height / 48
         themeLabel.fontName = Fonts.FontNameNormal
