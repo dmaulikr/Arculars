@@ -32,6 +32,21 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelpScene(1)
         } else {
+            // Setup Ads
+            if (!PurchaseHandler.hasRemovedAds()) {
+                alView = ALAdView(size: ALAdSize.sizeBanner())
+                alView!.frame = CGRectMake( 0, view.frame.size.height - alView!.frame.size.height, alView!.frame.size.width,                   alView!.frame.size.height)
+                alView!.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin  |
+                    UIViewAutoresizing.FlexibleTopMargin |
+                    UIViewAutoresizing.FlexibleWidth |
+                    UIViewAutoresizing.FlexibleRightMargin
+                alView!.parentController = self
+                view.addSubview(alView!)
+                alView!.loadNextAd()
+                
+                Chartboost.showInterstitial(CBLocationStartup)
+            }
+            
             // Setup StoreKit
             SKPaymentQueue.defaultQueue().addTransactionObserver(self)
             
@@ -46,20 +61,6 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
                 }
             }
             GCHandler.delegate = self
-            
-            if (!PurchaseHandler.hasRemovedAds()) {
-                alView = ALAdView(size: ALAdSize.sizeBanner())
-                alView!.frame = CGRectMake( 0, view.frame.size.height - alView!.frame.size.height, alView!.frame.size.width,                   alView!.frame.size.height)
-                alView!.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin  |
-                    UIViewAutoresizing.FlexibleTopMargin |
-                    UIViewAutoresizing.FlexibleWidth |
-                    UIViewAutoresizing.FlexibleRightMargin
-                alView!.parentController = self
-                view.addSubview(alView!)
-                alView!.loadNextAd()
-                
-                Chartboost.showInterstitial(CBLocationStartup)
-            }
             
             showMenuScene()
         }

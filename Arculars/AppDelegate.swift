@@ -34,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, ALAdL
         
         // Start Chartboost
         Chartboost.startWithAppId(kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self)
+        Chartboost.setShouldPrefetchVideoContent(true)
         
         // Start AppLovin
         ALSdk.initializeSdk()
@@ -73,9 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, ALAdL
     }
     
     func didFailToLoadInterstitial(location: String!, withError error: CBLoadError) {
-        if (location == CBLocationStartup) {
-            ALInterstitialAd.showOver(window)
-        }
+        ALInterstitialAd.showOver(window)
     }
     
     // MARK: - AppLovinDelegate Implementation

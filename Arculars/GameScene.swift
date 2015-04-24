@@ -375,11 +375,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var playedGames = StatsHandler.getPlayedGames()
         if (playedGames > 0 && playedGames % 6 == 0) {
             if (!PurchaseHandler.hasRemovedAds()) {
-                if (Chartboost.hasInterstitial(CBLocationGameOver)) {
-                    Chartboost.showInterstitial(CBLocationGameOver)
-                } else {
-                    ALInterstitialAd.showOver(view!.window)
-                }
+                Chartboost.showInterstitial(CBLocationGameOver)
             }
         }
         
