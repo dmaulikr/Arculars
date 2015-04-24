@@ -16,9 +16,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
     
     var alView : ALAdView?
     
-    var products = [SKProduct]()
-    var currentProduct = SKProduct()
-    let productRemoveAdsID = "io.rmnblm.arculars.removeads"
+    let kProductRemoveAdsID = "io.rmnblm.arculars.removeads"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +34,6 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         } else {
             // Setup StoreKit
             SKPaymentQueue.defaultQueue().addTransactionObserver(self)
-            getProductInfo()
             
             // Init Easy Game Center Singleton
             let gamecenter = GCHandler.sharedInstance {
@@ -270,13 +267,19 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
     }
     
     func purchaseRemoveAds() {
-        for p in products {
-            if (p.productIdentifier == productRemoveAdsID) {
-                currentProduct = p
-                let payment = SKPayment(product: p)
-                SKPaymentQueue.defaultQueue().addTransactionObserver(self)
-                SKPaymentQueue.defaultQueue().addPayment(payment)
-            }
+        if (SKPaymentQueue.canMakePayments())
+        {
+            var productID : NSSet = NSSet(object: kProductRemoveAdsID);
+            var productsRequest : SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>);
+            productsRequest.delegate = self;
+            productsRequest.start();
+            #if DEBUG
+                println("Fething Products");
+            #endif
+        } else {
+            #if DEBUG
+                println("can't make purchases");
+            #endif
         }
     }
     
@@ -286,76 +289,61 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
     }
     
     // MARK: - STOREKIT IMPLEMENTATION
-    func getProductInfo()
-    {
-        if SKPaymentQueue.canMakePayments() {
-            var productID : NSSet = NSSet(objects: productRemoveAdsID, productRemoveAdsID)
-            var request : SKProductsRequest = SKProductsRequest(productIdentifiers: productID as Set<NSObject>)
-            request.delegate = self
-            request.start()
-        } else {
-            #if DEBUG
-                println("Please enable In-App Purchases")
-            #endif
-        }
-    }
-    
-    func productsRequest(request: SKProductsRequest!, didReceiveResponse response: SKProductsResponse!) {
-        var responseProducts = response.products
-        for product in responseProducts {
-            products.append(product as! SKProduct)
-        }
-    }
-    
-    func paymentQueueRestoreCompletedTransactionsFinished(queue: SKPaymentQueue!) {
-        var purchasedItemIDS = []
-        for transaction in queue.transactions as! [SKPaymentTransaction] {
-            let prodID = transaction.payment.productIdentifier as String
-            
-            switch prodID {
-            case productRemoveAdsID:
-                removeAds()
-                var alert = UIAlertController(title: "Restore successful", message: "Your previous purchases have been restored successfully.", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-                break
-            default:
-                break
+    func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+        println("got the request from Apple")
+        var count : Int = response.products.count
+        if (count > 0) {
+            var validProducts = response.products
+            var validProduct: SKProduct = response.products[0] as! SKProduct
+            if (validProduct.productIdentifier == kProductRemoveAdsID) {
+                buyProduct(validProduct);
             }
-            
+        } else {
+            println("nothing")
         }
     }
     
-    func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!) {
-        for transaction in transactions as! [SKPaymentTransaction] {
-            switch transaction.transactionState {
-            case .Purchased:
-                let prodID = currentProduct.productIdentifier as String
-                
-                switch prodID {
-                case productRemoveAdsID:
+    func request(request: SKRequest!, didFailWithError error: NSError!) {
+        #if DEBUG
+            println("request failed")
+        #endif
+    }
+    
+    func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!)    {
+        #if DEBUG
+            println("Received Payment Transaction Response from Apple")
+        #endif
+        for transaction:AnyObject in transactions {
+            if let trans:SKPaymentTransaction = transaction as? SKPaymentTransaction{
+                switch trans.transactionState {
+                case .Purchased:
                     removeAds()
                     var alert = UIAlertController(title: "Purchase successful", message: "Thank you for your support.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    presentViewController(alert, animated: true, completion: nil)
+                    SKPaymentQueue.defaultQueue().finishTransaction(transaction as! SKPaymentTransaction)
+                    showMenuScene()
                     break
-                default:
+                case .Purchasing:
+                    break
+                case .Restored:
+                    removeAds()
+                    var alert = UIAlertController(title: "Restore successful", message: "Your previous purchases have been restored successfully.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    SKPaymentQueue.defaultQueue().finishTransaction(transaction as! SKPaymentTransaction)
+                    showMenuScene()
+                    break
+                case .Failed:
+                    var alert = UIAlertController(title: "Purchase failed", message: "Please try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    presentViewController(alert, animated: true, completion: nil)
+                    SKPaymentQueue.defaultQueue().finishTransaction(transaction as! SKPaymentTransaction)
+                    showMenuScene()
+                    break
+                case .Deferred:
                     break
                 }
-                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-                showMenuScene()
-                break
-            case .Failed:
-                var alert = UIAlertController(title: "Purchase failed", message: "Please try again later.", preferredStyle: UIAlertControllerStyle.Alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
-                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-                showMenuScene()
-                break
-            default:
-                SKPaymentQueue.defaultQueue().finishTransaction(transaction)
-                break
             }
         }
         
@@ -373,6 +361,15 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         case GameMode.Timed: return ShareImageHelper.createImage(score, image: "shareimage-timed")
         default: return UIImage()
         }
+    }
+    
+    private func buyProduct(product: SKProduct){
+        #if DEBUG
+            println("Sending the Payment Request to Apple");
+        #endif
+        var payment = SKPayment(product: product)
+        SKPaymentQueue.defaultQueue().addPayment(payment);
+        
     }
     
 }
