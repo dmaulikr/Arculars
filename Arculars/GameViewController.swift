@@ -12,10 +12,10 @@ import GameKit
 import Social
 import StoreKit
 
-class GameViewController: UIViewController, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
+class GameViewController: UIViewController, AdTapsyDelegate, SKProductsRequestDelegate, SKPaymentTransactionObserver, SceneDelegate {
     
+    var currentScene : SKScene!
     var alView : ALAdView?
-    
     let kProductRemoveAdsID = "io.rmnblm.arculars.removeads"
     
     override func viewDidLoad() {
@@ -32,9 +32,15 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelpScene(1)
         } else {
-            // Setup Ads
+            // Setup Ad Banner
             if (!PurchaseHandler.hasRemovedAds()) {
-                alView = ALAdView(size: ALAdSize.sizeBanner())
+                AdTapsy.setDelegate(self)
+                if (UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+                {
+                    alView = ALAdView(size: ALAdSize.sizeLeader())
+                } else {
+                    alView = ALAdView(size: ALAdSize.sizeBanner())
+                }
                 alView!.frame = CGRectMake( 0, view.frame.size.height - alView!.frame.size.height, alView!.frame.size.width,                   alView!.frame.size.height)
                 alView!.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin  |
                     UIViewAutoresizing.FlexibleTopMargin |
@@ -186,6 +192,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         var scene = MenuScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
+        currentScene = scene
         (self.view as! SKView).presentScene(scene)
     }
     
@@ -194,6 +201,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
+        currentScene = scene
         (self.view as! SKView).presentScene(scene)
     }
     
@@ -201,6 +209,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         var scene = StatsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
+        currentScene = scene
         (self.view as! SKView).presentScene(scene)
     }
     
@@ -208,6 +217,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         var scene = SettingsScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
+        currentScene = scene
         (self.view as! SKView).presentScene(scene)
     }
     
@@ -216,6 +226,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
         scene.gameMode = gameMode
+        currentScene = scene
         (self.view as! SKView).presentScene(scene)
     }
     
@@ -223,6 +234,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         var scene = AboutScene(size: self.view.bounds.size)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
+        currentScene = scene
         (self.view as! SKView).presentScene(scene)
     }
     
@@ -230,6 +242,7 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
         var scene = HelpScene(size: self.view.bounds.size, page: page)
         scene.scaleMode = .AspectFill
         scene.sceneDelegate = self
+        currentScene = scene
         (self.view as! SKView).presentScene(scene)
     }
     
@@ -351,6 +364,22 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
     func removeAds() {
         PurchaseHandler.removeAds()
         alView?.removeFromSuperview()
+    }
+    
+    // MARK: - ADTAPSYDELEGATE IMPLEMENTATION
+    func adtapsyDidClickedAd() {
+    }
+    
+    func adtapsyDidFailedToShowAd() {
+        currentScene.paused = false
+    }
+    
+    func adtapsyDidShowAd() {
+        currentScene.paused = true
+    }
+    
+    func adtapsyDidSkippedAd() {
+        currentScene.paused = false
     }
     
     // MARK: - HELPER FUNCTIONS

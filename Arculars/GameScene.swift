@@ -375,7 +375,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         var playedGames = StatsHandler.getPlayedGames()
         if (playedGames > 0 && playedGames % 6 == 0) {
             if (!PurchaseHandler.hasRemovedAds()) {
-                Chartboost.showInterstitial(CBLocationGameOver)
+                AdTapsy.showInterstitial(sceneDelegate as! UIViewController)
             }
         }
         

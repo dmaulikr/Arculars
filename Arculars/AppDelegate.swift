@@ -15,16 +15,9 @@ import UIKit
 import AVFoundation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, ALAdLoadDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    // Chartboost Ads
-    let kChartboostAppID = "5536669104b01626d509c125";
-    let kChartboostAppSignature = "93d0b7f5428c5ca7c08fae41cb0d988324d49c14";
-    
-    // AppLovin Ads (SDK Key is in Info.plist)
-    let kAppLovinAppID = "uh60ZeEXLB3qaU39TgEpRl-bXlOVkACcsIcQxszH106bU9l1r-rGkqtFTFmGQyuGFUgBKeSLeZy8igAXf_pNpg"
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -32,11 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, ALAdL
         // Do not interrupt music
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, error: nil)
         
-        // Start Chartboost
-        Chartboost.startWithAppId(kChartboostAppID, appSignature: kChartboostAppSignature, delegate: self)
-        Chartboost.setShouldPrefetchVideoContent(true)
-        
-        // Start AppLovin
+        AdTapsy.startSession("553b4d47e4b056bd40bc33a6")
         ALSdk.initializeSdk()
         
         return true
@@ -62,19 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, ALAdL
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        AdTapsy.destroy()
     }
-    
-    // MARK: - ChartboostDelegate Implementation
-    func didDismissInterstitial(location: String!) {
-        Chartboost.cacheInterstitial(location)
-    }
-    
-    func didFailToLoadInterstitial(location: String!, withError error: CBLoadError) {
-        ALInterstitialAd.showOver(window)
-    }
-    
-    // MARK: - AppLovinDelegate Implementation
-    func adService(adService: ALAdService, didLoadAd ad: ALAd) { }
-    func adService(adService: ALAdService!, didFailToLoadAdWithError code: Int32) { }
 }
 

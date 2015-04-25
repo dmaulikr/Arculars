@@ -12,7 +12,7 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
-    static var adSkipCount = 3
+    static var adSkipCount = 0
     
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
@@ -53,11 +53,6 @@ class MenuScene: SKScene {
     override init(size: CGSize) {
         super.init(size: size)
         
-        if (MenuScene.adSkipCount == 3) {
-            Chartboost.showInterstitial(CBLocationMainMenu)
-            MenuScene.adSkipCount = 0
-        }
-        
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
@@ -69,7 +64,13 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        MenuScene.adSkipCount++
+        if (!PurchaseHandler.hasRemovedAds()) {
+            if (MenuScene.adSkipCount <= 0) {
+                AdTapsy.showInterstitial(sceneDelegate as! UIViewController)
+                MenuScene.adSkipCount = Int(arc4random_uniform(2) + 3)
+            }
+            MenuScene.adSkipCount--
+        }
         self.runAction(FADEINaction)
     }
     
@@ -644,11 +645,7 @@ class MenuScene: SKScene {
     override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
-            
-            var random = Int(arc4random_uniform(6));
-            if random == 3 {
-                createRandomBall(location)
-            }
+            createRandomBall(location)
         }
     }
     

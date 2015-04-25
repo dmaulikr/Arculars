@@ -59,6 +59,12 @@ class GameoverScene: SKScene {
         ttpLabel.hidden = true
         touchEnabled = false
         
+        ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
+            SKAction.fadeAlphaTo(0.0, duration: 0.2),
+            SKAction.fadeAlphaTo(1.0, duration: 0.2),
+            SKAction.waitForDuration(1.5)
+            ])), withKey: "blinking")
+        
         startRandomBallTimer()
         getScores()
         
@@ -86,11 +92,6 @@ class GameoverScene: SKScene {
             }
             self.touchEnabled = true
             self.ttpLabel.hidden = false
-            self.ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
-                SKAction.fadeAlphaTo(0.0, duration: 0.2),
-                SKAction.fadeAlphaTo(1.0, duration: 0.2),
-                SKAction.waitForDuration(1.5)
-                ])), withKey: "blinking")
         })
     }
     
