@@ -12,6 +12,8 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
+    static var adSkipCount = 3
+    
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
     
@@ -51,6 +53,11 @@ class MenuScene: SKScene {
     override init(size: CGSize) {
         super.init(size: size)
         
+        if (MenuScene.adSkipCount == 3) {
+            Chartboost.showInterstitial(CBLocationMainMenu)
+            MenuScene.adSkipCount = 0
+        }
+        
         // Setup Scene
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         backgroundColor = ThemeHandler.Instance.getCurrentColors().BackgroundColor
@@ -62,6 +69,7 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
+        MenuScene.adSkipCount++
         self.runAction(FADEINaction)
     }
     

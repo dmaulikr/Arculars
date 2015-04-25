@@ -66,11 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ChartboostDelegate, ALAdL
     
     // MARK: - ChartboostDelegate Implementation
     func didDismissInterstitial(location: String!) {
-        if (location == CBLocationStartup) {
-            Chartboost.cacheInterstitial(CBLocationStartup)
-        } else if (location == CBLocationGameOver) {
-            Chartboost.cacheInterstitial(CBLocationGameOver)
-        }
+        Chartboost.cacheInterstitial(location)
     }
     
     func didFailToLoadInterstitial(location: String!, withError error: CBLoadError) {

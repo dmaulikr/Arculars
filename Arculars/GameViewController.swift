@@ -43,8 +43,6 @@ class GameViewController: UIViewController, SKProductsRequestDelegate, SKPayment
                 alView!.parentController = self
                 view.addSubview(alView!)
                 alView!.loadNextAd()
-                
-                Chartboost.showInterstitial(CBLocationStartup)
             }
             
             // Setup StoreKit
