@@ -21,6 +21,41 @@ class GameViewController: UIViewController, AdTapsyDelegate, SKProductsRequestDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Setup Ad Banner
+        if (!PurchaseHandler.hasRemovedAds()) {
+            AdTapsy.setDelegate(self)
+            
+            if (UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+            {
+                alView = ALAdView(size: ALAdSize.sizeLeader())
+            } else {
+                alView = ALAdView(size: ALAdSize.sizeBanner())
+            }
+            alView!.frame = CGRectMake( 0, view.frame.size.height - alView!.frame.size.height, alView!.frame.size.width,                   alView!.frame.size.height)
+            alView!.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin  |
+                UIViewAutoresizing.FlexibleTopMargin |
+                UIViewAutoresizing.FlexibleWidth |
+                UIViewAutoresizing.FlexibleRightMargin
+            alView!.parentController = self
+            view.addSubview(alView!)
+            alView!.loadNextAd()
+        }
+        
+        // Setup StoreKit
+        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
+        
+        // Init Easy Game Center Singleton
+        let gamecenter = GCHandler.sharedInstance {
+            (resultPlayerAuthentified) -> Void in
+            if resultPlayerAuthentified {
+                // When player is authentified to Game Center
+            } else {
+                // Player not authentified to Game Center
+                // No connexion internet or not authentified to Game Center
+            }
+        }
+        GCHandler.delegate = self
+        
         // Present the initial scene.
         if !NSUserDefaults.standardUserDefaults().boolForKey("hasPerformedFirstLaunch") {
             SettingsHandler.reset()
@@ -34,39 +69,8 @@ class GameViewController: UIViewController, AdTapsyDelegate, SKProductsRequestDe
         } else {
             // Setup Ad Banner
             if (!PurchaseHandler.hasRemovedAds()) {
-                AdTapsy.setDelegate(self)
                 AdTapsy.showInterstitial(self)
-                
-                if (UIDevice.currentDevice().userInterfaceIdiom == .Pad)
-                {
-                    alView = ALAdView(size: ALAdSize.sizeLeader())
-                } else {
-                    alView = ALAdView(size: ALAdSize.sizeBanner())
-                }
-                alView!.frame = CGRectMake( 0, view.frame.size.height - alView!.frame.size.height, alView!.frame.size.width,                   alView!.frame.size.height)
-                alView!.autoresizingMask = UIViewAutoresizing.FlexibleLeftMargin  |
-                    UIViewAutoresizing.FlexibleTopMargin |
-                    UIViewAutoresizing.FlexibleWidth |
-                    UIViewAutoresizing.FlexibleRightMargin
-                alView!.parentController = self
-                view.addSubview(alView!)
-                alView!.loadNextAd()
             }
-            
-            // Setup StoreKit
-            SKPaymentQueue.defaultQueue().addTransactionObserver(self)
-            
-            // Init Easy Game Center Singleton
-            let gamecenter = GCHandler.sharedInstance {
-                (resultPlayerAuthentified) -> Void in
-                if resultPlayerAuthentified {
-                    // When player is authentified to Game Center
-                } else {
-                    // Player not authentified to Game Center
-                    // No connexion internet or not authentified to Game Center
-                }
-            }
-            GCHandler.delegate = self
             
             showMenuScene()
         }
@@ -298,7 +302,6 @@ class GameViewController: UIViewController, AdTapsyDelegate, SKProductsRequestDe
     }
     
     func restorePurchases() {
-        SKPaymentQueue.defaultQueue().addTransactionObserver(self)
         SKPaymentQueue.defaultQueue().restoreCompletedTransactions()
     }
     
