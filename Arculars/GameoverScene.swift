@@ -56,7 +56,6 @@ class GameoverScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        ttpLabel.hidden = true
         touchEnabled = false
         
         ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
@@ -91,7 +90,6 @@ class GameoverScene: SKScene {
                 self.sceneDelegate?.presentRateOnAppStore()
             }
             self.touchEnabled = true
-            self.ttpLabel.hidden = false
         })
     }
     
