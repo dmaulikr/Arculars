@@ -234,7 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func initTimerBar() {
         var barHeight = size.height / 48
-        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: ThemeHandler.Instance.getCurrentColors().AppColorThree, max: timedTime)
+        timerBar = TimerBar(size: CGSize(width: size.width, height: barHeight), color: ThemeHandler.Instance.getCurrentColors().BarColor, max: timedTime)
         timerBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         timerBar.delegate = self
         rootNode.addChild(timerBar)
@@ -242,7 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     private func initHealthBar() {
         var barHeight = size.height / 48
-        healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: ThemeHandler.Instance.getCurrentColors().AppColorThree, max: endlessHealth)
+        healthBar = HealthBar(size: CGSize(width: size.width, height: barHeight), color: ThemeHandler.Instance.getCurrentColors().BarColor, max: endlessHealth)
         healthBar.position = CGPoint(x: -size.width / 2, y: (size.height / 2) - (barHeight / 2))
         healthBar.delegate = self
         rootNode.addChild(healthBar)

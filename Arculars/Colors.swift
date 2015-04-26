@@ -19,6 +19,7 @@ class Colors {
     static let AppColorThree    = UIColor(rgba: "#39E0BA")
     static let AppColorFour     = UIColor(rgba: "#2DFB7D")
     static let PowerupColor     = UIColor(rgba: "#FCDA0A")
+    static let BarColor         = UIColor(rgba: "#00D7FF")
     
     var ScoreColor : UIColor!
     var BackgroundColor : UIColor!
@@ -29,6 +30,7 @@ class Colors {
     var AppColorThree : UIColor!
     var AppColorFour : UIColor!
     var PowerupColor : UIColor!
+    var BarColor : UIColor!
     
     init() {
         

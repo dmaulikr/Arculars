@@ -26,6 +26,7 @@ class ThemeHandler {
         darkColors.AppColorThree = Colors.AppColorThree
         darkColors.AppColorFour = Colors.AppColorFour
         darkColors.PowerupColor = Colors.PowerupColor
+        darkColors.BarColor = Colors.BarColor
         
         lightColors = Colors()
         lightColors.ScoreColor = Colors.ScoreColor
@@ -37,6 +38,7 @@ class ThemeHandler {
         lightColors.AppColorThree = Colors.AppColorThree
         lightColors.AppColorFour = Colors.AppColorFour
         lightColors.PowerupColor = Colors.PowerupColor
+        lightColors.BarColor = Colors.BarColor
         
         updateCurrent()
     }
