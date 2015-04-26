@@ -23,7 +23,7 @@ body {
 /* Section 0
 * --------------------------------------- */
 #section0 {
-	background: #ffffff;
+	background: #f0f0f0;
 }
 
 .section0 .logo {
@@ -138,18 +138,14 @@ and (max-device-width : 1024px) {
 	width:100%;
 	max-width: 760px;
 	margin: 0px auto;
-	height: 50%;
 }
 
-.section4 .app-icon {
-	background: url(../img/app-icon.png) no-repeat;
-	background-size: 100% 100%;
-	width: 126px;
-	height: 126px;
+.iphone {
+ 	max-width: 250px;
+ 	max-height: 400px;
 	margin: 0 auto;
 	margin-bottom: 20px;
 }
-
 
 .section4 h3 {
 	font-size: 40px;
@@ -172,6 +168,10 @@ and (max-device-width : 1024px) {
 	margin-top: 10px;
 }
 
+.section .slider {
+	width: 90%;
+	margin: 0 auto;
+}
 
 .app-store-btn {
 	background: url(../img/app-store.png) no-repeat;
@@ -189,39 +189,7 @@ and (max-device-width : 1024px) {
 	cursor: pointer;
 }
 
- .section4 .social {
- 	max-width: 124px;
- 	margin: 0 auto;
- 	height:80px;
- 	position:absolute;
- 	bottom:0;
- 	left:0;
- 	right: 0;
- }
-
-
- .section4 .facebook a{
- 	font-size: 14px;
- 	color: #39E0BA;
- 	text-decoration: none;
-	float: left;
-  }
-
-.section4 .twitter a{
-	font-size: 14px;
-	color: #39E0BA;
-	text-decoration: none;
-	float: left;
-	padding-left: 20px;
- }
-/*
- .section4 .social #twitter-link, #facebook-link {
-	 width: 50px;
-	 height: 50px;
-	 display: block;
- }
-*/
-.copyrigth {
+.copyright {
 	font-size: 12px;
 	color: #888888;
 	letter-spacing: 0.2px;
@@ -233,7 +201,7 @@ and (max-device-width : 1024px) {
 	left:0;
 }
 
-.copyrigth a {
+.copyright a {
 	color: #39E0BA;
 	text-decoration: none;
 }
@@ -243,7 +211,7 @@ and (max-device-width : 1024px) {
 	text-decoration: none;
 }
 
-.copyrigth a:visited {
+.copyright a:visited {
 	color: #39E0BA;
 	text-decoration: none;
 }
@@ -251,24 +219,18 @@ and (max-device-width : 1024px) {
 
  @media screen and (max-width: 760px) {
 	 .section4 {
-	 	height: 80%;
+	 	height: 100%;
 	 }
  	#section4 {
  		padding: 20px;
  	}
  	.section4 h3 {
- 		font-size: 30px;
+ 		font-size: 24px;
  		line-height: 40px;
  	}
  	.section4 p {
  		font-size: 16px;
  		line-height: 24px;
- 	}
- 	.section4 .app-icon {
- 		background: url(../img/app-icon.png) no-repeat;
- 		background-size: cover;
- 		width: 100px;
- 		height: 100px;
  	}
  }
 
@@ -277,7 +239,7 @@ and (max-device-width : 1024px) {
 and (min-device-width : 768px)
 and (max-device-width : 1024px) {
  	 .section4 {
- 	 	height: 80%;
+ 	 	height: 100%;
  	 }
  	#section4 {
  		padding: 20px;
@@ -289,12 +251,6 @@ and (max-device-width : 1024px) {
  	.section4 p {
  		font-size: 16px;
  		line-height: 24px;
- 	}
- 	.section4 .app-icon {
- 		background: url(../img/app-icon.png) no-repeat;
- 		background-size: cover;
- 		width: 120px;
- 		height: 120px;
  	}
  }
 
@@ -308,10 +264,6 @@ only screen and (-webkit-min-device-pixel-ratio: 2),
 only screen and (min-device-pixel-ratio: 2) {
 	.app-store-btn {
 		background: url(../img/app-store@2x.png) no-repeat;
-		background-size: 100% 100%;
-	}
-	.section4 .app-icon {
-		background: url(../img/app-icon@2x.png) no-repeat;
 		background-size: 100% 100%;
 	}
 	.section4 .app-store-btn {
@@ -336,11 +288,6 @@ only screen and (min-device-pixel-ratio: 2) {
 		font-size: 28px;
 		line-height: 40px;
 		font-weight: 300;
-	}
-	.section4 .app-icon {
-		width: 180px;
-		height: 180px;
-		margin-bottom: 50px;
 	}
 	.section4 .app-store-btn {
 		width: 240px;

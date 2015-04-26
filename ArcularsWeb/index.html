@@ -18,6 +18,8 @@
 	<link rel="apple-touch-icon" sizes="152x152" href="img/touch-icon-ipad@2x.png" />
 	<link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
  	<link href='css/animate.css' rel='stylesheet' type='text/css'>
 	<!--[if IE]>
 		<script type="text/javascript">
@@ -28,6 +30,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="js/jquery.slimscroll.min.js"></script>
 	<script type="text/javascript" src="js/jquery.fullPage.js"></script>
+	<script type="text/javascript" src="slick/slick.min.js"></script>
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -53,15 +56,16 @@
 </div>
 <div class="section" id="section4">
 <div class="section4">
-<div class="app-icon"></div>
+<div class="slider">
+		<div><img class="iphone" src="img/iphone1.jpg" /></div>
+		<div><img class="iphone" src="img/iphone2.jpg" /></div>
+		<div><img class="iphone" src="img/iphone3.jpg" /></div>
+		<div><img class="iphone" src="img/iphone4.jpg" /></div>
+</div>
 <h3>Download Arculars soon.</h3>
 <p>Available for iPhone & iPad (iOS8+)</p>
 <!--<div class="app-store-btn"><a class="app-store-link" href="http://appstore.com/arculars" target="_blank"></a></div>-->
-<!--<div class="social">
-<div class="facebook"><a id="facebook-link" href="" target="_blank">Facebook</a></div>
-<div class="twitter"><a id="twitter-link" href="" target="_blank">Twitter</a></div>
-</div>-->
-<div class="copyrigth">Made with love in Glarus, Switzerland. <a href="mailto:me@rmnblm.io">Contact me.</a>
+<div class="copyright">Made with love in Glarus, Switzerland. <a href="mailto:me@rmnblm.io">Contact me.</a>
 </div>
 </div>
 </div>
@@ -80,9 +84,10 @@
 			keyboardScrolling: true,
 
 			afterRender: function(){
-
-			//playing the video
-			$('video').trigger('play');
+				$('.slider').slick({
+					accessibility: true,
+  				infinite: true
+				});
 			}
 		});
 	});
