@@ -372,6 +372,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         isGameOver = true
         var endScore = score.getScore()
         
+        var playedGames = StatsHandler.getPlayedGames()
+        if (playedGames > 0 && playedGames % 6 == 0) {
+            if (!PurchaseHandler.hasRemovedAds()) {
+                AdTapsy.showInterstitial(sceneDelegate as! UIViewController)
+            }
+        }
+        
         runVibration()
         
         nextBall?.removeFromParent()
@@ -388,10 +395,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         StatsHandler.updateTotalPointsBy(endScore)
         StatsHandler.updateLastscore(endScore, gameMode: gameMode)
         StatsHandler.updateHighscore(endScore, gameMode: gameMode)
-        
-        if playedtime > 3 {
-            StatsHandler.incrementPlayedGames()
-        }
+        StatsHandler.incrementPlayedGames()
         
         sceneDelegate!.showGameoverScene(gameMode)
     }

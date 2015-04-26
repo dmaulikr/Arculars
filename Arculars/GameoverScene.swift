@@ -18,8 +18,11 @@ class GameoverScene: SKScene {
     
     var gameMode : GameMode!
     
+    private var touchEnabled = false
+    
     // Node and all it's descendants
     private var rootNode = SKNode()
+    private var topNode = SKNode()
     
     private var replay : SKShapeNode!
     private var btnClose : SKShapeNode!
@@ -46,16 +49,50 @@ class GameoverScene: SKScene {
         
         // Add Root Node
         addChild(rootNode)
+        rootNode.addChild(topNode)
+        topNode.position = CGPoint(x: 0, y: size.height / 2)
         
         initScene()
     }
     
     override func didMoveToView(view: SKView) {
+        ttpLabel.hidden = true
+        touchEnabled = false
+        
+        ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
+            SKAction.fadeAlphaTo(0.0, duration: 0.2),
+            SKAction.fadeAlphaTo(1.0, duration: 0.2),
+            SKAction.waitForDuration(1.5)
+            ])), withKey: "blinking")
+        
         startRandomBallTimer()
         getScores()
-        if (RateHandler.checkIfRate(StatsHandler.getPlayedGames())) {
-            sceneDelegate?.presentRateOnAppStore()
-        }
+        
+        var popin = SKAction.sequence([
+            SKAction.scaleTo(1.05, duration: 0.1),
+            SKAction.scaleTo(0.95, duration: 0.1),
+            SKAction.scaleTo(1.00, duration: 0.1),
+            SKAction.waitForDuration(0.2)
+            ])
+        
+        var flyin = SKAction.sequence([
+            SKAction.moveTo(CGPoint(x: 0, y: (size.height / 2) - (size.height / 5) - 10), duration: 0.1),
+            SKAction.moveTo(CGPoint(x: 0, y: (size.height / 2) - (size.height / 5) + 10), duration: 0.1),
+            SKAction.moveTo(CGPoint(x: 0, y: (size.height / 2) - (size.height / 5)), duration: 0.1),
+            SKAction.waitForDuration(0.2)
+            ])
+        
+        btnShareOnFacebook.runAction(popin)
+        btnShareOnTwitter.runAction(popin)
+        btnShare.runAction(popin)
+        
+        topNode.runAction(flyin, completion: {()
+            if (RateHandler.checkIfRate(StatsHandler.getPlayedGames())) {
+                self.sceneDelegate?.presentRateOnAppStore()
+            }
+            self.touchEnabled = true
+            self.ttpLabel.hidden = false
+        })
     }
     
     override func willMoveFromView(view: SKView) {
@@ -73,12 +110,6 @@ class GameoverScene: SKScene {
     private func getScores() {
         var lastscore = StatsHandler.getLastscore(gameMode)
         var highscore = StatsHandler.getHighscore(gameMode)
-        
-        ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
-            SKAction.fadeAlphaTo(0.0, duration: 0.2),
-            SKAction.fadeAlphaTo(1.0, duration: 0.2),
-            SKAction.waitForDuration(1.5)
-            ])), withKey: "blinking")
         
         score.text = "\(lastscore)"
         hscore.text = "\(highscore)"
@@ -99,14 +130,14 @@ class GameoverScene: SKScene {
         gameoverLabel.fontName = Fonts.FontNameBold
         gameoverLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
         gameoverLabel.fontSize = size.height / 20
-        gameoverLabel.position = CGPoint(x: 0, y: (size.height / 2) - (size.height / 5))
-        rootNode.addChild(gameoverLabel)
+        gameoverLabel.position = CGPoint(x: 0, y: 0)
+        topNode.addChild(gameoverLabel)
         
         var scoreLabel = SKLabelNode(text: "YOUR SCORE")
         scoreLabel.fontName = Fonts.FontNameLight
         scoreLabel.fontColor = ThemeHandler.Instance.getCurrentColors().AppColorThree
         scoreLabel.fontSize = size.height / 48
-        scoreLabel.position = CGPoint(x: -size.width / 6, y: size.height / 4)
+        scoreLabel.position = CGPoint(x: -size.width / 6, y: -gameoverLabel.frame.height)
         
         score = SKLabelNode()
         score.fontName = Fonts.FontNameNormal
@@ -117,13 +148,13 @@ class GameoverScene: SKScene {
         score.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height * 2)
         scoreLabel.addChild(score)
         
-        rootNode.addChild(scoreLabel)
+        topNode.addChild(scoreLabel)
         
         var hscoreLabel = SKLabelNode(text: "HIGH SCORE")
         hscoreLabel.fontName = Fonts.FontNameLight
         hscoreLabel.fontSize = size.height / 48
         hscoreLabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
-        hscoreLabel.position = CGPoint(x: size.width / 6, y: size.height / 4)
+        hscoreLabel.position = CGPoint(x: size.width / 6, y: -gameoverLabel.frame.height)
         
         hscore = SKLabelNode()
         hscore.fontName = Fonts.FontNameNormal
@@ -134,7 +165,7 @@ class GameoverScene: SKScene {
         hscore.position = CGPoint(x: 0, y: -scoreLabel.frame.size.height * 2)
         hscoreLabel.addChild(hscore)
         
-        rootNode.addChild(hscoreLabel)
+        topNode.addChild(hscoreLabel)
         
         // Add sharing buttons
         var shareLabel = SKLabelNode(text: "SHARE ON")
@@ -149,12 +180,18 @@ class GameoverScene: SKScene {
         var radius = size.height / 20
         
         btnShareOnFacebook = Nodes.getCircleButton(CGPoint(x: -(size.width / 4), y: -(size.height / 4)), radius: radius, color: ThemeHandler.Instance.getCurrentColors().AppColorOne, content1: "FACEBOOK")
+        btnShareOnFacebook.yScale = 0.0
+        btnShareOnFacebook.xScale = 0.0
         rootNode.addChild(btnShareOnFacebook)
         
         btnShareOnTwitter = Nodes.getCircleButton(CGPoint(x: 0, y: -(size.height / 4)), radius: radius, color: ThemeHandler.Instance.getCurrentColors().AppColorTwo, content1: "TWITTER")
+        btnShareOnTwitter.yScale = 0.0
+        btnShareOnTwitter.xScale = 0.0
         rootNode.addChild(btnShareOnTwitter)
         
         btnShare = Nodes.getCircleButton(CGPoint(x: (size.width / 4), y: -(size.height / 4)), radius: radius, color: ThemeHandler.Instance.getCurrentColors().DisabledColor, fontSize: radius, content1: "...")
+        btnShare.yScale = 0.0
+        btnShare.xScale = 0.0
         rootNode.addChild(btnShare)
         //
         
@@ -166,6 +203,8 @@ class GameoverScene: SKScene {
     
     // MARK: - TOUCH FUNCTIONS
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if (!touchEnabled) { return }
+        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
             if (btnClose.containsPoint(location)) { }
@@ -182,6 +221,8 @@ class GameoverScene: SKScene {
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if (!touchEnabled) { return }
+        
         for touch: AnyObject in touches {
             let location = touch.locationInNode(rootNode)
             if (btnClose.containsPoint(location)) {
