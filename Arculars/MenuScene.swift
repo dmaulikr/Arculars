@@ -12,8 +12,6 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
-    static var adSkipCount = 0
-    
     // MARK: - VARIABLE DECLARATIONS
     weak var sceneDelegate : SceneDelegate?
     
@@ -64,13 +62,6 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        if (!PurchaseHandler.hasRemovedAds()) {
-            if (MenuScene.adSkipCount <= 0) {
-                AdTapsy.showInterstitial(sceneDelegate as! UIViewController)
-                MenuScene.adSkipCount = Int(arc4random_uniform(2) + 3)
-            }
-            MenuScene.adSkipCount--
-        }
         self.runAction(FADEINaction)
     }
     
@@ -278,14 +269,25 @@ class MenuScene: SKScene {
         btnRemoveAds.xScale = 0.0
         btnRemoveAds.yScale = 0.0
         btnRemoveAds.zPosition = -1
-        var iconRemoveAds = SKSpriteNode(imageNamed: "icon-noads")
+        
+        var iconRemoveAds : SKSpriteNode!
+        if PurchaseHandler.hasRemovedAds() {
+            iconRemoveAds = SKSpriteNode(imageNamed: "icon-heart")
+        } else {
+            iconRemoveAds = SKSpriteNode(imageNamed: "icon-noads")
+        }
         iconRemoveAds.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         var aspectRatioRemoveAds = iconRemoveAds.size.width / iconRemoveAds.size.height
         iconRemoveAds.size = CGSize(width: radius, height: radius / aspectRatioRemoveAds)
         btnRemoveAds.addChild(iconRemoveAds)
-        if !PurchaseHandler.hasRemovedAds() {  btnGo.addChild(btnRemoveAds) }
+        btnGo.addChild(btnRemoveAds)
         
-        var remadslabel = SKLabelNode(text: "Remove Ads")
+        var remadslabel : SKLabelNode!
+        if PurchaseHandler.hasRemovedAds() {
+            remadslabel = SKLabelNode(text: "Thanks!")
+        } else {
+            remadslabel = SKLabelNode(text: "Remove Ads")
+        }
         remadslabel.name = "label"
         remadslabel.fontName = Fonts.FontNameLight
         remadslabel.fontColor = ThemeHandler.Instance.getCurrentColors().FontColor
@@ -607,7 +609,12 @@ class MenuScene: SKScene {
             } else if (btnPlayTimed.containsPoint(location)) {
                 runAction(TIMEDaction)
             } else if (btnRemoveAds.containsPoint(location)) {
-                runAction(REMOVEADSaction)
+                if PurchaseHandler.hasRemovedAds() {
+                    btnRemoveAds.fillColor = ThemeHandler.Instance.getCurrentColors().randomAppColor()
+                    btnRemoveAds.strokeColor = btnRemoveAds.fillColor
+                } else {
+                    runAction(REMOVEADSaction)
+                }
             } else if (btnDifficulty.containsPoint(location)) {
                 SettingsHandler.toggleDifficulty()
                 

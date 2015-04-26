@@ -35,6 +35,8 @@ class GameViewController: UIViewController, AdTapsyDelegate, SKProductsRequestDe
             // Setup Ad Banner
             if (!PurchaseHandler.hasRemovedAds()) {
                 AdTapsy.setDelegate(self)
+                AdTapsy.showInterstitial(self)
+                
                 if (UIDevice.currentDevice().userInterfaceIdiom == .Pad)
                 {
                     alView = ALAdView(size: ALAdSize.sizeLeader())
@@ -368,6 +370,7 @@ class GameViewController: UIViewController, AdTapsyDelegate, SKProductsRequestDe
     
     // MARK: - ADTAPSYDELEGATE IMPLEMENTATION
     func adtapsyDidClickedAd() {
+        currentScene.paused = false
     }
     
     func adtapsyDidFailedToShowAd() {

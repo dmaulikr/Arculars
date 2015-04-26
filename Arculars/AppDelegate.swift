@@ -25,8 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Do not interrupt music
         AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient, error: nil)
         
-        AdTapsy.startSession("553b4d47e4b056bd40bc33a6")
-        ALSdk.initializeSdk()
+        if !PurchaseHandler.hasRemovedAds() {
+            AdTapsy.startSession("553b4d47e4b056bd40bc33a6")
+            ALSdk.initializeSdk()
+        }
         
         return true
     }
