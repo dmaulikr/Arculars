@@ -47,6 +47,10 @@ class HealthBar : SKNode {
         self.current = max
     }
     
+    func isFull() -> Bool {
+        return slots.count == current
+    }
+    
     func increment() {
         if current < (slots.count - 1) {
             current = current + 1

@@ -460,18 +460,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             break
         case .DoublePoints:
             powerupMultiplicator = 2
-            currentPowerup.startWith(30)
+            currentPowerup.startWith(15)
             break
         case .TriplePoints:
             powerupMultiplicator = 3
             currentPowerup.startWith(15)
             break
-        case .FullLifes:
-            healthBar?.reset()
-            powerupZero()
-            break
         case .FullTime:
             timerBar?.start()
+            powerupZero()
+            break
+        case .FullLifes:
+            if (healthBar != nil && healthBar!.isFull()) {
+                fallthrough
+            } else {
+                healthBar?.reset()
+            }
             powerupZero()
             break
         case .Unicolor:
