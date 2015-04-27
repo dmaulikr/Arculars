@@ -67,11 +67,6 @@ class GameViewController: UIViewController, AdTapsyDelegate, SKProductsRequestDe
             NSUserDefaults.standardUserDefaults().synchronize()
             showHelpScene(1)
         } else {
-            // Setup Ad Banner
-            if (!PurchaseHandler.hasRemovedAds()) {
-                AdTapsy.showInterstitial(self)
-            }
-            
             showMenuScene()
         }
     }

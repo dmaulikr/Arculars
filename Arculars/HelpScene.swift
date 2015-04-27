@@ -156,7 +156,7 @@ class HelpScene: SKScene, SKPhysicsContactDelegate {
         var page = SKNode()
         page.addChild(Nodes.getSceneTitle(frame.size, content: "POWERUPS"))
         
-        var pageLabel_1 = createLabel("Collect Powerups")
+        var pageLabel_1 = createLabel("Collect powerups")
         pageLabel_1.position = CGPoint(x: 0, y: -size.height / 6)
         page.addChild(pageLabel_1)
         var pageLabel_2 = createLabel("to boost your score")

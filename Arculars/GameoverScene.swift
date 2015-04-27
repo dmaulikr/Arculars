@@ -57,6 +57,7 @@ class GameoverScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         touchEnabled = false
+        ttpLabel.hidden = true
         
         ttpLabel.runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.fadeAlphaTo(0.0, duration: 0.2),
@@ -70,15 +71,13 @@ class GameoverScene: SKScene {
         var popin = SKAction.sequence([
             SKAction.scaleTo(1.05, duration: 0.1),
             SKAction.scaleTo(0.95, duration: 0.1),
-            SKAction.scaleTo(1.00, duration: 0.1),
-            SKAction.waitForDuration(0.2)
+            SKAction.scaleTo(1.00, duration: 0.1)
             ])
         
         var flyin = SKAction.sequence([
             SKAction.moveTo(CGPoint(x: 0, y: (size.height / 2) - (size.height / 5) - 10), duration: 0.1),
             SKAction.moveTo(CGPoint(x: 0, y: (size.height / 2) - (size.height / 5) + 10), duration: 0.1),
-            SKAction.moveTo(CGPoint(x: 0, y: (size.height / 2) - (size.height / 5)), duration: 0.1),
-            SKAction.waitForDuration(0.2)
+            SKAction.moveTo(CGPoint(x: 0, y: (size.height / 2) - (size.height / 5)), duration: 0.1)
             ])
         
         btnShareOnFacebook.runAction(popin)
@@ -90,6 +89,7 @@ class GameoverScene: SKScene {
                 self.sceneDelegate?.presentRateOnAppStore()
             }
             self.touchEnabled = true
+            self.ttpLabel.hidden = false
         })
     }
     
