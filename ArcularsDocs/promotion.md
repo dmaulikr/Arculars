@@ -1,10 +1,12 @@
 ### Promotion Strategy
 
+- Broadcast Message to all WhatsApp friends and groups
 - Facebook: People with big audience/a lot of friends
 - Use 9gag as promoting platform by comment or post
 - Mail to game blogs
 - Call Südostschweiz
 - People who are in Military right now
+- Mail to Markus Stolze <a href="mailto:mstolze@hsr.ch">mstolze@hsr.ch</a>
 
 ### App Preview Text
 
