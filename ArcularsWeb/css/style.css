@@ -179,7 +179,7 @@ and (max-device-width : 1024px) {
 	width: 135px;
 	height: 40px;
 	margin: 0 auto;
-	margin-top: 70px;
+	margin-top: 20px;
 }
 
 .app-store-link {
@@ -265,9 +265,6 @@ only screen and (min-device-pixel-ratio: 2) {
 	.app-store-btn {
 		background: url(../img/app-store@2x.png) no-repeat;
 		background-size: 100% 100%;
-	}
-	.section4 .app-store-btn {
-		margin-top: 50px;
 	}
  }
 
