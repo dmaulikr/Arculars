@@ -17,7 +17,7 @@ class Circle : SKShapeNode {
     let thickness : CGFloat!
     let radius : CGFloat!
     
-    private let initColor : UIColor!
+    private var initColor : UIColor!
     var nodeColor : UIColor!
     
     let pointsPerHit : Int!

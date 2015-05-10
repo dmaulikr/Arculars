@@ -428,8 +428,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
     
     // MARK: - HANDLING POWERUPS
     private func startPowerupTimer() {
-        if (currentPowerup != nil) { return }
-        
         var interval = NSTimeInterval(arc4random_uniform(20) + 10)
         var wait = SKAction.waitForDuration(interval)
         var run = SKAction.runBlock({
@@ -518,7 +516,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         currentPowerup.stop()
         currentPowerup.fadeOut()
         
-        resetCircleColors()
+        if (currentPowerup.powerupType == PowerupType.Unicolor) {
+            resetCircleColors()
+        }
         
         currentPowerup = nil
         powerupDescription.text = ""
