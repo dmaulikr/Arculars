@@ -472,7 +472,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
             break
         case .FullLifes:
             if (healthBar != nil && healthBar!.isFull()) {
-                fallthrough
+                score.increaseByWithColor(10, color: ThemeHandler.Instance.getCurrentColors().PowerupColor)
             } else {
                 healthBar?.reset()
             }
@@ -516,9 +516,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, TimerBarDelegate, HealthBarD
         currentPowerup.stop()
         currentPowerup.fadeOut()
         
-        if (currentPowerup.powerupType == PowerupType.Unicolor) {
-            resetCircleColors()
-        }
+        resetCircleColors()
         
         currentPowerup = nil
         powerupDescription.text = ""
